@@ -120,13 +120,24 @@
             background: white;
             overflow: hidden;
             position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #preview-content {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
 
         iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
-            display: block;
         }
 
         .no-preview {
