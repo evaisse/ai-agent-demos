@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Hexagon Gravity Balls</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #0b0f14;
+      color: #e6eef8;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    #overlay {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.4);
+      color: #e6eef8;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.2;
+      user-select: none;
+      -webkit-user-select: none;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="overlay" aria-live="polite">Initializing…</div>
+
+  <script>
+    // Hexagon + gravity balls simulation in one self-contained HTML file.
+    // - 20 balls start near the center
+    // - Hexagon spins continuously
+    // - Gravity flips every 5 seconds between down and up
+    // - Ball-wall and ball-ball collisions with restitution and simple friction
+    (function () {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const overlay = document.getElementById('overlay');
+
+      const DPR = () => Math.max(1, Math.min(3, window.devicePixelRatio || 1));
+      let dpr = DPR();
+
+      const sim = {
+        center: { x: 0, y: 0 },
+        hexRadius: 120,
+        angle: 0,
+        angularSpeed: 0.6,       // rad/s (hexagon rotation)
+        gravity: { x: 0, y: 900 }, // px/s^2 (world coords)
+        gravityDir: 1,           // +1 = down, -1 = up
+        lastFlip: performance.now(),
+        flipPeriod: 5000,        // ms
+        balls: [],
+        restitution: 0.85,       // bounciness for collisions
+        friction: 0.03,          // tangential damping on wall collision
+        air: 0.00,               // simple air damping factor per second
+      };
+
+      function randRange(a, b) { return a + Math.random() * (b - a); }
+
+      function resize() {
+        dpr = DPR();
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+
+        sim.center.x = canvas.width / 2;
+        sim.center.y = canvas.height / 2;
+        sim.hexRadius = Math.min(canvas.width, canvas.height) * 0.35;
+        updateHexGeometry();
+      }
+      window.addEventListener('resize', resize);
+
+      function makeBalls(n) {
+        sim.balls.length = 0;
+        for (let i = 0; i < n; i++) {
+          const r = randRange(6, 10);
+          sim.balls.push({
+            x: sim.center.x + randRange(-2, 2),
+            y: sim.center.y + randRange(-2, 2),
+            vx: randRange(-10, 10),
+            vy: randRange(-10, 10),
+            r,
+            m: r * r, // mass ~ area
+            color: `hsl(${Math.floor(randRange(180, 280))},70%,65%)`,
+          });
+        }
+      }
+
+      // Rotation helpers
+      function rotMatrix(theta) {
+        const c = Math.cos(theta), s = Math.sin(theta);
+        return { c, s };
+      }
+      function toLocal(p, C, R) { // world -> local
+        const x = p.x - C.x, y = p.y - C.y;
+        return { x: R.c * x + R.s * y, y: -R.s * x + R.c * y };
+      }
+      function velToLocal(v, R) { // world -> local velocity
+        return { x: R.c * v.x + R.s * v.y, y: -R.s * v.x + R.c * v.y };
+      }
+      function toWorld(p, C, R) { // local -> world
+        return { x: C.x + R.c * p.x - R.s * p.y, y: C.y + R.s * p.x + R.c * p.y };
+      }
+      function velToWorld(v, R) { // local -> world velocity
+        return { x: R.c * v.x - R.s * v.y, y: R.s * v.x + R.c * v.y };
+      }
+
+      // Hexagon geometry in LOCAL frame (theta = 0)
+      function hexVerticesLocal(radius) {
+        const verts = [];
+        for (let i = 0; i < 6; i++) {
+          const a = (Math.PI / 3) * i; // 0, 60, ... 300 deg
+          verts.push({ x: radius * Math.cos(a), y: radius * Math.sin(a) });
+        }
+        return verts; // CCW order
+      }
+      function edgesFromVerts(verts) {
+        const edges = [];
+        for (let i = 0; i < verts.length; i++) {
+          const a = verts[i];
+          const b = verts[(i + 1) % verts.length];
+          edges.push({ a, b, e: { x: b.x - a.x, y: b.y - a.y } });
+        }
+        return edges;
+      }
+
+      let hexVertsLocal = hexVerticesLocal(sim.hexRadius);
+      let hexEdgesLocal = edgesFromVerts(hexVertsLocal);
+
+      function updateHexGeometry() {
+        hexVertsLocal = hexVerticesLocal(sim.hexRadius);
+        hexEdgesLocal = edgesFromVerts(hexVertsLocal);
+      }
+
+      function resolveBallHexCollision(ball) {
+        // Transform position and velocity to hex local frame
+        const R = rotMatrix(sim.angle);
+        const pLocal = toLocal({ x: ball.x, y: ball.y }, sim.center, R);
+        const vLocal = velToLocal({ x: ball.vx, y: ball.vy }, R);
+
+        // Keep ball inside hex: distance to inward half-space >= radius
+        for (let k = 0; k < hexEdgesLocal.length; k++) {
+          const edge = hexEdgesLocal[k];
+          const ex = edge.e.x, ey = edge.e.y;
+          // Inward normal for CCW polygon = left-hand normal
+          let nx = -ey, ny = ex;
+          const nLen = Math.hypot(nx, ny) || 1;
+          nx /= nLen; ny /= nLen;
+
+          const ax = edge.a.x, ay = edge.a.y;
+          const d = (pLocal.x - ax) * nx + (pLocal.y - ay) * ny; // signed distance along inward normal
+
+          if (d < ball.r) {
+            // Positional correction (push inside)
+            const penetration = ball.r - d;
+            pLocal.x += nx * penetration;
+            pLocal.y += ny * penetration;
+
+            // Velocity response (bounce if moving outward)
+            const vn = vLocal.x * nx + vLocal.y * ny;
+            if (vn < 0) {
+              // Reflect normal component with restitution
+              const vnAfter = -vn * sim.restitution;
+              const dvn = vnAfter - vn;
+              vLocal.x += nx * dvn;
+              vLocal.y += ny * dvn;
+
+              // Tangential friction (damp tangent)
+              const projN = (vLocal.x * nx + vLocal.y * ny);
+              const tx = vLocal.x - projN * nx;
+              const ty = vLocal.y - projN * ny;
+              vLocal.x -= tx * sim.friction;
+              vLocal.y -= ty * sim.friction;
+            }
+          }
+        }
+
+        // Back to world
+        const pWorld = toWorld(pLocal, sim.center, R);
+        const vWorld = velToWorld(vLocal, R);
+        ball.x = pWorld.x; ball.y = pWorld.y;
+        ball.vx = vWorld.x; ball.vy = vWorld.y;
+      }
+
+      function resolveBallBallCollisions() {
+        const n = sim.balls.length;
+        for (let i = 0; i < n; i++) {
+          for (let j = i + 1; j < n; j++) {
+            const a = sim.balls[i], b = sim.balls[j];
+            const dx = b.x - a.x, dy = b.y - a.y;
+            const dist = Math.hypot(dx, dy) || 1e-6;
+            const minDist = a.r + b.r;
+            if (dist < minDist) {
+              // Separate
+              const overlap = minDist - dist;
+              const nx = dx / dist, ny = dy / dist;
+              const totalM = a.m + b.m;
+              const pushA = (b.m / totalM) * overlap;
+              const pushB = (a.m / totalM) * overlap;
+              a.x -= nx * pushA; a.y -= ny * pushA;
+              b.x += nx * pushB; b.y += ny * pushB;
+
+              // Relative velocity along normal
+              const rvx = b.vx - a.vx, rvy = b.vy - a.vy;
+              const vrn = rvx * nx + rvy * ny;
+              if (vrn < 0) {
+                const e = Math.min(0.9, sim.restitution);
+                const j = -(1 + e) * vrn / (1 / a.m + 1 / b.m);
+                const jx = j * nx, jy = j * ny;
+                a.vx -= jx / a.m; a.vy -= jy / a.m;
+                b.vx += jx / b.m; b.vy += jy / b.m;
+              }
+            }
+          }
+        }
+      }
+
+      let lastT = performance.now();
+
+      function step(now) {
+        const dtMs = Math.min(32, now - lastT); // clamp big frame gaps
+        lastT = now;
+        const dt = dtMs / 1000;
+
+        // Flip gravity every flipPeriod
+        if (now - sim.lastFlip >= sim.flipPeriod) {
+          sim.lastFlip = now;
+          sim.gravityDir *= -1;
+        }
+
+        // Rotate hexagon
+        sim.angle += sim.angularSpeed * dt;
+
+        // Gravity in world coords
+        const gx = sim.gravity.x;
+        const gy = sim.gravityDir * Math.abs(sim.gravity.y);
+
+        // Integrate balls and collide with hex
+        for (const b of sim.balls) {
+          b.vx += gx * dt;
+          b.vy += gy * dt;
+
+          if (sim.air > 0) {
+            const damp = Math.max(0, 1 - sim.air * dt);
+            b.vx *= damp; b.vy *= damp;
+          }
+
+          b.x += b.vx * dt;
+          b.y += b.vy * dt;
+
+          resolveBallHexCollision(b);
+        }
+
+        // Ball-ball collisions
+        resolveBallBallCollisions();
+
+        // Overlay
+        overlay.textContent =
+          `Balls: ${sim.balls.length} | Gravity: ${sim.gravityDir > 0 ? 'Down' : 'Up'} | Hex rotation: ${(sim.angle % (2 * Math.PI)).toFixed(2)} rad`;
+      }
+
+      function draw() {
+        const w = canvas.width, h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+
+        // Hexagon render (world frame)
+        const R = rotMatrix(sim.angle);
+        const vertsWorld = hexVertsLocal.map(v => toWorld(v, sim.center, R));
+
+        ctx.save();
+        ctx.lineWidth = 2 * dpr;
+        ctx.strokeStyle = '#2b8cff';
+        ctx.beginPath();
+        ctx.moveTo(vertsWorld[0].x, vertsWorld[0].y);
+        for (let i = 1; i < vertsWorld.length; i++) {
+          ctx.lineTo(vertsWorld[i].x, vertsWorld[i].y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+
+        // Balls
+        for (const b of sim.balls) {
+          ctx.fillStyle = b.color;
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function frame(now) {
+        step(now || performance.now());
+        draw();
+        requestAnimationFrame(frame);
+      }
+
+      // Init
+      resize();
+      makeBalls(20);
+      requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
