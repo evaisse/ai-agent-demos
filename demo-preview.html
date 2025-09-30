@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Demo Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .selector-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .selector-wrapper {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        select:hover {
+            border-color: #667eea;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .load-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            align-self: flex-end;
+            margin-top: 24px;
+        }
+
+        .load-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .load-btn:active {
+            transform: translateY(0);
+        }
+
+        .preview-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            min-height: 600px;
+        }
+
+        .preview-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 25px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-title {
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .preview-btn {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .preview-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            display: block;
+        }
+
+        .no-preview {
+            padding: 100px 20px;
+            text-align: center;
+            color: #999;
+        }
+
+        .no-preview h2 {
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 AI Agent Demo Preview</h1>
+        
+        <div class="controls">
+            <div class="selector-group">
+                <div class="selector-wrapper">
+                    <label for="demo-select">Select Demo:</label>
+                    <select id="demo-select">
+                        <option value="">-- Choose a demo --</option>
+                    </select>
+                </div>
+                
+                <div class="selector-wrapper">
+                    <label for="model-select">Select Model:</label>
+                    <select id="model-select" disabled>
+                        <option value="">-- Choose a model --</option>
+                    </select>
+                </div>
+                
+                <button class="load-btn" onclick="loadDemo()">Load Preview</button>
+            </div>
+            
+            <div class="stats" id="stats" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-demos">0</div>
+                    <div class="stat-label">Total Demos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-models">0</div>
+                    <div class="stat-label">Models Available</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-versions">0</div>
+                    <div class="stat-label">Total Versions</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="preview-container">
+            <div class="preview-header" id="preview-header" style="display: none;">
+                <div class="preview-title" id="preview-title"></div>
+                <div class="preview-actions">
+                    <button class="preview-btn" onclick="refreshIframe()">🔄 Refresh</button>
+                    <a class="preview-btn" id="open-new-tab" href="#" target="_blank">🔗 Open in New Tab</a>
+                </div>
+            </div>
+            
+            <div id="preview-content">
+                <div class="no-preview">
+                    <h2>👆 Select a demo and model to preview</h2>
+                    <p>Choose from the available demos and AI models above to see their outputs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo data structure
+        const demoData = {
+            'physics-20-balls': {
+                name: 'Physics Simulation - 20 Balls',
+                models: [
+                    { value: 'claude-sonnet-3-7', name: 'Claude Sonnet 3.7' },
+                    { value: 'claude-sonnet-4', name: 'Claude Sonnet 4' },
+                    { value: 'claude-sonnet-4-5', name: 'Claude Sonnet 4.5' },
+                    { value: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro' },
+                    { value: 'gpt-4-1', name: 'GPT-4.1' },
+                    { value: 'gpt-5', name: 'GPT-5' },
+                    { value: 'grok-4', name: 'Grok 4' },
+                    { value: 'ollama-deepseek-r1-8b', name: 'Ollama DeepSeek R1 8B' },
+                    { value: 'qwen-3-32b', name: 'Qwen 3 32B' }
+                ]
+            }
+        };
+
+        let currentDemo = null;
+        let currentModel = null;
+
+        // Initialize the demo selector
+        function initializeDemoSelector() {
+            const demoSelect = document.getElementById('demo-select');
+            
+            Object.keys(demoData).forEach(demoKey => {
+                const option = document.createElement('option');
+                option.value = demoKey;
+                option.textContent = demoData[demoKey].name;
+                demoSelect.appendChild(option);
+            });
+            
+            // Update stats
+            updateStats();
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalDemos = Object.keys(demoData).length;
+            let totalModels = 0;
+            let totalVersions = 0;
+            
+            Object.values(demoData).forEach(demo => {
+                const models = demo.models.length;
+                totalModels = Math.max(totalModels, models);
+                totalVersions += models;
+            });
+            
+            document.getElementById('total-demos').textContent = totalDemos;
+            document.getElementById('total-models').textContent = totalModels;
+            document.getElementById('total-versions').textContent = totalVersions;
+            document.getElementById('stats').style.display = 'flex';
+        }
+
+        // Handle demo selection
+        document.getElementById('demo-select').addEventListener('change', function() {
+            const selectedDemo = this.value;
+            const modelSelect = document.getElementById('model-select');
+            
+            // Clear model select
+            modelSelect.innerHTML = '<option value="">-- Choose a model --</option>';
+            
+            if (selectedDemo) {
+                currentDemo = selectedDemo;
+                
+                // Enable model select
+                modelSelect.disabled = false;
+                
+                // Populate models
+                demoData[selectedDemo].models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.value;
+                    option.textContent = model.name;
+                    modelSelect.appendChild(option);
+                });
+            } else {
+                currentDemo = null;
+                modelSelect.disabled = true;
+            }
+        });
+
+        // Handle model selection
+        document.getElementById('model-select').addEventListener('change', function() {
+            currentModel = this.value;
+        });
+
+        // Load the selected demo
+        function loadDemo() {
+            if (!currentDemo || !currentModel) {
+                alert('Please select both a demo and a model');
+                return;
+            }
+            
+            const demoPath = `demos/${currentDemo}/results/${currentModel}.html`;
+            const demoName = demoData[currentDemo].name;
+            const modelName = demoData[currentDemo].models.find(m => m.value === currentModel).name;
+            
+            // Update preview header
+            document.getElementById('preview-title').textContent = `${demoName} - ${modelName}`;
+            document.getElementById('preview-header').style.display = 'flex';
+            document.getElementById('open-new-tab').href = demoPath;
+            
+            // Load iframe
+            const previewContent = document.getElementById('preview-content');
+            previewContent.innerHTML = `<iframe src="${demoPath}" id="demo-iframe"></iframe>`;
+        }
+
+        // Refresh iframe
+        function refreshIframe() {
+            const iframe = document.getElementById('demo-iframe');
+            if (iframe) {
+                iframe.src = iframe.src;
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDemoSelector();
+        });
+
+        // Dynamically discover demos (optional enhancement)
+        async function discoverDemos() {
+            // This would require a backend endpoint or a way to list files
+            // For now, we're using the hardcoded demoData structure
+            console.log('Demo discovery would happen here in a production environment');
+        }
+    </script>
+</body>
+</html>
