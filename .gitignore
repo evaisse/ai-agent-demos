@@ -1,6 +1,7 @@
 *.log
 .env
 .env.*
+!.env.example
 tmp/
 build/
 var/
