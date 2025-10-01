@@ -115,6 +115,66 @@
             background: rgba(255,255,255,0.3);
         }
 
+        .prompt-btn {
+            position: relative;
+        }
+
+        .prompt-tooltip {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: white;
+            color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            min-width: 350px;
+            max-width: 500px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .prompt-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .prompt-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+
+        .prompt-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #667eea;
+        }
+
+        .prompt-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .no-prompt {
+            color: #999;
+            font-style: italic;
+        }
+
         .preview-container {
             flex: 1;
             background: white;
@@ -203,6 +263,15 @@
         </div>
 
         <div class="actions">
+            <button class="action-btn prompt-btn" onclick="togglePrompt()" title="View Prompt">
+                📝
+                <div id="prompt-tooltip" class="prompt-tooltip">
+                    <div class="prompt-title">Demo Prompt</div>
+                    <div id="prompt-content" class="prompt-content">
+                        <span class="no-prompt">Select a demo to view its prompt</span>
+                    </div>
+                </div>
+            </button>
             <button class="action-btn" onclick="refreshIframe()" title="Refresh">🔄</button>
             <a class="action-btn" id="open-new-tab" href="#" target="_blank" title="Open in new tab">🔗</a>
         </div>
@@ -226,6 +295,7 @@
         const demoData = {
             'physics-20-balls': {
                 name: 'Physics - 20 Balls',
+                prompt: 'In one HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.',
                 models: [
                     { value: 'claude-sonnet-3-7', name: 'Claude Sonnet 3.7' },
                     { value: 'claude-sonnet-4', name: 'Claude Sonnet 4' },
@@ -266,6 +336,9 @@
             if (selectedDemo) {
                 currentDemo = selectedDemo;
                 
+                // Update prompt content
+                updatePromptContent(selectedDemo);
+                
                 // Enable model select
                 modelSelect.disabled = false;
                 
@@ -279,6 +352,8 @@
             } else {
                 currentDemo = null;
                 modelSelect.disabled = true;
+                // Reset prompt content
+                document.getElementById('prompt-content').innerHTML = '<span class="no-prompt">Select a demo to view its prompt</span>';
             }
         });
 
@@ -346,11 +421,45 @@
             initializeDemoSelector();
         });
 
+        // Toggle prompt tooltip
+        function togglePrompt() {
+            const tooltip = document.getElementById('prompt-tooltip');
+            tooltip.classList.toggle('show');
+        }
+
+        // Update prompt content
+        function updatePromptContent(demoKey) {
+            const promptContent = document.getElementById('prompt-content');
+            if (demoData[demoKey] && demoData[demoKey].prompt) {
+                promptContent.textContent = demoData[demoKey].prompt;
+            } else {
+                promptContent.innerHTML = '<span class="no-prompt">No prompt available for this demo</span>';
+            }
+        }
+
+        // Close tooltip when clicking outside
+        document.addEventListener('click', function(e) {
+            const tooltip = document.getElementById('prompt-tooltip');
+            const promptBtn = e.target.closest('.prompt-btn');
+            
+            if (!promptBtn && tooltip.classList.contains('show')) {
+                tooltip.classList.remove('show');
+            }
+        });
+
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.key === 'r' && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
                 refreshIframe();
+            }
+            // Add 'p' shortcut to toggle prompt
+            if (e.key === 'p' && !e.metaKey && !e.ctrlKey) {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName !== 'INPUT' && activeElement.tagName !== 'SELECT') {
+                    e.preventDefault();
+                    togglePrompt();
+                }
             }
         });
     </script>
