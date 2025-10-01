@@ -5,3 +5,6 @@ tmp/
 build/
 var/
 .aider*
+.crush
+.claude
+.gemini
