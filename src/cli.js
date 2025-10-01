@@ -68,10 +68,8 @@ async function makeOpenRouterRequest(url, options = {}) {
   const requestBody = body ? JSON.stringify(body) : null;
   const requestSize = requestBody ? new Blob([requestBody]).size : 0;
   
-  console.log(`\n🔍 ${description} Debug Info:`);
-  console.log(`   Method: ${method}`);
-  console.log(`   URL: ${url}`);
-  console.log(`   Payload Size: ${requestSize} bytes${method === 'GET' ? ' (GET request)' : ''}`);
+  // One-line debug log
+  console.log(`🔍 ${method} ${url} (${requestSize}b out) - ${description}`);
   
   const headers = {
     'Authorization': `Bearer ${apiKey}`,
@@ -81,10 +79,6 @@ async function makeOpenRouterRequest(url, options = {}) {
   
   if (requestBody) {
     headers['Content-Type'] = 'application/json';
-  }
-  
-  if (method === 'POST') {
-    console.log(headers);
   }
 
   const startTime = performance.now();
@@ -102,13 +96,8 @@ async function makeOpenRouterRequest(url, options = {}) {
     const responseText = await response.text();
     const responseSize = new Blob([responseText]).size;
     
-    if (method === 'GET') {
-      console.log(`   Response Code: ${response.status} ${response.statusText}`);
-      console.log(`   Response Size: ${responseSize} bytes`);
-      console.log(`   Duration: ${duration.toFixed(3)}s\n`);
-    } else {
-      console.log(`${response.status} ${response.statusText} (${responseSize} bytes in ${duration.toFixed(3)}s)\n`);
-    }
+    // One-line response log
+    console.log(`✅ ${response.status} ${response.statusText} (${responseSize}b in, ${duration.toFixed(3)}s)`);
 
     return {
       ok: response.ok,
