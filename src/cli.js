@@ -93,9 +93,17 @@ async function fetchAvailableModels(apiKey, useCache = true) {
   }
   
   try {
-    console.log('🔍 Fetching available models from OpenRouter...\n');
+    console.log('🔍 Fetching available models from OpenRouter...');
     
-    const response = await fetch('https://openrouter.ai/api/v1/models', {
+    const url = 'https://openrouter.ai/api/v1/models';
+    console.log(`\n🔍 API Request Debug Info:`);
+    console.log(`   Method: GET`);
+    console.log(`   URL: ${url}`);
+    console.log(`   Payload Size: 0 bytes (GET request)\n`);
+    
+    const startTime = performance.now();
+    
+    const response = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'HTTP-Referer': 'https://github.com/openrouter-cli',
@@ -103,12 +111,21 @@ async function fetchAvailableModels(apiKey, useCache = true) {
       }
     });
 
+    const endTime = performance.now();
+    const duration = (endTime - startTime) / 1000;
+    
+    const responseText = await response.text();
+    const responseSize = new Blob([responseText]).size;
+    
+    console.log(`   Response Code: ${response.status} ${response.statusText}`);
+    console.log(`   Response Size: ${responseSize} bytes`);
+    console.log(`   Duration: ${duration.toFixed(3)}s\n`);
+
     if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`API Error (${response.status}): ${error}`);
+      throw new Error(`API Error (${response.status}): ${responseText}`);
     }
 
-    const data = await response.json();
+    const data = JSON.parse(responseText);
     
     // Cache the models for future use
     await saveCachedModels(data.data);
@@ -182,19 +199,37 @@ async function getModelInfo(apiKey, modelId) {
     }
     
     // Fall back to API call
-    const response = await fetch('https://openrouter.ai/api/v1/models', {
+    const url = 'https://openrouter.ai/api/v1/models';
+    console.log(`\n🔍 API Request Debug Info (Model Lookup):`);
+    console.log(`   Method: GET`);
+    console.log(`   URL: ${url}`);
+    console.log(`   Payload Size: 0 bytes (GET request)`);
+    
+    const startTime = performance.now();
+    
+    const response = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'HTTP-Referer': 'https://github.com/openrouter-cli',
         'X-Title': 'OpenRouter CLI'
       }
     });
+    
+    const endTime = performance.now();
+    const duration = (endTime - startTime) / 1000;
+    
+    const responseText = await response.text();
+    const responseSize = new Blob([responseText]).size;
+    
+    console.log(`   Response Code: ${response.status} ${response.statusText}`);
+    console.log(`   Response Size: ${responseSize} bytes`);
+    console.log(`   Duration: ${duration.toFixed(3)}s\n`);
 
     if (!response.ok) {
       return null;
     }
 
-    const data = await response.json();
+    const data = JSON.parse(responseText);
     const model = data.data.find(m => m.id === modelId);
     return model || null;
   } catch (error) {
@@ -218,6 +253,14 @@ async function callOpenRouter(apiKey, apiUrl, model, prompt, systemPrompt) {
     max_tokens: 2000
   };
 
+  const requestBodyStr = JSON.stringify(requestBody);
+  const requestSize = new Blob([requestBodyStr]).size;
+  
+  console.log(`\n🔍 API Request Debug Info:`);
+  console.log(`   Method: POST`);
+  console.log(`   URL: ${apiUrl}`);
+  console.log(`   Payload Size: ${requestSize} bytes`);
+
   const startTime = performance.now();
 
   try {
@@ -229,18 +272,24 @@ async function callOpenRouter(apiKey, apiUrl, model, prompt, systemPrompt) {
         'HTTP-Referer': 'https://github.com/openrouter-cli',
         'X-Title': 'OpenRouter CLI'
       },
-      body: JSON.stringify(requestBody)
+      body: requestBodyStr
     });
 
     const endTime = performance.now();
     const duration = (endTime - startTime) / 1000;
+    
+    const responseText = await response.text();
+    const responseSize = new Blob([responseText]).size;
+    
+    console.log(`   Response Code: ${response.status} ${response.statusText}`);
+    console.log(`   Response Size: ${responseSize} bytes`);
+    console.log(`   Duration: ${duration.toFixed(3)}s\n`);
 
     if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`API Error (${response.status}): ${error}`);
+      throw new Error(`API Error (${response.status}): ${responseText}`);
     }
 
-    const data = await response.json();
+    const data = JSON.parse(responseText);
     
     return {
       content: data.choices[0].message.content,
