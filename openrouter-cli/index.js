@@ -510,7 +510,7 @@ program
   .version('1.0.0')
   .option('-p, --prompt <prompt>', 'The prompt to send to the model')
   .option('-o, --output <path>', 'Output path for the HTML file')
-  .option('-m, --model <model>', 'Model to use', process.env.DEFAULT_MODEL || 'openai/gpt-3.5-turbo')
+  .option('-m, --model <model>', 'Model to use', process.env.OPENROUTER_DEFAULT_MODEL || 'openai/gpt-3.5-turbo')
   .option('-s, --system <prompt>', 'System prompt for the model')
   .option('--api-key <key>', 'OpenRouter API key (overrides env variable)')
   .option('--api-url <url>', 'OpenRouter API URL (overrides env variable)')

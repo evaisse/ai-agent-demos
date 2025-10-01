@@ -81,7 +81,7 @@ When you run a prompt, the CLI generates multiple output files in the same direc
 
 - `OPENROUTER_API_KEY`: Your OpenRouter API key
 - `OPENROUTER_API_URL`: API endpoint (default: https://openrouter.ai/api/v1/chat/completions)
-- `DEFAULT_MODEL`: Default model to use (default: openai/gpt-3.5-turbo)
+- `OPENROUTER_DEFAULT_MODEL`: Default model to use (default: openai/gpt-3.5-turbo)
 
 ## Features
 
