@@ -3,62 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Agent Demos - Compare LLM Outputs</title>
-    <meta http-equiv="refresh" content="0; url=demo-preview.html">
+    <title>AI Demo Viewer</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            position: relative;
         }
-        .redirect-message {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
+        
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
         }
-        h1 {
-            margin-bottom: 20px;
-            font-size: 2.5em;
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
         }
-        p {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-        }
-        a {
+        
+        .demo-selector, .model-selector {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
             color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            display: inline-block;
-            transition: background 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            min-width: 200px;
         }
-        a:hover {
-            background: rgba(255, 255, 255, 0.3);
+        
+        .demo-selector option, .model-selector option {
+            background: #4c51bf;
+            color: white;
         }
+        
+        .info-btn, .refresh-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .info-btn:hover, .refresh-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .refresh-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .main-content {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+        
+        .demo-frame {
+            flex: 1;
+            background: white;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .sidebar {
+            width: 400px;
+            background: white;
+            border-left: 1px solid #e2e8f0;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+            position: relative;
+        }
+        
+        .sidebar-content {
+            padding: 1.5rem;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+        
+        .section-content {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .no-demo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: #718096;
+        }
+        
+        .no-demo-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #718096;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        
+        .close-btn:hover {
+            background: #e2e8f0;
+        }
+        
         .loading {
-            display: inline-block;
-            animation: pulse 1.5s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 1.1rem;
+            color: #718096;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: #e53e3e;
+        }
+        
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
-    <div class="redirect-message">
-        <h1>🚀 AI Agent Demos</h1>
-        <p>Compare LLM outputs across different models</p>
-        <p class="loading">Redirecting to demo viewer...</p>
-        <p><a href="demo-preview.html">Click here if not redirected</a></p>
+    <div class="header">
+        <h1>🤖 AI Demo Viewer</h1>
+        <div class="controls">
+            <select class="demo-selector" id="demoSelector" disabled>
+                <option value="">Loading demos...</option>
+            </select>
+            <select class="model-selector" id="modelSelector" disabled>
+                <option value="">Select a model...</option>
+            </select>
+            <button class="info-btn" id="infoBtn" disabled>ℹ️ Info</button>
+            <button class="refresh-btn" id="refreshBtn">🔄 Refresh</button>
+        </div>
     </div>
+    
+    <div class="main-content">
+        <div class="loading" id="loadingState">
+            🔄 Loading demos...
+        </div>
+        
+        <div class="error" id="errorState" style="display: none;">
+            <div class="error-icon">⚠️</div>
+            <h2>Failed to Load Demos</h2>
+            <p>Could not load demos.json. Make sure to run:</p>
+            <p><code>npm run generate-viewer</code></p>
+        </div>
+        
+        <iframe class="demo-frame" id="demoFrame" src="about:blank" style="display: none;"></iframe>
+        
+        <div class="no-demo" id="noDemo" style="display: none;">
+            <div class="no-demo-icon">🎨</div>
+            <h2>No Demo Selected</h2>
+            <p>Choose a demo from the dropdown above to start exploring!</p>
+        </div>
+        
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <button class="close-btn" id="closeBtn">×</button>
+                <h3 id="sidebarTitle">Demo Information</h3>
+                <p id="sidebarModel" style="color: #718096; font-size: 0.9rem; margin-top: 0.5rem;"></p>
+            </div>
+            <div class="sidebar-content" id="sidebarContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let demos = [];
+        let currentDemo = null;
+        let currentModel = null;
+        
+        const demoSelector = document.getElementById('demoSelector');
+        const modelSelector = document.getElementById('modelSelector');
+        const infoBtn = document.getElementById('infoBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const demoFrame = document.getElementById('demoFrame');
+        const sidebar = document.getElementById('sidebar');
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const noDemo = document.getElementById('noDemo');
+        const sidebarTitle = document.getElementById('sidebarTitle');
+        const sidebarModel = document.getElementById('sidebarModel');
+        const sidebarContent = document.getElementById('sidebarContent');
+        const closeBtn = document.getElementById('closeBtn');
+        
+        // Load demos from JSON file
+        async function loadDemos() {
+            try {
+                refreshBtn.disabled = true;
+                refreshBtn.textContent = '🔄 Loading...';
+                
+                const response = await fetch('./demos.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                demos = await response.json();
+                populateDemoSelector();
+                hideLoading();
+                
+                refreshBtn.disabled = false;
+                refreshBtn.textContent = '🔄 Refresh';
+                
+            } catch (error) {
+                console.error('Failed to load demos:', error);
+                showError();
+                refreshBtn.disabled = false;
+                refreshBtn.textContent = '🔄 Retry';
+            }
+        }
+        
+        function populateDemoSelector() {
+            demoSelector.innerHTML = '<option value="">Select a demo...</option>';
+            
+            demos.forEach(demo => {
+                const option = document.createElement('option');
+                option.value = demo.name;
+                option.textContent = demo.title;
+                demoSelector.appendChild(option);
+            });
+            
+            demoSelector.disabled = false;
+        }
+        
+        function hideLoading() {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'none';
+            
+            if (demos.length === 0) {
+                noDemo.style.display = 'flex';
+            } else {
+                noDemo.style.display = 'none';
+            }
+        }
+        
+        function showError() {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'flex';
+            noDemo.style.display = 'none';
+            demoFrame.style.display = 'none';
+        }
+        
+        // Event listeners
+        demoSelector.addEventListener('change', function() {
+            const demoName = this.value;
+            if (demoName) {
+                currentDemo = demos.find(d => d.name === demoName);
+                updateModelSelector();
+                hideDemo();
+            } else {
+                currentDemo = null;
+                updateModelSelector();
+                hideDemo();
+            }
+        });
+        
+        modelSelector.addEventListener('change', function() {
+            const modelName = this.value;
+            if (modelName && currentDemo) {
+                currentModel = currentDemo.models.find(m => m.name === modelName);
+                showDemo();
+            } else {
+                currentModel = null;
+                hideDemo();
+            }
+        });
+        
+        infoBtn.addEventListener('click', function() {
+            if (currentModel) {
+                showSidebar();
+            }
+        });
+        
+        refreshBtn.addEventListener('click', function() {
+            loadDemos();
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            hideSidebar();
+        });
+        
+        function updateModelSelector() {
+            modelSelector.innerHTML = '<option value="">Select a model...</option>';
+            
+            if (currentDemo) {
+                currentDemo.models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.name;
+                    option.textContent = model.name;
+                    modelSelector.appendChild(option);
+                });
+                modelSelector.disabled = false;
+            } else {
+                modelSelector.disabled = true;
+            }
+            
+            infoBtn.disabled = !currentDemo;
+        }
+        
+        function showDemo() {
+            if (currentModel) {
+                demoFrame.src = currentModel.htmlPath;
+                demoFrame.style.display = 'block';
+                loadingState.style.display = 'none';
+                errorState.style.display = 'none';
+                noDemo.style.display = 'none';
+                infoBtn.disabled = false;
+            }
+        }
+        
+        function hideDemo() {
+            demoFrame.style.display = 'none';
+            if (demos.length > 0) {
+                noDemo.style.display = 'flex';
+            }
+            hideSidebar();
+        }
+        
+        function showSidebar() {
+            if (!currentModel || !currentModel.results) return;
+            
+            const results = currentModel.results;
+            sidebarTitle.textContent = currentDemo.title;
+            sidebarModel.textContent = currentModel.name;
+            
+            const metricsHTML = `
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">${results.tokens?.total_tokens || 'N/A'}</div>
+                        <div class="metric-label">Total Tokens</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">${results.execution?.duration_seconds || 'N/A'}s</div>
+                        <div class="metric-label">Duration</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">$${results.cost?.total_cost?.toFixed(4) || '0.0000'}</div>
+                        <div class="metric-label">Total Cost</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">${results.model_card?.context_length || 'N/A'}</div>
+                        <div class="metric-label">Context Length</div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Prompt</div>
+                    <div class="section-content">${escapeHtml(currentDemo.prompt)}</div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Model Information</div>
+                    <div class="section-content">
+                        <strong>Name:</strong> ${results.model_card?.name || 'Unknown'}<br>
+                        <strong>ID:</strong> ${results.model_card?.id || 'Unknown'}<br>
+                        <strong>Provider:</strong> ${results.model_card?.top_provider?.name || 'Unknown'}
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Token Breakdown</div>
+                    <div class="section-content">
+                        <strong>Prompt Tokens:</strong> ${results.tokens?.prompt_tokens || 0}<br>
+                        <strong>Completion Tokens:</strong> ${results.tokens?.completion_tokens || 0}<br>
+                        <strong>Total Tokens:</strong> ${results.tokens?.total_tokens || 0}
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Cost Breakdown</div>
+                    <div class="section-content">
+                        <strong>Prompt Cost:</strong> $${results.cost?.prompt_cost?.toFixed(6) || '0.000000'}<br>
+                        <strong>Completion Cost:</strong> $${results.cost?.completion_cost?.toFixed(6) || '0.000000'}<br>
+                        <strong>Total Cost:</strong> $${results.cost?.total_cost?.toFixed(6) || '0.000000'}
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Generation Info</div>
+                    <div class="section-content">
+                        <strong>Generated:</strong> ${new Date(results.timestamp).toLocaleString()}<br>
+                        <strong>Duration:</strong> ${results.execution?.duration_seconds || 'N/A'} seconds<br>
+                        <strong>Temperature:</strong> ${results.request?.temperature || 'N/A'}
+                    </div>
+                </div>
+            `;
+            
+            sidebarContent.innerHTML = metricsHTML;
+            sidebar.classList.add('open');
+        }
+        
+        function hideSidebar() {
+            sidebar.classList.remove('open');
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Initialize
+        loadDemos();
+    </script>
 </body>
 </html>

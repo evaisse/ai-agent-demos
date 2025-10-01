@@ -1,0 +1,89 @@
+[
+  {
+    "name": "physics-20-balls",
+    "title": "Physics 20 Balls",
+    "prompt": "In one HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.",
+    "models": [
+      {
+        "name": "openai/gpt-3.5-turbo",
+        "htmlPath": "demos/physics-20-balls/openai/gpt-3.5-turbo/index.html",
+        "results": {
+          "timestamp": "2025-01-10T15:30:00.000Z",
+          "execution": {
+            "duration_seconds": "3.245",
+            "model_used": "openai/gpt-3.5-turbo",
+            "model_requested": "openai/gpt-3.5-turbo"
+          },
+          "tokens": {
+            "prompt_tokens": 125,
+            "completion_tokens": 1850,
+            "total_tokens": 1975
+          },
+          "cost": {
+            "currency": "USD",
+            "prompt_cost": 0.000063,
+            "completion_cost": 0.002775,
+            "total_cost": 0.002838
+          },
+          "model_card": {
+            "id": "openai/gpt-3.5-turbo",
+            "name": "GPT-3.5 Turbo",
+            "description": "Fast and efficient model for most tasks",
+            "context_length": 16385,
+            "pricing": {
+              "prompt": "0.0000005",
+              "completion": "0.0000015"
+            },
+            "top_provider": {
+              "name": "OpenAI"
+            }
+          },
+          "request": {
+            "temperature": 0.7,
+            "max_tokens": 2000
+          }
+        }
+      },
+      {
+        "name": "anthropic/claude-3-5-sonnet",
+        "htmlPath": "demos/physics-20-balls/anthropic/claude-3-5-sonnet/index.html",
+        "results": {
+          "timestamp": "2025-01-10T15:32:00.000Z",
+          "execution": {
+            "duration_seconds": "4.567",
+            "model_used": "anthropic/claude-3-5-sonnet",
+            "model_requested": "anthropic/claude-3-5-sonnet"
+          },
+          "tokens": {
+            "prompt_tokens": 125,
+            "completion_tokens": 2100,
+            "total_tokens": 2225
+          },
+          "cost": {
+            "currency": "USD",
+            "prompt_cost": 0.000375,
+            "completion_cost": 0.0315,
+            "total_cost": 0.031875
+          },
+          "model_card": {
+            "id": "anthropic/claude-3-5-sonnet",
+            "name": "Claude 3.5 Sonnet",
+            "description": "Most intelligent model for complex tasks",
+            "context_length": 200000,
+            "pricing": {
+              "prompt": "0.000003",
+              "completion": "0.000015"
+            },
+            "top_provider": {
+              "name": "Anthropic"
+            }
+          },
+          "request": {
+            "temperature": 0.7,
+            "max_tokens": 2000
+          }
+        }
+      }
+    ]
+  }
+]

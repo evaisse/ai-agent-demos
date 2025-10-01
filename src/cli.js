@@ -192,14 +192,15 @@ program
 // Command: generate-viewer
 program
   .command('generate-viewer')
-  .description('Generate the demo viewer at pages/index.html')
-  .option('-o, --output <path>', 'Output path for viewer', 'pages/index.html')
+  .description('Generate the demos.json file for the static viewer')
+  .option('-o, --output <path>', 'Output directory for viewer files', 'pages')
   .action(async (options) => {
     try {
       const { output } = options;
-      const outputPath = path.join(path.dirname(__dirname), output);
+      const outputDir = path.join(path.dirname(__dirname), output);
+      const demosJsonPath = path.join(outputDir, 'demos.json');
       
-      console.log(`🎨 Generating demo viewer...`);
+      console.log(`🎨 Generating demo metadata...`);
       
       // Scan for demos and their generated models
       const demosDir = path.join(path.dirname(__dirname), 'pages', 'demos');
@@ -244,7 +245,7 @@ program
               
               models.push({
                 name: modelName,
-                htmlPath: path.relative(path.dirname(outputPath), htmlPath),
+                htmlPath: path.relative(outputDir, htmlPath),
                 results: results
               });
             } catch {
@@ -256,7 +257,7 @@ program
             demos.push({
               name: demoName,
               title: demoName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-              prompt: prompt.substring(0, 200) + (prompt.length > 200 ? '...' : ''),
+              prompt: prompt,
               models: models
             });
           }
@@ -265,429 +266,32 @@ program
         console.warn('⚠️  Could not scan demos directory:', error.message);
       }
       
-      // Generate HTML viewer
-      const viewerHTML = generateViewerHTML(demos);
-      
       // Ensure output directory exists
-      await fs.mkdir(path.dirname(outputPath), { recursive: true });
+      await fs.mkdir(outputDir, { recursive: true });
       
-      // Write viewer HTML
-      await fs.writeFile(outputPath, viewerHTML, 'utf-8');
+      // Generate and write demos.json
+      await fs.writeFile(demosJsonPath, JSON.stringify(demos, null, 2), 'utf-8');
+      console.log(`📋 Generated demos.json with ${demos.length} demo(s)`);
       
-      console.log(`✅ Viewer generated successfully!`);
-      console.log(`📂 Location: ${outputPath}`);
-      console.log(`🎯 Found ${demos.length} demo(s) with generated content`);
+      console.log(`✅ Viewer data updated!`);
+      console.log(`📋 Data: ${demosJsonPath}`);
       
       if (demos.length === 0) {
         console.log('');
         console.log('💡 Tip: Generate some demos first:');
-        console.log('   node cli.js create-demo -t "My Demo" -p "Create a demo..."');
-        console.log('   node cli.js generate-demo -d my-demo -m openai/gpt-3.5-turbo');
+        console.log('   npm run create-demo -- -t "My Demo" -p "Create a demo..."');
+        console.log('   npm run generate-demo -- -d my-demo -m openai/gpt-3.5-turbo');
+      } else {
+        console.log('');
+        console.log('🌐 Open pages/index.html in your browser to explore the demos!');
       }
       
     } catch (error) {
-      console.error('❌ Failed to generate viewer:', error.message);
+      console.error('❌ Failed to generate viewer data:', error.message);
       process.exit(1);
     }
   });
 
-// Function to generate the viewer HTML
-function generateViewerHTML(demos) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Demo Viewer</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f8fafc;
-            height: 100vh;
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-            position: relative;
-        }
-        
-        .header h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        .demo-selector, .model-selector {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-        }
-        
-        .demo-selector option, .model-selector option {
-            background: #4c51bf;
-            color: white;
-        }
-        
-        .info-btn {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-        
-        .info-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .main-content {
-            display: flex;
-            height: calc(100vh - 80px);
-        }
-        
-        .demo-frame {
-            flex: 1;
-            background: white;
-            border: none;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .sidebar {
-            width: 400px;
-            background: white;
-            border-left: 1px solid #e2e8f0;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            overflow-y: auto;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-        }
-        
-        .sidebar.open {
-            transform: translateX(0);
-        }
-        
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e2e8f0;
-            background: #f8fafc;
-        }
-        
-        .sidebar-content {
-            padding: 1.5rem;
-        }
-        
-        .metric-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .metric-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .metric-value {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 0.25rem;
-        }
-        
-        .metric-label {
-            font-size: 0.8rem;
-            opacity: 0.9;
-        }
-        
-        .section {
-            margin-bottom: 1.5rem;
-        }
-        
-        .section-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #2d3748;
-        }
-        
-        .section-content {
-            background: #f7fafc;
-            padding: 1rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .no-demo {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            text-align: center;
-            color: #718096;
-        }
-        
-        .no-demo-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: #718096;
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 2rem;
-            height: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-        }
-        
-        .close-btn:hover {
-            background: #e2e8f0;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🤖 AI Demo Viewer</h1>
-        <div class="controls">
-            <select class="demo-selector" id="demoSelector">
-                <option value="">Select a demo...</option>
-                ${demos.map(demo => `<option value="${demo.name}">${demo.title}</option>`).join('')}
-            </select>
-            <select class="model-selector" id="modelSelector" disabled>
-                <option value="">Select a model...</option>
-            </select>
-            <button class="info-btn" id="infoBtn" disabled>ℹ️ Info</button>
-        </div>
-    </div>
-    
-    <div class="main-content">
-        <iframe class="demo-frame" id="demoFrame" src="about:blank"></iframe>
-        
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <button class="close-btn" id="closeBtn">×</button>
-                <h3 id="sidebarTitle">Demo Information</h3>
-                <p id="sidebarModel" style="color: #718096; font-size: 0.9rem; margin-top: 0.5rem;"></p>
-            </div>
-            <div class="sidebar-content" id="sidebarContent">
-                <!-- Content will be populated by JavaScript -->
-            </div>
-        </div>
-    </div>
-    
-    <div class="no-demo" id="noDemo">
-        <div class="no-demo-icon">🎨</div>
-        <h2>No Demo Selected</h2>
-        <p>Choose a demo from the dropdown above to start exploring!</p>
-    </div>
-
-    <script>
-        const demos = ${JSON.stringify(demos, null, 2)};
-        
-        const demoSelector = document.getElementById('demoSelector');
-        const modelSelector = document.getElementById('modelSelector');
-        const infoBtn = document.getElementById('infoBtn');
-        const demoFrame = document.getElementById('demoFrame');
-        const sidebar = document.getElementById('sidebar');
-        const noDemo = document.getElementById('noDemo');
-        const sidebarTitle = document.getElementById('sidebarTitle');
-        const sidebarModel = document.getElementById('sidebarModel');
-        const sidebarContent = document.getElementById('sidebarContent');
-        const closeBtn = document.getElementById('closeBtn');
-        
-        let currentDemo = null;
-        let currentModel = null;
-        
-        demoSelector.addEventListener('change', function() {
-            const demoName = this.value;
-            if (demoName) {
-                currentDemo = demos.find(d => d.name === demoName);
-                updateModelSelector();
-                hideDemo();
-            } else {
-                currentDemo = null;
-                updateModelSelector();
-                hideDemo();
-            }
-        });
-        
-        modelSelector.addEventListener('change', function() {
-            const modelName = this.value;
-            if (modelName && currentDemo) {
-                currentModel = currentDemo.models.find(m => m.name === modelName);
-                showDemo();
-            } else {
-                currentModel = null;
-                hideDemo();
-            }
-        });
-        
-        infoBtn.addEventListener('click', function() {
-            if (currentModel) {
-                showSidebar();
-            }
-        });
-        
-        closeBtn.addEventListener('click', function() {
-            hideSidebar();
-        });
-        
-        function updateModelSelector() {
-            modelSelector.innerHTML = '<option value="">Select a model...</option>';
-            
-            if (currentDemo) {
-                currentDemo.models.forEach(model => {
-                    const option = document.createElement('option');
-                    option.value = model.name;
-                    option.textContent = model.name;
-                    modelSelector.appendChild(option);
-                });
-                modelSelector.disabled = false;
-            } else {
-                modelSelector.disabled = true;
-            }
-            
-            infoBtn.disabled = !currentDemo;
-        }
-        
-        function showDemo() {
-            if (currentModel) {
-                demoFrame.src = currentModel.htmlPath;
-                demoFrame.style.display = 'block';
-                noDemo.style.display = 'none';
-                infoBtn.disabled = false;
-            }
-        }
-        
-        function hideDemo() {
-            demoFrame.style.display = 'none';
-            noDemo.style.display = 'flex';
-            hideSidebar();
-        }
-        
-        function showSidebar() {
-            if (!currentModel || !currentModel.results) return;
-            
-            const results = currentModel.results;
-            sidebarTitle.textContent = currentDemo.title;
-            sidebarModel.textContent = currentModel.name;
-            
-            const metricsHTML = \`
-                <div class="metric-grid">
-                    <div class="metric-card">
-                        <div class="metric-value">\${results.tokens?.total_tokens || 'N/A'}</div>
-                        <div class="metric-label">Total Tokens</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">\${results.execution?.duration_seconds || 'N/A'}s</div>
-                        <div class="metric-label">Duration</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">$\${results.cost?.total_cost?.toFixed(4) || '0.0000'}</div>
-                        <div class="metric-label">Total Cost</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">\${results.model_card?.context_length || 'N/A'}</div>
-                        <div class="metric-label">Context Length</div>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <div class="section-title">Prompt</div>
-                    <div class="section-content">\${currentDemo.prompt}</div>
-                </div>
-                
-                <div class="section">
-                    <div class="section-title">Model Information</div>
-                    <div class="section-content">
-                        <strong>Name:</strong> \${results.model_card?.name || 'Unknown'}<br>
-                        <strong>ID:</strong> \${results.model_card?.id || 'Unknown'}<br>
-                        <strong>Provider:</strong> \${results.model_card?.top_provider?.name || 'Unknown'}
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <div class="section-title">Token Breakdown</div>
-                    <div class="section-content">
-                        <strong>Prompt Tokens:</strong> \${results.tokens?.prompt_tokens || 0}<br>
-                        <strong>Completion Tokens:</strong> \${results.tokens?.completion_tokens || 0}<br>
-                        <strong>Total Tokens:</strong> \${results.tokens?.total_tokens || 0}
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <div class="section-title">Cost Breakdown</div>
-                    <div class="section-content">
-                        <strong>Prompt Cost:</strong> $\${results.cost?.prompt_cost?.toFixed(6) || '0.000000'}<br>
-                        <strong>Completion Cost:</strong> $\${results.cost?.completion_cost?.toFixed(6) || '0.000000'}<br>
-                        <strong>Total Cost:</strong> $\${results.cost?.total_cost?.toFixed(6) || '0.000000'}
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <div class="section-title">Generation Info</div>
-                    <div class="section-content">
-                        <strong>Generated:</strong> \${new Date(results.timestamp).toLocaleString()}<br>
-                        <strong>Duration:</strong> \${results.execution?.duration_seconds || 'N/A'} seconds<br>
-                        <strong>Temperature:</strong> \${results.request?.temperature || 'N/A'}
-                    </div>
-                </div>
-            \`;
-            
-            sidebarContent.innerHTML = metricsHTML;
-            sidebar.classList.add('open');
-        }
-        
-        function hideSidebar() {
-            sidebar.classList.remove('open');
-        }
-        
-        // Initialize
-        if (demos.length === 0) {
-            hideDemo();
-        }
-    </script>
-</body>
-</html>`;
-}
 
 // Command: list-demos
 program

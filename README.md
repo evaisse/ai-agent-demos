@@ -64,19 +64,20 @@ Generates:
 - `pages/demos/{slug}/{model}/results.json` - Comprehensive metrics
 - `pages/demos/{slug}/{model}/RESPONSE.md` - Raw AI response
 
-### Generate Viewer
+### Generate Viewer Data
 ```bash
 npm run generate-viewer
 
-# Custom output path
-npm run generate-viewer -- -o custom/path/viewer.html
+# Custom output directory
+npm run generate-viewer -- -o custom/path/
 ```
 
-Creates an interactive viewer at `pages/index.html` with:
+Updates the `pages/demos.json` file that the static viewer loads from. The viewer at `pages/index.html` features:
 - Demo selector dropdown
 - Model selector for each demo
 - Metrics drawer with detailed information
 - Responsive design
+- Automatic refresh from JSON data
 
 ### List Demos
 ```bash
@@ -89,7 +90,8 @@ Shows all available demos and their generation status.
 
 ```
 pages/
-├── index.html                    # Generated viewer
+├── index.html                    # Static viewer (loads from demos.json)
+├── demos.json                   # Generated demo metadata
 └── demos/
     └── demo-name/
         ├── PROMPT.md             # Original prompt
@@ -108,12 +110,13 @@ pages/
 
 ## 🎨 Viewer Features
 
-The generated viewer (`pages/index.html`) provides:
+The static viewer (`pages/index.html`) provides:
 
 ### Demo Navigation
-- **Demo Selector**: Choose from all available demos
+- **Demo Selector**: Choose from all available demos (loaded from `demos.json`)
 - **Model Selector**: Switch between different AI model results
 - **Live Preview**: View demos in an embedded iframe
+- **Refresh Button**: Reload demo data from JSON file
 
 ### Information Drawer
 - **Performance Metrics**: Tokens, duration, cost breakdown
@@ -121,10 +124,11 @@ The generated viewer (`pages/index.html`) provides:
 - **Generation Details**: Timestamp, parameters, raw prompt
 - **Visual Cards**: Colorful metric displays
 
-### Responsive Design
-- **Clean Interface**: Modern, professional styling
-- **Sliding Drawer**: Smooth animations for detailed information
-- **Mobile Friendly**: Works on desktop and mobile devices
+### Static Architecture
+- **No Server Required**: Pure client-side HTML/CSS/JavaScript
+- **JSON Data Loading**: Fetches demo metadata from `demos.json`
+- **Error Handling**: Graceful fallback when JSON file is missing
+- **Mobile Friendly**: Responsive design for all devices
 
 ## 💰 Cost Tracking
 
