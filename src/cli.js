@@ -149,7 +149,7 @@ async function saveCachedModels(models) {
   }
 }
 
-async function fetchAvailableModels(apiKey, useCache = true) {
+async function fetchAvailableModels(useCache = true) {
   // Try to load from cache first
   if (useCache) {
     const cachedModels = await loadCachedModels();
@@ -163,7 +163,7 @@ async function fetchAvailableModels(apiKey, useCache = true) {
     
     const url = `${OPENROUTER_API_URL}/models`;
     const response = await makeOpenRouterRequest(url, {
-      apiKey,
+      // apiKey,
       description: 'Fetch Available Models'
     });
 
@@ -233,7 +233,7 @@ function displayModels(models) {
   console.log('\nFor more details, visit: https://openrouter.ai/models');
 }
 
-async function getModelInfo(apiKey, modelId) {
+async function getModelInfo(modelId) {
   try {
     // Try to get from cache first
     const cachedModels = await loadCachedModels();
@@ -247,7 +247,7 @@ async function getModelInfo(apiKey, modelId) {
     // Fall back to API call
     const url = `${OPENROUTER_API_URL}/models`;
     const response = await makeOpenRouterRequest(url, {
-      apiKey,
+      // apiKey,
       description: 'Model Lookup'
     });
 
@@ -263,7 +263,7 @@ async function getModelInfo(apiKey, modelId) {
   }
 }
 
-async function callOpenRouter(apiKey, apiUrl, model, prompt, systemPrompt) {
+async function callOpenRouter(apiUrl, model, prompt, systemPrompt) {
   const messages = [];
   
   if (systemPrompt) {
@@ -283,7 +283,6 @@ async function callOpenRouter(apiKey, apiUrl, model, prompt, systemPrompt) {
     const response = await makeOpenRouterRequest(apiUrl, {
       method: 'POST',
       body: requestBody,
-      apiKey,
       description: 'Chat Completion'
     });
 
@@ -592,10 +591,10 @@ async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = n
   validateConfig(apiKey, apiUrl);
   
   // Get model information
-  const modelInfo = await getModelInfo(apiKey, model);
+  const modelInfo = await getModelInfo(model);
   
   // Call OpenRouter API
-  const response = await callOpenRouter(apiKey, apiUrl, model, prompt, systemPrompt);
+  const response = await callOpenRouter(apiUrl, model, prompt, systemPrompt);
   
   // Generate report
   const report = await generateReport(response, modelInfo, prompt, systemPrompt, { model });
@@ -782,7 +781,7 @@ program
         const spinner = ora('Loading available models...').start();
         
         try {
-          const models = await fetchAvailableModels(apiKey, true);
+          const models = await fetchAvailableModels(true);
           spinner.succeed('Models loaded!');
           
           // Group models by provider for better organization
@@ -1115,7 +1114,7 @@ program
       }
       
       // Fetch models
-      const models = await fetchAvailableModels(apiKey, options.cache);
+      const models = await fetchAvailableModels(options.cache);
       
       // Display models
       displayModels(models);
