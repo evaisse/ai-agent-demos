@@ -9,4 +9,8 @@ var/
 .crush
 .claude
 .gemini
-node_modules
+node_modules/
+.env
+*.html
+report.json
+RESPONSE.md

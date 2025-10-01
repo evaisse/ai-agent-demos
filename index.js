@@ -271,7 +271,8 @@ async function generateReport(response, modelInfo, prompt, systemPrompt, options
       id: response.id,
       created: response.created,
       object: response.rawResponse.object || 'chat.completion'
-    }
+    },
+    raw_response: response.content
   };
 
   if (modelInfo?.pricing) {
@@ -566,6 +567,10 @@ const report = await generateReport(
 const reportPath = path.join(outputDir, 'report.json');
 await fs.writeFile(reportPath, JSON.stringify(report, null, 2), 'utf-8');
 console.log(`📊 Report saved to: ${reportPath}`);
+
+// Also save as results.json for consistency
+const resultsPath = path.join(outputDir, 'results.json');
+await fs.writeFile(resultsPath, JSON.stringify(report, null, 2), 'utf-8');
 
 await saveResponseMarkdown(
   response.content,

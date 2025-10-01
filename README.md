@@ -1,58 +1,95 @@
-# AI Agent Demos
+# OpenRouter CLI
 
-Compare usage of AI LLMs - Interactive demo viewer for comparing outputs from different language models.
+A command-line tool to interact with OpenRouter API and generate HTML output.
+
+## Installation
+
+```bash
+npm install
+```
+
+## Configuration
+
+Copy `.env.example` to `.env` and add your OpenRouter API key:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your API key:
+```
+OPENROUTER_API_KEY=your-api-key-here
+```
+
+## Usage
+
+### Basic usage:
+```bash
+node index.js --prompt "Write a hello world in Python" --output output.html
+```
+
+### With specific model:
+```bash
+node index.js --prompt "Explain quantum computing" --model openai/gpt-4 --output quantum.html
+```
+
+### With system prompt:
+```bash
+node index.js --prompt "Write a function to sort an array" --system "You are an expert programmer" --output code.html
+```
+
+### Override API settings via CLI:
+```bash
+node index.js --prompt "Test prompt" --output test.html --api-key YOUR_KEY --api-url https://custom.endpoint.com
+```
+
+### List available models (with live API data):
+```bash
+node index.js --list-models
+# or
+node index.js --fetch-models
+```
+
+## Command Options
+
+- `-p, --prompt <prompt>` (required): The prompt to send to the model
+- `-o, --output <path>` (required): Output path for the HTML file
+- `-m, --model <model>`: Model to use (default: openai/gpt-3.5-turbo)
+- `-s, --system <prompt>`: System prompt for the model
+- `--api-key <key>`: Override API key from environment
+- `--api-url <url>`: Override API URL from environment
+- `--list-models`: Fetch and display all available models from OpenRouter API
+- `--fetch-models`: Same as --list-models
+- `--refresh-cache`: Force refresh of model cache (bypass 24-hour cache)
+
+## Output Files
+
+When you run a prompt, the CLI generates multiple output files in the same directory as the HTML output:
+
+1. **HTML file** (specified with `-o`): Styled response with metrics
+2. **report.json**: Comprehensive metrics and model information
+3. **RESPONSE.md**: Raw response in markdown format
+4. **openrouter-models.json**: Cached model data (auto-generated when fetching models)
+
+### report.json contains:
+- Execution metrics (duration, tokens, cost)
+- Model card information (name, description, pricing)
+- Request details (prompt, system prompt, temperature)
+- Response metadata (API response ID, timestamp)
+
+## Environment Variables
+
+- `OPENROUTER_API_KEY`: Your OpenRouter API key
+- `OPENROUTER_API_URL`: API endpoint (default: https://openrouter.ai/api/v1/chat/completions)
+- `OPENROUTER_DEFAULT_MODEL`: Default model to use (default: openai/gpt-3.5-turbo)
 
 ## Features
 
-- 🎯 Side-by-side comparison of AI model outputs
-- 📝 View prompts used for each demo
-- 🚀 Easy navigation between demos and models
-- 📱 Responsive design for all devices
-
-## Live Demo
-
-Visit the live demo at: `https://[your-github-username].github.io/ai-agent-demos/`
-
-## Local Development
-
-1. Clone the repository
-2. Navigate to the pages directory and serve with a local server:
-   ```bash
-   cd pages
-   python3 -m http.server 8080
-   ```
-3. Open `http://localhost:8080/` in your browser
-
-## GitHub Pages Deployment
-
-The project is automatically deployed to GitHub Pages when pushing to the main/master branch.
-
-To enable GitHub Pages for your fork:
-1. Go to Settings > Pages in your GitHub repository
-2. Select "GitHub Actions" as the source
-3. Push to main/master branch to trigger deployment
-
-## Project Structure
-
-```
-ai-agent-demos/
-├── pages/                    # Deployed to GitHub Pages
-│   ├── index.html           # Landing page
-│   ├── demo-preview.html    # Demo viewer application
-│   └── demos/               # Demo content
-│       └── [demo-name]/
-│           ├── PROMPT.md    # Prompt used for the demo
-│           └── results/     # Model outputs
-│               └── [model].html
-└── .github/
-    └── workflows/           # GitHub Actions
-        └── deploy-pages.yml
-
-```
-
-## Adding New Demos
-
-1. Create a new folder in `pages/demos/your-demo-name/`
-2. Add a `PROMPT.md` file with the prompt used
-3. Add result HTML files in `pages/demos/your-demo-name/results/`
-4. Update the `demoData` object in `pages/demo-preview.html`
+- 🔍 **Live Model Listing**: Fetch real-time model data from OpenRouter API
+- 📦 **Smart Caching**: Auto-cache model data for 24 hours to improve performance
+- 📊 **Comprehensive Reporting**: Get detailed metrics about tokens, cost, and performance
+- 📝 **Multiple Output Formats**: HTML, JSON report, and Markdown response
+- 💰 **Cost Tracking**: Automatic calculation of prompt and completion costs
+- ⏱️ **Performance Monitoring**: Track API response times
+- 🎨 **Beautiful HTML Output**: Styled response viewer with embedded metrics
+- 🚀 **Optimized Performance**: Uses cached model data when available to speed up requests

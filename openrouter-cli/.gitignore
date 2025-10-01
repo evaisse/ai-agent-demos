@@ -1,6 +1,0 @@
-node_modules/
-.env
-openrouter-models.json
-*.html
-report.json
-RESPONSE.md
