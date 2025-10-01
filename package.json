@@ -2,10 +2,10 @@
   "name": "ai-demo-generator",
   "version": "1.0.0",
   "description": "AI Demo Generator - Create and manage AI-powered HTML demos using OpenRouter API",
-  "main": "src/index.js",
+  "main": "src/cli.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node src/cli.js",
     "demo": "node src/cli.js",
     "create-demo": "node src/cli.js create-demo",
     "generate-demo": "node src/cli.js generate-demo", 
