@@ -1,13 +1,18 @@
 {
-  "name": "openrouter-cli",
+  "name": "ai-demo-generator",
   "version": "1.0.0",
-  "description": "CLI tool to call OpenRouter API and generate HTML output",
-  "main": "index.js",
+  "description": "AI Demo Generator - Create and manage AI-powered HTML demos using OpenRouter API",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node src/index.js",
+    "demo": "node src/cli.js",
+    "create-demo": "node src/cli.js create-demo",
+    "generate-demo": "node src/cli.js generate-demo", 
+    "generate-viewer": "node src/cli.js generate-viewer",
+    "list-demos": "node src/cli.js list-demos"
   },
-  "keywords": ["openrouter", "api", "cli", "html", "generator"],
+  "keywords": ["ai", "demo", "generator", "openrouter", "cli", "html", "viewer"],
   "author": "",
   "license": "MIT",
   "dependencies": {
