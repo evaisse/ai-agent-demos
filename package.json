@@ -8,17 +8,28 @@
     "start": "node src/cli.js",
     "demo": "node src/cli.js",
     "create-demo": "node src/cli.js create-demo",
-    "generate-demo": "node src/cli.js generate-demo", 
+    "generate-demo": "node src/cli.js generate-demo",
     "generate-viewer": "node src/cli.js generate-viewer",
     "list-demos": "node src/cli.js list-demos",
     "list-models": "node src/cli.js list-models"
   },
-  "keywords": ["ai", "demo", "generator", "openrouter", "cli", "html", "viewer"],
+  "keywords": [
+    "ai",
+    "demo",
+    "generator",
+    "openrouter",
+    "cli",
+    "html",
+    "viewer"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^5.6.2",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
-    "node-fetch": "^3.3.2"
+    "inquirer": "^12.9.6",
+    "node-fetch": "^3.3.2",
+    "ora": "^9.0.0"
   }
 }

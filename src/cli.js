@@ -7,6 +7,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import { performance } from 'perf_hooks';
 import { fileURLToPath } from 'url';
+import inquirer from 'inquirer';
+import chalk from 'chalk';
+import ora from 'ora';
 
 dotenv.config();
 
@@ -637,11 +640,52 @@ async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = n
 program
   .command('create-demo')
   .description('Create a new demo with title and prompt')
-  .requiredOption('-t, --title <title>', 'Demo title')
-  .requiredOption('-p, --prompt <prompt>', 'Demo prompt text')
+  .option('-t, --title <title>', 'Demo title')
+  .option('-p, --prompt <prompt>', 'Demo prompt text')
   .action(async (options) => {
     try {
-      const { title, prompt } = options;
+      let { title, prompt } = options;
+      
+      // Interactive prompts if not provided
+      if (!title || !prompt) {
+        const answers = await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'title',
+            message: '📝 Enter the demo title:',
+            validate: (input) => input.trim() !== '' || 'Title is required',
+            when: () => !title
+          },
+          {
+            type: 'editor',
+            name: 'prompt',
+            message: '✏️  Enter the demo prompt (opens in editor):',
+            default: 'In a single HTML file named index.html, create ',
+            validate: (input) => input.trim() !== '' || 'Prompt is required',
+            when: () => !prompt
+          }
+        ]);
+        
+        title = title || answers.title;
+        prompt = prompt || answers.prompt;
+      }
+      
+      // Ensure prompt has the correct prefix
+      if (!prompt.startsWith('In a single HTML file named index.html, create')) {
+        const confirmAnswer = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'addPrefix',
+            message: chalk.yellow('⚠️  Your prompt doesn\'t start with the standard prefix. Add it?'),
+            default: true
+          }
+        ]);
+        
+        if (confirmAnswer.addPrefix) {
+          prompt = 'In a single HTML file named index.html, create ' + prompt;
+        }
+      }
+      
       const slug = createSlug(title);
       const demoDir = path.join(path.dirname(__dirname), 'pages', 'demos', slug);
       
@@ -675,13 +719,14 @@ Results will appear in model-specific subdirectories when generated.
 `;
       await fs.writeFile(readmePath, readmeContent, 'utf-8');
       
-      console.log(`✅ Demo created successfully!`);
-      console.log(`📂 Location: ${demoDir}`);
-      console.log(`📝 Prompt saved to: ${promptPath}`);
-      console.log(`📖 README created: ${readmePath}`);
+      console.log(chalk.green(`\n✅ Demo created successfully!`));
+      console.log(chalk.gray(`📂 Location: ${demoDir}`));
+      console.log(chalk.gray(`📝 Prompt saved to: ${promptPath}`));
+      console.log(chalk.gray(`📖 README created: ${readmePath}`));
       console.log('');
-      console.log(`Next step: Generate the demo with a model:`);
-      console.log(`  npm run generate-demo -- -d ${slug} -m openai/gpt-3.5-turbo`);
+      console.log(chalk.cyan(`Next step: Generate the demo with a model:`));
+      console.log(chalk.white(`  npm run generate-demo -- -d ${slug}`));
+      console.log(chalk.gray(`  (You'll be prompted to select a model interactively)`));
       
     } catch (error) {
       console.error('❌ Failed to create demo:', error.message);
@@ -693,16 +738,129 @@ Results will appear in model-specific subdirectories when generated.
 program
   .command('generate-demo')
   .description('Generate HTML demo using OpenRouter API')
-  .requiredOption('-d, --demo <demo>', 'Demo slug (directory name)')
-  .requiredOption('-m, --model <model>', 'OpenRouter model to use (e.g., openai/gpt-3.5-turbo)')
+  .option('-d, --demo <demo>', 'Demo slug (directory name)')
+  .option('-m, --model <model>', 'OpenRouter model to use (e.g., openai/gpt-3.5-turbo)')
   .option('-f, --force', 'Force regeneration if demo already exists')
   .action(async (options) => {
     try {
-      const { demo, model, force } = options;
+      let { demo, model, force } = options;
+      
+      // Interactive demo selection if not provided
+      if (!demo) {
+        const demosDir = path.join(path.dirname(__dirname), 'pages', 'demos');
+        const demos = await fs.readdir(demosDir, { withFileTypes: true });
+        const demoChoices = demos
+          .filter(entry => entry.isDirectory())
+          .map(entry => entry.name);
+        
+        if (demoChoices.length === 0) {
+          console.log(chalk.yellow('⚠️  No demos found. Please create a demo first.'));
+          console.log(chalk.gray('  Run: npm run create-demo'));
+          process.exit(1);
+        }
+        
+        const demoAnswer = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'demo',
+            message: '📁 Select a demo to generate:',
+            choices: demoChoices,
+            pageSize: 10
+          }
+        ]);
+        demo = demoAnswer.demo;
+      }
+      
+      // Interactive model selection if not provided
+      if (!model) {
+        const apiKey = process.env.OPENROUTER_API_KEY;
+        if (!apiKey) {
+          console.error(chalk.red('❌ Error: OpenRouter API key is required.'));
+          console.error(chalk.yellow('   Set it via OPENROUTER_API_KEY env variable or .env file'));
+          process.exit(1);
+        }
+        
+        const spinner = ora('Loading available models...').start();
+        
+        try {
+          const models = await fetchAvailableModels(apiKey, true);
+          spinner.succeed('Models loaded!');
+          
+          // Group models by provider for better organization
+          const modelsByProvider = {};
+          models.forEach(m => {
+            const provider = m.id.split('/')[0];
+            if (!modelsByProvider[provider]) {
+              modelsByProvider[provider] = [];
+            }
+            modelsByProvider[provider].push(m);
+          });
+          
+          // Create choices with separators
+          const modelChoices = [];
+          const popularModels = [
+            'openai/gpt-4o',
+            'openai/gpt-4o-mini',
+            'anthropic/claude-3.5-sonnet',
+            'anthropic/claude-3-haiku',
+            'google/gemini-pro-1.5',
+            'meta-llama/llama-3.1-70b-instruct'
+          ];
+          
+          // Add popular models first
+          modelChoices.push(new inquirer.Separator(chalk.cyan('═══ Popular Models ═══')));
+          popularModels.forEach(modelId => {
+            const model = models.find(m => m.id === modelId);
+            if (model) {
+              const price = model.pricing?.prompt ? 
+                `$${(parseFloat(model.pricing.prompt) * 1000000).toFixed(2)}/M` : 
+                'N/A';
+              modelChoices.push({
+                name: `${model.id} ${chalk.gray(`(${price} tokens)`)}`,
+                value: model.id,
+                short: model.id
+              });
+            }
+          });
+          
+          // Add all models grouped by provider
+          modelChoices.push(new inquirer.Separator(chalk.cyan('═══ All Models by Provider ═══')));
+          Object.keys(modelsByProvider).sort().forEach(provider => {
+            modelChoices.push(new inquirer.Separator(chalk.yellow(`── ${provider.toUpperCase()} ──`)));
+            modelsByProvider[provider].forEach(model => {
+              const price = model.pricing?.prompt ? 
+                `$${(parseFloat(model.pricing.prompt) * 1000000).toFixed(2)}/M` : 
+                'N/A';
+              modelChoices.push({
+                name: `${model.id} ${chalk.gray(`(${price} tokens)`)}`,
+                value: model.id,
+                short: model.id
+              });
+            });
+          });
+          
+          const modelAnswer = await inquirer.prompt([
+            {
+              type: 'list',
+              name: 'model',
+              message: '🤖 Select a model to use:',
+              choices: modelChoices,
+              pageSize: 15,
+              loop: false
+            }
+          ]);
+          model = modelAnswer.model;
+        } catch (error) {
+          spinner.fail('Failed to load models');
+          console.error(chalk.red(error.message));
+          process.exit(1);
+        }
+      }
+      
       const demoDir = path.join(path.dirname(__dirname), 'pages', 'demos', demo);
       const promptPath = path.join(demoDir, 'PROMPT.md');
       
-      console.log(`🚀 Generating demo: ${demo} with model: ${model}`);
+      console.log(chalk.blue(`\n🚀 Generating demo: ${chalk.bold(demo)} with model: ${chalk.bold(model)}`))
       
       // Check if demo directory exists
       if (!await directoryExists(demoDir)) {
@@ -754,10 +912,15 @@ program
       // Generate demo using direct function call
       await generateDemoWithModel(prompt, model, outputPath);
       
-      console.log(`✅ Demo generated successfully!`);
-      console.log(`📂 Location: ${outputPath}`);
-      console.log(`📊 Metrics: ${path.join(modelDir, 'results.json')}`);
-      console.log(`📝 Response: ${path.join(modelDir, 'RESPONSE.md')}`);
+      console.log(chalk.green(`\n✅ Demo generated successfully!`));
+      console.log(chalk.gray(`📂 Location: ${outputPath}`));
+      console.log(chalk.gray(`📊 Metrics: ${path.join(modelDir, 'results.json')}`));
+      console.log(chalk.gray(`📝 Response: ${path.join(modelDir, 'RESPONSE.md')}`));
+      console.log('');
+      console.log(chalk.cyan(`Next steps:`));
+      console.log(chalk.white(`  1. Open the generated HTML: open "${outputPath}"`));
+      console.log(chalk.white(`  2. Generate viewer: npm run generate-viewer`));
+      console.log(chalk.white(`  3. Try another model: npm run generate-demo -- -d ${demo}`));
       
     } catch (error) {
       console.error('❌ Failed to generate demo:', error.message);
