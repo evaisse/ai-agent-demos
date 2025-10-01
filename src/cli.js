@@ -13,7 +13,14 @@ import ora from 'ora';
 
 dotenv.config();
 
+
+const OPENROUTER_API_URL = process.env.OPENROUTER_API_URL || 'https://openrouter.ai/api/v1';
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || 'xxxx';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+
+
 
 // Utility function to create slug from title
 function createSlug(title) {
@@ -46,6 +53,73 @@ function validateConfig(apiKey, apiUrl) {
     console.error('Error: OpenRouter API URL is required.');
     console.error('Provide it via --api-url, OPENROUTER_API_URL env variable, or .env file');
     process.exit(1);
+  }
+}
+
+// Centralized HTTP request function for all OpenRouter API calls
+async function makeOpenRouterRequest(url, options = {}) {
+  const {
+    method = 'GET',
+    body = null,
+    apiKey = OPENROUTER_API_KEY,
+    description = 'API Request'
+  } = options;
+
+  const requestBody = body ? JSON.stringify(body) : null;
+  const requestSize = requestBody ? new Blob([requestBody]).size : 0;
+  
+  console.log(`\n🔍 ${description} Debug Info:`);
+  console.log(`   Method: ${method}`);
+  console.log(`   URL: ${url}`);
+  console.log(`   Payload Size: ${requestSize} bytes${method === 'GET' ? ' (GET request)' : ''}`);
+  
+  const headers = {
+    'Authorization': `Bearer ${apiKey}`,
+    'HTTP-Referer': 'https://github.com/openrouter-cli',
+    'X-Title': 'OpenRouter CLI'
+  };
+  
+  if (requestBody) {
+    headers['Content-Type'] = 'application/json';
+  }
+  
+  if (method === 'POST') {
+    console.log(headers);
+  }
+
+  const startTime = performance.now();
+
+  try {
+    const response = await fetch(url, {
+      method,
+      headers,
+      body: requestBody
+    });
+
+    const endTime = performance.now();
+    const duration = (endTime - startTime) / 1000;
+    
+    const responseText = await response.text();
+    const responseSize = new Blob([responseText]).size;
+    
+    if (method === 'GET') {
+      console.log(`   Response Code: ${response.status} ${response.statusText}`);
+      console.log(`   Response Size: ${responseSize} bytes`);
+      console.log(`   Duration: ${duration.toFixed(3)}s\n`);
+    } else {
+      console.log(`${response.status} ${response.statusText} (${responseSize} bytes in ${duration.toFixed(3)}s)\n`);
+    }
+
+    return {
+      ok: response.ok,
+      status: response.status,
+      statusText: response.statusText,
+      data: responseText,
+      duration
+    };
+  } catch (error) {
+    console.error(`Failed to make ${method} request to ${url}:`, error.message);
+    throw error;
   }
 }
 
@@ -98,37 +172,17 @@ async function fetchAvailableModels(apiKey, useCache = true) {
   try {
     console.log('🔍 Fetching available models from OpenRouter...');
     
-    const url = 'https://openrouter.ai/api/v1/models';
-    console.log(`\n🔍 API Request Debug Info:`);
-    console.log(`   Method: GET`);
-    console.log(`   URL: ${url}`);
-    console.log(`   Payload Size: 0 bytes (GET request)\n`);
-    
-    const startTime = performance.now();
-    
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'https://github.com/openrouter-cli',
-        'X-Title': 'OpenRouter CLI'
-      }
+    const url = `${OPENROUTER_API_URL}/models`;
+    const response = await makeOpenRouterRequest(url, {
+      apiKey,
+      description: 'Fetch Available Models'
     });
 
-    const endTime = performance.now();
-    const duration = (endTime - startTime) / 1000;
-    
-    const responseText = await response.text();
-    const responseSize = new Blob([responseText]).size;
-    
-    console.log(`   Response Code: ${response.status} ${response.statusText}`);
-    console.log(`   Response Size: ${responseSize} bytes`);
-    console.log(`   Duration: ${duration.toFixed(3)}s\n`);
-
     if (!response.ok) {
-      throw new Error(`API Error (${response.status}): ${responseText}`);
+      throw new Error(`API Error (${response.status}): ${response.data}`);
     }
 
-    const data = JSON.parse(responseText);
+    const data = JSON.parse(response.data);
     
     // Cache the models for future use
     await saveCachedModels(data.data);
@@ -202,37 +256,17 @@ async function getModelInfo(apiKey, modelId) {
     }
     
     // Fall back to API call
-    const url = 'https://openrouter.ai/api/v1/models';
-    console.log(`\n🔍 API Request Debug Info (Model Lookup):`);
-    console.log(`   Method: GET`);
-    console.log(`   URL: ${url}`);
-    console.log(`   Payload Size: 0 bytes (GET request)`);
-    
-    const startTime = performance.now();
-    
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'https://github.com/openrouter-cli',
-        'X-Title': 'OpenRouter CLI'
-      }
+    const url = `${OPENROUTER_API_URL}/models`;
+    const response = await makeOpenRouterRequest(url, {
+      apiKey,
+      description: 'Model Lookup'
     });
-    
-    const endTime = performance.now();
-    const duration = (endTime - startTime) / 1000;
-    
-    const responseText = await response.text();
-    const responseSize = new Blob([responseText]).size;
-    
-    console.log(`   Response Code: ${response.status} ${response.statusText}`);
-    console.log(`   Response Size: ${responseSize} bytes`);
-    console.log(`   Duration: ${duration.toFixed(3)}s\n`);
 
     if (!response.ok) {
       return null;
     }
 
-    const data = JSON.parse(responseText);
+    const data = JSON.parse(response.data);
     const model = data.data.find(m => m.id === modelId);
     return model || null;
   } catch (error) {
@@ -256,43 +290,19 @@ async function callOpenRouter(apiKey, apiUrl, model, prompt, systemPrompt) {
     max_tokens: 2000
   };
 
-  const requestBodyStr = JSON.stringify(requestBody);
-  const requestSize = new Blob([requestBodyStr]).size;
-  
-  console.log(`\n🔍 API Request Debug Info:`);
-  console.log(`   Method: POST`);
-  console.log(`   URL: ${apiUrl}`);
-  console.log(`   Payload Size: ${requestSize} bytes`);
-
-  const startTime = performance.now();
-
   try {
-    const response = await fetch(apiUrl, {
+    const response = await makeOpenRouterRequest(apiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'https://github.com/openrouter-cli',
-        'X-Title': 'OpenRouter CLI'
-      },
-      body: requestBodyStr
+      body: requestBody,
+      apiKey,
+      description: 'Chat Completion'
     });
 
-    const endTime = performance.now();
-    const duration = (endTime - startTime) / 1000;
-    
-    const responseText = await response.text();
-    const responseSize = new Blob([responseText]).size;
-    
-    console.log(`   Response Code: ${response.status} ${response.statusText}`);
-    console.log(`   Response Size: ${responseSize} bytes`);
-    console.log(`   Duration: ${duration.toFixed(3)}s\n`);
-
     if (!response.ok) {
-      throw new Error(`API Error (${response.status}): ${responseText}`);
+      throw new Error(`API Error (${response.status}): ${response.data}`);
     }
 
-    const data = JSON.parse(responseText);
+    const data = JSON.parse(response.data);
     
     return {
       content: data.choices[0].message.content,
@@ -300,7 +310,7 @@ async function callOpenRouter(apiKey, apiUrl, model, prompt, systemPrompt) {
       model: data.model,
       id: data.id,
       created: data.created,
-      duration: duration,
+      duration: response.duration,
       rawResponse: data
     };
   } catch (error) {
@@ -587,7 +597,7 @@ async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = n
   
   // Get API configuration
   const apiKey = process.env.OPENROUTER_API_KEY;
-  const apiUrl = process.env.OPENROUTER_API_URL || 'https://openrouter.ai/api/v1/chat/completions';
+  const apiUrl = process.env.OPENROUTER_API_URL || 'https://openrouter-proxy-h2dj.onrender.com/api/v1/chat/completions';
   
   // Validate configuration
   validateConfig(apiKey, apiUrl);
