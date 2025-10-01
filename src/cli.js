@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import ora from 'ora';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 dotenv.config();
 
@@ -56,6 +57,19 @@ function validateConfig(apiKey, apiUrl) {
   }
 }
 
+// Get proxy configuration from environment variables
+function getProxyAgent(url) {
+  const isHttps = url.startsWith('https://');
+  const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy || 
+                   process.env.HTTP_PROXY || process.env.http_proxy;
+  
+  if (proxyUrl && isHttps) {
+    return new HttpsProxyAgent(proxyUrl);
+  }
+  
+  return undefined;
+}
+
 // Centralized HTTP request function for all OpenRouter API calls
 async function makeOpenRouterRequest(url, options = {}) {
   const {
@@ -68,8 +82,12 @@ async function makeOpenRouterRequest(url, options = {}) {
   const requestBody = body ? JSON.stringify(body) : null;
   const requestSize = requestBody ? new Blob([requestBody]).size : 0;
   
-  // One-line debug log
-  console.log(`🔍 ${method} ${url} (${requestSize}b out) - ${description}`);
+  // Get proxy agent if proxy is configured
+  const agent = getProxyAgent(url);
+  
+  // One-line debug log with proxy info
+  const proxyInfo = agent ? ` via proxy` : '';
+  console.log(`🔍 ${method} ${url} (${requestSize}b out)${proxyInfo} - ${description}`);
   
   const headers = {
     'Authorization': `Bearer ${apiKey}`,
@@ -80,15 +98,22 @@ async function makeOpenRouterRequest(url, options = {}) {
   if (requestBody) {
     headers['Content-Type'] = 'application/json';
   }
-
+  
   const startTime = performance.now();
 
   try {
-    const response = await fetch(url, {
+    const fetchOptions = {
       method,
       headers,
       body: requestBody
-    });
+    };
+    
+    // Add agent if proxy is configured
+    if (agent) {
+      fetchOptions.agent = agent;
+    }
+    
+    const response = await fetch(url, fetchOptions);
 
     const endTime = performance.now();
     const duration = (endTime - startTime) / 1000;

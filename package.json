@@ -28,6 +28,7 @@
     "chalk": "^5.6.2",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
+    "https-proxy-agent": "^7.0.6",
     "inquirer": "^12.9.6",
     "node-fetch": "^3.3.2",
     "ora": "^9.0.0"
