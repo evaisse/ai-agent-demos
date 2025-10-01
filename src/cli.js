@@ -128,6 +128,48 @@ async function fetchAvailableModels(apiKey, useCache = true) {
   }
 }
 
+function displayModels(models) {
+  console.log('📋 Available Models on OpenRouter\n');
+  console.log('=' .repeat(100));
+  
+  const sortedModels = models.sort((a, b) => {
+    const providerA = a.id.split('/')[0];
+    const providerB = b.id.split('/')[0];
+    if (providerA !== providerB) return providerA.localeCompare(providerB);
+    return a.id.localeCompare(b.id);
+  });
+
+  let currentProvider = '';
+  
+  sortedModels.forEach(model => {
+    const provider = model.id.split('/')[0];
+    
+    if (provider !== currentProvider) {
+      currentProvider = provider;
+      console.log(`\n🏢 ${provider.toUpperCase()}`);
+      console.log('-'.repeat(100));
+    }
+    
+    const pricing = model.pricing;
+    const promptPrice = pricing?.prompt ? `$${(parseFloat(pricing.prompt) * 1000000).toFixed(2)}` : 'N/A';
+    const completionPrice = pricing?.completion ? `$${(parseFloat(pricing.completion) * 1000000).toFixed(2)}` : 'N/A';
+    const contextLength = model.context_length || 'N/A';
+    
+    console.log(`  📌 ${model.id}`);
+    console.log(`     Name: ${model.name}`);
+    console.log(`     Context: ${contextLength.toLocaleString()} tokens`);
+    console.log(`     Pricing: Input: ${promptPrice} | Output: ${completionPrice} (per 1M tokens)`);
+    
+    if (model.description) {
+      console.log(`     Description: ${model.description.substring(0, 100)}...`);
+    }
+  });
+  
+  console.log('\n' + '='.repeat(100));
+  console.log(`\nTotal models available: ${models.length}`);
+  console.log('\nFor more details, visit: https://openrouter.ai/models');
+}
+
 async function getModelInfo(apiKey, modelId) {
   try {
     // Try to get from cache first
@@ -841,6 +883,34 @@ program
       
     } catch (error) {
       console.error('❌ Failed to list demos:', error.message);
+      process.exit(1);
+    }
+  });
+
+// Command: list-models
+program
+  .command('list-models')
+  .description('List all available models on OpenRouter')
+  .option('--no-cache', 'Force refresh from API (bypass cache)')
+  .action(async (options) => {
+    try {
+      // Get API configuration
+      const apiKey = process.env.OPENROUTER_API_KEY;
+      
+      if (!apiKey) {
+        console.error('❌ Error: OpenRouter API key is required.');
+        console.error('   Set it via OPENROUTER_API_KEY env variable or .env file');
+        process.exit(1);
+      }
+      
+      // Fetch models
+      const models = await fetchAvailableModels(apiKey, options.cache);
+      
+      // Display models
+      displayModels(models);
+      
+    } catch (error) {
+      console.error('❌ Failed to list models:', error.message);
       process.exit(1);
     }
   });

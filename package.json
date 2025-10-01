@@ -10,7 +10,8 @@
     "create-demo": "node src/cli.js create-demo",
     "generate-demo": "node src/cli.js generate-demo", 
     "generate-viewer": "node src/cli.js generate-viewer",
-    "list-demos": "node src/cli.js list-demos"
+    "list-demos": "node src/cli.js list-demos",
+    "list-models": "node src/cli.js list-models"
   },
   "keywords": ["ai", "demo", "generator", "openrouter", "cli", "html", "viewer"],
   "author": "",
