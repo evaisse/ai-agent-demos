@@ -11,6 +11,10 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import ora from 'ora';
 import { HttpsProxyAgent } from 'https-proxy-agent';
+import http from 'http';
+import { createReadStream } from 'fs';
+import { stat } from 'fs/promises';
+import { spawn } from 'child_process';
 
 dotenv.config();
 
@@ -305,7 +309,7 @@ async function callOpenRouter(apiUrl, model, prompt, systemPrompt) {
   };
 
   try {
-    const response = await makeOpenRouterRequest(apiUrl, {
+    const response = await makeOpenRouterRequest(`${apiUrl}/chat/completions`, {
       method: 'POST',
       body: requestBody,
       description: 'Chat Completion'
@@ -657,6 +661,119 @@ async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = n
   if (report.cost.total_cost > 0) {
     console.log(`   💰 Total Cost: $${report.cost.total_cost.toFixed(6)}`);
   }
+}
+
+// Open URL in browser
+function openBrowser(url) {
+  const platform = process.platform;
+  let command;
+  
+  if (platform === 'darwin') {
+    command = 'open';
+  } else if (platform === 'win32') {
+    command = 'start';
+  } else {
+    command = 'xdg-open';
+  }
+  
+  try {
+    spawn(command, [url], { detached: true, stdio: 'ignore' });
+  } catch (error) {
+    console.warn(chalk.yellow(`⚠️  Could not open browser automatically: ${error.message}`));
+  }
+}
+
+// Static server utility function
+function startStaticServer(directory, port = 3000) {
+  const server = http.createServer(async (req, res) => {
+    try {
+      // Parse URL and remove query parameters
+      const url = new URL(req.url, `http://localhost:${port}`);
+      let pathname = url.pathname;
+      
+      // Default to index.html for directory requests
+      if (pathname.endsWith('/')) {
+        pathname += 'index.html';
+      }
+      
+      // Security: prevent directory traversal
+      if (pathname.includes('..')) {
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('Bad Request: Invalid path');
+        return;
+      }
+      
+      const filePath = path.join(directory, pathname);
+      
+      try {
+        const stats = await stat(filePath);
+        
+        if (!stats.isFile()) {
+          res.writeHead(404, { 'Content-Type': 'text/plain' });
+          res.end('Not Found');
+          return;
+        }
+        
+        // Set content type based on file extension
+        const ext = path.extname(filePath).toLowerCase();
+        const contentTypes = {
+          '.html': 'text/html',
+          '.js': 'application/javascript',
+          '.css': 'text/css',
+          '.json': 'application/json',
+          '.png': 'image/png',
+          '.jpg': 'image/jpeg',
+          '.jpeg': 'image/jpeg',
+          '.gif': 'image/gif',
+          '.svg': 'image/svg+xml',
+          '.ico': 'image/x-icon'
+        };
+        
+        const contentType = contentTypes[ext] || 'application/octet-stream';
+        
+        res.writeHead(200, { 
+          'Content-Type': contentType,
+          'Cache-Control': 'no-cache'
+        });
+        
+        // Stream the file
+        const readStream = createReadStream(filePath);
+        readStream.pipe(res);
+        
+        readStream.on('error', (err) => {
+          console.error(`Error reading file ${filePath}:`, err.message);
+          if (!res.headersSent) {
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Internal Server Error');
+          }
+        });
+        
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          res.writeHead(404, { 'Content-Type': 'text/plain' });
+          res.end('Not Found');
+        } else {
+          console.error(`Error accessing file ${filePath}:`, err.message);
+          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          res.end('Internal Server Error');
+        }
+      }
+    } catch (err) {
+      console.error('Server error:', err.message);
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Internal Server Error');
+    }
+  });
+  
+  return new Promise((resolve, reject) => {
+    server.listen(port, (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(server);
+      }
+    });
+  });
 }
 
 // Command: create-demo
@@ -1146,6 +1263,77 @@ program
       
     } catch (error) {
       console.error('❌ Failed to list models:', error.message);
+      process.exit(1);
+    }
+  });
+
+// Command: preview-server
+program
+  .command('preview-server')
+  .description('Start a static file server to preview demos')
+  .option('-p, --port <port>', 'Port to serve on', '3000')
+  .option('-d, --directory <path>', 'Directory to serve', 'pages')
+  .option('--no-open', 'Do not open browser automatically')
+  .action(async (options) => {
+    try {
+      const port = parseInt(options.port, 10);
+      const directory = path.resolve(options.directory);
+      
+      // Check if directory exists
+      try {
+        const stats = await stat(directory);
+        if (!stats.isDirectory()) {
+          console.error(chalk.red(`❌ Error: ${directory} is not a directory`));
+          process.exit(1);
+        }
+      } catch (error) {
+        console.error(chalk.red(`❌ Error: Directory ${directory} does not exist`));
+        process.exit(1);
+      }
+      
+      console.log(chalk.cyan(`🚀 Starting static server...`));
+      console.log(chalk.gray(`   Directory: ${directory}`));
+      console.log(chalk.gray(`   Port: ${port}`));
+      
+      const server = await startStaticServer(directory, port);
+      const url = `http://localhost:${port}`;
+      
+      console.log(chalk.green(`\n✅ Server running!`));
+      console.log(chalk.white(`🌐 Open your browser to: ${chalk.bold(url)}`));
+      console.log(chalk.gray(`📁 Serving files from: ${directory}`));
+      
+      // Open browser automatically unless --no-open was specified
+      if (options.open !== false) {
+        console.log(chalk.cyan(`🚀 Opening browser...`));
+        openBrowser(url);
+      }
+      
+      console.log(chalk.yellow(`\n⏹️  Press Ctrl+C to stop the server\n`));
+      
+      // Handle graceful shutdown
+      process.on('SIGINT', () => {
+        console.log(chalk.yellow('\n⏹️  Shutting down server...'));
+        server.close(() => {
+          console.log(chalk.green('✅ Server stopped'));
+          process.exit(0);
+        });
+      });
+      
+      process.on('SIGTERM', () => {
+        console.log(chalk.yellow('\n⏹️  Shutting down server...'));
+        server.close(() => {
+          console.log(chalk.green('✅ Server stopped'));
+          process.exit(0);
+        });
+      });
+      
+    } catch (error) {
+      if (error.code === 'EADDRINUSE') {
+        console.error(chalk.red(`❌ Error: Port ${options.port} is already in use`));
+        console.error(chalk.yellow(`   Try a different port with: --port <number>`));
+      } else {
+        console.error(chalk.red('❌ Failed to start server:'), error.message);
+      }
       process.exit(1);
     }
   });
