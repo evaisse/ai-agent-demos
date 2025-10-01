@@ -1,0 +1,7 @@
+*.log
+.env
+.env.*
+tmp/
+build/
+var/
+.aider*

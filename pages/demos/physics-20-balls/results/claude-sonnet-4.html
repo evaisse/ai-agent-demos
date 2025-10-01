@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexagon Ball Physics Simulation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        
+        #canvas {
+            border: 2px solid #16213e;
+            background: linear-gradient(45deg, #0f3460, #16213e);
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.3);
+        }
+        
+        .info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .gravity-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="info">
+        <div>20 Balls Physics Simulation</div>
+        <div>Spinning Hexagon Container</div>
+    </div>
+    <div class="gravity-indicator" id="gravityIndicator">Gravity: ↓</div>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const gravityIndicator = document.getElementById('gravityIndicator');
+        
+        // Physics constants
+        const GRAVITY = 0.3;
+        const FRICTION = 0.98;
+        const BOUNCE_DAMPING = 0.8;
+        const HEXAGON_RADIUS = 200;
+        const BALL_COUNT = 20;
+        
+        // Center of canvas
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        
+        // Gravity direction (1 = down, -1 = up)
+        let gravityDirection = 1;
+        
+        // Hexagon rotation
+        let hexagonRotation = 0;
+        
+        // Ball class
+        class Ball {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.radius = 8 + Math.random() * 6;
+                this.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                this.mass = this.radius / 10;
+            }
+            
+            update() {
+                // Apply gravity
+                this.vy += GRAVITY * gravityDirection;
+                
+                // Apply velocity
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Apply friction
+                this.vx *= FRICTION;
+                this.vy *= FRICTION;
+                
+                // Check collision with hexagon walls
+                this.checkHexagonCollision();
+            }
+            
+            checkHexagonCollision() {
+                const hexagonPoints = this.getHexagonPoints();
+                
+                // Check collision with each edge of the hexagon
+                for (let i = 0; i < 6; i++) {
+                    const p1 = hexagonPoints[i];
+                    const p2 = hexagonPoints[(i + 1) % 6];
+                    
+                    const collision = this.checkLineCollision(p1, p2);
+                    if (collision) {
+                        // Reflect velocity based on wall normal
+                        const normal = collision.normal;
+                        const dotProduct = this.vx * normal.x + this.vy * normal.y;
+                        
+                        this.vx -= 2 * dotProduct * normal.x;
+                        this.vy -= 2 * dotProduct * normal.y;
+                        
+                        // Apply damping
+                        this.vx *= BOUNCE_DAMPING;
+                        this.vy *= BOUNCE_DAMPING;
+                        
+                        // Move ball outside the wall
+                        this.x = collision.correctedX;
+                        this.y = collision.correctedY;
+                        
+                        break;
+                    }
+                }
+            }
+            
+            getHexagonPoints() {
+                const points = [];
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i * Math.PI / 3) + hexagonRotation;
+                    const x = centerX + Math.cos(angle) * HEXAGON_RADIUS;
+                    const y = centerY + Math.sin(angle) * HEXAGON_RADIUS;
+                    points.push({ x, y });
+                }
+                return points;
+            }
+            
+            checkLineCollision(p1, p2) {
+                // Calculate distance from ball center to line
+                const A = p2.y - p1.y;
+                const B = p1.x - p2.x;
+                const C = p2.x * p1.y - p1.x * p2.y;
+                
+                const distance = Math.abs(A * this.x + B * this.y + C) / Math.sqrt(A * A + B * B);
+                
+                if (distance < this.radius) {
+                    // Calculate closest point on line
+                    const t = Math.max(0, Math.min(1, 
+                        ((this.x - p1.x) * (p2.x - p1.x) + (this.y - p1.y) * (p2.y - p1.y)) / 
+                        ((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y))
+                    ));
+                    
+                    const closestX = p1.x + t * (p2.x - p1.x);
+                    const closestY = p1.y + t * (p2.y - p1.y);
+                    
+                    const distToClosest = Math.sqrt((this.x - closestX) ** 2 + (this.y - closestY) ** 2);
+                    
+                    if (distToClosest < this.radius) {
+                        // Calculate normal vector
+                        const normalX = (this.x - closestX) / distToClosest;
+                        const normalY = (this.y - closestY) / distToClosest;
+                        
+                        // Correct position
+                        const correctedX = closestX + normalX * this.radius;
+                        const correctedY = closestY + normalY * this.radius;
+                        
+                        return {
+                            normal: { x: normalX, y: normalY },
+                            correctedX,
+                            correctedY
+                        };
+                    }
+                }
+                
+                return null;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                
+                // Add shine effect
+                ctx.beginPath();
+                ctx.arc(this.x - this.radius * 0.3, this.y - this.radius * 0.3, this.radius * 0.3, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.fill();
+                
+                // Add border
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+        
+        // Create balls
+        const balls = [];
+        for (let i = 0; i < BALL_COUNT; i++) {
+            // Start balls near center with small random offset
+            const x = centerX + (Math.random() - 0.5) * 50;
+            const y = centerY + (Math.random() - 0.5) * 50;
+            balls.push(new Ball(x, y));
+        }
+        
+        // Draw hexagon
+        function drawHexagon() {
+            const points = [];
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI / 3) + hexagonRotation;
+                const x = centerX + Math.cos(angle) * HEXAGON_RADIUS;
+                const y = centerY + Math.sin(angle) * HEXAGON_RADIUS;
+                points.push({ x, y });
+            }
+            
+            // Draw hexagon outline
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < 6; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = '#00ff88';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Add glow effect
+            ctx.shadowColor = '#00ff88';
+            ctx.shadowBlur = 10;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+        }
+        
+        // Animation loop
+        function animate() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Update hexagon rotation
+            hexagonRotation += 0.02;
+            
+            // Draw hexagon
+            drawHexagon();
+            
+            // Update and draw balls
+            balls.forEach(ball => {
+                ball.update();
+                ball.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Change gravity direction every 5 seconds
+        setInterval(() => {
+            gravityDirection *= -1;
+            gravityIndicator.textContent = gravityDirection === 1 ? 'Gravity: ↓' : 'Gravity: ↑';
+            gravityIndicator.style.color = gravityDirection === 1 ? '#ff6b6b' : '#4ecdc4';
+        }, 5000);
+        
+        // Start animation
+        animate();
+        
+        // Add some interactivity - click to add more balls
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            balls.push(new Ball(x, y));
+        });
+    </script>
+</body>
+</html>

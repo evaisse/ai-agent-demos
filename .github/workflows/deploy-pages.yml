@@ -31,54 +31,20 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
         
-      - name: Create index.html if not exists
+      - name: Verify pages directory structure
         run: |
-          if [ ! -f index.html ]; then
-            echo "Creating index.html redirect to demo-preview.html"
-            cat > index.html << 'EOF'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>AI Agent Demos - Redirecting...</title>
-              <meta http-equiv="refresh" content="0; url=demo-preview.html">
-              <style>
-                  body {
-                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      height: 100vh;
-                      margin: 0;
-                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                      color: white;
-                  }
-                  .redirect-message {
-                      text-align: center;
-                      padding: 20px;
-                  }
-                  a {
-                      color: white;
-                      text-decoration: underline;
-                  }
-              </style>
-          </head>
-          <body>
-              <div class="redirect-message">
-                  <h2>Redirecting to AI Agent Demos...</h2>
-                  <p>If you are not redirected automatically, <a href="demo-preview.html">click here</a>.</p>
-              </div>
-          </body>
-          </html>
-          EOF
+          echo "Pages directory structure:"
+          ls -la pages/
+          if [ -d "pages/demos" ]; then
+            echo "Demos directory found"
+            ls -la pages/demos/
           fi
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          # Upload pages directory
+          path: './pages'
           
   # Deployment job
   deploy:
