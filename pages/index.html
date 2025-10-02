@@ -29,6 +29,11 @@
             z-index: 1000;
             position: relative;
         }
+
+        .header a.home {
+            text-decoration: none;
+            color: white;
+        }
         
         .header h1 {
             font-size: 1.5rem;
@@ -55,6 +60,12 @@
         .controls {
             display: flex;
             gap: 1rem;
+            align-items: center;
+        }
+        
+        .mobile-controls {
+            display: none;
+            gap: 0.5rem;
             align-items: center;
         }
         
@@ -318,10 +329,27 @@
                 font-size: 1.2rem;
             }
             
+            .mobile-controls {
+                display: flex;
+            }
+            
             .controls {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 flex-direction: column;
                 gap: 0.5rem;
                 align-items: stretch;
+                padding: 1rem;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+            }
+            
+            .controls.show {
+                display: flex;
             }
             
             .demo-selector, .model-selector {
@@ -330,9 +358,6 @@
                 padding: 0.4rem 0.8rem;
             }
             
-            .info-btn {
-                display: none; /* Hide info button on mobile, use burger menu instead */
-            }
             
             .refresh-btn, .nav-btn {
                 padding: 0.4rem 0.6rem;
@@ -399,10 +424,16 @@
 </head>
 <body>
     <div class="header">
-        <h1>🤖 AI Demo Viewer</h1>
+        <a href="/" class="home">
+            <h1>🤖 AI Demo Viewer</h1>
+        </a>
         <button class="burger-menu" id="burgerMenu" title="Toggle menu">
             ☰
         </button>
+        <div class="mobile-controls">
+            <button class="nav-btn" id="randomBtn" title="Random demo & model">🎲</button>
+        </div>
+        
         <div class="controls">
             <select class="demo-selector" id="demoSelector" disabled>
                 <option value="">Loading demos...</option>
@@ -410,7 +441,6 @@
             <select class="model-selector" id="modelSelector" disabled>
                 <option value="">Select a model...</option>
             </select>
-            <button class="nav-btn" id="randomBtn" title="Random demo & model">🎲</button>
             <button class="nav-btn" id="prevBtn" title="Previous demo">⬅️</button>
             <button class="nav-btn" id="nextBtn" title="Next demo">➡️</button>
             <button class="info-btn" id="infoBtn" disabled>ℹ️ Info</button>
@@ -738,6 +768,7 @@
             }
             updateURL();
             updateNavigationButtons();
+            closeMobileControls();
         });
         
         modelSelector.addEventListener('change', function() {
@@ -750,16 +781,19 @@
                 hideDemo();
             }
             updateURL();
+            closeMobileControls();
         });
         
         infoBtn.addEventListener('click', function() {
             if (currentModel) {
                 showSidebar();
             }
+            closeMobileControls();
         });
         
         refreshBtn.addEventListener('click', function() {
             loadDemos();
+            closeMobileControls();
         });
         
         randomBtn.addEventListener('click', function() {
@@ -780,27 +814,40 @@
         
         prevBtn.addEventListener('click', function() {
             navigateToDemo('prev');
+            closeMobileControls();
         });
         
         nextBtn.addEventListener('click', function() {
             navigateToDemo('next');
+            closeMobileControls();
         });
         
         closeBtn.addEventListener('click', function() {
             hideSidebar();
         });
         
+        // Function to close mobile controls
+        function closeMobileControls() {
+            if (window.innerWidth <= 768) {
+                const controls = document.querySelector('.controls');
+                controls.classList.remove('show');
+            }
+        }
+        
         // Burger menu listener for mobile
         burgerMenu.addEventListener('click', function() {
-            if (currentModel) {
-                showSidebar();
-            } else {
-                // If no model selected, just toggle the panel
-                if (sidebar.classList.contains('open')) {
-                    hideSidebar();
-                } else {
-                    sidebar.classList.add('open');
-                    sidebarOverlay.classList.add('show');
+            const controls = document.querySelector('.controls');
+            controls.classList.toggle('show');
+        });
+        
+        // Close mobile controls when clicking outside
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                const controls = document.querySelector('.controls');
+                const burgerMenu = document.getElementById('burgerMenu');
+                
+                if (!controls.contains(e.target) && !burgerMenu.contains(e.target)) {
+                    controls.classList.remove('show');
                 }
             }
         });
@@ -821,6 +868,12 @@
                 // On desktop, ensure sidebar is visible without 'open' class
                 sidebar.classList.remove('open');
                 sidebarOverlay.classList.remove('show');
+            }
+            
+            // Close mobile controls when switching to desktop
+            if (!isMobile()) {
+                const controls = document.querySelector('.controls');
+                controls.classList.remove('show');
             }
         });
         
