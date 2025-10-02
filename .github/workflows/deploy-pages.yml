@@ -39,6 +39,12 @@ jobs:
       
       - name: Generate viewer data
         run: npm run generate-viewer
+      
+      - name: Set base href for GitHub Pages
+        run: |
+          sed -i 's|<base href="/">|<base href="/ai-agent-demos/">|g' pages/index.html
+          echo "✅ Base href updated for GitHub Pages deployment"
+          grep "<base href=" pages/index.html
         
       - name: Setup Pages
         uses: actions/configure-pages@v5
