@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-10-02T09:39:53.532Z",
+  "execution": {
+    "duration_seconds": "21.981",
+    "model_used": "openai/gpt-4o",
+    "model_requested": "openai/gpt-4o"
+  },
+  "tokens": {
+    "prompt_tokens": 86,
+    "completion_tokens": 1427,
+    "total_tokens": 1513
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000215,
+    "completion_cost": 0.01427,
+    "total_cost": 0.014485
+  },
+  "model_card": {
+    "id": "openai/gpt-4o",
+    "name": "OpenAI: GPT-4o",
+    "description": "GPT-4o (\"o\" for \"omni\") is OpenAI's latest AI model, supporting both text and image inputs with text outputs. It maintains the intelligence level of [GPT-4 Turbo](/models/openai/gpt-4-turbo) while being twice as fast and 50% more cost-effective. GPT-4o also offers improved performance in processing non-English languages and enhanced visual capabilities.\n\nFor benchmarking against other models, it was briefly called [\"im-also-a-good-gpt2-chatbot\"](https://twitter.com/LiamFedus/status/1790064963966370209)\n\n#multimodal",
+    "context_length": 128000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "GPT"
+    },
+    "pricing": {
+      "completion": "0.00001",
+      "image": "0.003613",
+      "input_cache_read": "0.00000125",
+      "internal_reasoning": "0",
+      "prompt": "0.0000025",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 128000,
+      "is_moderated": true,
+      "max_completion_tokens": 16384
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file with no other file dependencies, create a Chatbot messaging screen that can use an OpenRouter API Key and select models from OpenRouter https://openrouter.ai/api/v1/models, from there store the Key localy and allow use to try the model in the chatbot. You can use external\ndependencies but only with CDNJS. Feel free to make pretty and shiny.\n\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 2000
+  },
+  "response_metadata": {
+    "id": "gen-1759397972-7myRQ6FgU6cSkvsmR7hI",
+    "created": 1759397972,
+    "object": "chat.completion"
+  },
+  "raw_response": "Creating a simple chatbot interface using HTML, JavaScript, and CSS that can interact with OpenRouter's API requires a few steps. Below is a complete solution using HTML and JavaScript. We'll use CDNs for any external libraries needed. This example will include functionality to input an API key, select a model from OpenRouter's available models, and send a message to the model.\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Chatbot Interface with OpenRouter</title>\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css\" integrity=\"sha512-/7gQb8U2+5zQ4Q1HQ3gGghBf8p2HfG1+MEcXfM/0ACgM4QsrI1E0JmRRI7ztpV3YJm7F9gK8bZx0LZ0h3qXw1Q==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n    <style>\n        body {\n            background-color: #f5f5f5;\n            padding: 20px;\n        }\n\n        #chat-container {\n            max-width: 600px;\n            margin: auto;\n            background: white;\n            border-radius: 8px;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n            padding: 20px;\n        }\n\n        #messages {\n            height: 300px;\n            overflow-y: scroll;\n            border: 1px solid #ddd;\n            border-radius: 5px;\n            padding: 10px;\n            margin-bottom: 20px;\n        }\n\n        .message {\n            margin-bottom: 10px;\n            padding: 8px;\n            border-radius: 4px;\n        }\n\n        .user-message {\n            background-color: #d1e7dd;\n            text-align: right;\n        }\n\n        .bot-message {\n            background-color: #f8d7da;\n        }\n\n        #api-key-input {\n            margin-bottom: 20px;\n        }\n    </style>\n</head>\n\n<body>\n    <div id=\"chat-container\">\n        <h1 class=\"title\">Chatbot with OpenRouter</h1>\n        <div id=\"api-key-input\">\n            <input class=\"input\" type=\"text\" id=\"apiKey\" placeholder=\"Enter OpenRouter API Key\" />\n            <button class=\"button is-link\" onclick=\"saveApiKey()\">Save API Key</button>\n        </div>\n        <div>\n            <div class=\"select\">\n                <select id=\"modelSelect\">\n                    <option>Loading models...</option>\n                </select>\n            </div>\n        </div>\n        <div id=\"messages\"></div>\n        <div class=\"field has-addons\">\n            <div class=\"control is-expanded\">\n                <input class=\"input\" type=\"text\" id=\"userInput\" placeholder=\"Type your message\" />\n            </div>\n            <div class=\"control\">\n                <button class=\"button is-primary\" onclick=\"sendMessage()\">Send</button>\n            </div>\n        </div>\n    </div>\n\n    <script>\n        const apiKey = localStorage.getItem('openrouterApiKey');\n        const apiUrl = 'https://openrouter.ai/api/v1/models';\n        let models = [];\n\n        document.addEventListener('DOMContentLoaded', () => {\n            if (apiKey) {\n                document.getElementById('apiKey').value = apiKey;\n                loadModels();\n            }\n        });\n\n        function saveApiKey() {\n            const key = document.getElementById('apiKey').value;\n            localStorage.setItem('openrouterApiKey', key);\n            loadModels();\n        }\n\n        async function loadModels() {\n            try {\n                const response = await fetch(apiUrl, {\n                    headers: {\n                        'Authorization': `Bearer ${localStorage.getItem('openrouterApiKey')}`\n                    }\n                });\n                models = await response.json();\n                const modelSelect = document.getElementById('modelSelect');\n                modelSelect.innerHTML = '';\n                models.forEach(model => {\n                    const option = document.createElement('option');\n                    option.value = model.id;\n                    option.textContent = model.name;\n                    modelSelect.appendChild(option);\n                });\n            } catch (error) {\n                alert('Failed to load models. Check your API key.');\n            }\n        }\n\n        async function sendMessage() {\n            const userInput = document.getElementById('userInput').value;\n            const messagesDiv = document.getElementById('messages');\n\n            if (!userInput) return;\n\n            const userMessage = document.createElement('div');\n            userMessage.className = 'message user-message';\n            userMessage.textContent = userInput;\n            messagesDiv.appendChild(userMessage);\n            document.getElementById('userInput').value = '';\n\n            const selectedModel = document.getElementById('modelSelect').value;\n\n            try {\n                const response = await fetch(`https://openrouter.ai/api/v1/chat/${selectedModel}`, {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json',\n                        'Authorization': `Bearer ${localStorage.getItem('openrouterApiKey')}`\n                    },\n                    body: JSON.stringify({ input: userInput })\n                });\n\n                const data = await response.json();\n                const botMessage = document.createElement('div');\n                botMessage.className = 'message bot-message';\n                botMessage.textContent = data.response || 'Error: No response from the model.';\n                messagesDiv.appendChild(botMessage);\n            } catch (error) {\n                const errorMessage = document.createElement('div');\n                errorMessage.className = 'message bot-message';\n                errorMessage.textContent = 'Error: Unable to communicate with API.';\n                messagesDiv.appendChild(errorMessage);\n            }\n\n            messagesDiv.scrollTop = messagesDiv.scrollHeight;\n        }\n    </script>\n</body>\n\n</html>\n```\n\n### Explanation:\n\n- **HTML & Bulma CSS**: We use Bulma CSS for styling to make the interface look clean and user-friendly.\n- **Local Storage**: The API key is stored in local storage to persist it across sessions.\n- **API Interaction**: The script fetches the available models from OpenRouter and populates a dropdown menu. Upon sending a message, it sends a request to the selected model and displays the bot's response.\n- **Error Handling**: Basic error handling is included to notify the user if the API key is invalid or if there are issues with API communication."
+}

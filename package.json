@@ -10,6 +10,7 @@
     "create-demo": "node src/cli.js create-demo",
     "generate-demo": "node src/cli.js generate-demo",
     "generate-viewer": "node src/cli.js generate-viewer",
+    "regen-demo": "node src/cli.js regen-demo",
     "list-demos": "node src/cli.js list-demos",
     "list-models": "node src/cli.js list-models",
     "preview-server": "node src/cli.js preview-server"
