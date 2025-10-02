@@ -1407,103 +1407,178 @@ program
     try {
       const { demo, skipExisting, force } = options;
       
-      if (!demo) {
-        // If no demo specified, show list of available demos
-        const demosDir = path.join(path.dirname(__dirname), 'pages', 'demos');
-        const entries = await fs.readdir(demosDir, { withFileTypes: true });
-        const demos = entries.filter(e => e.isDirectory()).map(e => e.name);
-        
-        if (demos.length === 0) {
-          console.log(chalk.yellow('No demos found.'));
-          process.exit(0);
-        }
-        
-        console.log(chalk.cyan('Available demos to regenerate:'));
-        demos.forEach(d => {
-          console.log(`  - ${d}`);
-        });
-        console.log('');
-        console.log(chalk.gray('Usage: npm run regen-demo -- -d <demo-name>'));
+      // Get list of available demos
+      const demosDir = path.join(path.dirname(__dirname), 'pages', 'demos');
+      const entries = await fs.readdir(demosDir, { withFileTypes: true });
+      const availableDemos = entries.filter(e => e.isDirectory()).map(e => e.name);
+      
+      if (availableDemos.length === 0) {
+        console.log(chalk.yellow('No demos found.'));
         process.exit(0);
       }
       
-      const demoPath = path.join(path.dirname(__dirname), 'pages', 'demos', demo);
-      const promptPath = path.join(demoPath, 'PROMPT.md');
+      let selectedDemos = [];
       
-      // Check if demo exists
-      try {
-        await fs.access(demoPath);
-        await fs.access(promptPath);
-      } catch {
-        console.error(chalk.red(`❌ Demo "${demo}" not found or missing PROMPT.md`));
-        process.exit(1);
-      }
-      
-      // Read the prompt
-      const prompt = await fs.readFile(promptPath, 'utf-8');
-      
-      // Find all existing models for this demo
-      const existingModels = [];
-      const providerDirs = await fs.readdir(demoPath, { withFileTypes: true });
-      
-      for (const providerDir of providerDirs.filter(d => d.isDirectory() && !['results'].includes(d.name))) {
-        const providerPath = path.join(demoPath, providerDir.name);
-        try {
-          const modelDirs = await fs.readdir(providerPath, { withFileTypes: true });
-          
-          for (const modelDir of modelDirs.filter(d => d.isDirectory())) {
-            const fullModelName = `${providerDir.name}/${modelDir.name}`;
-            const modelPath = path.join(providerPath, modelDir.name);
-            const indexPath = path.join(modelPath, 'index.html');
-            
-            // Check if this model has been generated before
-            try {
-              await fs.access(indexPath);
-              existingModels.push({
-                name: fullModelName,
-                path: modelPath,
-                exists: true
-              });
-            } catch {
-              // Directory exists but no index.html
-              existingModels.push({
-                name: fullModelName,
-                path: modelPath,
-                exists: false
-              });
+      if (!demo) {
+        // Interactive mode - allow user to select multiple demos
+        console.log(chalk.cyan('🎯 Interactive Demo Regeneration'));
+        console.log('');
+        
+        const { demoSelection } = await inquirer.prompt([
+          {
+            type: 'checkbox',
+            name: 'demoSelection',
+            message: 'Select demos to regenerate:',
+            choices: availableDemos.map(d => ({
+              name: d,
+              value: d,
+              checked: false
+            })),
+            validate: (answer) => {
+              if (answer.length === 0) {
+                return 'You must select at least one demo.';
+              }
+              return true;
             }
           }
+        ]);
+        
+        selectedDemos = demoSelection;
+        
+        if (selectedDemos.length === 0) {
+          console.log(chalk.yellow('No demos selected.'));
+          process.exit(0);
+        }
+      } else {
+        // Single demo specified via command line
+        if (!availableDemos.includes(demo)) {
+          console.error(chalk.red(`❌ Demo "${demo}" not found.`));
+          console.log(chalk.cyan('Available demos:'));
+          availableDemos.forEach(d => {
+            console.log(`  - ${d}`);
+          });
+          process.exit(1);
+        }
+        selectedDemos = [demo];
+      }
+      
+      console.log(chalk.cyan(`\n🔄 Processing ${selectedDemos.length} demo(s):`));
+      selectedDemos.forEach(d => console.log(`  - ${d}`));
+      console.log('');
+      
+      const allResults = {
+        success: [],
+        skipped: [],
+        failed: [],
+        totalModels: 0
+      };
+      
+      // Process each selected demo
+      for (const currentDemo of selectedDemos) {
+        console.log(chalk.magenta(`\n${'='.repeat(50)}`));
+        console.log(chalk.magenta(`🎯 Processing demo: ${currentDemo}`));
+        console.log(chalk.magenta(`${'='.repeat(50)}`));
+        
+        const demoPath = path.join(path.dirname(__dirname), 'pages', 'demos', currentDemo);
+        const promptPath = path.join(demoPath, 'PROMPT.md');
+        
+        // Check if demo exists
+        try {
+          await fs.access(demoPath);
+          await fs.access(promptPath);
         } catch {
-          // Provider directory not readable
+          console.error(chalk.red(`❌ Demo "${currentDemo}" not found or missing PROMPT.md`));
+          continue; // Skip this demo and continue with others
+        }
+        
+        // Read the prompt
+        const prompt = await fs.readFile(promptPath, 'utf-8');
+        
+        // Find all existing models for this demo
+        const existingModels = [];
+        const providerDirs = await fs.readdir(demoPath, { withFileTypes: true });
+      
+        for (const providerDir of providerDirs.filter(d => d.isDirectory() && !['results'].includes(d.name))) {
+          const providerPath = path.join(demoPath, providerDir.name);
+          try {
+            const modelDirs = await fs.readdir(providerPath, { withFileTypes: true });
+            
+            for (const modelDir of modelDirs.filter(d => d.isDirectory())) {
+              const fullModelName = `${providerDir.name}/${modelDir.name}`;
+              const modelPath = path.join(providerPath, modelDir.name);
+              const indexPath = path.join(modelPath, 'index.html');
+              
+              // Check if this model has been generated before
+              try {
+                await fs.access(indexPath);
+                existingModels.push({
+                  name: fullModelName,
+                  path: modelPath,
+                  exists: true
+                });
+              } catch {
+                // Directory exists but no index.html
+                existingModels.push({
+                  name: fullModelName,
+                  path: modelPath,
+                  exists: false
+                });
+              }
+            }
+          } catch {
+            // Provider directory not readable
+          }
+        }
+        
+        if (existingModels.length === 0) {
+          console.log(chalk.yellow(`No existing models found for demo "${currentDemo}".`));
+          console.log(chalk.gray('Skipping this demo...'));
+          continue; // Skip to next demo
+        }
+        
+        console.log(chalk.white(`\n📋 Found ${existingModels.length} model(s) for "${currentDemo}":`));
+        existingModels.forEach(model => {
+          const status = model.exists ? chalk.green('✓') : chalk.yellow('○');
+          const skipNote = skipExisting && model.exists ? chalk.gray(' (will skip)') : '';
+          console.log(`  ${status} ${model.name}${skipNote}`);
+        });
+        
+        allResults.totalModels += existingModels.length;
+        
+        // Regenerate each model for this demo
+        for (const model of existingModels) {
+          // Skip if requested and model exists
+          if (skipExisting && model.exists && !force) {
+            console.log(chalk.gray(`⏭️  Skipping ${model.name} (already exists)`));
+            allResults.skipped.push(`${currentDemo}/${model.name}`);
+            continue;
+          }
+          
+          console.log(chalk.cyan(`\n🚀 Regenerating ${model.name}...`));
+          
+          try {
+            const outputPath = path.join(model.path, 'index.html');
+            
+            // Use the existing generateDemoWithModel function
+            await generateDemoWithModel(prompt, model.name, outputPath);
+            
+            console.log(chalk.green(`✅ Successfully regenerated ${model.name}`));
+            allResults.success.push(`${currentDemo}/${model.name}`);
+            
+          } catch (error) {
+            console.error(chalk.red(`❌ Failed to regenerate ${model.name}:`), error.message);
+            allResults.failed.push(`${currentDemo}/${model.name}`);
+          }
         }
       }
       
-      if (existingModels.length === 0) {
-        console.log(chalk.yellow(`No existing models found for demo "${demo}".`));
-        console.log(chalk.gray('Generate some models first with:'));
-        console.log(chalk.gray(`  npm run generate-demo -- -d ${demo} -m <model-name>`));
-        process.exit(0);
-      }
-      
-      console.log(chalk.cyan(`\n🔄 Regenerating demo: ${demo}`));
-      console.log(chalk.gray(`   Found ${existingModels.length} model(s) to regenerate`));
+      // Ask for confirmation before starting
       console.log('');
-      
-      // Display models to be regenerated
-      console.log(chalk.white('Models to regenerate:'));
-      existingModels.forEach(model => {
-        const status = model.exists ? chalk.green('✓') : chalk.yellow('○');
-        const skipNote = skipExisting && model.exists ? chalk.gray(' (will skip)') : '';
-        console.log(`  ${status} ${model.name}${skipNote}`);
-      });
-      console.log('');
-      
-      // Ask for confirmation
       const { proceed } = await inquirer.prompt([
         {
           type: 'confirm',
           name: 'proceed',
-          message: `Regenerate ${existingModels.length} model(s)?`,
+          message: `Regenerate ${allResults.totalModels} model(s) across ${selectedDemos.length} demo(s)?`,
           default: true
         }
       ]);
@@ -1513,116 +1588,142 @@ program
         process.exit(0);
       }
       
-      console.log('');
-      const results = {
-        success: [],
-        skipped: [],
-        failed: []
-      };
-      
-      // Regenerate each model
-      for (const model of existingModels) {
-        // Skip if requested and model exists
-        if (skipExisting && model.exists && !force) {
-          console.log(chalk.gray(`⏭️  Skipping ${model.name} (already exists)`));
-          results.skipped.push(model.name);
-          continue;
+      // Now actually process the demos with regeneration
+      for (const currentDemo of selectedDemos) {
+        console.log(chalk.magenta(`\n${'='.repeat(50)}`));
+        console.log(chalk.magenta(`🚀 Regenerating demo: ${currentDemo}`));
+        console.log(chalk.magenta(`${'='.repeat(50)}`));
+        
+        const demoPath = path.join(path.dirname(__dirname), 'pages', 'demos', currentDemo);
+        const promptPath = path.join(demoPath, 'PROMPT.md');
+        const prompt = await fs.readFile(promptPath, 'utf-8');
+        
+        // Get models again for regeneration
+        const existingModels = [];
+        const providerDirs = await fs.readdir(demoPath, { withFileTypes: true });
+        
+        for (const providerDir of providerDirs.filter(d => d.isDirectory() && !['results'].includes(d.name))) {
+          const providerPath = path.join(demoPath, providerDir.name);
+          try {
+            const modelDirs = await fs.readdir(providerPath, { withFileTypes: true });
+            
+            for (const modelDir of modelDirs.filter(d => d.isDirectory())) {
+              const fullModelName = `${providerDir.name}/${modelDir.name}`;
+              const modelPath = path.join(providerPath, modelDir.name);
+              const indexPath = path.join(modelPath, 'index.html');
+              
+              try {
+                await fs.access(indexPath);
+                existingModels.push({
+                  name: fullModelName,
+                  path: modelPath,
+                  exists: true
+                });
+              } catch {
+                existingModels.push({
+                  name: fullModelName,
+                  path: modelPath,
+                  exists: false
+                });
+              }
+            }
+          } catch {
+            // Provider directory not readable
+          }
         }
         
-        console.log(chalk.cyan(`\n🚀 Regenerating ${model.name}...`));
-        
-        try {
-          const outputPath = path.join(model.path, 'index.html');
+        // Regenerate each model for this demo
+        for (const model of existingModels) {
+          // Skip if requested and model exists
+          if (skipExisting && model.exists && !force) {
+            console.log(chalk.gray(`⏭️  Skipping ${model.name} (already exists)`));
+            continue;
+          }
           
-          // Use the existing generateDemoWithModel function
-          await generateDemoWithModel(prompt, model.name, outputPath);
+          console.log(chalk.cyan(`\n🚀 Regenerating ${model.name}...`));
           
-          console.log(chalk.green(`✅ Successfully regenerated ${model.name}`));
-          results.success.push(model.name);
-          
-        } catch (error) {
-          console.error(chalk.red(`❌ Failed to regenerate ${model.name}:`), error.message);
-          results.failed.push(model.name);
+          try {
+            const outputPath = path.join(model.path, 'index.html');
+            
+            // Use the existing generateDemoWithModel function
+            await generateDemoWithModel(prompt, model.name, outputPath);
+            
+            console.log(chalk.green(`✅ Successfully regenerated ${model.name}`));
+            
+          } catch (error) {
+            console.error(chalk.red(`❌ Failed to regenerate ${model.name}:`), error.message);
+          }
         }
-      }
-      
-      // Display summary
-      console.log(chalk.cyan('\n📊 Regeneration Summary:'));
-      console.log(chalk.green(`   ✅ Success: ${results.success.length}`));
-      if (results.skipped.length > 0) {
-        console.log(chalk.gray(`   ⏭️  Skipped: ${results.skipped.length}`));
-      }
-      if (results.failed.length > 0) {
-        console.log(chalk.red(`   ❌ Failed: ${results.failed.length}`));
-        console.log(chalk.red('\nFailed models:'));
-        results.failed.forEach(model => {
-          console.log(chalk.red(`   - ${model}`));
-        });
       }
       
       // Auto-regenerate viewer data
       await generateViewerData('pages', true);
       
       console.log(chalk.green('\n✅ Demo regeneration complete!'));
+      console.log(chalk.cyan(`📊 Regenerated ${allResults.totalModels} model(s) across ${selectedDemos.length} demo(s)`));
       
-      // Ask if user wants to start preview server
-      const { startPreview } = await inquirer.prompt([
-        {
-          type: 'confirm',
-          name: 'startPreview',
-          message: 'Would you like to start the preview server?',
-          default: true
-        }
-      ]);
-      
-      if (startPreview) {
-        console.log(chalk.cyan('\n🚀 Starting preview server...'));
-        const pagesDir = path.join(path.dirname(__dirname), 'pages');
-        
-        // Find available port starting from 8900
-        const port = await findAvailablePort(8900);
-        console.log(chalk.green(`✅ Found available port: ${port}`));
-        
-        // Start server
-        const server = await startStaticServer(pagesDir, port);
-        const previewUrl = `http://localhost:${port}/#demo=${demo}`;
-        
-        console.log(chalk.green(`\n✅ Server running!`));
-        console.log(chalk.white(`🌐 Opening demos at: ${chalk.bold(previewUrl)}`));
-        console.log(chalk.gray(`📁 Serving files from: ${pagesDir}`));
-        
-        // Open browser automatically
-        console.log(chalk.cyan(`🚀 Opening browser...`));
-        openBrowser(previewUrl);
-        
-        console.log(chalk.yellow(`\n⏹️  Press Ctrl+C to stop the server\n`));
-        
-        // Track shutdown state to prevent multiple shutdowns
-        let isShuttingDown = false;
-        
-        // Handle graceful shutdown
-        const handleShutdown = (signal) => {
-          if (isShuttingDown) {
-            return;
+      // Ask if user wants to start preview server (only if single demo selected)
+      if (selectedDemos.length === 1) {
+        const { startPreview } = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'startPreview',
+            message: 'Would you like to start the preview server?',
+            default: true
           }
-          isShuttingDown = true;
-          
-          console.log(chalk.yellow(`\n🛑 Received ${signal}, shutting down gracefully...`));
-          server.close(() => {
-            console.log(chalk.green('✅ Server stopped successfully'));
-            process.exit(0);
-          });
-          
-          // Force exit after 5 seconds if server doesn't close
-          setTimeout(() => {
-            console.log(chalk.red('❌ Force closing server'));
-            process.exit(1);
-          }, 5000);
-        };
+        ]);
         
-        // Listen for shutdown signals
-        process.once('SIGINT', () => handleShutdown('SIGINT'));
-        process.once('SIGTERM', () => handleShutdown('SIGTERM'));
+        if (startPreview) {
+          console.log(chalk.cyan('\n🚀 Starting preview server...'));
+          const pagesDir = path.join(path.dirname(__dirname), 'pages');
+          
+          // Find available port starting from 8900
+          const port = await findAvailablePort(8900);
+          console.log(chalk.green(`✅ Found available port: ${port}`));
+          
+          // Start server
+          const server = await startStaticServer(pagesDir, port);
+          const previewUrl = `http://localhost:${port}/#demo=${selectedDemos[0]}`;
+          
+          console.log(chalk.green(`\n✅ Server running!`));
+          console.log(chalk.white(`🌐 Opening demos at: ${chalk.bold(previewUrl)}`));
+          console.log(chalk.gray(`📁 Serving files from: ${pagesDir}`));
+          
+          // Open browser automatically
+          console.log(chalk.cyan(`🚀 Opening browser...`));
+          openBrowser(previewUrl);
+          
+          console.log(chalk.yellow(`\n⏹️  Press Ctrl+C to stop the server\n`));
+          
+          // Track shutdown state to prevent multiple shutdowns
+          let isShuttingDown = false;
+          
+          // Handle graceful shutdown
+          const handleShutdown = (signal) => {
+            if (isShuttingDown) {
+              return;
+            }
+            isShuttingDown = true;
+            
+            console.log(chalk.yellow(`\n🛑 Received ${signal}, shutting down gracefully...`));
+            server.close(() => {
+              console.log(chalk.green('✅ Server stopped successfully'));
+              process.exit(0);
+            });
+            
+            // Force exit after 5 seconds if server doesn't close
+            setTimeout(() => {
+              console.log(chalk.red('❌ Force closing server'));
+              process.exit(1);
+            }, 5000);
+          };
+          
+          // Listen for shutdown signals
+          process.once('SIGINT', () => handleShutdown('SIGINT'));
+          process.once('SIGTERM', () => handleShutdown('SIGTERM'));
+        }
+      } else {
+        console.log(chalk.gray('\n💡 Tip: Run "npm run preview-server" to view all demos'));
       }
       
     } catch (error) {
