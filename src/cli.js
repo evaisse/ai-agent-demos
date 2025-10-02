@@ -727,6 +727,15 @@ async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = n
   if (report.cost.total_cost > 0) {
     console.log(`   💰 Total Cost: $${report.cost.total_cost.toFixed(6)}`);
   }
+  
+  // Auto-regenerate viewer data to include this new demo
+  console.log(`\n🔄 Updating viewer data...`);
+  try {
+    await generateViewerData('pages', true); // Silent mode
+    console.log(`✅ Viewer data updated automatically`);
+  } catch (error) {
+    console.warn(`⚠️  Could not update viewer data: ${error.message}`);
+  }
 }
 
 // Find an available port starting from a given port
@@ -881,6 +890,103 @@ function startStaticServer(directory, port = 3000) {
       }
     });
   });
+}
+
+// Generate viewer data (demos.json) - extracted from generate-viewer command
+async function generateViewerData(outputDir = 'pages', silent = false) {
+  try {
+    const resolvedOutputDir = path.join(path.dirname(__dirname), outputDir);
+    const demosJsonPath = path.join(resolvedOutputDir, 'demos.json');
+    
+    if (!silent) {
+      console.log(`🎨 Generating demo metadata...`);
+    }
+    
+    // Scan for demos and their generated models
+    const demosDir = path.join(path.dirname(__dirname), 'pages', 'demos');
+    const demos = [];
+    
+    try {
+      const demoEntries = await fs.readdir(demosDir, { withFileTypes: true });
+      
+      for (const entry of demoEntries.filter(e => e.isDirectory())) {
+        const demoName = entry.name;
+        const demoPath = path.join(demosDir, demoName);
+        const promptPath = path.join(demoPath, 'PROMPT.md');
+        
+        // Check if demo has PROMPT.md
+        let prompt = '';
+        try {
+          prompt = await fs.readFile(promptPath, 'utf-8');
+        } catch {
+          continue; // Skip if no PROMPT.md
+        }
+        
+        // Find all generated models
+        const models = [];
+        const modelEntries = await fs.readdir(demoPath, { withFileTypes: true });
+        
+        for (const modelEntry of modelEntries.filter(e => e.isDirectory())) {
+          const modelName = modelEntry.name;
+          const modelPath = path.join(demoPath, modelName);
+          const htmlPath = path.join(modelPath, 'index.html');
+          const resultsPath = path.join(modelPath, 'results.json');
+          
+          // Check if HTML and results exist
+          try {
+            await fs.access(htmlPath);
+            let results = null;
+            try {
+              const resultsContent = await fs.readFile(resultsPath, 'utf-8');
+              results = JSON.parse(resultsContent);
+            } catch {
+              // Results file doesn't exist or is invalid
+            }
+            
+            models.push({
+              name: modelName,
+              htmlPath: path.relative(resolvedOutputDir, htmlPath),
+              results: results
+            });
+          } catch {
+            // HTML doesn't exist, skip this model
+          }
+        }
+        
+        if (models.length > 0) {
+          demos.push({
+            name: demoName,
+            title: demoName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            prompt: prompt,
+            models: models
+          });
+        }
+      }
+    } catch (error) {
+      if (!silent) {
+        console.warn('⚠️  Could not scan demos directory:', error.message);
+      }
+    }
+    
+    // Ensure output directory exists
+    await fs.mkdir(resolvedOutputDir, { recursive: true });
+    
+    // Generate and write demos.json
+    await fs.writeFile(demosJsonPath, JSON.stringify(demos, null, 2), 'utf-8');
+    
+    if (!silent) {
+      console.log(`📋 Generated demos.json with ${demos.length} demo(s)`);
+      console.log(`✅ Viewer data updated!`);
+      console.log(`📋 Data: ${demosJsonPath}`);
+    }
+    
+    return { demos, demosJsonPath };
+  } catch (error) {
+    if (!silent) {
+      console.error('❌ Failed to generate viewer data:', error.message);
+    }
+    throw error;
+  }
 }
 
 // Command: create-demo
@@ -1141,10 +1247,22 @@ program
       if (!force && await directoryExists(modelDir)) {
         try {
           await fs.access(outputPath);
-          console.error(`❌ Demo already exists for model '${model}'`);
-          console.error(`   Location: ${outputPath}`);
-          console.error('   Use --force to overwrite');
-          process.exit(1);
+          console.log(`⚠️  Demo already exists for model '${model}'`);
+          console.log(`   Location: ${outputPath}`);
+          
+          const { overwrite } = await inquirer.prompt([
+            {
+              type: 'confirm',
+              name: 'overwrite',
+              message: 'Do you want to overwrite the existing demo?',
+              default: false
+            }
+          ]);
+          
+          if (!overwrite) {
+            console.log(chalk.yellow('Demo generation cancelled.'));
+            process.exit(0);
+          }
         } catch {
           // File doesn't exist, continue
         }
@@ -1184,84 +1302,7 @@ program
   .action(async (options) => {
     try {
       const { output } = options;
-      const outputDir = path.join(path.dirname(__dirname), output);
-      const demosJsonPath = path.join(outputDir, 'demos.json');
-      
-      console.log(`🎨 Generating demo metadata...`);
-      
-      // Scan for demos and their generated models
-      const demosDir = path.join(path.dirname(__dirname), 'pages', 'demos');
-      const demos = [];
-      
-      try {
-        const demoEntries = await fs.readdir(demosDir, { withFileTypes: true });
-        
-        for (const entry of demoEntries.filter(e => e.isDirectory())) {
-          const demoName = entry.name;
-          const demoPath = path.join(demosDir, demoName);
-          const promptPath = path.join(demoPath, 'PROMPT.md');
-          
-          // Check if demo has PROMPT.md
-          let prompt = '';
-          try {
-            prompt = await fs.readFile(promptPath, 'utf-8');
-          } catch {
-            continue; // Skip if no PROMPT.md
-          }
-          
-          // Find all generated models
-          const models = [];
-          const modelEntries = await fs.readdir(demoPath, { withFileTypes: true });
-          
-          for (const modelEntry of modelEntries.filter(e => e.isDirectory())) {
-            const modelName = modelEntry.name;
-            const modelPath = path.join(demoPath, modelName);
-            const htmlPath = path.join(modelPath, 'index.html');
-            const resultsPath = path.join(modelPath, 'results.json');
-            
-            // Check if HTML and results exist
-            try {
-              await fs.access(htmlPath);
-              let results = null;
-              try {
-                const resultsContent = await fs.readFile(resultsPath, 'utf-8');
-                results = JSON.parse(resultsContent);
-              } catch {
-                // Results file doesn't exist or is invalid
-              }
-              
-              models.push({
-                name: modelName,
-                htmlPath: path.relative(outputDir, htmlPath),
-                results: results
-              });
-            } catch {
-              // HTML doesn't exist, skip this model
-            }
-          }
-          
-          if (models.length > 0) {
-            demos.push({
-              name: demoName,
-              title: demoName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-              prompt: prompt,
-              models: models
-            });
-          }
-        }
-      } catch (error) {
-        console.warn('⚠️  Could not scan demos directory:', error.message);
-      }
-      
-      // Ensure output directory exists
-      await fs.mkdir(outputDir, { recursive: true });
-      
-      // Generate and write demos.json
-      await fs.writeFile(demosJsonPath, JSON.stringify(demos, null, 2), 'utf-8');
-      console.log(`📋 Generated demos.json with ${demos.length} demo(s)`);
-      
-      console.log(`✅ Viewer data updated!`);
-      console.log(`📋 Data: ${demosJsonPath}`);
+      const { demos } = await generateViewerData(output, false);
       
       if (demos.length === 0) {
         console.log('');

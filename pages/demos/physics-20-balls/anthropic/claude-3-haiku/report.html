@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-3-haiku</p>
+            <p><strong>Generated:</strong> 2025-10-02T00:07:28.669Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">1451</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">11.691s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0017</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Here&#039;s a simple HTML and JavaScript implementation of the simulation you described:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>  &lt;title&gt;Ball Simulation&lt;/title&gt;<br>  &lt;style&gt;<br>    canvas {<br>      border: 1px solid black;<br>    }<br>  &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>  &lt;canvas id=&quot;myCanvas&quot; width=&quot;800&quot; height=&quot;600&quot;&gt;&lt;/canvas&gt;<br><br>  &lt;script&gt;<br>    // Get the canvas element<br>    const canvas = document.getElementById(&#039;myCanvas&#039;);<br>    const ctx = canvas.getContext(&#039;2d&#039;);<br><br>    // Set the initial number of balls<br>    const numBalls = 20;<br><br>    // Ball properties<br>    const ballRadius = 10;<br>    const ballMass = 1;<br>    const ballColor = &#039;blue&#039;;<br><br>    // Hexagon properties<br>    const hexagonRadius = 200;<br>    const hexagonColor = &#039;gray&#039;;<br>    const hexagonLineWidth = 4;<br>    const hexagonRotationSpeed = 0.01;<br><br>    // Gravity properties<br>    let gravityDirection = 1; // 1 for down, -1 for up<br>    let gravityChangeInterval = 5000; // 5 seconds<br><br>    // Ball array<br>    const balls = [];<br><br>    // Create the balls<br>    for (let i = 0; i &lt; numBalls; i++) {<br>      const ball = {<br>        x: canvas.width / 2,<br>        y: canvas.height / 2,<br>        vx: Math.random() * 4 - 2,<br>        vy: Math.random() * 4 - 2,<br>        radius: ballRadius,<br>        mass: ballMass,<br>        color: ballColor<br>      };<br>      balls.push(ball);<br>    }<br><br>    // Draw the hexagon<br>    function drawHexagon() {<br>      ctx.save();<br>      ctx.translate(canvas.width / 2, canvas.height / 2);<br>      ctx.rotate(Date.now() * hexagonRotationSpeed);<br>      ctx.beginPath();<br>      for (let i = 0; i &lt; 6; i++) {<br>        const angle = i * (2 * Math.PI / 6);<br>        const x = Math.cos(angle) * hexagonRadius;<br>        const y = Math.sin(angle) * hexagonRadius;<br>        ctx.lineTo(x, y);<br>      }<br>      ctx.closePath();<br>      ctx.strokeStyle = hexagonColor;<br>      ctx.lineWidth = hexagonLineWidth;<br>      ctx.stroke();<br>      ctx.restore();<br>    }<br><br>    // Draw the balls<br>    function drawBalls() {<br>      for (let i = 0; i &lt; balls.length; i++) {<br>        const ball = balls[i];<br>        ctx.beginPath();<br>        ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);<br>        ctx.fillStyle = ball.color;<br>        ctx.fill();<br>      }<br>    }<br><br>    // Update the ball positions<br>    function updateBalls() {<br>      for (let i = 0; i &lt; balls.length; i++) {<br>        const ball = balls[i];<br>        ball.x += ball.vx;<br>        ball.y += ball.vy;<br><br>        // Check for collisions with the hexagon<br>        const distance = Math.sqrt((ball.x - canvas.width / 2) ** 2 + (ball.y - canvas.height / 2) ** 2);<br>        if (distance + ball.radius &gt; hexagonRadius) {<br>          const angle = Math.atan2(ball.y - canvas.height / 2, ball.x - canvas.width / 2);<br>          ball.vx = Math.cos(angle) * Math.abs(ball.vx);<br>          ball.vy = Math.sin(angle) * Math.abs(ball.vy);<br>        }<br><br>        // Apply gravity<br>        ball.vy += gravityDirection * 0.1;<br>      }<br>    }<br><br>    // Animate the simulation<br>    function animate() {<br>      requestAnimationFrame(animate);<br>      ctx.clearRect(0, 0, canvas.width, canvas.height);<br>      drawHexagon();<br>      drawBalls();<br>      updateBalls();<br>    }<br><br>    // Change the gravity direction every 5 seconds<br>    setInterval(() =&gt; {<br>      gravityDirection *= -1;<br>    }, gravityChangeInterval);<br><br>    animate();<br>  &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This code creates a canvas element and uses JavaScript to simulate the behavior of 20 balls inside a spinning hexagon. The balls follow the rules of gravity and physics, and the gravity direction changes from the bottom to the top every 5 seconds.<br><br>Here&#039;s a breakdown of the code:<br><br>1. The canvas element is initialized, and the 2D rendering context is obtained.<br>2. The ball and hexagon properties are defined, including the number of balls, their radius and mass, the hexagon&#039;s radius and rotation speed, and the gravity direction and change interval.<br>3. The ball array is created, and each ball is initialized with a random position and velocity.<br>4. The <code>drawHexagon()</code> function is defined to draw the spinning hexagon.<br>5. The <code>drawBalls()</code> function is defined to draw the balls.<br>6. The <code>updateBalls()</code> function is defined to update the ball positions based on their velocity and check for collisions with the hexagon.<br>7. The <code>animate()</code> function is defined to clear the canvas, draw the hexagon and balls, and update the ball positions in an animation loop.<br>8. The gravity direction is changed every 5 seconds using <code>setInterval()</code>.<br>9. The <code>animate()</code> function is called to start the simulation.<br><br>You can adjust the properties, such as the number of balls, the hexagon size and rotation speed, and the gravity change interval, to customize the simulation.</div>
+        </div>
+    </div>
+</body>
+</html>
