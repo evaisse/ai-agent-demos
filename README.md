@@ -2,6 +2,9 @@
 
 A powerful CLI tool to create and manage AI-powered HTML demos using the OpenRouter API. Generate interactive demos with multiple AI models and view them in a beautiful, organized interface.
 
+[![Submit Demo](https://img.shields.io/badge/Submit-Demo%20Idea-brightgreen?style=for-the-badge)](../../issues/new?template=demo-submission.yml)
+[![View Demos](https://img.shields.io/badge/View-Live%20Demos-blue?style=for-the-badge)](https://evaisse.github.io/ai-agent-demos/)
+
 ## 🚀 Features
 
 - **Create Demos**: Generate demo prompts with titles and organized structure
@@ -210,46 +213,23 @@ ai-demo-generator/
 
 ## 🤝 Contributing
 
-We welcome contributions! There are two main ways to contribute:
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
-### 💡 Submit a Demo Idea (Easy!)
+### Quick Start
 
-The easiest way to contribute is to submit a demo idea:
+**Submit a Demo Idea** (Easiest way to contribute!):
+1. [Create a demo submission issue](../../issues/new?template=demo-submission.yml)
+2. Fill in title, prompt (max 200 chars), and select models
+3. Wait for approval
+4. Automated workflow generates and creates a PR
+5. Review, merge, and your demo is live!
 
-1. **[Create a new issue](../../issues/new/choose)** using the "Demo Submission" template
-2. Fill in:
-   - **Demo Title**: A short, descriptive name
-   - **Demo Prompt**: What to create (max 200 characters)
-   - **Models**: Select which AI models to test
-3. **Wait for approval**: A maintainer will review your submission
-4. **Automatic generation**: Once approved (by adding the `approved` label), a GitHub Actions workflow will:
-   - Create the demo structure
-   - Generate implementations using your selected models
-   - Create a pull request with the results
-5. **Review & merge**: The PR will be reviewed and merged, publishing your demo!
-
-**Example prompts:**
+**Example demo prompts:**
 - "a classic snake game with smooth animations and score tracking"
 - "a todo app with local storage and drag-and-drop sorting"
 - "an interactive calculator with memory functions and history"
 
-### 🔧 Traditional Contributing
-
-For code contributions, bug fixes, or features:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test with multiple demos and models
-5. Submit a pull request
-
-### 📋 Contribution Guidelines
-
-- Keep prompts under 200 characters
-- Ensure prompts don't request copyrighted or harmful content
-- Select at least one model for testing
-- Follow the existing code style
-- Test your changes locally before submitting
+For code contributions, bug fixes, or features, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📄 License
 

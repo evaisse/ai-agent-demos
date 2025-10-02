@@ -7,14 +7,14 @@ body:
     attributes:
       value: |
         ## Submit a Demo Idea
-        
+
         Submit your demo idea and we'll generate implementations using multiple AI models to compare their performance!
-        
+
         **What happens next?**
         1. A maintainer will review your submission
         2. Once approved (by adding the `approved` label), an automated workflow will generate the demo
         3. The results will be published to the demo viewer
-        
+
   - type: input
     id: title
     attributes:
@@ -23,7 +23,7 @@ body:
       placeholder: "e.g., Snake Game, Todo App, Calculator"
     validations:
       required: true
-      
+
   - type: textarea
     id: prompt
     attributes:
@@ -32,7 +32,7 @@ body:
       placeholder: "e.g., a classic snake game with smooth animations and score tracking"
     validations:
       required: true
-      
+
   - type: checkboxes
     id: models
     attributes:
@@ -53,7 +53,7 @@ body:
           required: false
         - label: "Meta Llama 3.1 8B Instruct"
           required: false
-          
+
   - type: textarea
     id: additional_context
     attributes:
@@ -62,7 +62,7 @@ body:
       placeholder: "e.g., Should include dark mode, mobile responsive, etc."
     validations:
       required: false
-      
+
   - type: checkboxes
     id: terms
     attributes:
