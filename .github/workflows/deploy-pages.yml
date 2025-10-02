@@ -28,6 +28,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Generate viewer data
+        run: npm run generate-viewer
+        
       - name: Setup Pages
         uses: actions/configure-pages@v5
         
@@ -38,6 +50,10 @@ jobs:
           if [ -d "pages/demos" ]; then
             echo "Demos directory found"
             ls -la pages/demos/
+          fi
+          if [ -f "pages/demos.json" ]; then
+            echo "demos.json found and generated"
+            cat pages/demos.json | head -20
           fi
           
       - name: Upload artifact
