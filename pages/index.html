@@ -427,6 +427,7 @@
     <div class="header">
         <a href="./" class="home">
             <h1>🤖 AI Demo Viewer</h1>
+            <p id="mobileSubtitle" style="font-size: 0.85rem; margin-top: 0.25rem; opacity: 0.9; display: none;"></p>
         </a>
         <button class="burger-menu" id="burgerMenu" title="Toggle menu">
             ☰
@@ -508,6 +509,7 @@
         const randomBtn = document.getElementById('randomBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const mobileSubtitle = document.getElementById('mobileSubtitle');
         
         // Load demos from JSON file
         async function loadDemos() {
@@ -876,6 +878,8 @@
                 const controls = document.querySelector('.controls');
                 controls.classList.remove('show');
             }
+            
+            updateMobileSubtitle();
         });
         
         function updateModelSelector() {
@@ -905,6 +909,8 @@
                 noDemo.style.display = 'none';
                 infoBtn.disabled = false;
                 
+                updateMobileSubtitle();
+                
                 // Auto-open sidebar on desktop when demo is shown
                 if (!isMobile() && currentModel.results) {
                     showSidebar();
@@ -918,11 +924,21 @@
                 showDemoGrid();
             }
             hideSidebar();
+            updateMobileSubtitle();
         }
         
         // Check if we're on mobile
         function isMobile() {
             return window.innerWidth <= 768;
+        }
+        
+        function updateMobileSubtitle() {
+            if (isMobile() && currentDemo && currentModel) {
+                mobileSubtitle.textContent = `${currentDemo.title} • ${currentModel.name}`;
+                mobileSubtitle.style.display = 'block';
+            } else {
+                mobileSubtitle.style.display = 'none';
+            }
         }
         
         function showSidebar() {
@@ -962,9 +978,17 @@
                     <div class="section-content">
                         <strong>Name:</strong> ${results.model_card?.name || 'Unknown'}<br>
                         <strong>ID:</strong> ${results.model_card?.id || 'Unknown'}<br>
-                        <strong>Provider:</strong> ${results.model_card?.top_provider?.name || 'Unknown'}
+                        <strong>Provider:</strong> ${results.model_card?.top_provider?.name || 'Unknown'}<br>
+                        ${results.model_card?.id ? `<strong>OpenRouter:</strong> <a href="https://openrouter.ai/models/${results.model_card.id}" target="_blank" rel="noopener noreferrer" style="color: #667eea; text-decoration: underline;">View Model Details</a>` : ''}
                     </div>
                 </div>
+                
+                ${results.model_card?.description ? `
+                <div class="section">
+                    <div class="section-title">Model Description</div>
+                    <div class="section-content">${escapeHtml(results.model_card.description)}</div>
+                </div>
+                ` : ''}
                 
                 <div class="section">
                     <div class="section-title">Token Breakdown</div>
