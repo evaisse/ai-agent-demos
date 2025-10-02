@@ -1102,13 +1102,18 @@ Results will appear in model-specific subdirectories when generated.
 // Command: generate-demo
 program
   .command('generate-demo')
-  .description('Generate HTML demo using OpenRouter API')
+  .description('Generate HTML demo(s) using OpenRouter API with single or multiple models')
   .option('-d, --demo <demo>', 'Demo slug (directory name)')
-  .option('-m, --model <model>', 'OpenRouter model to use (e.g., openai/gpt-3.5-turbo)')
+  .option('-m, --model <models...>', 'OpenRouter model(s) to use (e.g., openai/gpt-3.5-turbo)')
   .option('-f, --force', 'Force regeneration if demo already exists')
   .action(async (options) => {
     try {
       let { demo, model, force } = options;
+      
+      // Ensure model is an array
+      if (model && !Array.isArray(model)) {
+        model = [model];
+      }
       
       // Interactive demo selection if not provided
       if (!demo) {
@@ -1204,17 +1209,48 @@ program
             });
           });
           
-          const modelAnswer = await inquirer.prompt([
+          const { selectionType } = await inquirer.prompt([
             {
               type: 'list',
-              name: 'model',
-              message: '🤖 Select a model to use:',
-              choices: modelChoices,
-              pageSize: 15,
-              loop: false
+              name: 'selectionType',
+              message: '🤖 How would you like to select models?',
+              choices: [
+                { name: 'Single model', value: 'single' },
+                { name: 'Multiple models', value: 'multiple' }
+              ]
             }
           ]);
-          model = modelAnswer.model;
+
+          if (selectionType === 'single') {
+            const modelAnswer = await inquirer.prompt([
+              {
+                type: 'list',
+                name: 'model',
+                message: '🤖 Select a model to use:',
+                choices: modelChoices,
+                pageSize: 15,
+                loop: false
+              }
+            ]);
+            model = [modelAnswer.model];
+          } else {
+            const modelAnswer = await inquirer.prompt([
+              {
+                type: 'checkbox',
+                name: 'models',
+                message: '🤖 Select models to use (use spacebar to select):',
+                choices: modelChoices,
+                pageSize: 15,
+                validate: function (answer) {
+                  if (answer.length < 1) {
+                    return 'You must choose at least one model.';
+                  }
+                  return true;
+                }
+              }
+            ]);
+            model = modelAnswer.models;
+          }
         } catch (error) {
           spinner.fail('Failed to load models');
           console.error(chalk.red(error.message));
@@ -1225,7 +1261,8 @@ program
       const demoDir = path.join(path.dirname(__dirname), 'pages', 'demos', demo);
       const promptPath = path.join(demoDir, 'PROMPT.md');
       
-      console.log(chalk.blue(`\n🚀 Generating demo: ${chalk.bold(demo)} with model: ${chalk.bold(model)}`))
+      const modelList = Array.isArray(model) ? model : [model];
+      console.log(chalk.blue(`\n🚀 Generating demo: ${chalk.bold(demo)} with ${modelList.length} model(s): ${chalk.bold(modelList.join(', '))}`))
       
       // Check if demo directory exists
       if (!await directoryExists(demoDir)) {
@@ -1251,75 +1288,144 @@ program
         process.exit(1);
       }
       
-      // Create model-specific directory
-      const modelDir = path.join(demoDir, model);
-      const outputPath = path.join(modelDir, 'index.html');
-      
-      // Check if demo already exists and force is not set
-      if (!force && await directoryExists(modelDir)) {
-        try {
-          await fs.access(outputPath);
-          console.log(`⚠️  Demo already exists for model '${model}'`);
-          console.log(`   Location: ${outputPath}`);
-          
-          const { overwrite } = await inquirer.prompt([
-            {
-              type: 'confirm',
-              name: 'overwrite',
-              message: 'Do you want to overwrite the existing demo?',
-              default: false
-            }
-          ]);
-          
-          if (!overwrite) {
-            console.log(chalk.yellow('Demo generation cancelled.'));
-            process.exit(0);
-          }
-        } catch {
-          // File doesn't exist, continue
-        }
-      }
-      
-      // Create model directory
-      await fs.mkdir(modelDir, { recursive: true });
-      
       // Read prompt
       const prompt = await fs.readFile(promptPath, 'utf-8');
       
-      // Generate demo using direct function call
-      await generateDemoWithModel(prompt, model, outputPath);
+      // Process each model
+      const results = [];
+      let overwriteAll = false;
+      let skipAll = false;
       
-      console.log(chalk.green(`\n✅ Demo generated successfully!`));
-      console.log(chalk.gray(`📄 Generated HTML: ${outputPath}`));
-      console.log(chalk.gray(`📊 Metrics: ${path.join(modelDir, 'results.json')}`));
-      console.log(chalk.gray(`📝 Full Response: ${path.join(modelDir, 'RESPONSE.md')}`));
-      console.log(chalk.gray(`📋 Detailed Report: ${path.join(modelDir, 'report.html')}`));
-      
-      // Ask if user wants to start preview server
-      const { startPreview } = await inquirer.prompt([
-        {
-          type: 'confirm',
-          name: 'startPreview',
-          message: 'Would you like to start the preview server and view the demo?',
-          default: true
+      for (let i = 0; i < modelList.length; i++) {
+        const currentModel = modelList[i];
+        const modelSlug = currentModel.replace(/\//g, '/'); // Keep original format for directory
+        const modelDir = path.join(demoDir, modelSlug);
+        const outputPath = path.join(modelDir, 'index.html');
+        
+        console.log(chalk.cyan(`\n📦 Processing model ${i + 1}/${modelList.length}: ${chalk.bold(currentModel)}`));
+        
+        // Check if demo already exists and force is not set
+        if (!force && !overwriteAll && !skipAll && await directoryExists(modelDir)) {
+          try {
+            await fs.access(outputPath);
+            console.log(`⚠️  Demo already exists for model '${currentModel}'`);
+            console.log(`   Location: ${outputPath}`);
+            
+            const choices = ['Overwrite this model', 'Skip this model'];
+            if (i < modelList.length - 1) {
+              choices.push('Overwrite all remaining', 'Skip all remaining');
+            }
+            
+            const { action } = await inquirer.prompt([
+              {
+                type: 'list',
+                name: 'action',
+                message: 'What would you like to do?',
+                choices: choices
+              }
+            ]);
+            
+            if (action === 'Skip this model') {
+              console.log(chalk.yellow(`⏭️  Skipping ${currentModel}`));
+              continue;
+            } else if (action === 'Skip all remaining') {
+              skipAll = true;
+              console.log(chalk.yellow(`⏭️  Skipping ${currentModel} and all remaining`));
+              continue;
+            } else if (action === 'Overwrite all remaining') {
+              overwriteAll = true;
+              console.log(chalk.green(`✅ Will overwrite ${currentModel} and all remaining`));
+            }
+          } catch {
+            // File doesn't exist, continue
+          }
+        } else if (skipAll) {
+          console.log(chalk.yellow(`⏭️  Skipping ${currentModel}`));
+          continue;
         }
-      ]);
+        
+        // Create model directory
+        await fs.mkdir(modelDir, { recursive: true });
+        
+        try {
+          // Generate demo using direct function call
+          await generateDemoWithModel(prompt, currentModel, outputPath);
+          results.push({
+            model: currentModel,
+            success: true,
+            outputPath,
+            modelDir
+          });
+          console.log(chalk.green(`✅ Generated ${currentModel} successfully!`));
+        } catch (error) {
+          console.error(chalk.red(`❌ Failed to generate ${currentModel}: ${error.message}`));
+          results.push({
+            model: currentModel,
+            success: false,
+            error: error.message
+          });
+        }
+      }
       
-      if (startPreview) {
-        console.log(chalk.cyan('\n🚀 Starting preview server...'));
-        const pagesDir = path.join(path.dirname(__dirname), 'pages');
+      // Summary
+      const successful = results.filter(r => r.success);
+      const failed = results.filter(r => !r.success);
+      
+      console.log(chalk.blue('\n📊 Generation Summary:'));
+      console.log(chalk.green(`✅ Successful: ${successful.length}/${results.length} models`));
+      if (failed.length > 0) {
+        console.log(chalk.red(`❌ Failed: ${failed.length}/${results.length} models`));
+        failed.forEach(f => console.log(chalk.red(`   - ${f.model}: ${f.error}`)));
+      }
+      
+      if (successful.length > 0) {
+        console.log(chalk.gray('\n📄 Generated files:'));
+        successful.forEach(r => {
+          console.log(chalk.gray(`   📄 HTML: ${r.outputPath}`));
+          console.log(chalk.gray(`   📊 Metrics: ${path.join(r.modelDir, 'results.json')}`));
+          console.log(chalk.gray(`   📝 Response: ${path.join(r.modelDir, 'RESPONSE.md')}`));
+          console.log(chalk.gray(`   📋 Report: ${path.join(r.modelDir, 'report.html')}`));
+        });
+      }
+      
+      // Ask if user wants to start preview server (only if there are successful generations)
+      if (successful.length > 0) {
+        const { startPreview } = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'startPreview',
+            message: 'Would you like to start the preview server and view the demo?',
+            default: true
+          }
+        ]);
         
-        // Find available port starting from 8900
-        const port = await findAvailablePort(8900);
-        console.log(chalk.green(`✅ Found available port: ${port}`));
-        
-        // Start server
-        const server = await startStaticServer(pagesDir, port);
-        const previewUrl = `http://localhost:${port}/?demo=${demo}&model=${model.replace('/', '-')}`;
-        
-        console.log(chalk.green(`\n✅ Server running!`));
-        console.log(chalk.white(`🌐 Opening demo at: ${chalk.bold(previewUrl)}`));
-        console.log(chalk.gray(`📁 Serving files from: ${pagesDir}`));
+        if (startPreview) {
+          console.log(chalk.cyan('\n🚀 Starting preview server...'));
+          const pagesDir = path.join(path.dirname(__dirname), 'pages');
+          
+          // Find available port starting from 8900
+          const port = await findAvailablePort(8900);
+          console.log(chalk.green(`✅ Found available port: ${port}`));
+          
+          // Start server
+          const server = await startStaticServer(pagesDir, port);
+          
+          // For multiple models, open to the demo page without specific model
+          // For single model, open directly to the model
+          let previewUrl;
+          if (successful.length === 1) {
+            const firstModel = successful[0].model.replace('/', '-');
+            previewUrl = `http://localhost:${port}/?demo=${demo}&model=${firstModel}`;
+          } else {
+            previewUrl = `http://localhost:${port}/?demo=${demo}`;
+          }
+          
+          console.log(chalk.green(`\n✅ Server running!`));
+          console.log(chalk.white(`🌐 Opening demo at: ${chalk.bold(previewUrl)}`));
+          if (successful.length > 1) {
+            console.log(chalk.gray(`   💡 You can switch between the ${successful.length} generated models using the dropdown`));
+          }
+          console.log(chalk.gray(`📁 Serving files from: ${pagesDir}`));
         
         // Open browser automatically
         console.log(chalk.cyan(`🚀 Opening browser...`));
@@ -1350,18 +1456,27 @@ program
           }, 5000);
         };
         
-        // Listen for shutdown signals
-        process.once('SIGINT', () => handleShutdown('SIGINT'));
-        process.once('SIGTERM', () => handleShutdown('SIGTERM'));
-        
-        // Keep the process alive
-        return; // Exit function to prevent showing "Next steps"
+          // Listen for shutdown signals
+          process.once('SIGINT', () => handleShutdown('SIGINT'));
+          process.once('SIGTERM', () => handleShutdown('SIGTERM'));
+          
+          // Keep the process alive
+          return; // Exit function to prevent showing "Next steps"
+        } else {
+          console.log('');
+          console.log(chalk.cyan(`Next steps:`));
+          console.log(chalk.white(`  1. Preview all demos: npm run preview-server`));
+          console.log(chalk.white(`  2. Try another model: npm run generate-demo -- -d ${demo}`));
+        }
       } else {
+        console.log(chalk.yellow('⚠️  No models were successfully generated.'));
+        if (failed.length > 0) {
+          console.log(chalk.red('   Check the errors above and try again.'));
+        }
         console.log('');
         console.log(chalk.cyan(`Next steps:`));
-        console.log(chalk.white(`  1. Open the generated demo: open "${outputPath}"`));
-        console.log(chalk.white(`  2. Preview all demos: npm run preview-server`));
-        console.log(chalk.white(`  3. Try another model: npm run generate-demo -- -d ${demo}`));
+        console.log(chalk.white(`  1. Try again: npm run generate-demo -- -d ${demo}`));
+        console.log(chalk.white(`  2. Preview existing demos: npm run preview-server`));
       }
       
     } catch (error) {
