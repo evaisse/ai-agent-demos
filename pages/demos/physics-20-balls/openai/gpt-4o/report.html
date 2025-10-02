@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> openai/gpt-4o</p>
+            <p><strong>Generated:</strong> 2025-10-02T00:13:16.293Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">1069</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">12.617s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0102</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Creating a simulation of 20 balls inside a spinning hexagon with changing gravity in a single HTML file is a complex task that can be accomplished using HTML5 Canvas and JavaScript. Below is a basic implementation of such a simulation. This example uses the HTML5 Canvas API for drawing, and JavaScript to handle the physics and animation. Please note that this is a simplified version and might require optimization for performance and additional features:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Ball Simulation in a Spinning Hexagon&lt;/title&gt;<br>    &lt;style&gt;<br>        body { margin: 0; overflow: hidden; }<br>        canvas { display: block; }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;canvas id=&quot;canvas&quot;&gt;&lt;/canvas&gt;<br>    &lt;script&gt;<br>        const canvas = document.getElementById(&#039;canvas&#039;);<br>        const ctx = canvas.getContext(&#039;2d&#039;);<br>        canvas.width = window.innerWidth;<br>        canvas.height = window.innerHeight;<br><br>        const centerX = canvas.width / 2;<br>        const centerY = canvas.height / 2;<br>        const hexagonRadius = 200;<br>        const ballCount = 20;<br>        const balls = [];<br>        let gravity = 0.1;<br>        let gravityDirection = 1;<br>        let angle = 0;<br><br>        class Ball {<br>            constructor(x, y, radius) {<br>                this.x = x;<br>                this.y = y;<br>                this.radius = radius;<br>                this.vx = Math.random() * 2 - 1;<br>                this.vy = Math.random() * 2 - 1;<br>            }<br><br>            update() {<br>                this.vy += gravity * gravityDirection;<br>                this.x += this.vx;<br>                this.y += this.vy;<br><br>                // Collision detection with hexagon walls<br>                if (this.y + this.radius &gt; centerY + hexagonRadius || this.y - this.radius &lt; centerY - hexagonRadius) {<br>                    this.vy *= -1;<br>                }<br>                if (this.x + this.radius &gt; centerX + hexagonRadius || this.x - this.radius &lt; centerX - hexagonRadius) {<br>                    this.vx *= -1;<br>                }<br>            }<br><br>            draw() {<br>                ctx.beginPath();<br>                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);<br>                ctx.fillStyle = &#039;blue&#039;;<br>                ctx.fill();<br>                ctx.closePath();<br>            }<br>        }<br><br>        function createBalls() {<br>            for (let i = 0; i &lt; ballCount; i++) {<br>                const ball = new Ball(centerX, centerY, 10);<br>                balls.push(ball);<br>            }<br>        }<br><br>        function drawHexagon(x, y, radius, angle) {<br>            ctx.beginPath();<br>            for (let i = 0; i &lt; 6; i++) {<br>                const theta = ((Math.PI / 3) * i) + angle;<br>                const px = x + radius * Math.cos(theta);<br>                const py = y + radius * Math.sin(theta);<br>                if (i === 0) {<br>                    ctx.moveTo(px, py);<br>                } else {<br>                    ctx.lineTo(px, py);<br>                }<br>            }<br>            ctx.closePath();<br>            ctx.strokeStyle = &#039;black&#039;;<br>            ctx.stroke();<br>        }<br><br>        function update() {<br>            ctx.clearRect(0, 0, canvas.width, canvas.height);<br>            angle += 0.01;<br>            drawHexagon(centerX, centerY, hexagonRadius, angle);<br><br>            balls.forEach(ball =&gt; {<br>                ball.update();<br>                ball.draw();<br>            });<br><br>            requestAnimationFrame(update);<br>        }<br><br>        function changeGravity() {<br>            gravityDirection *= -1;<br>            setTimeout(changeGravity, 5000);<br>        }<br><br>        createBalls();<br>        update();<br>        changeGravity();<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>### Explanation:<br>- **Canvas Setup:** The canvas is set to the full window size, and the hexagon is drawn at its center.<br>- **Ball Class:** Each ball is an instance of the <code>Ball</code> class, which contains methods to update its position and draw it on the canvas.<br>- **Physics Simulation:** Gravity is simulated by constantly increasing the vertical velocity of each ball. The direction of gravity changes every 5 seconds, flipping the gravity&#039;s effect.<br>- **Hexagon and Ball Drawing:** The hexagon is drawn using trigonometric functions to calculate its vertices. Balls are drawn as circles.<br>- **Animation Loop:** The <code>update</code> function continuously clears the canvas, updates the positions of the balls according to physics, and redraws everything.<br><br>This is a basic version of the simulation. You might want to add more complex collision detection, improve the physics, or optimize rendering for better performance.</div>
+        </div>
+    </div>
+</body>
+</html>

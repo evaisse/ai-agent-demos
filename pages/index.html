@@ -298,6 +298,7 @@
                 
                 demos = await response.json();
                 populateDemoSelector();
+                checkUrlParameters();
                 hideLoading();
                 
                 refreshBtn.disabled = false;
@@ -340,6 +341,37 @@
             errorState.style.display = 'flex';
             noDemo.style.display = 'none';
             demoFrame.style.display = 'none';
+        }
+        
+        // Check URL parameters and auto-select demo/model
+        function checkUrlParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const demoParam = urlParams.get('demo');
+            const modelParam = urlParams.get('model');
+            
+            if (demoParam && demos.length > 0) {
+                // Find and select the demo
+                const demo = demos.find(d => d.name === demoParam);
+                if (demo) {
+                    demoSelector.value = demoParam;
+                    currentDemo = demo;
+                    updateModelSelector();
+                    
+                    // If model parameter is provided, try to select it
+                    if (modelParam) {
+                        // Convert back from URL-safe format (- to /)
+                        const modelName = modelParam.replace('-', '/');
+                        const model = demo.models.find(m => m.name === modelName);
+                        if (model) {
+                            setTimeout(() => {
+                                modelSelector.value = modelName;
+                                currentModel = model;
+                                showDemo();
+                            }, 100); // Small delay to ensure model selector is populated
+                        }
+                    }
+                }
+            }
         }
         
         // Event listeners

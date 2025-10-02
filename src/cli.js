@@ -1282,11 +1282,29 @@ program
       console.log(chalk.gray(`📊 Metrics: ${path.join(modelDir, 'results.json')}`));
       console.log(chalk.gray(`📝 Full Response: ${path.join(modelDir, 'RESPONSE.md')}`));
       console.log(chalk.gray(`📋 Detailed Report: ${path.join(modelDir, 'report.html')}`));
-      console.log('');
-      console.log(chalk.cyan(`Next steps:`));
-      console.log(chalk.white(`  1. Open the generated demo: open "${outputPath}"`));
-      console.log(chalk.white(`  2. Preview all demos: npm run preview-server`));
-      console.log(chalk.white(`  3. Try another model: npm run generate-demo -- -d ${demo}`));
+      
+      // Ask if user wants to start preview server
+      const { startPreview } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'startPreview',
+          message: 'Would you like to start the preview server and view the demo?',
+          default: true
+        }
+      ]);
+      
+      if (startPreview) {
+        console.log(chalk.cyan('\n🚀 Starting preview server...'));
+        const previewUrl = `http://localhost:8900/?demo=${demo}&model=${model.replace('/', '-')}`;
+        const pagesDir = path.join(path.dirname(__dirname), 'pages');
+        await startStaticServer(pagesDir, 8900, previewUrl);
+      } else {
+        console.log('');
+        console.log(chalk.cyan(`Next steps:`));
+        console.log(chalk.white(`  1. Open the generated demo: open "${outputPath}"`));
+        console.log(chalk.white(`  2. Preview all demos: npm run preview-server`));
+        console.log(chalk.white(`  3. Try another model: npm run generate-demo -- -d ${demo}`));
+      }
       
     } catch (error) {
       console.error('❌ Failed to generate demo:', error.message);
