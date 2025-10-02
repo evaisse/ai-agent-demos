@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> google/gemini-2.5-flash-lite</p>
+            <p><strong>Generated:</strong> 2025-10-02T12:42:55.554Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">2030</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">5.354s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0008</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Creating an **exact copy** of Pac-Man in a single HTML file with just CSS and JavaScript is an incredibly ambitious and complex task. The original Pac-Man game involves a significant amount of game logic, sprite animation, collision detection, AI for ghosts, sound effects, scoring, and level design.<br><br>**It&#039;s not feasible to provide a fully functional, pixel-perfect, or even feature-complete &quot;exact copy&quot; of Pac-Man within the constraints of a simple HTML file and a single code block response.** The original game was developed with extensive resources and specialized tooling.<br><br>However, I can provide you with a **simplified, playable version of Pac-Man** that demonstrates the core mechanics: movement, maze, and basic ghost behavior. This will give you a strong foundation and illustrate how such a game can be built using HTML, CSS, and JavaScript.<br><br>This example will focus on:<br><br>*   **HTML Structure:** A <code>div</code> for the game container and another for the maze.<br>*   **CSS Styling:** Styling the maze cells, Pac-Man, dots, and ghosts.<br>*   **JavaScript Logic:**<br>    *   Representing the maze as a 2D array.<br>    *   Handling Pac-Man&#039;s movement based on keyboard input.<br>    *   Basic collision detection with walls and dots.<br>    *   A simplified, non-intelligent ghost movement.<br>    *   Scorekeeping.<br><br>**Here&#039;s the <code>index.html</code> file with a simplified Pac-Man implementation:**<br><br>```html<br>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Simplified Pac-Man&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            min-height: 100vh;<br>            background-color: #000;<br>            margin: 0;<br>            font-family: &#039;Press Start 2P&#039;, cursive; /* You can link a pixel font if you want */<br>            color: white;<br>            flex-direction: column;<br>        }<br><br>        #game-container {<br>            position: relative;<br>            border: 2px solid white;<br>            background-color: #000;<br>            overflow: hidden; /* Important to keep elements within bounds */<br>        }<br><br>        #game-board {<br>            display: grid;<br>            background-color: #000;<br>        }<br><br>        .cell {<br>            width: 30px; /* Adjust size for desired resolution */<br>            height: 30px;<br>            box-sizing: border-box;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>        }<br><br>        .wall {<br>            background-color: #0000ff; /* Blue for walls */<br>        }<br><br>        .dot {<br>            width: 10px;<br>            height: 10px;<br>            background-color: #fff;<br>            border-radius: 50%;<br>        }<br><br>        .pacman {<br>            width: 26px; /* Slightly smaller than cell for visibility */<br>            height: 26px;<br>            background-color: #ffff00; /* Yellow for Pac-Man */<br>            border-radius: 50%;<br>            position: absolute;<br>            transition: transform 0.1s linear; /* Smooth movement */<br>        }<br><br>        .ghost {<br>            width: 26px;<br>            height: 26px;<br>            background-color: red; /* Default ghost color */<br>            border-radius: 50%;<br>            position: absolute;<br>            transition: transform 0.2s linear; /* Smooth movement */<br>        }<br><br>        .ghost-red { background-color: red; }<br>        .ghost-pink { background-color: #ffb6c1; } /* LightPink */<br>        .ghost-cyan { background-color: #00ffff; } /* Cyan */<br>        .ghost-orange { background-color: orange; }<br><br>        #score {<br>            margin-top: 20px;<br>            font-size: 1.5em;<br>        }<br><br>        #message {<br>            margin-top: 10px;<br>            font-size: 1.2em;<br>            color: yellow;<br>            visibility: hidden; /* Hidden until game over */<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;h1&gt;Simplified Pac-Man&lt;/h1&gt;<br>    &lt;div id=&quot;game-container&quot;&gt;<br>        &lt;div id=&quot;game-board&quot;&gt;&lt;/div&gt;<br>        &lt;div id=&quot;pacman&quot;&gt;&lt;/div&gt;<br>        &lt;!-- Ghosts will be added dynamically --&gt;<br>    &lt;/div&gt;<br>    &lt;div id=&quot;score&quot;&gt;Score: 0&lt;/div&gt;<br>    &lt;div id=&quot;message&quot;&gt;Game Over!&lt;/div&gt;<br><br>    &lt;script&gt;<br>        const gameContainer = document.getElementById(&#039;game-container&#039;);<br>        const gameBoard = document.getElementById(&#039;game-board&#039;);<br>        const scoreDisplay = document.getElementById(&#039;score&#039;);<br>        const messageDisplay = document.getElementById(&#039;message&#039;);<br>        const pacmanElement = document.getElementById(&#039;pacman&#039;);<br><br>        // Game constants<br>        const CELL_SIZE = 30; // Must match CSS .cell width/height<br>        const BOARD_WIDTH = 15; // Number of cells horizontally<br>        const BOARD_HEIGHT = 15; // Number of cells vertically<br><br>        // Game state<br>        let pacmanPosition = { x: 1, y: 1 };<br>        let score = 0;<br>        let dotsRemaining = 0;<br>        const pacmanSpeed = 1; // How many cells Pac-Man moves per step<br>        let pacmanDirection = { x: 0, y: 0 }; // Current direction of Pac-Man<br>        let nextPacmanDirection = { x: 0, y: 0 }; // For smoother input handling<br><br>        // Maze definition (0: empty, 1: wall, 2: dot)<br>        const maze = [<br>            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],<br>            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],<br>            [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],<br>            [1, 2, 1, 0, 1, 2, 1, 0, 1, 2, 1, 0, 1, 2, 1],<br>            [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],<br>            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],<br>            [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],<br>            [1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1],<br>            [1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1],<br>            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],<br>            [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],<br>            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],<br>            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]<br>        ];<br><br>        // Ghost positions and initial directions<br>        const ghosts = [<br>            { id: &#039;ghost-1&#039;, x: 7, y:</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> deepseek/deepseek-r1</p>
+            <p><strong>Generated:</strong> 2025-10-02T14:17:53.025Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">1559</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">16.024s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0031</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Here&#039;s a captivating raining and thunderstorm animation in a single HTML file:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>    &lt;title&gt;Thunderstorm&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            margin: 0;<br>            height: 100vh;<br>            overflow: hidden;<br>            background: #000;<br>            position: relative;<br>            transition: background 0.5s ease;<br>        }<br><br>        .rain {<br>            position: absolute;<br>            width: 2px;<br>            height: 50px;<br>            background: linear-gradient(transparent, #00f7ff);<br>            animation: fall 1s linear infinite;<br>            opacity: 0.7;<br>        }<br><br>        @keyframes fall {<br>            0% { transform: translateY(-100vh) translateX(0); }<br>            100% { transform: translateY(100vh) translateX(30px); }<br>        }<br><br>        .lightning {<br>            position: absolute;<br>            width: 100%;<br>            height: 100%;<br>            background: white;<br>            opacity: 0;<br>            animation: flash 0.2s ease-out;<br>        }<br><br>        @keyframes flash {<br>            0% { opacity: 0.8; }<br>            100% { opacity: 0; }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;script&gt;<br>        // Create rain drops<br>        function createRain() {<br>            const rainContainer = document.body;<br>            for (let i = 0; i &lt; 100; i++) {<br>                const rain = document.createElement(&#039;div&#039;);<br>                rain.className = &#039;rain&#039;;<br>                rain.style.left = Math.random() * 100 + &#039;%&#039;;<br>                rain.style.animationDuration = (Math.random() * 0.5 + 0.5) + &#039;s&#039;;<br>                rain.style.height = (Math.random() * 30 + 20) + &#039;px&#039;;<br>                rainContainer.appendChild(rain);<br>            }<br>        }<br><br>        // Create lightning effect<br>        function createLightning() {<br>            const lightning = document.createElement(&#039;div&#039;);<br>            lightning.className = &#039;lightning&#039;;<br>            document.body.appendChild(lightning);<br>            <br>            setTimeout(() =&gt; {<br>                lightning.remove();<br>            }, 200);<br>        }<br><br>        // Start animation<br>        createRain();<br>        <br>        // Random lightning strikes<br>        setInterval(() =&gt; {<br>            if (Math.random() &lt; 0.1) { // 10% chance every check<br>                document.body.style.background = &#039;#111&#039;;<br>                setTimeout(() =&gt; {<br>                    document.body.style.background = &#039;#000&#039;;<br>                }, 100);<br>                createLightning();<br>            }<br>        }, 1000);<br><br>        // Continuous thunder effect<br>        setInterval(() =&gt; {<br>            if (Math.random() &lt; 0.3) { // 30% chance every check<br>                document.body.style.background = &#039;#222&#039;;<br>                setTimeout(() =&gt; {<br>                    document.body.style.background = &#039;#000&#039;;<br>                }, 50);<br>            }<br>        }, 300);<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This animation features:<br>1. Falling raindrops with varying speeds and lengths<br>2. Random lightning flashes that illuminate the entire screen<br>3. Subtle background flickering to simulate thunder<br>4. Blue-cyan colored raindrops for better visibility<br>5. Smooth animations using CSS transitions and keyframes<br><br>The animation runs automatically and infinitely, creating a dramatic thunderstorm effect. The lightning strikes randomly with varying intensity, and the continuous rain effect is created using dynamically generated div elements with randomized properties.<br><br>To use this, simply save it as <code>index.html</code> and open it in a web browser. The storm will start immediately and run indefinitely without any user interaction required. The combination of the falling rain, sudden lightning flashes, and background flickering creates an immersive atmospheric effect.</div>
+        </div>
+    </div>
+</body>
+</html>

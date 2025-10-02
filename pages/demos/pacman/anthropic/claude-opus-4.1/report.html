@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-opus-4.1</p>
+            <p><strong>Generated:</strong> 2025-10-02T12:42:48.143Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">2037</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">78.234s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.1506</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">I can&#039;t create an exact copy of PAC-MAN as it&#039;s a copyrighted game owned by Bandai Namco. However, I can help you create a simple maze game inspired by PAC-MAN with original implementation. Here&#039;s a basic version:<br><br>```html<br>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Maze Runner Game&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            margin: 0;<br>            padding: 20px;<br>            background: #222;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            min-height: 100vh;<br>            font-family: Arial, sans-serif;<br>        }<br>        <br>        #gameContainer {<br>            text-align: center;<br>        }<br>        <br>        #gameCanvas {<br>            border: 2px solid #00f;<br>            background: #000;<br>            display: block;<br>            margin: 0 auto;<br>        }<br>        <br>        #score {<br>            color: white;<br>            font-size: 24px;<br>            margin-bottom: 10px;<br>        }<br>        <br>        #gameOver {<br>            color: red;<br>            font-size: 32px;<br>            margin-top: 20px;<br>            display: none;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;gameContainer&quot;&gt;<br>        &lt;div id=&quot;score&quot;&gt;Score: 0&lt;/div&gt;<br>        &lt;canvas id=&quot;gameCanvas&quot; width=&quot;400&quot; height=&quot;400&quot;&gt;&lt;/canvas&gt;<br>        &lt;div id=&quot;gameOver&quot;&gt;Game Over!&lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;script&gt;<br>        const canvas = document.getElementById(&#039;gameCanvas&#039;);<br>        const ctx = canvas.getContext(&#039;2d&#039;);<br>        const scoreElement = document.getElementById(&#039;score&#039;);<br>        const gameOverElement = document.getElementById(&#039;gameOver&#039;);<br>        <br>        const CELL_SIZE = 20;<br>        const ROWS = 20;<br>        const COLS = 20;<br>        <br>        let score = 0;<br>        let gameRunning = true;<br>        <br>        // Simple maze layout (1 = wall, 0 = path, 2 = dot, 3 = power-up)<br>        const maze = [<br>            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],<br>            [1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1],<br>            [1,2,1,1,2,1,1,1,2,1,1,2,1,1,1,2,1,1,2,1],<br>            [1,3,1,1,2,1,1,1,2,1,1,2,1,1,1,2,1,1,3,1],<br>            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],<br>            [1,2,1,1,2,1,2,1,1,1,1,1,1,2,1,2,1,1,2,1],<br>            [1,2,2,2,2,1,2,2,2,1,1,2,2,2,1,2,2,2,2,1],<br>            [1,1,1,1,2,1,1,1,2,1,1,2,1,1,1,2,1,1,1,1],<br>            [1,1,1,1,2,1,2,2,2,2,2,2,2,2,1,2,1,1,1,1],<br>            [1,1,1,1,2,1,2,1,1,0,0,1,1,2,1,2,1,1,1,1],<br>            [1,2,2,2,2,2,2,1,0,0,0,0,1,2,2,2,2,2,2,1],<br>            [1,1,1,1,2,1,2,1,1,1,1,1,1,2,1,2,1,1,1,1],<br>            [1,1,1,1,2,1,2,2,2,2,2,2,2,2,1,2,1,1,1,1],<br>            [1,1,1,1,2,1,2,1,1,1,1,1,1,2,1,2,1,1,1,1],<br>            [1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1],<br>            [1,2,1,1,2,1,1,1,2,1,1,2,1,1,1,2,1,1,2,1],<br>            [1,3,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1,2,3,1],<br>            [1,1,2,1,2,1,2,1,1,1,1,1,1,2,1,2,1,2,1,1],<br>            [1,2,2,2,2,1,2,2,2,1,1,2,2,2,1,2,2,2,2,1],<br>            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]<br>        ];<br>        <br>        // Player object<br>        const player = {<br>            x: 9,<br>            y: 10,<br>            direction: null,<br>            nextDirection: null<br>        };<br>        <br>        // Simple enemy<br>        const enemy = {<br>            x: 10,<br>            y: 9,<br>            direction: &#039;up&#039;,<br>            color: &#039;#ff0000&#039;<br>        };<br>        <br>        // Game functions<br>        function drawMaze() {<br>            for (let row = 0; row &lt; ROWS; row++) {<br>                for (let col = 0; col &lt; COLS; col++) {<br>                    const cell = maze[row][col];<br>                    const x = col * CELL_SIZE;<br>                    const y = row * CELL_SIZE;<br>                    <br>                    if (cell === 1) {<br>                        ctx.fillStyle = &#039;#0000ff&#039;;<br>                        ctx.fillRect(x, y, CELL_SIZE, CELL_SIZE);<br>                    } else if (cell === 2) {<br>                        ctx.fillStyle = &#039;#ffff00&#039;;<br>                        ctx.beginPath();<br>                        ctx.arc(x + CELL_SIZE/2, y + CELL_SIZE/2, 2, 0, Math.PI * 2);<br>                        ctx.fill();<br>                    } else if (cell === 3) {<br>                        ctx.fillStyle = &#039;#00ff00&#039;;<br>                        ctx.beginPath();<br>                        ctx.arc(x + CELL_SIZE/2, y + CELL_SIZE/2, 5, 0, Math.PI * 2);<br>                        ctx.fill();<br>                    }<br>                }<br>            }<br>        }<br>        <br>        function drawPlayer() {<br>            ctx.fillStyle = &#039;#ffff00&#039;;<br>            ctx.beginPath();<br>            ctx.arc(<br>                player.x * CELL_SIZE + CELL_SIZE/2,<br>                player.y * CELL_SIZE + CELL_SIZE/2,<br>                CELL_SIZE/2 - 2,<br>                0.2 * Math.PI,<br>                1.8 * Math.PI<br>            );<br>            ctx.lineTo(player.x * CELL_SIZE + CELL_SIZE/2, player.y * CELL_SIZE + CELL_SIZE/2);<br>            ctx.fill();<br>        }<br>        <br>        function drawEnemy() {<br>            ctx.fillStyle = enemy.</div>
+        </div>
+    </div>
+</body>
+</html>

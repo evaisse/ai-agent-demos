@@ -1,0 +1,66 @@
+{
+  "timestamp": "2025-10-02T12:42:55.551Z",
+  "execution": {
+    "duration_seconds": "5.354",
+    "model_used": "google/gemini-2.5-flash-lite",
+    "model_requested": "google/gemini-2.5-flash-lite"
+  },
+  "tokens": {
+    "prompt_tokens": 28,
+    "completion_tokens": 2002,
+    "total_tokens": 2030
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000003,
+    "completion_cost": 0.000801,
+    "total_cost": 0.000804
+  },
+  "model_card": {
+    "id": "google/gemini-2.5-flash-lite",
+    "name": "Google: Gemini 2.5 Flash Lite",
+    "description": "Gemini 2.5 Flash-Lite is a lightweight reasoning model in the Gemini 2.5 family, optimized for ultra-low latency and cost efficiency. It offers improved throughput, faster token generation, and better performance across common benchmarks compared to earlier Flash models. By default, \"thinking\" (i.e. multi-pass reasoning) is disabled to prioritize speed, but developers can enable it via the [Reasoning API parameter](https://openrouter.ai/docs/use-cases/reasoning-tokens) to selectively trade off cost for intelligence. ",
+    "context_length": 1048576,
+    "architecture": {
+      "input_modalities": [
+        "file",
+        "image",
+        "text",
+        "audio"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Gemini"
+    },
+    "pricing": {
+      "completion": "0.0000004",
+      "image": "0",
+      "input_cache_read": "0.000000025",
+      "input_cache_write": "0.0000001833",
+      "internal_reasoning": "0",
+      "prompt": "0.0000001",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 1048576,
+      "is_moderated": false,
+      "max_completion_tokens": 65535
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 2000
+  },
+  "response_metadata": {
+    "id": "gen-1759408970-8F9Kx85gDlVvQC522thd",
+    "created": 1759408970,
+    "object": "chat.completion"
+  },
+  "raw_response": "Creating an **exact copy** of Pac-Man in a single HTML file with just CSS and JavaScript is an incredibly ambitious and complex task. The original Pac-Man game involves a significant amount of game logic, sprite animation, collision detection, AI for ghosts, sound effects, scoring, and level design.\n\n**It's not feasible to provide a fully functional, pixel-perfect, or even feature-complete \"exact copy\" of Pac-Man within the constraints of a simple HTML file and a single code block response.** The original game was developed with extensive resources and specialized tooling.\n\nHowever, I can provide you with a **simplified, playable version of Pac-Man** that demonstrates the core mechanics: movement, maze, and basic ghost behavior. This will give you a strong foundation and illustrate how such a game can be built using HTML, CSS, and JavaScript.\n\nThis example will focus on:\n\n*   **HTML Structure:** A `div` for the game container and another for the maze.\n*   **CSS Styling:** Styling the maze cells, Pac-Man, dots, and ghosts.\n*   **JavaScript Logic:**\n    *   Representing the maze as a 2D array.\n    *   Handling Pac-Man's movement based on keyboard input.\n    *   Basic collision detection with walls and dots.\n    *   A simplified, non-intelligent ghost movement.\n    *   Scorekeeping.\n\n**Here's the `index.html` file with a simplified Pac-Man implementation:**\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Simplified Pac-Man</title>\n    <style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            min-height: 100vh;\n            background-color: #000;\n            margin: 0;\n            font-family: 'Press Start 2P', cursive; /* You can link a pixel font if you want */\n            color: white;\n            flex-direction: column;\n        }\n\n        #game-container {\n            position: relative;\n            border: 2px solid white;\n            background-color: #000;\n            overflow: hidden; /* Important to keep elements within bounds */\n        }\n\n        #game-board {\n            display: grid;\n            background-color: #000;\n        }\n\n        .cell {\n            width: 30px; /* Adjust size for desired resolution */\n            height: 30px;\n            box-sizing: border-box;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .wall {\n            background-color: #0000ff; /* Blue for walls */\n        }\n\n        .dot {\n            width: 10px;\n            height: 10px;\n            background-color: #fff;\n            border-radius: 50%;\n        }\n\n        .pacman {\n            width: 26px; /* Slightly smaller than cell for visibility */\n            height: 26px;\n            background-color: #ffff00; /* Yellow for Pac-Man */\n            border-radius: 50%;\n            position: absolute;\n            transition: transform 0.1s linear; /* Smooth movement */\n        }\n\n        .ghost {\n            width: 26px;\n            height: 26px;\n            background-color: red; /* Default ghost color */\n            border-radius: 50%;\n            position: absolute;\n            transition: transform 0.2s linear; /* Smooth movement */\n        }\n\n        .ghost-red { background-color: red; }\n        .ghost-pink { background-color: #ffb6c1; } /* LightPink */\n        .ghost-cyan { background-color: #00ffff; } /* Cyan */\n        .ghost-orange { background-color: orange; }\n\n        #score {\n            margin-top: 20px;\n            font-size: 1.5em;\n        }\n\n        #message {\n            margin-top: 10px;\n            font-size: 1.2em;\n            color: yellow;\n            visibility: hidden; /* Hidden until game over */\n        }\n    </style>\n</head>\n<body>\n    <h1>Simplified Pac-Man</h1>\n    <div id=\"game-container\">\n        <div id=\"game-board\"></div>\n        <div id=\"pacman\"></div>\n        <!-- Ghosts will be added dynamically -->\n    </div>\n    <div id=\"score\">Score: 0</div>\n    <div id=\"message\">Game Over!</div>\n\n    <script>\n        const gameContainer = document.getElementById('game-container');\n        const gameBoard = document.getElementById('game-board');\n        const scoreDisplay = document.getElementById('score');\n        const messageDisplay = document.getElementById('message');\n        const pacmanElement = document.getElementById('pacman');\n\n        // Game constants\n        const CELL_SIZE = 30; // Must match CSS .cell width/height\n        const BOARD_WIDTH = 15; // Number of cells horizontally\n        const BOARD_HEIGHT = 15; // Number of cells vertically\n\n        // Game state\n        let pacmanPosition = { x: 1, y: 1 };\n        let score = 0;\n        let dotsRemaining = 0;\n        const pacmanSpeed = 1; // How many cells Pac-Man moves per step\n        let pacmanDirection = { x: 0, y: 0 }; // Current direction of Pac-Man\n        let nextPacmanDirection = { x: 0, y: 0 }; // For smoother input handling\n\n        // Maze definition (0: empty, 1: wall, 2: dot)\n        const maze = [\n            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],\n            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],\n            [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],\n            [1, 2, 1, 0, 1, 2, 1, 0, 1, 2, 1, 0, 1, 2, 1],\n            [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],\n            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],\n            [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],\n            [1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1],\n            [1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1],\n            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],\n            [1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1],\n            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],\n            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n        ];\n\n        // Ghost positions and initial directions\n        const ghosts = [\n            { id: 'ghost-1', x: 7, y:"
+}

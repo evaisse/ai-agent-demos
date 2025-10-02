@@ -2,6 +2,10 @@
 
 A powerful CLI tool to create and manage AI-powered HTML demos using the OpenRouter API. Generate interactive demos with multiple AI models and view them in a beautiful, organized interface.
 
+Credits for many prompts to : [@evotionai](https://www.instagram.com/evotionai/reel/)
+
+
+
 ## 🚀 Features
 
 - **Create Demos**: Generate demo prompts with titles and organized structure

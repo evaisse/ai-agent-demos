@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Demo</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplified Pac-Man</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #000;
+            margin: 0;
+            font-family: 'Press Start 2P', cursive; /* You can link a pixel font if you want */
+            color: white;
+            flex-direction: column;
+        }
+
+        #game-container {
+            position: relative;
+            border: 2px solid white;
+            background-color: #000;
+            overflow: hidden; /* Important to keep elements within bounds */
+        }
+
+        #game-board {
+            display: grid;
+            background-color: #000;
+        }
+
+        .cell {
+            width: 30px; /* Adjust size for desired resolution */
+            height: 30px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wall {
+            background-color: #0000ff; /* Blue for walls */
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+
+        .pacman {
+            width: 26px; /* Slightly smaller than cell for visibility */
+            height: 26px;
+            background-color: #ffff00; /* Yellow for Pac-Man */
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.1s linear; /* Smooth movement */
+        }
+
+        .ghost {
+            width: 26px;
+            height: 26px;
+            background-color: red; /* Default ghost color */
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.2s linear; /* Smooth movement */
+        }
+
+        .ghost-red { background-color: red; }
+        .ghost-pink { background-color: #ffb6c1; } /* LightPink */
+        .ghost-cyan { background-color: #00ffff; } /* Cyan */
+        .ghost-orange { background-color: orange; }
+
+        #score {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+
+        #message {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: yellow;
+            visibility: hidden; /* Hidden until game over */
+        }
+    </style>
+</head>
+<body>
+    <h1>Simplified Pac-Man</h1>
+    <div id="game-container">
+        <div id="game-board"></div>
+        <div id="pacman"></div>
+        <!-- Ghosts will be added dynamically -->
+    </div>
+    <div id="score">Score: 0</div>
+    <div id="message">Game Over!</div>
+</body>
+</html>

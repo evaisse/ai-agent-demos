@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pac-Man</title>
+<style>
+  body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  #gameCanvas {
+    border: 2px solid white;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="gameCanvas" width="448" height="496"></canvas>
+
+<script>
+  // Game Constants
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+  const gridSize = 16; // Size of each grid cell
+  const pacmanSpeed = 2;
+  const ghostSpeed = 1.5;
+
+  // Game State
+  let pacman = {
+    x: gridSize,
+    y: gridSize,
+    direction: 'right',
+    nextDirection: 'right'
+  };
+
+  const ghosts = [
+    { x: gridSize * 13, y: gridSize * 13, color: 'red', direction: 'down'},
+    { x: gridSize * 13, y: gridSize * 13, color: 'pink', direction: 'down'},
+    { x: gridSize * 13, y: gridSize * 13, color: 'cyan', direction: 'down'},
+    { x: gridSize * 13, y: gridSize * 13, color: 'orange', direction: 'down'}
+  ];
+
+  let score = 0;
+  let pellets = [];
+  let powerPellets = [];
+  let gameInterval;
+
+  // Game Map (0: wall, 1: dot, 2: power pellet, 3: empty)
+  const gameMap = [
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,0,0],
+    [0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0],
+    [0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,0,0],
+    [0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0],
+    [0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,0,0],
+    [0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0],
+    [0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,0,0],
+    [0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0],
+    [0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ];
+
+  // Function to initialize the game
+  function initGame() {
+    // Initialize pellets and power pellets
+    pellets = [];
+    powerPellets = [];
+    for (let y = 0; y < gameMap.length; y++) {
+      for (let x = 0; x < gameMap[y].length; x++) {
+        if (gameMap[y][x] === 1) {
+          pellets.push({ x: x * gridSize, y: y * gridSize });
+        } else if (gameMap[y][x] === 2) {
+          powerPellets.push({ x: x * gridSize, y: y * gridSize });
+        }
+      }
+    }
+  }
+
+  // Function to draw the game map
+  function drawMap() {
+    for (let y = 0; y < gameMap.length; y++) {
+      for (let x = 0; x < gameMap[y].length; x++) {
+        if (gameMap[y][x] === 0) {
+          ctx.fillStyle = 'black';
+          ctx.fillRect(x * gridSize, y * gridSize, gridSize, gridSize);
+        } else if (gameMap[y][x] === 1) {
+          ctx.fillStyle = 'white';
+          ctx.fillRect(x * gridSize, y * gridSize, gridSize, gridSize);
+        } else if (gameMap[y][x] === 2) {
+          ctx.fillStyle = 'yellow';
+          ctx.fillRect(x * gridSize, y * gridSize, gridSize, gridSize);
+        }
+      }
+    }
+  }
+
+  // Function to draw Pac-Man
+  function drawPacMan() {
+    ctx.fillStyle = 'yellow';
+    ctx.beginPath();
+    ctx.arc(pacman.x + gridSize / 2, pacman.y + gridSize / 2, gridSize / 2, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  // Function to draw the ghosts
+  function drawGhosts() {
+    ghosts.forEach(ghost => {
+      ctx.fillStyle = ghost.color;
+      ctx.beginPath();
+      ctx.arc(ghost.x + gridSize / 2, ghost.y + gridSize / 2, gridSize / 2, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+  }
+
+  // Function to update Pac-Man's position
+  function updatePacMan() {
+    // Handle next direction
+    if (pacman.nextDirection !== pacman.direction) {
+      // Check for wall collisions before changing direction
+      let canMove = true;
+      switch (pacman.nextDirection) {
+        case 'up':
+          if (gameMap[Math.floor(pacman.y / gridSize) - 1][Math.floor(pacman.x / gridSize)] === 0) canMove = false;
+          break;
+        case 'down':
+          if (gameMap[Math.floor(pacman.y / gridSize) + 1][Math.floor(pacman.x / gridSize)] === 0) canMove = false;
+          break;
+        case 'left':
+          if (gameMap[Math.floor(pacman.y / gridSize)][Math.floor(pacman.x / gridSize) - 1] === 0) canMove = false;
+          break;
+        case 'right':
+          if (gameMap[Math.floor(pacman.y / gridSize)][Math.floor(pacman.x / gridSize) + 1] === 0) canMove = false;
+          break;
+      }
+      if (canMove) {
+        pacman.direction = pacman.nextDirection;
+      }
+    }
+
+    switch (pacman.direction) {
+      case 'up':
+        pacman.y -= pacmanSpeed;
+        break;
+      case 'down':
+        pacman.y += pacmanSpeed;
+        break;
+      case 'left':
+        pacman.x -= pacmanSpeed;
+        break;
+      case 'right':
+        pacman.x += pacmanSpeed;
+        break;
+    }
+
+    // Keep Pac-Man within bounds
+    pacman.x = Math.max(0, Math.min(pacman.x, canvas.width - gridSize));
+    pacman.y = Math.max(0, Math.min(pacman.y, canvas.height - gridSize));
+  }
+
+  // Function to update ghost positions
+  function updateGhosts() {
+    ghosts.forEach(ghost => {
+      // Simple AI - move randomly
+      let randomDirection = Math.floor(Math.random() * 4);
+      let directions = ['up', 'down', 'left', 'right'];
+      ghost.direction = directions[randomDirection];
+
+      switch (ghost.direction) {
+        case 'up':
+          ghost.y -= ghostSpeed;
+          break;
+        case 'down':
+          ghost.y += ghostSpeed;
+          break;
+        case 'left':
+          ghost.x -= ghostSpeed;
+          break;
+        case 'right':
+          ghost.x += ghostSpeed;
+          break;
+      }
+
+      // Keep ghosts within bounds
+      ghost.x = Math.max(0, Math.min(ghost.x, canvas.width - gridSize));
+      ghost.y = Math.max(0, Math.min(ghost.y, canvas.height - gridSize));
+    });
+  }
+
+  // Function to check for collisions
+  function checkCollisions() {
+    // Pac-Man and pellets
+    pellets = pellets.filter(pellet => {
+      const distance = Math.sqrt((pacman.x - pellet.x) ** 2 + (pacman.y - pellet.y) ** 2);
+      if (distance < gridSize / 2) {
+        score++;
+        return false; // Remove pellet from array
+      }
+      return true;
+    });
+
+    // Pac-Man and power pellets
+    powerPellets = powerPellets.filter(powerPellet => {
+      const distance = Math.sqrt((pacman.x - powerPellet.x) ** 2 + (pacman.y - powerPellet.y) ** 2);
+      if (distance < gridSize / 2) {
+        // Implement power-up logic here (e.g., change ghost color, speed)
+        return false;
+      }
+      return true;
+    });
+
+    // Pac-Man and ghosts (simple collision)
+    ghosts.forEach(ghost => {
+      const distance = Math.sqrt((pacman.x - ghost.x) ** 2 + (pacman.y - ghost.y) ** 2);
+      if (distance < gridSize / 2) {
+        // Game Over logic
+        clearInterval(gameInterval);
+        alert('Game Over! Score: ' + score);
+      }
+    });
+  }
+
+  // Function to draw the score
+  function drawScore() {
+    ctx.fillStyle = 'white';
+    ctx.font = '16px Arial';
+    ctx.fillText('Score: ' + score, 10, 20);
+  }
+
+  // Game Loop
+  function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMap();
+    updatePacMan();
+    updateGhosts();
+    checkCollisions();
+    drawPacMan();
+    drawGhosts();
+    drawScore();
+  }
+
+  // Event Listeners
+  document.addEventListener('keydown', (event) => {
+    switch (event.key) {
+      case 'ArrowUp':
+        pacman.nextDirection = 'up';
+        break;
+      case 'ArrowDown':
+        pacman.nextDirection = 'down';
+        break;
+      case 'ArrowLeft':
+        pacman.nextDirection = 'left';
+        break;
+      case 'ArrowRight':
+        pacman.nextDirection = 'right';
+        break;
+    }
+  });
+
+  // Start the game
+  initGame();
+  gameInterval = setInterval(gameLoop, 20); // Adjust interval for speed
+</script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raining and Thunder</title>
+    <style>
+        /* Basic setup for a full-screen, dark environment */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevents scrollbars from appearing */
+            background: #2c3e50; /* Fallback color */
+        }
+
+        body {
+            /* A dark, stormy gradient for the sky */
+            background: linear-gradient(to bottom, #1c2833, #283747, #1a222a);
+            position: relative; /* Needed for positioning child elements */
+        }
+
+        /* Styling for each individual raindrop */
+        .raindrop {
+            position: absolute;
+            bottom: 100%; /* Start above the screen */
+            width: 1px;
+            height: 60px;
+            pointer-events: none; /* Clicks go through the drops */
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.4));
+            animation: fall linear infinite;
+        }
+
+        /* The animation that makes the raindrops fall */
+        @keyframes fall {
+            to {
+                transform: translateY(120vh); /* Move down 120% of the viewport height */
+            }
+        }
+
+        /* The element that creates the lightning flash */
+        #thunder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            opacity: 0; /* Hidden by default */
+            z-index: 999; /* Ensures it's on top of the rain */
+            pointer-events: none;
+        }
+
+        /* The animation class for the lightning flash */
+        .flash {
+            /* A multi-step flash to feel more like real lightning */
+            animation: lightning-flash 0.7s ease-out;
+        }
+
+        @keyframes lightning-flash {
+            0% { opacity: 0; }
+            5% { opacity: 0.6; }
+            10% { opacity: 0.2; }
+            15% { opacity: 0.8; }
+            25% { opacity: 0.4; }
+            35% { opacity: 0.9; }
+            100% { opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- This div will be used for the thunder/lightning flash effect -->
+    <div id="thunder"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.body;
+            const rainCount = 200; // Number of raindrops
+
+            // --- Create Raindrops ---
+            // This loop generates the raindrops and gives each one random properties.
+            for (let i = 0; i < rainCount; i++) {
+                const drop = document.createElement('div');
+                
+                drop.classList.add('raindrop');
+
+                // Random horizontal position (vw = viewport width)
+                drop.style.left = `${Math.random() * 100}vw`;
+
+                // Random animation duration for varied speed
+                drop.style.animationDuration = `${0.5 + Math.random() * 0.5}s`;
+
+                // Random animation delay to stagger the start of each drop
+                drop.style.animationDelay = `${Math.random() * 5}s`;
+
+                // Random opacity for a sense of depth
+                drop.style.opacity = `${Math.random() * 0.5 + 0.2}`;
+
+                body.appendChild(drop);
+            }
+
+            // --- Trigger Thunder ---
+            const thunderElement = document.getElementById('thunder');
+
+            function triggerThunder() {
+                // Add the 'flash' class to trigger the CSS animation
+                thunderElement.classList.add('flash');
+
+                // Remove the class after the animation is done so it can be triggered again
+                setTimeout(() => {
+                    thunderElement.classList.remove('flash');
+                }, 700); // Must match the animation duration in CSS
+
+                // Schedule the next thunder flash at a random interval (e.g., every 4 to 15 seconds)
+                const nextThunderIn = Math.random() * 11000 + 4000;
+                setTimeout(triggerThunder, nextThunderIn);
+            }
+
+            // Start the first thunder after a short delay
+            setTimeout(triggerThunder, Math.random() * 5000 + 2000);
+        });
+    </script>
+</body>
+</html>

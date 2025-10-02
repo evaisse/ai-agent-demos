@@ -1,0 +1,66 @@
+{
+  "timestamp": "2025-10-02T14:18:46.376Z",
+  "execution": {
+    "duration_seconds": "41.180",
+    "model_used": "google/gemini-2.5-pro",
+    "model_requested": "google/gemini-2.5-pro"
+  },
+  "tokens": {
+    "prompt_tokens": 24,
+    "completion_tokens": 3951,
+    "total_tokens": 3975
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.00003,
+    "completion_cost": 0.03951,
+    "total_cost": 0.03954
+  },
+  "model_card": {
+    "id": "google/gemini-2.5-pro",
+    "name": "Google: Gemini 2.5 Pro",
+    "description": "Gemini 2.5 Pro is Google’s state-of-the-art AI model designed for advanced reasoning, coding, mathematics, and scientific tasks. It employs “thinking” capabilities, enabling it to reason through responses with enhanced accuracy and nuanced context handling. Gemini 2.5 Pro achieves top-tier performance on multiple benchmarks, including first-place positioning on the LMArena leaderboard, reflecting superior human-preference alignment and complex problem-solving abilities.",
+    "context_length": 1048576,
+    "architecture": {
+      "input_modalities": [
+        "file",
+        "image",
+        "text",
+        "audio"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Gemini"
+    },
+    "pricing": {
+      "completion": "0.00001",
+      "image": "0.00516",
+      "input_cache_read": "0.00000031",
+      "input_cache_write": "0.000001625",
+      "internal_reasoning": "0",
+      "prompt": "0.00000125",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 1048576,
+      "is_moderated": false,
+      "max_completion_tokens": 65536
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759414686-1EEz7P4zRwlsUENVEQf0",
+    "created": 1759414686,
+    "object": "chat.completion"
+  },
+  "raw_response": "Of course! Here is a complete, self-contained HTML file that creates a \"cool\" raining and thunder animation. Just copy the code, save it as `index.html`, and open it in your browser.\n\nThe animation uses:\n*   A dark, stormy gradient for the background.\n*   CSS animations for the falling raindrops and the lightning flash.\n*   A small amount of JavaScript to randomly generate the raindrops and trigger the thunder at irregular intervals, making the effect feel more natural.\n\n### index.html\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Raining and Thunder</title>\n    <style>\n        /* Basic setup for a full-screen, dark environment */\n        html, body {\n            margin: 0;\n            padding: 0;\n            width: 100%;\n            height: 100%;\n            overflow: hidden; /* Prevents scrollbars from appearing */\n            background: #2c3e50; /* Fallback color */\n        }\n\n        body {\n            /* A dark, stormy gradient for the sky */\n            background: linear-gradient(to bottom, #1c2833, #283747, #1a222a);\n            position: relative; /* Needed for positioning child elements */\n        }\n\n        /* Styling for each individual raindrop */\n        .raindrop {\n            position: absolute;\n            bottom: 100%; /* Start above the screen */\n            width: 1px;\n            height: 60px;\n            pointer-events: none; /* Clicks go through the drops */\n            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.4));\n            animation: fall linear infinite;\n        }\n\n        /* The animation that makes the raindrops fall */\n        @keyframes fall {\n            to {\n                transform: translateY(120vh); /* Move down 120% of the viewport height */\n            }\n        }\n\n        /* The element that creates the lightning flash */\n        #thunder {\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: white;\n            opacity: 0; /* Hidden by default */\n            z-index: 999; /* Ensures it's on top of the rain */\n            pointer-events: none;\n        }\n\n        /* The animation class for the lightning flash */\n        .flash {\n            /* A multi-step flash to feel more like real lightning */\n            animation: lightning-flash 0.7s ease-out;\n        }\n\n        @keyframes lightning-flash {\n            0% { opacity: 0; }\n            5% { opacity: 0.6; }\n            10% { opacity: 0.2; }\n            15% { opacity: 0.8; }\n            25% { opacity: 0.4; }\n            35% { opacity: 0.9; }\n            100% { opacity: 0; }\n        }\n\n    </style>\n</head>\n<body>\n\n    <!-- This div will be used for the thunder/lightning flash effect -->\n    <div id=\"thunder\"></div>\n\n    <script>\n        document.addEventListener('DOMContentLoaded', function() {\n            const body = document.body;\n            const rainCount = 200; // Number of raindrops\n\n            // --- Create Raindrops ---\n            // This loop generates the raindrops and gives each one random properties.\n            for (let i = 0; i < rainCount; i++) {\n                const drop = document.createElement('div');\n                \n                drop.classList.add('raindrop');\n\n                // Random horizontal position (vw = viewport width)\n                drop.style.left = `${Math.random() * 100}vw`;\n\n                // Random animation duration for varied speed\n                drop.style.animationDuration = `${0.5 + Math.random() * 0.5}s`;\n\n                // Random animation delay to stagger the start of each drop\n                drop.style.animationDelay = `${Math.random() * 5}s`;\n\n                // Random opacity for a sense of depth\n                drop.style.opacity = `${Math.random() * 0.5 + 0.2}`;\n\n                body.appendChild(drop);\n            }\n\n            // --- Trigger Thunder ---\n            const thunderElement = document.getElementById('thunder');\n\n            function triggerThunder() {\n                // Add the 'flash' class to trigger the CSS animation\n                thunderElement.classList.add('flash');\n\n                // Remove the class after the animation is done so it can be triggered again\n                setTimeout(() => {\n                    thunderElement.classList.remove('flash');\n                }, 700); // Must match the animation duration in CSS\n\n                // Schedule the next thunder flash at a random interval (e.g., every 4 to 15 seconds)\n                const nextThunderIn = Math.random() * 11000 + 4000;\n                setTimeout(triggerThunder, nextThunderIn);\n            }\n\n            // Start the first thunder after a short delay\n            setTimeout(triggerThunder, Math.random() * 5000 + 2000);\n        });\n    </script>\n</body>\n</html>\n```"
+}

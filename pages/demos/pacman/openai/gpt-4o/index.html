@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple PAC-MAN</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+        }
+        #gameCanvas {
+            border: 1px solid white;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const gridSize = 20;
+        const tileCount = canvas.width / gridSize;
+        let pacmanX = 10;
+        let pacmanY = 10;
+        let xVelocity = 0;
+        let yVelocity = 0;
+
+        const drawGame = () => {
+            movePacman();
+            drawBackground();
+            drawPacman();
+            setTimeout(drawGame, 1000 / 15); // 15 frames per second
+        }
+
+        const drawBackground = () => {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        const drawPacman = () => {
+            ctx.fillStyle = 'yellow';
+            ctx.beginPath();
+            ctx.arc(pacmanX * gridSize + gridSize / 2, pacmanY * gridSize + gridSize / 2, gridSize / 2, 0.2 * Math.PI, 1.8 * Math.PI);
+            ctx.lineTo(pacmanX * gridSize + gridSize / 2, pacmanY * gridSize + gridSize / 2);
+            ctx.fill();
+        }
+
+        const movePacman = () => {
+            pacmanX += xVelocity;
+            pacmanY += yVelocity;
+            if (pacmanX < 0) pacmanX = tileCount - 1;
+            if (pacmanX >= tileCount) pacmanX = 0;
+            if (pacmanY < 0) pacmanY = tileCount - 1;
+            if (pacmanY >= tileCount) pacmanY = 0;
+        }
+
+        window.addEventListener('keydown', (event) => {
+            switch(event.key) {
+                case 'ArrowUp':
+                    xVelocity = 0;
+                    yVelocity = -1;
+                    break;
+                case 'ArrowDown':
+                    xVelocity = 0;
+                    yVelocity = 1;
+                    break;
+                case 'ArrowLeft':
+                    xVelocity = -1;
+                    yVelocity = 0;
+                    break;
+                case 'ArrowRight':
+                    xVelocity = 1;
+                    yVelocity = 0;
+                    break;
+            }
+        });
+
+        drawGame();
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-3-opus</p>
+            <p><strong>Generated:</strong> 2025-10-02T14:15:56.323Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">967</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">34.213s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0705</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Here&#039;s an example of a cool raining and thunder animation in a single HTML file named <code>index.html</code>:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>  &lt;title&gt;Raining and Thunder Animation&lt;/title&gt;<br>  &lt;style&gt;<br>    body {<br>      background-color: #000;<br>      margin: 0;<br>      padding: 0;<br>      overflow: hidden;<br>    }<br><br>    .rain {<br>      position: absolute;<br>      top: -50px;<br>      width: 2px;<br>      height: 50px;<br>      background-color: #fff;<br>      animation: rain 1s linear infinite;<br>    }<br><br>    @keyframes rain {<br>      0% {<br>        transform: translateY(0);<br>      }<br>      100% {<br>        transform: translateY(100vh);<br>      }<br>    }<br><br>    .thunder {<br>      position: absolute;<br>      top: 0;<br>      left: 0;<br>      width: 100%;<br>      height: 100%;<br>      background-color: #fff;<br>      opacity: 0;<br>      animation: thunder 5s linear infinite;<br>    }<br><br>    @keyframes thunder {<br>      0% {<br>        opacity: 0;<br>      }<br>      10% {<br>        opacity: 0.8;<br>      }<br>      11% {<br>        opacity: 0;<br>      }<br>      20% {<br>        opacity: 0;<br>      }<br>      21% {<br>        opacity: 0.8;<br>      }<br>      22% {<br>        opacity: 0;<br>      }<br>      100% {<br>        opacity: 0;<br>      }<br>    }<br>  &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>  &lt;div class=&quot;thunder&quot;&gt;&lt;/div&gt;<br><br>  &lt;script&gt;<br>    function createRain() {<br>      const rain = document.createElement(&#039;div&#039;);<br>      rain.classList.add(&#039;rain&#039;);<br>      rain.style.left = Math.random() * window.innerWidth + &#039;px&#039;;<br>      rain.style.animationDuration = Math.random() * 1 + 0.5 + &#039;s&#039;;<br>      document.body.appendChild(rain);<br><br>      setTimeout(() =&gt; {<br>        rain.remove();<br>      }, 1000);<br>    }<br><br>    setInterval(createRain, 50);<br>  &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This HTML file creates a raining and thunder animation using CSS and JavaScript. Here&#039;s how it works:<br><br>1. The <code>&lt;style&gt;</code> section defines the styles for the animation.<br>   - The <code>body</code> has a black background color and hides any overflow.<br>   - The <code>.rain</code> class represents each raindrop. It has a white color, a thin width, and a fixed height. The <code>animation</code> property is used to animate the raindrops falling from the top to the bottom of the screen.<br>   - The <code>.thunder</code> class represents the lightning effect. It covers the entire screen and has a white background color. The <code>animation</code> property is used to create the flashing effect by changing the opacity.<br><br>2. The <code>&lt;body&gt;</code> section contains a <code>&lt;div&gt;</code> element with the class <code>thunder</code>, which will display the lightning effect.<br><br>3. The <code>&lt;script&gt;</code> section contains JavaScript code to create the raindrops dynamically.<br>   - The <code>createRain()</code> function creates a new <code>&lt;div&gt;</code> element with the class <code>rain</code>, sets its random position on the screen, and appends it to the <code>&lt;body&gt;</code>.<br>   - The <code>setTimeout()</code> function is used to remove each raindrop after 1 second.<br>   - The <code>setInterval()</code> function is used to call <code>createRain()</code> every 50 milliseconds, creating a continuous raining effect.<br><br>When you open this HTML file in a web browser, you will see a cool raining and thunder animation with raindrops falling from the top of the screen and periodic lightning flashes.<br><br>Note: This is a basic example, and you can further enhance the animation by adjusting the styles, adding sound effects, or incorporating more advanced techniques.</div>
+        </div>
+    </div>
+</body>
+</html>

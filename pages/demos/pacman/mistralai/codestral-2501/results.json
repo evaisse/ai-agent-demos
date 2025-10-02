@@ -1,0 +1,61 @@
+{
+  "timestamp": "2025-10-02T12:44:01.927Z",
+  "execution": {
+    "duration_seconds": "4.335",
+    "model_used": "mistralai/codestral-2501",
+    "model_requested": "mistralai/codestral-2501"
+  },
+  "tokens": {
+    "prompt_tokens": 30,
+    "completion_tokens": 853,
+    "total_tokens": 883
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000009,
+    "completion_cost": 0.000768,
+    "total_cost": 0.000777
+  },
+  "model_card": {
+    "id": "mistralai/codestral-2501",
+    "name": "Mistral: Codestral 2501",
+    "description": "[Mistral](/mistralai)'s cutting-edge language model for coding. Codestral specializes in low-latency, high-frequency tasks such as fill-in-the-middle (FIM), code correction and test generation. \n\nLearn more on their blog post: https://mistral.ai/news/codestral-2501/",
+    "context_length": 262144,
+    "architecture": {
+      "input_modalities": [
+        "text"
+      ],
+      "instruct_type": null,
+      "modality": "text->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Mistral"
+    },
+    "pricing": {
+      "completion": "0.0000009",
+      "image": "0",
+      "internal_reasoning": "0",
+      "prompt": "0.0000003",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 262144,
+      "is_moderated": false,
+      "max_completion_tokens": null
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 2000
+  },
+  "response_metadata": {
+    "id": "gen-1759409038-RNIBBIIlVaCyvNtXaRR7",
+    "created": 1759409038,
+    "object": "chat.completion"
+  },
+  "raw_response": "Creating a full-fledged PAC-MAN game in a single HTML file using CSS and JavaScript is quite an ambitious task, but I can provide you with a simplified version that captures the essence of the game. This version will include basic elements like the PAC-MAN character, walls, and simple movement using arrow keys.\n\nHere's a basic implementation:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>PAC-MAN Game</title>\n    <style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n            background-color: black;\n        }\n        #gameArea {\n            position: relative;\n            width: 400px;\n            height: 400px;\n            border: 2px solid yellow;\n        }\n        .wall {\n            position: absolute;\n            background-color: blue;\n        }\n        #pacman {\n            position: absolute;\n            width: 20px;\n            height: 20px;\n            background-color: yellow;\n            border-radius: 50%;\n        }\n    </style>\n</head>\n<body>\n    <div id=\"gameArea\">\n        <div id=\"pacman\"></div>\n        <!-- Walls -->\n        <div class=\"wall\" style=\"top: 0; left: 0; width: 100%; height: 20px;\"></div>\n        <div class=\"wall\" style=\"top: 0; left: 0; width: 20px; height: 100%;\"></div>\n        <div class=\"wall\" style=\"top: 0; right: 0; width: 20px; height: 100%;\"></div>\n        <div class=\"wall\" style=\"bottom: 0; left: 0; width: 100%; height: 20px;\"></div>\n    </div>\n    <script>\n        const gameArea = document.getElementById('gameArea');\n        const pacman = document.getElementById('pacman');\n        let pacmanX = 50;\n        let pacmanY = 50;\n        const speed = 5;\n\n        function movePacman(event) {\n            switch (event.key) {\n                case 'ArrowUp':\n                    pacmanY -= speed;\n                    break;\n                case 'ArrowDown':\n                    pacmanY += speed;\n                    break;\n                case 'ArrowLeft':\n                    pacmanX -= speed;\n                    break;\n                case 'ArrowRight':\n                    pacmanX += speed;\n                    break;\n            }\n            pacman.style.left = pacmanX + 'px';\n            pacman.style.top = pacmanY + 'px';\n        }\n\n        document.addEventListener('keydown', movePacman);\n    </script>\n</body>\n</html>\n```\n\n### Explanation:\n1. **HTML Structure**:\n   - A `div` with the id `gameArea` acts as the game container.\n   - Inside `gameArea`, there is a `div` with the id `pacman` representing PAC-MAN.\n   - Several `div` elements with the class `wall` represent the boundaries of the game area.\n\n2. **CSS**:\n   - Basic styling to center the game area and style PAC-MAN and walls.\n\n3. **JavaScript**:\n   - Event listener for keydown events to move PAC-MAN using the arrow keys.\n   - The `movePacman` function updates PAC-MAN's position based on the arrow key pressed.\n\nThis is a very basic implementation. A full PAC-MAN game would require more features such as:\n- Ghosts with AI.\n- Pellets and power pellets.\n- Scoring system.\n- Levels and mazes.\n- Collision detection with walls and ghosts.\n\nFor a complete game, you would need to expand this foundation significantly."
+}

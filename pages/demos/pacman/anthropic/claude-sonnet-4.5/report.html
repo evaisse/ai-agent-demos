@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-sonnet-4.5</p>
+            <p><strong>Generated:</strong> 2025-10-02T13:05:53.155Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">6876</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">73.198s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.1027</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;PAC-MAN Game&lt;/title&gt;<br>    &lt;style&gt;<br>        * {<br>            margin: 0;<br>            padding: 0;<br>            box-sizing: border-box;<br>        }<br><br>        body {<br>            background: #000;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            min-height: 100vh;<br>            font-family: &#039;Courier New&#039;, monospace;<br>            overflow: hidden;<br>        }<br><br>        #gameContainer {<br>            text-align: center;<br>        }<br><br>        #score {<br>            color: #fff;<br>            font-size: 24px;<br>            margin-bottom: 10px;<br>            display: flex;<br>            justify-content: space-between;<br>            width: 560px;<br>        }<br><br>        #canvas {<br>            border: 2px solid #00f;<br>            background: #000;<br>            display: block;<br>        }<br><br>        #gameOver {<br>            position: absolute;<br>            top: 50%;<br>            left: 50%;<br>            transform: translate(-50%, -50%);<br>            color: #ff0;<br>            font-size: 48px;<br>            display: none;<br>            text-shadow: 3px 3px #f00;<br>        }<br><br>        #instructions {<br>            color: #0ff;<br>            margin-top: 10px;<br>            font-size: 14px;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;gameContainer&quot;&gt;<br>        &lt;div id=&quot;score&quot;&gt;<br>            &lt;span&gt;SCORE: &lt;span id=&quot;scoreValue&quot;&gt;0&lt;/span&gt;&lt;/span&gt;<br>            &lt;span&gt;LIVES: &lt;span id=&quot;lives&quot;&gt;3&lt;/span&gt;&lt;/span&gt;<br>        &lt;/div&gt;<br>        &lt;canvas id=&quot;canvas&quot; width=&quot;560&quot; height=&quot;620&quot;&gt;&lt;/canvas&gt;<br>        &lt;div id=&quot;gameOver&quot;&gt;GAME OVER!&lt;/div&gt;<br>        &lt;div id=&quot;instructions&quot;&gt;Use Arrow Keys to Move | Press SPACE to Restart&lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;script&gt;<br>        const canvas = document.getElementById(&#039;canvas&#039;);<br>        const ctx = canvas.getContext(&#039;2d&#039;);<br>        const scoreElement = document.getElementById(&#039;scoreValue&#039;);<br>        const livesElement = document.getElementById(&#039;lives&#039;);<br>        const gameOverElement = document.getElementById(&#039;gameOver&#039;);<br><br>        const TILE_SIZE = 20;<br>        const COLS = 28;<br>        const ROWS = 31;<br><br>        // Game state<br>        let score = 0;<br>        let lives = 3;<br>        let gameRunning = true;<br>        let powerPelletActive = false;<br>        let powerPelletTimer = 0;<br><br>        // Maze layout (1 = wall, 0 = dot, 2 = power pellet, 3 = empty, 4 = ghost house)<br>        const maze = [<br>            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],<br>            [1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1],<br>            [1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1],<br>            [1,2,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,2,1],<br>            [1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1],<br>            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],<br>            [1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,0,1],<br>            [1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,0,1],<br>            [1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1],<br>            [1,1,1,1,1,1,0,1,1,1,1,1,3,1,1,3,1,1,1,1,1,0,1,1,1,1,1,1],<br>            [1,1,1,1,1,1,0,1,1,1,1,1,3,1,1,3,1,1,1,1,1,0,1,1,1,1,1,1],<br>            [1,1,1,1,1,1,0,1,1,3,3,3,3,3,3,3,3,3,3,1,1,0,1,1,1,1,1,1],<br>            [1,1,1,1,1,1,0,1,1,3,1,1,1,4,4,1,1,1,3,1,1,0,1,1,1,1,1,1],<br>            [1,1,1,1,1,1,0,1,1,3,1,4,4,4,4,4,4,1,3,1,1,0,1,1,1,1,1,1],<br>            [3,3,3,3,3,3,0,3,3,3,1,4,4,4,4,4,4,1,3,3,3,0,3,3,3,3,3,3],<br>            [1,1,1,1,1,1,0,1,1,3,1,4,4,4,4,4,4,1,3,1,1,0,1,1,1,1,1,1],<br>            [1,1,1,1,1,1,0,1,1,3,1,1,1,1,1,1,1,1,3,1,1,0,1,1,1,1,1,1],<br>            [1,1,1,1,1,1,0,1,1,3,3,3,3,3,3,3,3,3,3,1,1,0,1,1,1,1,1,1],<br>            [1,1,1,1,1,1,0,1,1,3,1,1,1,1,1,1,1,1,3,1,1,0,1,1,1,1,1,1],<br>            [1,1,1,1,1,1,0,1,1,3,1,1,1,1,1,1,1,1,3,1,1,0,1,1,1,1,1,1],<br>            [1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1],<br>            [1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1],<br>            [1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1],<br>            [1,2,0,0,1,1,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,1,1,0,0,2,1],<br>            [1,1,1,0,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,1,1],<br>            [1,1,1,0,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,1,1],<br>            [1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1],<br>            [1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1],<br>            [1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1],<br>            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],<br>            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]<br>        ];<br><br>        // Create a copy for dots tracking<br>        let dots = JSON.parse(JSON.stringify(maze));<br><br>        // Pac-Man<br>        const pacman = {<br>            x: 14,<br>            y: 23,<br>            direction: 0, // 0: right, 1: down, 2: left, 3: up<br>            nextDirection: 0,<br>            mouthOpen: 0,<br>            speed: 2<br>        };<br><br>        // Ghosts<br>        const ghosts = [<br>            { x: 14, y: 11, color: &#039;#f00&#039;, startX: 14, startY: 11, direction: 0, name: &#039;blinky&#039;, scatterX: 25, scatterY: 0 },<br>            { x: 12, y: 14, color: &#039;#ffb8ff&#039;, startX: 12, startY: 14, direction: 3, name: &#039;pinky&#039;, scatterX: 2, scatterY: 0 },<br>            { x: 14, y: 14, color: &#039;#00ffff&#039;, startX: 14, startY: 14, direction: 3, name: &#039;inky&#039;, scatterX: 27, scatterY: 29 },<br>            { x: 16, y: 14, color: &#039;#ffb851&#039;, startX: 16, startY: 14, direction: 3, name: &#039;clyde&#039;, scatterX: 0, scatterY: 29 }<br>        ];<br><br>        let ghostMode = &#039;scatter&#039;;<br>        let modeTimer = 0;<br>        let frightenedGhosts = [];<br><br>        // Direction vectors<br>        const directions = [<br>            { x: 1, y: 0 },   // right<br>            { x: 0, y: 1 },   // down<br>            { x: -1, y: 0 },  // left<br>            { x: 0, y: -1 }   // up<br>        ];<br><br>        // Input handling<br>        document.addEventListener(&#039;keydown&#039;, (e) =&gt; {<br>            if (!gameRunning &amp;&amp; e.code === &#039;Space&#039;) {<br>                resetGame();<br>                return;<br>            }<br><br>            switch(e.code) {<br>                case &#039;ArrowRight&#039;:<br>                    pacman.nextDirection = 0;<br>                    break;<br>                case &#039;ArrowDown&#039;:<br>                    pacman.nextDirection = 1;<br>                    break;<br>                case &#039;ArrowLeft&#039;:<br>                    pacman.nextDirection = 2;<br>                    break;<br>                case &#039;ArrowUp&#039;:<br>                    pacman.nextDirection = 3;<br>                    break;<br>            }<br>            e.preventDefault();<br>        });<br><br>        function drawMaze() {<br>            for (let row = 0; row &lt; ROWS; row++) {<br>                for (let col = 0; col &lt; COLS; col++) {<br>                    const cell = maze[row][col];<br>                    const x = col * TILE_SIZE;<br>                    const y = row * TILE_SIZE;<br><br>                    if (cell === 1) {<br>                        // Wall<br>                        ctx.strokeStyle = &#039;#2121ff&#039;;<br>                        ctx.lineWidth = 2;<br>                        ctx.strokeRect(x + 1, y + 1, TILE_SIZE - 2, TILE_SIZE - 2);<br>                    }<br>                }<br>            }<br>        }<br><br>        function drawDots() {<br>            for (let row = 0; row &lt; ROWS; row++) {<br>                for (let col = 0; col &lt; COLS; col++) {<br>                    const cell = dots[row][col];<br>                    const x = col * TILE_SIZE + TILE_SIZE / 2;<br>                    const y = row * TILE_SIZE + TILE_SIZE / 2;<br><br>                    if (cell === 0) {<br>                        // Regular dot<br>                        ctx.fillStyle = &#039;#ffb897&#039;;<br>                        ctx.beginPath();<br>                        ctx.arc(x, y, 2, 0, Math.PI * 2);<br>                        ctx.fill();<br>                    } else if (cell === 2) {<br>                        // Power pellet<br>                        ctx.fillStyle = &#039;#ffb897&#039;;<br>                        ctx.beginPath();<br>                        ctx.arc(x, y, 6, 0, Math.PI * 2);<br>                        ctx.fill();<br>                    }<br>                }<br>            }<br>        }<br><br>        function drawPacman() {<br>            const x = pacman.x * TILE_SIZE + TILE_SIZE / 2;<br>            const y = pacman.y * TILE_SIZE + TILE_SIZE / 2;<br>            <br>            ctx.fillStyle = &#039;#ffff00&#039;;<br>            ctx.beginPath();<br>            <br>            const mouthAngle = 0.2 + Math.abs(Math.sin(pacman.mouthOpen)) * 0.3;<br>            const startAngle = mouthAngle + (pacman.direction * Math.PI / 2);<br>            const endAngle = -mouthAngle + (pacman.direction * Math.PI / 2);<br>            <br>            ctx.arc(x, y, TILE_SIZE / 2 - 2, startAngle, endAngle);<br>            ctx.lineTo(x, y);<br>            ctx.fill();<br>            <br>            pacman.mouthOpen += 0.3;<br>        }<br><br>        function drawGhost(ghost) {<br>            const x = ghost.x * TILE_SIZE + TILE_SIZE / 2;<br>            const y = ghost.y * TILE_SIZE + TILE_SIZE / 2;<br>            const radius = TILE_SIZE / 2 - 2;<br><br>            if (powerPelletActive) {<br>                ctx.fillStyle = &#039;#0000ff&#039;;<br>            } else {<br>                ctx.fillStyle = ghost.color;<br>            }<br><br>            // Body<br>            ctx.beginPath();<br>            ctx.arc(x, y - radius / 3, radius, Math.PI, 0);<br>            ctx.lineTo(x + radius, y + radius);<br>            ctx.lineTo(x + radius * 0.66, y + radius * 0.5);<br>            ctx.lineTo(x + radius * 0.33, y + radius);<br>            ctx.lineTo(x, y + radius * 0.5);<br>            ctx.lineTo(x - radius * 0.33, y + radius);<br>            ctx.lineTo(x - radius * 0.66, y + radius * 0.5);<br>            ctx.lineTo(x - radius, y + radius);<br>            ctx.closePath();<br>            ctx.fill();<br><br>            // Eyes<br>            if (powerPelletActive) {<br>                ctx.fillStyle = &#039;#fff&#039;;<br>                ctx.fillRect(x - 5, y - 3, 3, 6);<br>                ctx.fillRect(x + 2, y - 3, 3, 6);<br>            } else {<br>                ctx.fillStyle = &#039;#fff&#039;;<br>                ctx.beginPath();<br>                ctx.arc(x - 5, y - 2, 4, 0, Math.PI * 2);<br>                ctx.arc(x + 5, y - 2, 4, 0, Math.PI * 2);<br>                ctx.fill();<br><br>                ctx.fillStyle = &#039;#000&#039;;<br>                const eyeOffsetX = directions[ghost.direction].x * 2;<br>                const eyeOffsetY = directions[ghost.direction].y * 2;<br>                ctx.beginPath();<br>                ctx.arc(x - 5 + eyeOffsetX, y - 2 + eyeOffsetY, 2, 0, Math.PI * 2);<br>                ctx.arc(x + 5 + eyeOffsetX, y - 2 + eyeOffsetY, 2, 0, Math.PI * 2);<br>                ctx.fill();<br>            }<br>        }<br><br>        function canMove(x, y) {<br>            if (x &lt; 0 || x &gt;= COLS || y &lt; 0 || y &gt;= ROWS) return true; // Tunnel<br>            const cell = maze[y][x];<br>            return cell !== 1;<br>        }<br><br>        function movePacman() {<br>            // Try to change direction<br>            const nextDir = directions[pacman.nextDirection];<br>            const nextX = Math.round(pacman.x + nextDir.x);<br>            const nextY = Math.round(pacman.y + nextDir.y);<br>            <br>            if (canMove(nextX, nextY)) {<br>                pacman.direction = pacman.nextDirection;<br>            }<br><br>            // Move in current direction<br>            const dir = directions[pacman.direction];<br>            const newX = pacman.x + dir.x * 0.15;<br>            const newY = pacman.y + dir.y * 0.15;<br>            <br>            // Check if can move<br>            const checkX = Math.round(newX);<br>            const checkY = Math.round(newY);<br>            <br>            if (canMove(checkX, checkY)) {<br>                pacman.x = newX;<br>                pacman.y = newY;<br>            }<br><br>            // Tunnel wrapping<br>            if (pacman.x &lt; 0) pacman.x = COLS - 1;<br>            if (pacman.x &gt;= COLS) pacman.x = 0;<br><br>            // Eat dots<br>            const gridX = Math.round(pacman.x);<br>            const gridY = Math.round(pacman.y);<br>            <br>            if (dots[gridY] &amp;&amp; dots[gridY][gridX] === 0) {<br>                dots[gridY][gridX] = 3;<br>                score += 10;<br>                scoreElement.textContent = score;<br>            } else if (dots[gridY] &amp;&amp; dots[gridY][gridX] === 2) {<br>                dots[gridY][gridX] = 3;<br>                score += 50;<br>                scoreElement.textContent = score;<br>                activatePowerPellet();<br>            }<br><br>            // Check win condition<br>            checkWin();<br>        }<br><br>        function activatePowerPellet() {<br>            powerPelletActive = true;<br>            powerPelletTimer = 180; // 6 seconds at 30fps<br>            frightenedGhosts = [...ghosts];<br>        }<br><br>        function getDistance(x1, y1, x2, y2) {<br>            return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);<br>        }<br><br>        function moveGhost(ghost) {<br>            const currentX = Math.round(ghost.x);<br>            const currentY = Math.round(ghost.y);<br><br>            // Check if at intersection<br>            const isAtCenter = Math.abs(ghost.x - currentX) &lt; 0.1 &amp;&amp; Math.abs(ghost.y - currentY) &lt; 0.1;<br><br>            if (isAtCenter) {<br>                ghost.x = currentX;<br>                ghost.y = currentY;<br><br>                let targetX, targetY;<br><br>                if (powerPelletActive) {<br>                    // Run away from Pac-Man<br>                    targetX = ghost.x - (pacman.x - ghost.x);<br>                    targetY = ghost.y - (pacman.y - ghost.y);<br>                } else if (ghostMode === &#039;scatter&#039;) {<br>                    targetX = ghost.scatterX;<br>                    targetY = ghost.scatterY;<br>                } else {<br>                    // Chase Pac-Man<br>                    targetX = Math.round(pacman.x);<br>                    targetY = Math.round(pacman.y);<br>                }<br><br>                // Find best direction<br>                let bestDirection = ghost.direction;<br>                let shortestDistance = Infinity;<br><br>                for (let i = 0; i &lt; 4; i++) {<br>                    // Don&#039;t reverse<br>                    if (i === (ghost.direction + 2) % 4) continue;<br><br>                    const dir = directions[i];<br>                    const newX = currentX + dir.x;<br>                    const newY = currentY + dir.y;<br><br>                    if (canMove(newX, newY)) {<br>                        const distance = getDistance(newX, newY, targetX, targetY);<br>                        if (distance &lt; shortestDistance) {<br>                            shortestDistance = distance;<br>                            bestDirection = i;<br>                        }<br>                    }<br>                }<br><br>                ghost.direction = bestDirection;<br>            }<br><br>            // Move ghost<br>            const dir = directions[ghost.direction];<br>            ghost.x += dir.x * 0.08;<br>            ghost.y += dir.y * 0.08;<br><br>            // Tunnel wrapping<br>            if (ghost.x &lt; 0) ghost.x = COLS - 1;<br>            if (ghost.x &gt;= COLS) ghost.x = 0;<br>        }<br><br>        function checkCollisions() {<br>            ghosts.forEach(ghost =&gt; {<br>                const distance = getDistance(pacman.x, pacman.y, ghost.x, ghost.y);<br>                if (distance &lt; 0.5) {<br>                    if (powerPelletActive) {<br>                        // Eat ghost<br>                        score += 200;<br>                        scoreElement.textContent = score;<br>                        ghost.x = ghost.startX;<br>                        ghost.y = ghost.startY;<br>                    } else {<br>                        // Lose life<br>                        loseLife();<br>                    }<br>                }<br>            });<br>        }<br><br>        function loseLife() {<br>            lives--;<br>            livesElement.textContent = lives;<br><br>            if (lives &lt;= 0) {<br>                gameOver();<br>            } else {<br>                resetPositions();<br>            }<br>        }<br><br>        function resetPositions() {<br>            pacman.x = 14;<br>            pacman.y = 23;<br>            pacman.direction = 0;<br>            pacman.nextDirection = 0;<br><br>            ghosts.forEach(ghost =&gt; {<br>                ghost.x = ghost.startX;<br>                ghost.y = ghost.startY;<br>                ghost.direction = 0;<br>            });<br>        }<br><br>        function checkWin() {<br>            let dotsRemaining = 0;<br>            for (let row = 0; row &lt; ROWS; row++) {<br>                for (let col = 0; col &lt; COLS; col++) {<br>                    if (dots[row][col] === 0 || dots[row][col] === 2) {<br>                        dotsRemaining++;<br>                    }<br>                }<br>            }<br><br>            if (dotsRemaining === 0) {<br>                score += 1000;<br>                scoreElement.textContent = score;<br>                resetLevel();<br>            }<br>        }<br><br>        function resetLevel() {<br>            dots = JSON.parse(JSON.stringify(maze));<br>            resetPositions();<br>        }<br><br>        function gameOver() {<br>            gameRunning = false;<br>            gameOverElement.style.display = &#039;block&#039;;<br>        }<br><br>        function resetGame() {<br>            score = 0;<br>            lives = 3;<br>            gameRunning = true;<br>            powerPelletActive = false;<br>            scoreElement.textContent = score;<br>            livesElement.textContent = lives;<br>            gameOverElement.style.display = &#039;none&#039;;<br>            dots = JSON.parse(JSON.stringify(maze));<br>            resetPositions();<br>            modeTimer = 0;<br>            ghostMode = &#039;scatter&#039;;<br>        }<br><br>        function gameLoop() {<br>            ctx.fillStyle = &#039;#000&#039;;<br>            ctx.fillRect(0, 0, canvas.width, canvas.height);<br><br>            drawMaze();<br>            drawDots();<br>            <br>            if (gameRunning) {<br>                movePacman();<br>                <br>                ghosts.forEach(ghost =&gt; {<br>                    moveGhost(ghost);<br>                });<br><br>                checkCollisions();<br><br>                // Update power pellet timer<br>                if (powerPelletActive) {<br>                    powerPelletTimer--;<br>                    if (powerPelletTimer &lt;= 0) {<br>                        powerPelletActive = false;<br>                    }<br>                }<br><br>                // Update ghost mode<br>                modeTimer++;<br>                if (ghostMode === &#039;scatter&#039; &amp;&amp; modeTimer &gt; 210) { // 7 seconds<br>                    ghostMode = &#039;chase&#039;;<br>                    modeTimer = 0;<br>                } else if (ghostMode === &#039;chase&#039; &amp;&amp; modeTimer &gt; 600) { // 20 seconds<br>                    ghostMode = &#039;scatter&#039;;<br>                    modeTimer = 0;<br>                }<br>            }<br><br>            drawPacman();<br>            ghosts.forEach(ghost =&gt; drawGhost(ghost));<br><br>            requestAnimationFrame(gameLoop);<br>        }<br><br>        // Start game<br>        gameLoop();<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This is a complete PAC-MAN game implementation in a single HTML file! Here&#039;s what&#039;s included:<br><br>**Features:**<br>- Classic PAC-MAN maze layout<br>- Pac-Man with animated mouth<br>- 4 ghosts (Blinky, Pinky, Inky, Clyde) with different colors<br>- Ghost AI with chase and scatter modes<br>- Dots and power pellets<br>- Power pellet mode (ghosts turn blue and run away)<br>- Score tracking<br>- Lives system (3 lives)<br>- Collision detection<br>- Tunnel wrapping on sides<br>- Game over and restart functionality<br>- Arrow key controls<br>- Win condition (all dots collected)<br><br>**Controls:**<br>- Arrow keys to move Pac-Man<br>- Space bar to restart after game over<br><br>The game features authentic Pac-Man gameplay with ghosts that alternate between chasing you and scattering to corners, power pellets that let you eat ghosts, and classic maze navigation!</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,343 @@
+# OpenRouter API Response
+
+## Metadata
+- **Model**: anthropic/claude-sonnet-4
+- **Timestamp**: 2025-10-02T14:15:06.921Z
+- **Duration**: 28.479 seconds
+
+## Token Usage
+- **Prompt Tokens**: 33
+- **Completion Tokens**: 2373
+- **Total Tokens**: 2406
+
+## Prompt
+```
+In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.
+
+```
+
+## Response
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rain and Thunder Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298, #1e3c72);
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Dark clouds */
+        .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to bottom, #2c3e50, #34495e);
+            z-index: 10;
+        }
+
+        .cloud {
+            position: absolute;
+            background: #34495e;
+            border-radius: 50px;
+            opacity: 0.8;
+            animation: drift 20s infinite linear;
+        }
+
+        .cloud:before,
+        .cloud:after {
+            content: '';
+            position: absolute;
+            background: #34495e;
+            border-radius: 50px;
+        }
+
+        .cloud1 {
+            width: 100px;
+            height: 40px;
+            top: 50px;
+            left: -100px;
+            animation-duration: 25s;
+        }
+
+        .cloud1:before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud1:after {
+            width: 60px;
+            height: 20px;
+            top: -10px;
+            right: 10px;
+        }
+
+        .cloud2 {
+            width: 80px;
+            height: 30px;
+            top: 80px;
+            left: -80px;
+            animation-duration: 30s;
+            animation-delay: -10s;
+        }
+
+        .cloud2:before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 15px;
+        }
+
+        .cloud2:after {
+            width: 50px;
+            height: 15px;
+            top: -5px;
+            right: 15px;
+        }
+
+        .cloud3 {
+            width: 120px;
+            height: 50px;
+            top: 30px;
+            left: -120px;
+            animation-duration: 35s;
+            animation-delay: -20s;
+        }
+
+        .cloud3:before {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 20px;
+        }
+
+        .cloud3:after {
+            width: 70px;
+            height: 25px;
+            top: -15px;
+            right: 20px;
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(100vw + 200px));
+            }
+        }
+
+        /* Rain drops */
+        .rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+
+        .drop {
+            position: absolute;
+            width: 2px;
+            height: 15px;
+            background: linear-gradient(to bottom, transparent, #87ceeb, #4682b4);
+            border-radius: 0 0 50% 50%;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0.3;
+            }
+        }
+
+        /* Lightning flash */
+        .lightning {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0);
+            z-index: 15;
+            animation: flash 4s infinite;
+        }
+
+        @keyframes flash {
+            0%, 85%, 87%, 89%, 100% {
+                background: rgba(255, 255, 255, 0);
+            }
+            86%, 88% {
+                background: rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        /* Lightning bolt */
+        .bolt {
+            position: absolute;
+            width: 4px;
+            height: 150px;
+            background: #fff;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: bolt-flash 4s infinite;
+            box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00f;
+        }
+
+        .bolt:before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid #fff;
+            top: -20px;
+            left: -8px;
+        }
+
+        @keyframes bolt-flash {
+            0%, 85%, 87%, 89%, 100% {
+                opacity: 0;
+            }
+            86%, 88% {
+                opacity: 1;
+            }
+        }
+
+        /* Ground reflection */
+        .ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+            z-index: 1;
+        }
+
+        /* Ripples */
+        .ripple {
+            position: absolute;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            border-radius: 50%;
+            animation: ripple-effect 1s ease-out infinite;
+        }
+
+        @keyframes ripple-effect {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 20px;
+                height: 20px;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Clouds -->
+    <div class="clouds">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+    </div>
+
+    <!-- Lightning -->
+    <div class="lightning"></div>
+    <div class="bolt"></div>
+
+    <!-- Rain -->
+    <div class="rain" id="rain"></div>
+
+    <!-- Ground -->
+    <div class="ground"></div>
+
+    <script>
+        // Create rain drops
+        function createRain() {
+            const rainContainer = document.getElementById('rain');
+            const numberOfDrops = 100;
+
+            for (let i = 0; i < numberOfDrops; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'drop';
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                rainContainer.appendChild(drop);
+            }
+        }
+
+        // Create ripples on ground
+        function createRipple() {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = Math.random() * 100 + '%';
+            ripple.style.bottom = Math.random() * 50 + 'px';
+            document.body.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 1000);
+        }
+
+        // Thunder sound simulation (visual only)
+        function thunderEffect() {
+            const bolt = document.querySelector('.bolt');
+            const randomLeft = Math.random() * 80 + 10 + '%';
+            bolt.style.left = randomLeft;
+        }
+
+        // Initialize
+        createRain();
+
+        // Create ripples periodically
+        setInterval(createRipple, 200);
+
+        // Change lightning position
+        setInterval(thunderEffect, 4000);
+    </script>
+</body>
+</html>
+```
+
+This HTML file creates a beautiful rain and thunder animation with the following features:
+
+1. **Dark storm clouds** that drift across the sky
+2. **Animated raindrops** falling at different speeds and positions
+3. **Lightning flashes** that illuminate the entire screen
+4. **Lightning bolts** that appear in different positions
+5. **Ground ripples** that simulate raindrops hitting the ground
+6. **Atmospheric gradient background** that gives a stormy feel
+
+The animation runs continuously without any user interaction, creating an immersive stormy weather experience. The rain falls naturally, lightning strikes periodically, and ripples appear on the ground to simulate the impact of raindrops.
+
+---
+*Generated by OpenRouter CLI*

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> qwen/qwen3-coder-plus</p>
+            <p><strong>Generated:</strong> 2025-10-02T12:47:21.164Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">2035</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">27.681s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0100</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"># Pac-Man Game Implementation<br><br>I&#039;ll create a complete Pac-Man game in a single HTML file with all the classic elements: maze, dots, power pellets, ghosts, and scoring.<br><br>```html<br>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Pac-Man Game&lt;/title&gt;<br>    &lt;style&gt;<br>        * {<br>            margin: 0;<br>            padding: 0;<br>            box-sizing: border-box;<br>        }<br>        <br>        body {<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            min-height: 100vh;<br>            background: linear-gradient(135deg, #1a1a2e, #16213e);<br>            font-family: &#039;Courier New&#039;, monospace;<br>            overflow: hidden;<br>        }<br>        <br>        .game-container {<br>            position: relative;<br>            width: 560px;<br>            text-align: center;<br>        }<br>        <br>        .header {<br>            display: flex;<br>            justify-content: space-between;<br>            padding: 10px 20px;<br>            background: #0d0d1a;<br>            color: #ffcc00;<br>            border: 4px solid #333366;<br>            border-radius: 10px;<br>            margin-bottom: 15px;<br>            box-shadow: 0 0 15px rgba(0, 0, 255, 0.5);<br>        }<br>        <br>        .score-panel {<br>            font-size: 24px;<br>            font-weight: bold;<br>            letter-spacing: 2px;<br>        }<br>        <br>        .lives-panel {<br>            display: flex;<br>            align-items: center;<br>            gap: 10px;<br>        }<br>        <br>        .life {<br>            width: 20px;<br>            height: 20px;<br>            background: #ffcc00;<br>            border-radius: 50%;<br>            clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);<br>        }<br>        <br>        #game-board {<br>            position: relative;<br>            width: 560px;<br>            height: 620px;<br>            background: #000;<br>            border: 4px solid #333366;<br>            border-radius: 10px;<br>            box-shadow: 0 0 20px rgba(0, 0, 255, 0.7);<br>            overflow: hidden;<br>        }<br>        <br>        .wall {<br>            position: absolute;<br>            background: #2233aa;<br>            border: 1px solid #4455cc;<br>            border-radius: 4px;<br>        }<br>        <br>        .dot {<br>            position: absolute;<br>            width: 6px;<br>            height: 6px;<br>            background: #ffcc00;<br>            border-radius: 50%;<br>            transform: translate(-50%, -50%);<br>        }<br>        <br>        .power-pellet {<br>            position: absolute;<br>            width: 12px;<br>            height: 12px;<br>            background: #ffcc00;<br>            border-radius: 50%;<br>            animation: pulse 0.5s infinite alternate;<br>            transform: translate(-50%, -50%);<br>        }<br>        <br>        @keyframes pulse {<br>            from { transform: scale(1) translate(-50%, -50%); }<br>            to { transform: scale(1.3) translate(-50%, -50%); }<br>        }<br>        <br>        #pacman {<br>            position: absolute;<br>            width: 24px;<br>            height: 24px;<br>            background: #ffcc00;<br>            border-radius: 50%;<br>            clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);<br>            transition: transform 0.1s;<br>            z-index: 10;<br>        }<br>        <br>        .ghost {<br>            position: absolute;<br>            width: 24px;<br>            height: 24px;<br>            border-radius: 12px 12px 0 0;<br>            z-index: 5;<br>        }<br>        <br>        .ghost::before {<br>            content: &#039;&#039;;<br>            position: absolute;<br>            width: 8px;<br>            height: 8px;<br>            background: white;<br>            border-radius: 50%;<br>            top: 6px;<br>        }<br>        <br>        .ghost::after {<br>            content: &#039;&#039;;<br>            position: absolute;<br>            width: 4px;<br>            height: 4px;<br>            background: black;<br>            border-radius: 50%;<br>            top: 9px;<br>        }<br>        <br>        .ghost.blinky { background: #ff0000; }<br>        .ghost.pinky { background: #ffb8ff; }<br>        .ghost.inky { background: #00ffff; }<br>        .ghost.clyde { background: #ffb852; }<br>        <br>        .ghost.blinky::before { left: 4px; }<br>        .ghost.pinky::before { left: 4px; }<br>        .ghost.inky::before { left: 4px; }<br>        .ghost.clyde::before { left: 4px; }<br>        <br>        .ghost.blinky::after { left: 6px; }<br>        .ghost.pinky::after { left: 6px; }<br>        .ghost.inky::after { left: 6px; }<br>        .ghost.clyde::after { left: 6px; }<br>        <br>        .frightened {<br>            background: #2233aa !important;<br>            animation: flash 0.3s infinite;<br>        }<br>        <br>        @keyframes flash {<br>            0% { opacity: 1; }<br>            50% { opacity: 0.7; }<br>            100% { opacity: 1; }<br>        }<br>        <br>        .controls {<br>            margin-top: 20px;<br>            color: #fff;<br>            background: rgba(0, 0, 50, 0.7);<br>            padding: 15px;<br>            border-radius: 10px;<br>            border: 2px solid #4455cc;<br>        }<br>        <br>        .controls h3 {<br>            color: #ffcc00;<br>            margin-bottom: 10px;<br>        }<br>        <br>        .keys {<br>            display: flex;<br>            justify-content: center;<br>            gap: 15px;<br>            margin-top: 10px;<br>        }<br>        <br>        .key {<br>            width: 50px;<br>            height: 50px;<br>            background: #333366;<br>            border-radius: 8px;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            color: #ffcc00;<br>            font-weight: bold;<br>            font-size: 20px;<br>            box-shadow: 0 4px 0 #222244;<br>        }<br>        <br>        .screen {<br>            position: absolute;<br>            top: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 100%;<br>            display: flex;<br>            flex-direction: column;<br>            justify-content: center;<br>            align-items: center;<br>            background: rgba(0, 0, 30, 0.9);<br>            z-index: 20;<br>            color: white;<br>        }<br>        <br>        .hidden {<br>            display: none;<br>        }<br>        <br>        h1 {<br>            color: #ffcc00;<br>            font-size: 48px;<br>            margin-bottom: 20px;<br>            text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);<br>        }<br>        <br>        h2 {<br>            color: #ffcc00;<br>            margin-bottom: 30px;<br>            font-size: 32px;<br>        }<br>        <br>        .btn {<br>            background: #ffcc00;<br>            color: #000;<br>            border: none;<br>            padding: 15px 40px;<br>            font-size: 20px;<br>            font-weight: bold;<br>            border-radius: 30px;<br>            cursor: pointer;<br>            margin: 10px;<br>            transition: all 0.3s;<br>            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);<br>        }<br>        <br>        .btn:hover {<br>            background: #ffdd55;<br>            transform: translateY(-3px);<br>            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);<br>        }<br>        <br>        .instructions {<br>            max-width: 80%;<br>            line-height: 1.6;<br>            margin: 20px 0;<br>            color: #ccc;<br>        }<br>        <br>        .game-over-text {<br>            font-size: 60px;<br>            color: #ff3333;<br>            text</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{
+  "timestamp": "2025-10-02T14:23:47.584Z",
+  "execution": {
+    "duration_seconds": "25.885",
+    "model_used": "qwen/qwen3-coder-plus",
+    "model_requested": "qwen/qwen3-coder-plus"
+  },
+  "tokens": {
+    "prompt_tokens": 31,
+    "completion_tokens": 2212,
+    "total_tokens": 2243
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000031,
+    "completion_cost": 0.01106,
+    "total_cost": 0.011091
+  },
+  "model_card": {
+    "id": "qwen/qwen3-coder-plus",
+    "name": "Qwen: Qwen3 Coder Plus",
+    "description": "Qwen3 Coder Plus is Alibaba's proprietary version of the Open Source Qwen3 Coder 480B A35B. It is a powerful coding agent model specializing in autonomous programming via tool calling and environment interaction, combining coding proficiency with versatile general-purpose abilities.",
+    "context_length": 128000,
+    "architecture": {
+      "input_modalities": [
+        "text"
+      ],
+      "instruct_type": null,
+      "modality": "text->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Qwen3"
+    },
+    "pricing": {
+      "completion": "0.000005",
+      "image": "0",
+      "input_cache_read": "0.0000001",
+      "internal_reasoning": "0",
+      "prompt": "0.000001",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 128000,
+      "is_moderated": false,
+      "max_completion_tokens": 65536
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759415002-UlG478z5GFXMla1ZU8cx",
+    "created": 1759415002,
+    "object": "chat.completion"
+  },
+  "raw_response": "# Rain and Thunder Animation\n\nI'll create an immersive rain and thunderstorm animation with realistic effects in a single HTML file.\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Thunderstorm Animation</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n        \n        body {\n            background: linear-gradient(to bottom, #1a2980, #26d0ce);\n            height: 100vh;\n            overflow: hidden;\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            color: white;\n        }\n        \n        .container {\n            position: relative;\n            width: 100%;\n            height: 100%;\n            overflow: hidden;\n        }\n        \n        .clouds {\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><path d=\"M20,60 Q30,40 40,50 Q50,30 60,40 Q70,20 80,30 Q90,40 100,50 L100,100 L0,100 Z\" fill=\"white\" opacity=\"0.1\"/></svg>');\n            background-size: cover;\n            animation: cloudsMove 120s linear infinite;\n        }\n        \n        @keyframes cloudsMove {\n            0% { transform: translateX(0); }\n            100% { transform: translateX(-100%); }\n        }\n        \n        .rain {\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            pointer-events: none;\n        }\n        \n        .drop {\n            position: absolute;\n            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.8));\n            width: 2px;\n            height: 15px;\n            border-radius: 0 0 10px 10px;\n            animation: fall linear infinite;\n        }\n        \n        @keyframes fall {\n            to {\n                transform: translateY(100vh);\n            }\n        }\n        \n        .lightning {\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background-color: white;\n            opacity: 0;\n            pointer-events: none;\n        }\n        \n        .thunder {\n            position: absolute;\n            bottom: 20px;\n            left: 0;\n            width: 100%;\n            text-align: center;\n            font-size: 2rem;\n            text-shadow: 0 0 10px rgba(0,0,0,0.7);\n            opacity: 0;\n            letter-spacing: 2px;\n        }\n        \n        .title {\n            position: absolute;\n            top: 20px;\n            left: 0;\n            width: 100%;\n            text-align: center;\n            font-size: 2.5rem;\n            text-shadow: 0 0 10px rgba(0,0,0,0.7);\n            letter-spacing: 3px;\n            z-index: 10;\n        }\n        \n        .ground {\n            position: absolute;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n            height: 30%;\n            background: linear-gradient(to top, #2c3e50, #34495e);\n            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);\n        }\n        \n        .puddle {\n            position: absolute;\n            bottom: 30%;\n            width: 80px;\n            height: 15px;\n            background: rgba(0, 100, 255, 0.3);\n            border-radius: 50%;\n            filter: blur(2px);\n        }\n        \n        .ripple {\n            position: absolute;\n            border: 2px solid rgba(255, 255, 255, 0.7);\n            border-radius: 50%;\n            opacity: 0;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1 class=\"title\">THUNDERSTORM</h1>\n        <div class=\"clouds\"></div>\n        <div class=\"rain\" id=\"rain\"></div>\n        <div class=\"lightning\" id=\"lightning\"></div>\n        <div class=\"thunder\" id=\"thunder\">RUMBLE... BOOM!</div>\n        <div class=\"ground\"></div>\n        <div class=\"puddle\" style=\"left: 20%;\"></div>\n        <div class=\"puddle\" style=\"left: 50%;\"></div>\n        <div class=\"puddle\" style=\"left: 80%;\"></div>\n    </div>\n\n    <script>\n        // Create raindrops\n        const rainContainer = document.getElementById('rain');\n        const numberOfDrops = 500;\n        \n        for (let i = 0; i < numberOfDrops; i++) {\n            const drop = document.createElement('div');\n            drop.classList.add('drop');\n            \n            // Randomize position and animation\n            const left = Math.random() * 100;\n            const delay = Math.random() * 5;\n            const duration = 0.5 + Math.random() * 0.5;\n            const opacity = 0.3 + Math.random() * 0.7;\n            const height = 10 + Math.random() * 15;\n            \n            drop.style.left = `${left}%`;\n            drop.style.animationDelay = `${delay}s`;\n            drop.style.animationDuration = `${duration}s`;\n            drop.style.opacity = opacity;\n            drop.style.height = `${height}px`;\n            \n            rainContainer.appendChild(drop);\n        }\n        \n        // Lightning effect\n        function lightningEffect() {\n            const lightning = document.getElementById('lightning');\n            const thunder = document.getElementById('thunder');\n            \n            // Random intensity of lightning\n            const intensity = 0.3 + Math.random() * 0.7;\n            \n            // Flash effect\n            lightning.style.opacity = intensity;\n            setTimeout(() => {\n                lightning.style.opacity = 0;\n            }, 50);\n            \n            // Thunder sound effect (visual since we can't play audio)\n            if (Math.random() > 0.5) {\n                thunder.style.opacity = 1;\n                setTimeout(() => {\n                    thunder.style.opacity = 0;\n                }, 1000);\n            }\n            \n            // Create ripples in puddles\n            createRipples();\n            \n            // Schedule next lightning\n            const nextLightning = 3000 + Math.random() * 7000;\n            setTimeout(lightningEffect, nextLightning);\n        }\n        \n        // Create ripple effects in puddles\n        function createRipples() {\n            const puddles = document.querySelectorAll('.puddle');\n            \n            puddles.forEach(puddle => {\n                for (let i = 0; i < 3; i++) {\n                    setTimeout(() => {\n                        const ripple = document.createElement('div');\n                        ripple.classList.add('ripple');\n                        \n                        const size = 10 + Math.random() * 30;\n                        const left = parseInt(puddle.style.left) + (Math.random() * 40 - 20);\n                        \n                        ripple.style.width = `${size}px`;\n                        ripple.style.height = `${size}px`;\n                        ripple.style.left = `${left}px`;\n                        ripple.style.bottom = '30%';\n                        ripple.style.opacity = 0.7;\n                        \n                        document.querySelector('.container').appendChild(ripple);\n                        \n                        // Animate ripple\n                        setTimeout(() => {\n                            ripple.style.transform = `scale(${2 + Math.random() * 3})`;\n                            ripple.style.opacity = 0;\n                            \n                            // Remove after animation\n                            setTimeout(() => {\n                                ripple.remove();\n                            }, 1000);\n                        }, 10);\n                    }, i * 200);\n                }\n            });\n        }\n        \n        // Start the storm\n        setTimeout(lightningEffect, 2000);\n        \n        // Continuous background lightning\n        setInterval(() => {\n            if (Math.random() > 0.7) {\n                const lightning = document.getElementById('lightning');\n                lightning.style.opacity = 0.1;\n                setTimeout(() => {\n                    lightning.style.opacity = 0;\n                }, 30);\n            }\n        }, 1000);\n    </script>\n</body>\n</html>\n```\n\n## Features of this Thunderstorm Animation:\n\n1. **Realistic Rain Effect**:\n   - Hundreds of animated raindrops falling at different speeds\n   - Varying opacity and length for natural appearance\n   - Smooth falling animation\n\n2. **Dynamic Lightning**:\n   - Random bright flashes across the screen\n   - Varying intensities for realism\n   - Background flickering for continuous atmosphere\n\n3. **Thunder Visualization**:\n   - \"RUMBLE... BOOM!\" text appears during thunder\n   - Visual representation of thunder sounds\n\n4. **Environmental Details**:\n   - Animated cloud background\n   - Ground surface with reflective puddles\n   - Ripple effects when rain hits puddles\n\n5. **Atmospheric Design**:\n   - Dark blue gradient sky\n   - Smooth animations with natural timing\n   - Responsive layout that works on all screen sizes\n\nThe animation runs continuously without any user interaction required. Simply open the HTML file in any modern browser to experience the storm!"
+}

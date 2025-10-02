@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> google/gemini-2.5-pro</p>
+            <p><strong>Generated:</strong> 2025-10-02T13:09:11.560Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">7951</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">81.446s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0793</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Of course. Creating a complete, pixel-perfect, and behaviorally-exact replica of the original PAC-MAN is a massive undertaking, especially concerning the complex and distinct AI for each ghost.<br><br>However, I can create a very faithful and fully playable version that captures the look, feel, and core mechanics of the game, all within a single HTML file as requested. This version will include:<br><br>*   A recognizable maze layout.<br>*   Pac-Man movement and chomping animation.<br>*   Dots and Power Pellets.<br>*   Four ghosts with a simplified but effective chase AI.<br>*   A &quot;frightened&quot; mode for ghosts after eating a Power Pellet.<br>*   Score, lives, and game over/win conditions.<br><br>Here is the complete code for <code>index.html</code>. Simply copy and paste this entire block of code into a file named <code>index.html</code> and open it in your web browser to play.<br><br>```html<br>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;PAC-MAN&lt;/title&gt;<br>    &lt;style&gt;<br>        @import url(&#039;https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap&#039;);<br><br>        body {<br>            background-color: #000;<br>            color: #fff;<br>            font-family: &#039;Press Start 2P&#039;, cursive;<br>            text-align: center;<br>            margin: 0;<br>            padding: 0;<br>            display: flex;<br>            flex-direction: column;<br>            align-items: center;<br>            justify-content: center;<br>            height: 100vh;<br>        }<br><br>        h1 {<br>            color: #FFFF00;<br>            text-shadow: 2px 2px 0 #FF0000;<br>        }<br><br>        #game-container {<br>            position: relative;<br>            border: 2px solid #1E90FF;<br>            box-shadow: 0 0 20px #1E90FF;<br>        }<br>        <br>        canvas {<br>            background-color: #000;<br>            display: block;<br>        }<br><br>        #game-info {<br>            display: flex;<br>            justify-content: space-between;<br>            width: 560px; /* Same as canvas width */<br>            padding: 10px 0;<br>            font-size: 16px;<br>        }<br><br>        #score-label, #lives-label {<br>            color: #fff;<br>        }<br>        <br>        #score-value {<br>            color: #FFFF00;<br>        }<br><br>        #lives-container {<br>            display: flex;<br>            align-items: center;<br>        }<br><br>        .life-pacman {<br>            width: 20px;<br>            height: 20px;<br>            background: #FFFF00;<br>            border-radius: 50%;<br>            margin-left: 10px;<br>            clip-path: polygon(0% 0%, 100% 0%, 100% 40%, 50% 50%, 100% 60%, 100% 100%, 0% 100%, 0% 60%, 50% 50%, 0% 40%);<br>        }<br>        <br>        #message-overlay {<br>            position: absolute;<br>            top: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 100%;<br>            background-color: rgba(0, 0, 0, 0.7);<br>            color: #FFFF00;<br>            font-size: 24px;<br>            display: none; /* Initially hidden */<br>            flex-direction: column;<br>            align-items: center;<br>            justify-content: center;<br>            text-align: center;<br>        }<br><br>        #message-overlay p {<br>            margin: 10px;<br>        }<br><br>        #message-overlay .subtext {<br>            font-size: 16px;<br>            color: #fff;<br>        }<br><br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;h1&gt;PAC-MAN&lt;/h1&gt;<br>    &lt;div id=&quot;game-info&quot;&gt;<br>        &lt;div&gt;<br>            &lt;span id=&quot;score-label&quot;&gt;SCORE: &lt;/span&gt;<br>            &lt;span id=&quot;score-value&quot;&gt;0&lt;/span&gt;<br>        &lt;/div&gt;<br>        &lt;div id=&quot;lives-container&quot;&gt;<br>            &lt;span id=&quot;lives-label&quot;&gt;LIVES:&lt;/span&gt;<br>            &lt;!-- Lives will be dynamically added here --&gt;<br>        &lt;/div&gt;<br>    &lt;/div&gt;<br>    &lt;div id=&quot;game-container&quot;&gt;<br>        &lt;canvas id=&quot;gameCanvas&quot;&gt;&lt;/canvas&gt;<br>        &lt;div id=&quot;message-overlay&quot;&gt;<br>            &lt;p id=&quot;main-message&quot;&gt;GAME OVER&lt;/p&gt;<br>            &lt;p id=&quot;sub-message&quot; class=&quot;subtext&quot;&gt;Press Enter to Restart&lt;/p&gt;<br>        &lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;script&gt;<br>        document.addEventListener(&#039;DOMContentLoaded&#039;, () =&gt; {<br>            const canvas = document.getElementById(&#039;gameCanvas&#039;);<br>            const ctx = canvas.getContext(&#039;2d&#039;);<br>            const scoreEl = document.getElementById(&#039;score-value&#039;);<br>            const livesContainer = document.getElementById(&#039;lives-container&#039;);<br>            const messageOverlay = document.getElementById(&#039;message-overlay&#039;);<br>            const mainMessageEl = document.getElementById(&#039;main-message&#039;);<br>            const subMessageEl = document.getElementById(&#039;sub-message&#039;);<br><br>            const TILE_SIZE = 20;<br>            const ROWS = 31;<br>            const COLS = 28;<br><br>            canvas.width = COLS * TILE_SIZE;<br>            canvas.height = ROWS * TILE_SIZE;<br><br>            // Map legend: 0 = Wall, 1 = Dot, 2 = Empty, 3 = Power Pellet, 4 = Ghost Lair<br>            const map = [<br>                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],<br>                [0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0],<br>                [0,1,0,0,1,1,0,0,0,1,1,0,1,0,0,1,0,1,1,0,0,0,1,1,0,0,1,0],<br>                [0,3,0,0,1,1,0,0,0,1,1,0,1,0,0,1,0,1,1,0,0,0,1,1,0,0,3,0],<br>                [0,1,0,0,1,1,0,0,0,1,1,0,1,0,0,1,0,1,1,0,0,0,1,1,0,0,1,0],<br>                [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],<br>                [0,1,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,1,0],<br>                [0,1,0,0,1,1,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,1,1,0,0,1,0],<br>                [0,1,1,1,1,1,0,1,1,0,0,0,1,0,0,1,0,0,0,1,1,0,1,1,1,1,1,0],<br>                [0,0,0,0,1,1,0,1,1,0,2,2,2,2,2,2,2,0,1,1,0,1,1,0,0,0,0,0],<br>                [0,0,0,0,1,1,0,1,1,0,2,0,0,4,4,0,0,2,0,1,1,0,1,1,0,0,0,0],<br>                [0,0,0,0,1,1,0,1,1,0,2,0,4,4,4,4,0,2,0,1,1,0,1,1,0,0,0,0],<br>                [0,0,0,0,1,1,1,1,1,0,2,0,4,4,4,4,0,2,0,1,1,1,1,1,0,0,0,0],<br>                [2,2,2,2,1,1,0,1,1,2,2,0,4,4,4,4,0,2,2,1,1,0,1,1,2,2,2,2],<br>                [0,0,0,0,1,1,0,1,1,0,2,0,4,4,4,4,0,2,0,1,1,0,1,1,0,0,0,0],<br>                [0,0,0,0,1,1,0,1,1,0,2,0,0,0,0,0,0,2,0,1,1,0,1,1,0,0,0,0],<br>                [0,0,0,0,1,1,0,1,1,0,2,2,2,2,2,2,2,2,0,1,1,0,1,1,0,0,0,0],<br>                [0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0],<br>                [0,1,0,0,1,1,0,0,0,1,1,0,1,0,0,1,0,1,1,0,0,0,1,1,0,0,1,0],<br>                [0,3,1,1,1,1,1,1,1,1,1,0,1,0,0,1,0,1,1,1,1,1,1,1,1,1,3,0],<br>                [0,0,0,1,1,0,1,1,0,1,1,0,1,0,0,1,0,1,1,0,1,1,0,1,1,0,0,0],<br>                [0,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,0],<br>                [0,1,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,1,1,0,1,1,0,0,0,0,1,0],<br>                [0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0],<br>                [0,1,0,0,1,1,0,0,0,1,1,0,1,0,0,1,0,1,1,0,0,0,1,1,0,0,1,0],<br>                [0,1,1,0,1,1,1,1,1,1,1,0,1,0,0,1,0,1,1,1,1,1,1,1,0,1,1,0],<br>                [0,0,1,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,1,0,0,0],<br>                [0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,0],<br>                [0,1,0,0,0,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,0,0,0,1,0],<br>                [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],<br>                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]<br>            ];<br><br>            let score = 0;<br>            let lives = 3;<br>            let dotCount = 0;<br>            let gameState = &#039;start&#039;; // &#039;start&#039;, &#039;playing&#039;, &#039;paused&#039;, &#039;dying&#039;, &#039;gameover&#039;, &#039;won&#039;<br>            let gameLoopId;<br><br>            const pacman = {<br>                x: 14 * TILE_SIZE,<br>                y: 23 * TILE_SIZE,<br>                dx: 0,<br>                dy: 0,<br>                speed: 2,<br>                nextDirection: null,<br>                mouthOpen: 0.2,<br>                mouthOpening: true<br>            };<br><br>            const ghosts = [<br>                { id: &#039;blinky&#039;, x: 14 * TILE_SIZE, y: 11 * TILE_SIZE, color: &#039;#FF0000&#039;, dx: 0, dy: 0, state: &#039;chase&#039;, home: {x: 14 * TILE_SIZE, y: 11 * TILE_SIZE} },<br>                { id: &#039;pinky&#039;, x: 14 * TILE_SIZE, y: 14 * TILE_SIZE, color: &#039;#FFB8FF&#039;, dx: 0, dy: 0, state: &#039;chase&#039;, home: {x: 14 * TILE_SIZE, y: 14 * TILE_SIZE} },<br>                { id: &#039;inky&#039;, x: 12 * TILE_SIZE, y: 14 * TILE_SIZE, color: &#039;#00FFFF&#039;, dx: 0, dy: 0, state: &#039;chase&#039;, home: {x: 12 * TILE_SIZE, y: 14 * TILE_SIZE} },<br>                { id: &#039;clyde&#039;, x: 16 * TILE_SIZE, y: 14 * TILE_SIZE, color: &#039;#FFB852&#039;, dx: 0, dy: 0, state: &#039;chase&#039;, home: {x: 16 * TILE_SIZE, y: 14 * TILE_SIZE} }<br>            ];<br>            <br>            let powerPelletTimer = 0;<br>            const POWER_PELLET_DURATION = 8000; // 8 seconds<br><br>            function isWall(x, y) {<br>                const gridX = Math.floor(x / TILE_SIZE);<br>                const gridY = Math.floor(y / TILE_SIZE);<br>                if (gridX &lt; 0 || gridX &gt;= COLS || gridY &lt; 0 || gridY &gt;= ROWS) return true;<br>                return map[gridY][gridX] === 0;<br>            }<br><br>            function isAtGridCenter(entity) {<br>                return (entity.x % TILE_SIZE === 0) &amp;&amp; (entity.y % TILE_SIZE === 0);<br>            }<br><br>            function drawWall(x, y) {<br>                ctx.fillStyle = &#039;#1E90FF&#039;; // Blue walls<br>                ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);<br>            }<br><br>            function drawDot(x, y) {<br>                ctx.fillStyle = &#039;#FFFFFF&#039;;<br>                ctx.fillRect(x * TILE_SIZE + TILE_SIZE / 2 - 1, y * TILE_SIZE + TILE_SIZE / 2 - 1, 2, 2);<br>            }<br><br>            function drawPowerPellet(x, y) {<br>                ctx.fillStyle = &#039;#FFFFFF&#039;;<br>                ctx.beginPath();<br>                ctx.arc(x * TILE_SIZE + TILE_SIZE / 2, y * TILE_SIZE + TILE_SIZE / 2, TILE_SIZE / 3, 0, Math.PI * 2);<br>                ctx.fill();<br>            }<br><br>            function drawMap() {<br>                dotCount = 0;<br>                for (let y = 0; y &lt; ROWS; y++) {<br>                    for (let x = 0; x &lt; COLS; x++) {<br>                        if (map[y][x] === 0) {<br>                            drawWall(x, y);<br>                        } else if (map[y][x] === 1) {<br>                            drawDot(x, y);<br>                            dotCount++;<br>                        } else if (map[y][x] === 3) {<br>                            drawPowerPellet(x, y);<br>                            dotCount++;<br>                        }<br>                    }<br>                }<br>            }<br>            <br>            function drawPacman() {<br>                // Animate mouth<br>                if (pacman.mouthOpening) {<br>                    pacman.mouthOpen += 0.05;<br>                    if (pacman.mouthOpen &gt;= 0.4) pacman.mouthOpening = false;<br>                } else {<br>                    pacman.mouthOpen -= 0.05;<br>                    if (pacman.mouthOpen &lt;= 0) pacman.mouthOpening = true;<br>                }<br><br>                let startAngle = pacman.mouthOpen * Math.PI;<br>                let endAngle = (2 - pacman.mouthOpen) * Math.PI;<br>                let rotation = 0;<br><br>                if (pacman.dx &gt; 0) rotation = 0; // Right<br>                else if (pacman.dx &lt; 0) rotation = Math.PI; // Left<br>                else if (pacman.dy &gt; 0) rotation = 0.5 * Math.PI; // Down<br>                else if (pacman.dy &lt; 0) rotation = 1.5 * Math.PI; // Up<br><br>                ctx.save();<br>                ctx.translate(pacman.x + TILE_SIZE / 2, pacman.y + TILE_SIZE / 2);<br>                ctx.rotate(rotation);<br><br>                ctx.fillStyle = &#039;#FFFF00&#039;;<br>                ctx.beginPath();<br>                ctx.arc(0, 0, TILE_SIZE / 2 - 1, startAngle, endAngle);<br>                ctx.lineTo(0, 0);<br>                ctx.fill();<br>                ctx.restore();<br>            }<br><br>            function drawGhost(ghost) {<br>                const isFrightened = ghost.state === &#039;frightened&#039;;<br>                const isEaten = ghost.state === &#039;eaten&#039;;<br>                const bodyColor = isFrightened ? &#039;#0000FF&#039; : ghost.color;<br>                <br>                if (isEaten) {<br>                    // Draw eyes only, returning to base<br>                    ctx.fillStyle = &#039;#FFFFFF&#039;;<br>                    ctx.beginPath();<br>                    ctx.arc(ghost.x + TILE_SIZE / 2 - 3, ghost.y + TILE_SIZE / 2, 2, 0, Math.PI * 2);<br>                    ctx.arc(ghost.x + TILE_SIZE / 2 + 3, ghost.y + TILE_SIZE / 2, 2, 0, Math.PI * 2);<br>                    ctx.fill();<br>                } else {<br>                    // Draw body<br>                    ctx.fillStyle = bodyColor;<br>                    ctx.beginPath();<br>                    ctx.arc(ghost.x + TILE_SIZE / 2, ghost.y + TILE_SIZE / 2, TILE_SIZE / 2, Math.PI, 0);<br>                    ctx.lineTo(ghost.x + TILE_SIZE, ghost.y + TILE_SIZE);<br>                    ctx.lineTo(ghost.x, ghost.y + TILE_SIZE);<br>                    ctx.fill();<br><br>                    // Draw eyes<br>                    ctx.fillStyle = &#039;#FFFFFF&#039;;<br>                    ctx.beginPath();<br>                    ctx.arc(ghost.x + TILE_SIZE / 2 - 4, ghost.y + TILE_SIZE / 2 - 2, 3, 0, Math.PI * 2);<br>                    ctx.arc(ghost.x + TILE_SIZE / 2 + 4, ghost.y + TILE_SIZE / 2 - 2, 3, 0, Math.PI * 2);<br>                    ctx.fill();<br><br>                    // Draw pupils<br>                    ctx.fillStyle = &#039;#000&#039;;<br>                    ctx.beginPath();<br>                    ctx.arc(ghost.x + TILE_SIZE / 2 - 4, ghost.y + TILE_SIZE / 2 - 2, 1, 0, Math.PI * 2);<br>                    ctx.arc(ghost.x + TILE_SIZE / 2 + 4, ghost.y + TILE_SIZE / 2 - 2, 1, 0, Math.PI * 2);<br>                    ctx.fill();<br>                }<br>            }<br><br>            function updatePacman() {<br>                // Tunnel logic<br>                if (pacman.x &lt; -TILE_SIZE) pacman.x = canvas.width - TILE_SIZE;<br>                else if (pacman.x &gt; canvas.width) pacman.x = 0;<br><br>                const currentGridX = Math.floor(pacman.x / TILE_SIZE);<br>                const currentGridY = Math.floor(pacman.y / TILE_SIZE);<br><br>                // Handle direction change at grid intersection<br>                if (isAtGridCenter(pacman)) {<br>                    let newDx = 0, newDy = 0;<br>                    if (pacman.nextDirection === &#039;up&#039;) newDy = -pacman.speed;<br>                    else if (pacman.nextDirection === &#039;down&#039;) newDy = pacman.speed;<br>                    else if (pacman.nextDirection === &#039;left&#039;) newDx = -pacman.speed;<br>                    else if (pacman.nextDirection === &#039;right&#039;) newDx = pacman</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-sonnet-4</p>
+            <p><strong>Generated:</strong> 2025-10-02T14:15:06.924Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">2406</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">28.479s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0357</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Rain and Thunder Animation&lt;/title&gt;<br>    &lt;style&gt;<br>        * {<br>            margin: 0;<br>            padding: 0;<br>            box-sizing: border-box;<br>        }<br><br>        body {<br>            overflow: hidden;<br>            background: linear-gradient(to bottom, #1e3c72, #2a5298, #1e3c72);<br>            height: 100vh;<br>            position: relative;<br>        }<br><br>        /* Dark clouds */<br>        .clouds {<br>            position: absolute;<br>            top: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 200px;<br>            background: linear-gradient(to bottom, #2c3e50, #34495e);<br>            z-index: 10;<br>        }<br><br>        .cloud {<br>            position: absolute;<br>            background: #34495e;<br>            border-radius: 50px;<br>            opacity: 0.8;<br>            animation: drift 20s infinite linear;<br>        }<br><br>        .cloud:before,<br>        .cloud:after {<br>            content: &#039;&#039;;<br>            position: absolute;<br>            background: #34495e;<br>            border-radius: 50px;<br>        }<br><br>        .cloud1 {<br>            width: 100px;<br>            height: 40px;<br>            top: 50px;<br>            left: -100px;<br>            animation-duration: 25s;<br>        }<br><br>        .cloud1:before {<br>            width: 50px;<br>            height: 50px;<br>            top: -25px;<br>            left: 10px;<br>        }<br><br>        .cloud1:after {<br>            width: 60px;<br>            height: 20px;<br>            top: -10px;<br>            right: 10px;<br>        }<br><br>        .cloud2 {<br>            width: 80px;<br>            height: 30px;<br>            top: 80px;<br>            left: -80px;<br>            animation-duration: 30s;<br>            animation-delay: -10s;<br>        }<br><br>        .cloud2:before {<br>            width: 40px;<br>            height: 40px;<br>            top: -20px;<br>            left: 15px;<br>        }<br><br>        .cloud2:after {<br>            width: 50px;<br>            height: 15px;<br>            top: -5px;<br>            right: 15px;<br>        }<br><br>        .cloud3 {<br>            width: 120px;<br>            height: 50px;<br>            top: 30px;<br>            left: -120px;<br>            animation-duration: 35s;<br>            animation-delay: -20s;<br>        }<br><br>        .cloud3:before {<br>            width: 60px;<br>            height: 60px;<br>            top: -30px;<br>            left: 20px;<br>        }<br><br>        .cloud3:after {<br>            width: 70px;<br>            height: 25px;<br>            top: -15px;<br>            right: 20px;<br>        }<br><br>        @keyframes drift {<br>            0% {<br>                transform: translateX(0);<br>            }<br>            100% {<br>                transform: translateX(calc(100vw + 200px));<br>            }<br>        }<br><br>        /* Rain drops */<br>        .rain {<br>            position: absolute;<br>            top: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 100%;<br>            z-index: 5;<br>        }<br><br>        .drop {<br>            position: absolute;<br>            width: 2px;<br>            height: 15px;<br>            background: linear-gradient(to bottom, transparent, #87ceeb, #4682b4);<br>            border-radius: 0 0 50% 50%;<br>            animation: fall linear infinite;<br>        }<br><br>        @keyframes fall {<br>            0% {<br>                transform: translateY(-100px);<br>                opacity: 1;<br>            }<br>            100% {<br>                transform: translateY(100vh);<br>                opacity: 0.3;<br>            }<br>        }<br><br>        /* Lightning flash */<br>        .lightning {<br>            position: absolute;<br>            top: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 100%;<br>            background: rgba(255, 255, 255, 0);<br>            z-index: 15;<br>            animation: flash 4s infinite;<br>        }<br><br>        @keyframes flash {<br>            0%, 85%, 87%, 89%, 100% {<br>                background: rgba(255, 255, 255, 0);<br>            }<br>            86%, 88% {<br>                background: rgba(255, 255, 255, 0.8);<br>            }<br>        }<br><br>        /* Lightning bolt */<br>        .bolt {<br>            position: absolute;<br>            width: 4px;<br>            height: 150px;<br>            background: #fff;<br>            top: 100px;<br>            left: 50%;<br>            transform: translateX(-50%);<br>            opacity: 0;<br>            animation: bolt-flash 4s infinite;<br>            box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00f;<br>        }<br><br>        .bolt:before {<br>            content: &#039;&#039;;<br>            position: absolute;<br>            width: 0;<br>            height: 0;<br>            border-left: 10px solid transparent;<br>            border-right: 10px solid transparent;<br>            border-top: 20px solid #fff;<br>            top: -20px;<br>            left: -8px;<br>        }<br><br>        @keyframes bolt-flash {<br>            0%, 85%, 87%, 89%, 100% {<br>                opacity: 0;<br>            }<br>            86%, 88% {<br>                opacity: 1;<br>            }<br>        }<br><br>        /* Ground reflection */<br>        .ground {<br>            position: absolute;<br>            bottom: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 50px;<br>            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));<br>            z-index: 1;<br>        }<br><br>        /* Ripples */<br>        .ripple {<br>            position: absolute;<br>            border: 2px solid rgba(135, 206, 235, 0.3);<br>            border-radius: 50%;<br>            animation: ripple-effect 1s ease-out infinite;<br>        }<br><br>        @keyframes ripple-effect {<br>            0% {<br>                width: 0;<br>                height: 0;<br>                opacity: 1;<br>            }<br>            100% {<br>                width: 20px;<br>                height: 20px;<br>                opacity: 0;<br>            }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;!-- Clouds --&gt;<br>    &lt;div class=&quot;clouds&quot;&gt;<br>        &lt;div class=&quot;cloud cloud1&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cloud cloud2&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cloud cloud3&quot;&gt;&lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;!-- Lightning --&gt;<br>    &lt;div class=&quot;lightning&quot;&gt;&lt;/div&gt;<br>    &lt;div class=&quot;bolt&quot;&gt;&lt;/div&gt;<br><br>    &lt;!-- Rain --&gt;<br>    &lt;div class=&quot;rain&quot; id=&quot;rain&quot;&gt;&lt;/div&gt;<br><br>    &lt;!-- Ground --&gt;<br>    &lt;div class=&quot;ground&quot;&gt;&lt;/div&gt;<br><br>    &lt;script&gt;<br>        // Create rain drops<br>        function createRain() {<br>            const rainContainer = document.getElementById(&#039;rain&#039;);<br>            const numberOfDrops = 100;<br><br>            for (let i = 0; i &lt; numberOfDrops; i++) {<br>                const drop = document.createElement(&#039;div&#039;);<br>                drop.className = &#039;drop&#039;;<br>                drop.style.left = Math.random() * 100 + &#039;%&#039;;<br>                drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + &#039;s&#039;;<br>                drop.style.animationDelay = Math.random() * 2 + &#039;s&#039;;<br>                rainContainer.appendChild(drop);<br>            }<br>        }<br><br>        // Create ripples on ground<br>        function createRipple() {<br>            const ripple = document.createElement(&#039;div&#039;);<br>            ripple.className = &#039;ripple&#039;;<br>            ripple.style.left = Math.random() * 100 + &#039;%&#039;;<br>            ripple.style.bottom = Math.random() * 50 + &#039;px&#039;;<br>            document.body.appendChild(ripple);<br><br>            setTimeout(() =&gt; {<br>                ripple.remove();<br>            }, 1000);<br>        }<br><br>        // Thunder sound simulation (visual only)<br>        function thunderEffect() {<br>            const bolt = document.querySelector(&#039;.bolt&#039;);<br>            const randomLeft = Math.random() * 80 + 10 + &#039;%&#039;;<br>            bolt.style.left = randomLeft;<br>        }<br><br>        // Initialize<br>        createRain();<br><br>        // Create ripples periodically<br>        setInterval(createRipple, 200);<br><br>        // Change lightning position<br>        setInterval(thunderEffect, 4000);<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This HTML file creates a beautiful rain and thunder animation with the following features:<br><br>1. **Dark storm clouds** that drift across the sky<br>2. **Animated raindrops** falling at different speeds and positions<br>3. **Lightning flashes** that illuminate the entire screen<br>4. **Lightning bolts** that appear in different positions<br>5. **Ground ripples** that simulate raindrops hitting the ground<br>6. **Atmospheric gradient background** that gives a stormy feel<br><br>The animation runs continuously without any user interaction, creating an immersive stormy weather experience. The rain falls naturally, lightning strikes periodically, and ripples appear on the ground to simulate the impact of raindrops.</div>
+        </div>
+    </div>
+</body>
+</html>

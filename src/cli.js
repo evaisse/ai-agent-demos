@@ -776,7 +776,7 @@ async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = n
   
   // Get API configuration
   const apiKey = process.env.OPENROUTER_API_KEY;
-  const apiUrl = process.env.OPENROUTER_API_URL || 'https://openrouter-proxy-h2dj.onrender.com/api/v1/chat/completions';
+  const apiUrl = process.env.OPENROUTER_API_URL || 'https://openrouter.ai/api/v1';
   
   // Validate configuration
   validateConfig(apiKey, apiUrl);

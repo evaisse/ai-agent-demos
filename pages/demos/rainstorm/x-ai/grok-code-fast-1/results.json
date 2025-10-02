@@ -1,0 +1,62 @@
+{
+  "timestamp": "2025-10-02T14:23:54.919Z",
+  "execution": {
+    "duration_seconds": "7.270",
+    "model_used": "x-ai/grok-code-fast-1",
+    "model_requested": "x-ai/grok-code-fast-1"
+  },
+  "tokens": {
+    "prompt_tokens": 227,
+    "completion_tokens": 771,
+    "total_tokens": 998
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000045,
+    "completion_cost": 0.001156,
+    "total_cost": 0.001202
+  },
+  "model_card": {
+    "id": "x-ai/grok-code-fast-1",
+    "name": "xAI: Grok Code Fast 1",
+    "description": "Grok Code Fast 1 is a speedy and economical reasoning model that excels at agentic coding. With reasoning traces visible in the response, developers can steer Grok Code for high-quality work flows.",
+    "context_length": 256000,
+    "architecture": {
+      "input_modalities": [
+        "text"
+      ],
+      "instruct_type": null,
+      "modality": "text->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Grok"
+    },
+    "pricing": {
+      "completion": "0.0000015",
+      "image": "0",
+      "input_cache_read": "0.00000002",
+      "internal_reasoning": "0",
+      "prompt": "0.0000002",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 256000,
+      "is_moderated": false,
+      "max_completion_tokens": 10000
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759415028-1jH5u2pEeGPQJQMLeHp8",
+    "created": 1759415028,
+    "object": "chat.completion"
+  },
+  "raw_response": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Raining Thunder Animation</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            background: linear-gradient(to bottom, #1e3c72, #2a5298);\n            overflow: hidden;\n            height: 100vh;\n        }\n        .rain {\n            position: absolute;\n            width: 2px;\n            height: 100px;\n            background: rgba(255, 255, 255, 0.8);\n            animation: fall linear infinite;\n        }\n        .thunder {\n            position: absolute;\n            width: 100%;\n            height: 100%;\n            background: rgba(255, 255, 255, 0.3);\n            opacity: 0;\n            animation: flash 0.1s ease-in-out;\n        }\n        @keyframes fall {\n            to {\n                transform: translateY(100vh);\n            }\n        }\n        @keyframes flash {\n            0% { opacity: 0; }\n            50% { opacity: 1; }\n            100% { opacity: 0; }\n        }\n    </style>\n</head>\n<body>\n    <div id=\"rain-container\"></div>\n    <script>\n        const rainContainer = document.getElementById('rain-container');\n        const numDrops = 100; // Number of raindrops\n\n        // Create raindrops\n        for (let i = 0; i < numDrops; i++) {\n            const drop = document.createElement('div');\n            drop.className = 'rain';\n            drop.style.left = Math.random() * 100 + '%';\n            drop.style.animationDelay = Math.random() * 2 + 's';\n            drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';\n            rainContainer.appendChild(drop);\n        }\n\n        // Thunder effect: occasional flashes\n        setInterval(() => {\n            if (Math.random() < 0.1) { // 10% chance every second\n                const thunder = document.createElement('div');\n                thunder.className = 'thunder';\n                document.body.appendChild(thunder);\n                setTimeout(() => {\n                    thunder.remove();\n                }, 100);\n            }\n        }, 1000);\n    </script>\n</body>\n</html>\n```"
+}

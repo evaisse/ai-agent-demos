@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thunderstorm</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+            transition: background 0.5s ease;
+        }
+
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(transparent, #00f7ff);
+            animation: fall 1s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh) translateX(0); }
+            100% { transform: translateY(100vh) translateX(30px); }
+        }
+
+        .lightning {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            opacity: 0;
+            animation: flash 0.2s ease-out;
+        }
+
+        @keyframes flash {
+            0% { opacity: 0.8; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Create rain drops
+        function createRain() {
+            const rainContainer = document.body;
+            for (let i = 0; i < 100; i++) {
+                const rain = document.createElement('div');
+                rain.className = 'rain';
+                rain.style.left = Math.random() * 100 + '%';
+                rain.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+                rain.style.height = (Math.random() * 30 + 20) + 'px';
+                rainContainer.appendChild(rain);
+            }
+        }
+
+        // Create lightning effect
+        function createLightning() {
+            const lightning = document.createElement('div');
+            lightning.className = 'lightning';
+            document.body.appendChild(lightning);
+            
+            setTimeout(() => {
+                lightning.remove();
+            }, 200);
+        }
+
+        // Start animation
+        createRain();
+        
+        // Random lightning strikes
+        setInterval(() => {
+            if (Math.random() < 0.1) { // 10% chance every check
+                document.body.style.background = '#111';
+                setTimeout(() => {
+                    document.body.style.background = '#000';
+                }, 100);
+                createLightning();
+            }
+        }, 1000);
+
+        // Continuous thunder effect
+        setInterval(() => {
+            if (Math.random() < 0.3) { // 30% chance every check
+                document.body.style.background = '#222';
+                setTimeout(() => {
+                    document.body.style.background = '#000';
+                }, 50);
+            }
+        }, 300);
+    </script>
+</body>
+</html>
