@@ -1361,22 +1361,32 @@ program
       
       console.log(chalk.yellow(`\n⏹️  Press Ctrl+C to stop the server\n`));
       
-      // Handle graceful shutdown
-      process.on('SIGINT', () => {
-        console.log(chalk.yellow('\n⏹️  Shutting down server...'));
-        server.close(() => {
-          console.log(chalk.green('✅ Server stopped'));
-          process.exit(0);
-        });
-      });
+      // Track shutdown state to prevent multiple shutdowns
+      let isShuttingDown = false;
       
-      process.on('SIGTERM', () => {
-        console.log(chalk.yellow('\n⏹️  Shutting down server...'));
+      // Handle graceful shutdown
+      const handleShutdown = (signal) => {
+        if (isShuttingDown) {
+          return; // Prevent multiple shutdown attempts
+        }
+        isShuttingDown = true;
+        
+        console.log(chalk.yellow(`\n⏹️  Shutting down server...`));
         server.close(() => {
           console.log(chalk.green('✅ Server stopped'));
           process.exit(0);
         });
-      });
+        
+        // Force exit if server doesn't close within 5 seconds
+        setTimeout(() => {
+          console.log(chalk.red('⚠️  Force stopping server...'));
+          process.exit(1);
+        }, 5000);
+      };
+      
+      // Use process.once to ensure handlers are only added once
+      process.once('SIGINT', () => handleShutdown('SIGINT'));
+      process.once('SIGTERM', () => handleShutdown('SIGTERM'));
       
     } catch (error) {
       if (error.code === 'EADDRINUSE' && options.port) {
