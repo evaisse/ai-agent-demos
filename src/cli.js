@@ -594,6 +594,66 @@ function formatContent(text) {
   return text;
 }
 
+// Extract HTML code from AI response
+function extractHTMLFromResponse(responseContent) {
+  // First try to find HTML code blocks (```html...``` or ```...```)
+  const htmlCodeBlockRegex = /```(?:html)?\s*\n?(<!DOCTYPE html[\s\S]*?<\/html>)\s*```/i;
+  const match = responseContent.match(htmlCodeBlockRegex);
+  
+  if (match) {
+    return match[1].trim();
+  }
+  
+  // If no code block, look for HTML document starting with <!DOCTYPE html
+  const doctypeRegex = /(<!DOCTYPE html[\s\S]*?<\/html>)/i;
+  const doctypeMatch = responseContent.match(doctypeRegex);
+  
+  if (doctypeMatch) {
+    return doctypeMatch[1].trim();
+  }
+  
+  // If no <!DOCTYPE, look for <html> tag
+  const htmlTagRegex = /(<html[\s\S]*?<\/html>)/i;
+  const htmlTagMatch = responseContent.match(htmlTagRegex);
+  
+  if (htmlTagMatch) {
+    return htmlTagMatch[1].trim();
+  }
+  
+  // If still no match, look for any substantial HTML-like content
+  const generalHtmlRegex = /(<[^>]+>[\s\S]*<\/[^>]+>)/;
+  const generalMatch = responseContent.match(generalHtmlRegex);
+  
+  if (generalMatch) {
+    // Wrap in basic HTML document structure
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Demo</title>
+</head>
+<body>
+${generalMatch[1].trim()}
+</body>
+</html>`;
+  }
+  
+  // Fallback: wrap entire response in basic HTML
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Demo</title>
+</head>
+<body>
+    <h1>Generated Content</h1>
+    <pre>${escapeHtml(responseContent)}</pre>
+</body>
+</html>`;
+}
+
 async function saveOutput(html, outputPath) {
   try {
     const resolvedPath = path.resolve(outputPath);
@@ -650,9 +710,14 @@ async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = n
     outputDir
   );
   
-  // Generate and save HTML
-  const html = generateHTML(response.content, model, prompt, report);
-  await saveOutput(html, outputPath);
+  // Extract and save HTML code from AI response
+  const extractedHTML = extractHTMLFromResponse(response.content);
+  await saveOutput(extractedHTML, outputPath);
+  
+  // Also save the formatted report as report.html for debugging/reference
+  const reportHTML = generateHTML(response.content, model, prompt, report);
+  const reportHtmlPath = path.join(outputDir, 'report.html');
+  await saveOutput(reportHTML, reportHtmlPath);
   
   console.log(`\n📈 Performance Metrics:`);
   console.log(`   ⏱️  Duration: ${response.duration.toFixed(3)} seconds`);
@@ -1095,13 +1160,14 @@ program
       await generateDemoWithModel(prompt, model, outputPath);
       
       console.log(chalk.green(`\n✅ Demo generated successfully!`));
-      console.log(chalk.gray(`📂 Location: ${outputPath}`));
+      console.log(chalk.gray(`📄 Generated HTML: ${outputPath}`));
       console.log(chalk.gray(`📊 Metrics: ${path.join(modelDir, 'results.json')}`));
-      console.log(chalk.gray(`📝 Response: ${path.join(modelDir, 'RESPONSE.md')}`));
+      console.log(chalk.gray(`📝 Full Response: ${path.join(modelDir, 'RESPONSE.md')}`));
+      console.log(chalk.gray(`📋 Detailed Report: ${path.join(modelDir, 'report.html')}`));
       console.log('');
       console.log(chalk.cyan(`Next steps:`));
-      console.log(chalk.white(`  1. Open the generated HTML: open "${outputPath}"`));
-      console.log(chalk.white(`  2. Generate viewer: npm run generate-viewer`));
+      console.log(chalk.white(`  1. Open the generated demo: open "${outputPath}"`));
+      console.log(chalk.white(`  2. Preview all demos: npm run preview-server`));
       console.log(chalk.white(`  3. Try another model: npm run generate-demo -- -d ${demo}`));
       
     } catch (error) {

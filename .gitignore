@@ -11,6 +11,3 @@ var/
 .gemini
 node_modules/
 .env
-*.html
-report.json
-RESPONSE.md
