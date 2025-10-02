@@ -1,1 +1,145 @@
-[]
+[
+  {
+    "name": "physics-20-balls",
+    "title": "Physics 20 Balls",
+    "prompt": "In a single HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.\n",
+    "models": [
+      {
+        "name": "anthropic/claude-3-haiku",
+        "htmlPath": "demos/physics-20-balls/anthropic/claude-3-haiku/index.html",
+        "results": {
+          "timestamp": "2025-10-02T00:07:28.666Z",
+          "execution": {
+            "duration_seconds": "11.691",
+            "model_used": "anthropic/claude-3-haiku",
+            "model_requested": "anthropic/claude-3-haiku"
+          },
+          "tokens": {
+            "prompt_tokens": 65,
+            "completion_tokens": 1386,
+            "total_tokens": 1451
+          },
+          "cost": {
+            "currency": "USD",
+            "prompt_cost": 0.000016,
+            "completion_cost": 0.001733,
+            "total_cost": 0.001749
+          },
+          "model_card": {
+            "id": "anthropic/claude-3-haiku",
+            "name": "Anthropic: Claude 3 Haiku",
+            "description": "Claude 3 Haiku is Anthropic's fastest and most compact model for\nnear-instant responsiveness. Quick and accurate targeted performance.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-haiku)\n\n#multimodal",
+            "context_length": 200000,
+            "architecture": {
+              "input_modalities": [
+                "text",
+                "image"
+              ],
+              "instruct_type": null,
+              "modality": "text+image->text",
+              "output_modalities": [
+                "text"
+              ],
+              "tokenizer": "Claude"
+            },
+            "pricing": {
+              "completion": "0.00000125",
+              "image": "0.0004",
+              "input_cache_read": "0.00000003",
+              "input_cache_write": "0.0000003",
+              "internal_reasoning": "0",
+              "prompt": "0.00000025",
+              "request": "0",
+              "web_search": "0"
+            },
+            "top_provider": {
+              "context_length": 200000,
+              "is_moderated": true,
+              "max_completion_tokens": 4096
+            }
+          },
+          "request": {
+            "prompt": "In a single HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.\n",
+            "system_prompt": null,
+            "temperature": 0.7,
+            "max_tokens": 2000
+          },
+          "response_metadata": {
+            "id": "gen-1759363638-uztvhGyf1kX2FqSWGmPp",
+            "created": 1759363638,
+            "object": "chat.completion"
+          },
+          "raw_response": "Here's a simple HTML and JavaScript implementation of the simulation you described:\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Ball Simulation</title>\n  <style>\n    canvas {\n      border: 1px solid black;\n    }\n  </style>\n</head>\n<body>\n  <canvas id=\"myCanvas\" width=\"800\" height=\"600\"></canvas>\n\n  <script>\n    // Get the canvas element\n    const canvas = document.getElementById('myCanvas');\n    const ctx = canvas.getContext('2d');\n\n    // Set the initial number of balls\n    const numBalls = 20;\n\n    // Ball properties\n    const ballRadius = 10;\n    const ballMass = 1;\n    const ballColor = 'blue';\n\n    // Hexagon properties\n    const hexagonRadius = 200;\n    const hexagonColor = 'gray';\n    const hexagonLineWidth = 4;\n    const hexagonRotationSpeed = 0.01;\n\n    // Gravity properties\n    let gravityDirection = 1; // 1 for down, -1 for up\n    let gravityChangeInterval = 5000; // 5 seconds\n\n    // Ball array\n    const balls = [];\n\n    // Create the balls\n    for (let i = 0; i < numBalls; i++) {\n      const ball = {\n        x: canvas.width / 2,\n        y: canvas.height / 2,\n        vx: Math.random() * 4 - 2,\n        vy: Math.random() * 4 - 2,\n        radius: ballRadius,\n        mass: ballMass,\n        color: ballColor\n      };\n      balls.push(ball);\n    }\n\n    // Draw the hexagon\n    function drawHexagon() {\n      ctx.save();\n      ctx.translate(canvas.width / 2, canvas.height / 2);\n      ctx.rotate(Date.now() * hexagonRotationSpeed);\n      ctx.beginPath();\n      for (let i = 0; i < 6; i++) {\n        const angle = i * (2 * Math.PI / 6);\n        const x = Math.cos(angle) * hexagonRadius;\n        const y = Math.sin(angle) * hexagonRadius;\n        ctx.lineTo(x, y);\n      }\n      ctx.closePath();\n      ctx.strokeStyle = hexagonColor;\n      ctx.lineWidth = hexagonLineWidth;\n      ctx.stroke();\n      ctx.restore();\n    }\n\n    // Draw the balls\n    function drawBalls() {\n      for (let i = 0; i < balls.length; i++) {\n        const ball = balls[i];\n        ctx.beginPath();\n        ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);\n        ctx.fillStyle = ball.color;\n        ctx.fill();\n      }\n    }\n\n    // Update the ball positions\n    function updateBalls() {\n      for (let i = 0; i < balls.length; i++) {\n        const ball = balls[i];\n        ball.x += ball.vx;\n        ball.y += ball.vy;\n\n        // Check for collisions with the hexagon\n        const distance = Math.sqrt((ball.x - canvas.width / 2) ** 2 + (ball.y - canvas.height / 2) ** 2);\n        if (distance + ball.radius > hexagonRadius) {\n          const angle = Math.atan2(ball.y - canvas.height / 2, ball.x - canvas.width / 2);\n          ball.vx = Math.cos(angle) * Math.abs(ball.vx);\n          ball.vy = Math.sin(angle) * Math.abs(ball.vy);\n        }\n\n        // Apply gravity\n        ball.vy += gravityDirection * 0.1;\n      }\n    }\n\n    // Animate the simulation\n    function animate() {\n      requestAnimationFrame(animate);\n      ctx.clearRect(0, 0, canvas.width, canvas.height);\n      drawHexagon();\n      drawBalls();\n      updateBalls();\n    }\n\n    // Change the gravity direction every 5 seconds\n    setInterval(() => {\n      gravityDirection *= -1;\n    }, gravityChangeInterval);\n\n    animate();\n  </script>\n</body>\n</html>\n```\n\nThis code creates a canvas element and uses JavaScript to simulate the behavior of 20 balls inside a spinning hexagon. The balls follow the rules of gravity and physics, and the gravity direction changes from the bottom to the top every 5 seconds.\n\nHere's a breakdown of the code:\n\n1. The canvas element is initialized, and the 2D rendering context is obtained.\n2. The ball and hexagon properties are defined, including the number of balls, their radius and mass, the hexagon's radius and rotation speed, and the gravity direction and change interval.\n3. The ball array is created, and each ball is initialized with a random position and velocity.\n4. The `drawHexagon()` function is defined to draw the spinning hexagon.\n5. The `drawBalls()` function is defined to draw the balls.\n6. The `updateBalls()` function is defined to update the ball positions based on their velocity and check for collisions with the hexagon.\n7. The `animate()` function is defined to clear the canvas, draw the hexagon and balls, and update the ball positions in an animation loop.\n8. The gravity direction is changed every 5 seconds using `setInterval()`.\n9. The `animate()` function is called to start the simulation.\n\nYou can adjust the properties, such as the number of balls, the hexagon size and rotation speed, and the gravity change interval, to customize the simulation."
+        }
+      },
+      {
+        "name": "openai/gpt-4o",
+        "htmlPath": "demos/physics-20-balls/openai/gpt-4o/index.html",
+        "results": {
+          "timestamp": "2025-10-02T00:13:16.287Z",
+          "execution": {
+            "duration_seconds": "12.617",
+            "model_used": "openai/gpt-4o",
+            "model_requested": "openai/gpt-4o"
+          },
+          "tokens": {
+            "prompt_tokens": 61,
+            "completion_tokens": 1008,
+            "total_tokens": 1069
+          },
+          "cost": {
+            "currency": "USD",
+            "prompt_cost": 0.000153,
+            "completion_cost": 0.01008,
+            "total_cost": 0.010233
+          },
+          "model_card": {
+            "id": "openai/gpt-4o",
+            "name": "OpenAI: GPT-4o",
+            "description": "GPT-4o (\"o\" for \"omni\") is OpenAI's latest AI model, supporting both text and image inputs with text outputs. It maintains the intelligence level of [GPT-4 Turbo](/models/openai/gpt-4-turbo) while being twice as fast and 50% more cost-effective. GPT-4o also offers improved performance in processing non-English languages and enhanced visual capabilities.\n\nFor benchmarking against other models, it was briefly called [\"im-also-a-good-gpt2-chatbot\"](https://twitter.com/LiamFedus/status/1790064963966370209)\n\n#multimodal",
+            "context_length": 128000,
+            "architecture": {
+              "input_modalities": [
+                "text",
+                "image",
+                "file"
+              ],
+              "instruct_type": null,
+              "modality": "text+image->text",
+              "output_modalities": [
+                "text"
+              ],
+              "tokenizer": "GPT"
+            },
+            "pricing": {
+              "completion": "0.00001",
+              "image": "0.003613",
+              "input_cache_read": "0.00000125",
+              "internal_reasoning": "0",
+              "prompt": "0.0000025",
+              "request": "0",
+              "web_search": "0"
+            },
+            "top_provider": {
+              "context_length": 128000,
+              "is_moderated": true,
+              "max_completion_tokens": 16384
+            }
+          },
+          "request": {
+            "prompt": "In a single HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.\n",
+            "system_prompt": null,
+            "temperature": 0.7,
+            "max_tokens": 2000
+          },
+          "response_metadata": {
+            "id": "gen-1759363984-ZuHmoAV48POOGOBEjqr3",
+            "created": 1759363984,
+            "object": "chat.completion"
+          },
+          "raw_response": "Creating a simulation of 20 balls inside a spinning hexagon with changing gravity in a single HTML file is a complex task that can be accomplished using HTML5 Canvas and JavaScript. Below is a basic implementation of such a simulation. This example uses the HTML5 Canvas API for drawing, and JavaScript to handle the physics and animation. Please note that this is a simplified version and might require optimization for performance and additional features:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Ball Simulation in a Spinning Hexagon</title>\n    <style>\n        body { margin: 0; overflow: hidden; }\n        canvas { display: block; }\n    </style>\n</head>\n<body>\n    <canvas id=\"canvas\"></canvas>\n    <script>\n        const canvas = document.getElementById('canvas');\n        const ctx = canvas.getContext('2d');\n        canvas.width = window.innerWidth;\n        canvas.height = window.innerHeight;\n\n        const centerX = canvas.width / 2;\n        const centerY = canvas.height / 2;\n        const hexagonRadius = 200;\n        const ballCount = 20;\n        const balls = [];\n        let gravity = 0.1;\n        let gravityDirection = 1;\n        let angle = 0;\n\n        class Ball {\n            constructor(x, y, radius) {\n                this.x = x;\n                this.y = y;\n                this.radius = radius;\n                this.vx = Math.random() * 2 - 1;\n                this.vy = Math.random() * 2 - 1;\n            }\n\n            update() {\n                this.vy += gravity * gravityDirection;\n                this.x += this.vx;\n                this.y += this.vy;\n\n                // Collision detection with hexagon walls\n                if (this.y + this.radius > centerY + hexagonRadius || this.y - this.radius < centerY - hexagonRadius) {\n                    this.vy *= -1;\n                }\n                if (this.x + this.radius > centerX + hexagonRadius || this.x - this.radius < centerX - hexagonRadius) {\n                    this.vx *= -1;\n                }\n            }\n\n            draw() {\n                ctx.beginPath();\n                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);\n                ctx.fillStyle = 'blue';\n                ctx.fill();\n                ctx.closePath();\n            }\n        }\n\n        function createBalls() {\n            for (let i = 0; i < ballCount; i++) {\n                const ball = new Ball(centerX, centerY, 10);\n                balls.push(ball);\n            }\n        }\n\n        function drawHexagon(x, y, radius, angle) {\n            ctx.beginPath();\n            for (let i = 0; i < 6; i++) {\n                const theta = ((Math.PI / 3) * i) + angle;\n                const px = x + radius * Math.cos(theta);\n                const py = y + radius * Math.sin(theta);\n                if (i === 0) {\n                    ctx.moveTo(px, py);\n                } else {\n                    ctx.lineTo(px, py);\n                }\n            }\n            ctx.closePath();\n            ctx.strokeStyle = 'black';\n            ctx.stroke();\n        }\n\n        function update() {\n            ctx.clearRect(0, 0, canvas.width, canvas.height);\n            angle += 0.01;\n            drawHexagon(centerX, centerY, hexagonRadius, angle);\n\n            balls.forEach(ball => {\n                ball.update();\n                ball.draw();\n            });\n\n            requestAnimationFrame(update);\n        }\n\n        function changeGravity() {\n            gravityDirection *= -1;\n            setTimeout(changeGravity, 5000);\n        }\n\n        createBalls();\n        update();\n        changeGravity();\n    </script>\n</body>\n</html>\n```\n\n### Explanation:\n- **Canvas Setup:** The canvas is set to the full window size, and the hexagon is drawn at its center.\n- **Ball Class:** Each ball is an instance of the `Ball` class, which contains methods to update its position and draw it on the canvas.\n- **Physics Simulation:** Gravity is simulated by constantly increasing the vertical velocity of each ball. The direction of gravity changes every 5 seconds, flipping the gravity's effect.\n- **Hexagon and Ball Drawing:** The hexagon is drawn using trigonometric functions to calculate its vertices. Balls are drawn as circles.\n- **Animation Loop:** The `update` function continuously clears the canvas, updates the positions of the balls according to physics, and redraws everything.\n\nThis is a basic version of the simulation. You might want to add more complex collision detection, improve the physics, or optimize rendering for better performance."
+        }
+      }
+    ]
+  }
+]

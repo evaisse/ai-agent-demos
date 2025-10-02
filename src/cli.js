@@ -922,34 +922,46 @@ async function generateViewerData(outputDir = 'pages', silent = false) {
           continue; // Skip if no PROMPT.md
         }
         
-        // Find all generated models
+        // Find all generated models (structure: provider/model)
         const models = [];
-        const modelEntries = await fs.readdir(demoPath, { withFileTypes: true });
+        const providerEntries = await fs.readdir(demoPath, { withFileTypes: true });
         
-        for (const modelEntry of modelEntries.filter(e => e.isDirectory())) {
-          const modelName = modelEntry.name;
-          const modelPath = path.join(demoPath, modelName);
-          const htmlPath = path.join(modelPath, 'index.html');
-          const resultsPath = path.join(modelPath, 'results.json');
+        for (const providerEntry of providerEntries.filter(e => e.isDirectory() && !['results'].includes(e.name))) {
+          const providerName = providerEntry.name;
+          const providerPath = path.join(demoPath, providerName);
           
-          // Check if HTML and results exist
           try {
-            await fs.access(htmlPath);
-            let results = null;
-            try {
-              const resultsContent = await fs.readFile(resultsPath, 'utf-8');
-              results = JSON.parse(resultsContent);
-            } catch {
-              // Results file doesn't exist or is invalid
-            }
+            const modelEntries = await fs.readdir(providerPath, { withFileTypes: true });
             
-            models.push({
-              name: modelName,
-              htmlPath: path.relative(resolvedOutputDir, htmlPath),
-              results: results
-            });
+            for (const modelEntry of modelEntries.filter(e => e.isDirectory())) {
+              const modelName = modelEntry.name;
+              const fullModelName = `${providerName}/${modelName}`;
+              const modelPath = path.join(providerPath, modelName);
+              const htmlPath = path.join(modelPath, 'index.html');
+              const resultsPath = path.join(modelPath, 'results.json');
+              
+              // Check if HTML and results exist
+              try {
+                await fs.access(htmlPath);
+                let results = null;
+                try {
+                  const resultsContent = await fs.readFile(resultsPath, 'utf-8');
+                  results = JSON.parse(resultsContent);
+                } catch {
+                  // Results file doesn't exist or is invalid
+                }
+                
+                models.push({
+                  name: fullModelName,
+                  htmlPath: path.relative(resolvedOutputDir, htmlPath),
+                  results: results
+                });
+              } catch {
+                // HTML doesn't exist, skip this model
+              }
+            }
           } catch {
-            // HTML doesn't exist, skip this model
+            // Provider directory is not readable, skip
           }
         }
         
