@@ -179,15 +179,79 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             height: 100%;
             text-align: center;
             color: #718096;
+            padding: 2rem;
+            overflow-y: auto;
         }
         
         .no-demo-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .demo-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .demo-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-card-prompt {
+            font-size: 0.85rem;
+            color: #718096;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .demo-card-models {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .model-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        
+        .model-badge:hover {
+            transform: scale(1.05);
         }
         
         .close-btn {
@@ -354,8 +418,11 @@
         
         <div class="no-demo" id="noDemo" style="display: none;">
             <div class="no-demo-icon">🎨</div>
-            <h2>No Demo Selected</h2>
-            <p>Choose a demo from the dropdown above to start exploring!</p>
+            <h2>Select a Demo to Explore</h2>
+            <p>Choose from the available demos and models below:</p>
+            <div id="demoGrid" class="demo-grid">
+                <!-- Will be populated by JavaScript -->
+            </div>
         </div>
         
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -439,7 +506,58 @@
             if (demos.length === 0) {
                 noDemo.style.display = 'flex';
             } else {
-                noDemo.style.display = 'none';
+                // Show demo grid when no demo is selected
+                if (!currentDemo) {
+                    showDemoGrid();
+                }
+            }
+        }
+        
+        function showDemoGrid() {
+            const demoGrid = document.getElementById('demoGrid');
+            demoGrid.innerHTML = '';
+            
+            demos.forEach(demo => {
+                const demoCard = document.createElement('div');
+                demoCard.className = 'demo-card';
+                
+                const modelsHTML = demo.models.map(model => {
+                    const modelUrl = `?demo=${encodeURIComponent(demo.name)}&model=${encodeURIComponent(model.name.replace('/', '-'))}`;
+                    return `<a href="${modelUrl}" class="model-badge" onclick="selectDemoModel(event, '${demo.name}', '${model.name}')">${model.name}</a>`;
+                }).join('');
+                
+                demoCard.innerHTML = `
+                    <div class="demo-card-title">${demo.title}</div>
+                    <div class="demo-card-prompt">${escapeHtml(demo.prompt)}</div>
+                    <div class="demo-card-models">
+                        ${modelsHTML}
+                    </div>
+                `;
+                
+                demoGrid.appendChild(demoCard);
+            });
+            
+            noDemo.style.display = 'flex';
+            demoFrame.style.display = 'none';
+        }
+        
+        function selectDemoModel(event, demoName, modelName) {
+            event.preventDefault();
+            
+            // Find and select the demo
+            const demo = demos.find(d => d.name === demoName);
+            if (demo) {
+                demoSelector.value = demoName;
+                currentDemo = demo;
+                updateModelSelector();
+                
+                // Select the model
+                setTimeout(() => {
+                    modelSelector.value = modelName;
+                    currentModel = demo.models.find(m => m.name === modelName);
+                    showDemo();
+                    updateURL();
+                }, 100);
             }
         }
         
@@ -640,7 +758,7 @@
         function hideDemo() {
             demoFrame.style.display = 'none';
             if (demos.length > 0) {
-                noDemo.style.display = 'flex';
+                showDemoGrid();
             }
             hideSidebar();
         }
