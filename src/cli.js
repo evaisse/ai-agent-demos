@@ -1307,9 +1307,55 @@ program
       
       if (startPreview) {
         console.log(chalk.cyan('\n🚀 Starting preview server...'));
-        const previewUrl = `http://localhost:8900/#demo=${demo}&model=${model.replace('/', '-')}`;
         const pagesDir = path.join(path.dirname(__dirname), 'pages');
-        await startStaticServer(pagesDir, 8900, previewUrl);
+        
+        // Find available port starting from 8900
+        const port = await findAvailablePort(8900);
+        console.log(chalk.green(`✅ Found available port: ${port}`));
+        
+        // Start server
+        const server = await startStaticServer(pagesDir, port);
+        const previewUrl = `http://localhost:${port}/#demo=${demo}&model=${model.replace('/', '-')}`;
+        
+        console.log(chalk.green(`\n✅ Server running!`));
+        console.log(chalk.white(`🌐 Opening demo at: ${chalk.bold(previewUrl)}`));
+        console.log(chalk.gray(`📁 Serving files from: ${pagesDir}`));
+        
+        // Open browser automatically
+        console.log(chalk.cyan(`🚀 Opening browser...`));
+        openBrowser(previewUrl);
+        
+        console.log(chalk.yellow(`\n⏹️  Press Ctrl+C to stop the server\n`));
+        
+        // Track shutdown state to prevent multiple shutdowns
+        let isShuttingDown = false;
+        
+        // Handle graceful shutdown
+        const handleShutdown = (signal) => {
+          if (isShuttingDown) {
+            return; // Prevent multiple shutdown attempts
+          }
+          isShuttingDown = true;
+          
+          console.log(chalk.yellow(`\n🛑 Received ${signal}, shutting down gracefully...`));
+          server.close(() => {
+            console.log(chalk.green('✅ Server stopped successfully'));
+            process.exit(0);
+          });
+          
+          // Force exit after 5 seconds if server doesn't close
+          setTimeout(() => {
+            console.log(chalk.red('❌ Force closing server'));
+            process.exit(1);
+          }, 5000);
+        };
+        
+        // Listen for shutdown signals
+        process.once('SIGINT', () => handleShutdown('SIGINT'));
+        process.once('SIGTERM', () => handleShutdown('SIGTERM'));
+        
+        // Keep the process alive
+        return; // Exit function to prevent showing "Next steps"
       } else {
         console.log('');
         console.log(chalk.cyan(`Next steps:`));
