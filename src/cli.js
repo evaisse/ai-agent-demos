@@ -293,7 +293,7 @@ async function getModelInfo(modelId) {
   }
 }
 
-async function callOpenRouter(apiUrl, model, prompt, systemPrompt) {
+async function callOpenRouter(apiUrl, model, prompt, systemPrompt, maxTokens = 8000) {
   const messages = [];
   
   if (systemPrompt) {
@@ -306,7 +306,7 @@ async function callOpenRouter(apiUrl, model, prompt, systemPrompt) {
     model: model,
     messages: messages,
     temperature: 0.7,
-    max_tokens: 2000
+    max_tokens: maxTokens
   };
 
   try {
@@ -337,7 +337,7 @@ async function callOpenRouter(apiUrl, model, prompt, systemPrompt) {
   }
 }
 
-async function generateReport(response, modelInfo, prompt, systemPrompt, options) {
+async function generateReport(response, modelInfo, prompt, systemPrompt, options, maxTokens = 8000) {
   const report = {
     timestamp: new Date().toISOString(),
     execution: {
@@ -369,7 +369,7 @@ async function generateReport(response, modelInfo, prompt, systemPrompt, options
       prompt: prompt,
       system_prompt: systemPrompt || null,
       temperature: 0.7,
-      max_tokens: 2000
+      max_tokens: maxTokens
     },
     response_metadata: {
       id: response.id,
@@ -670,7 +670,7 @@ async function saveOutput(html, outputPath) {
 }
 
 // Utility function to generate demo using OpenRouter API
-async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = null) {
+async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = null, maxTokens = 8000) {
   console.log(`🤖 Generating with model: ${model}`);
   
   // Get API configuration
@@ -684,10 +684,10 @@ async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = n
   const modelInfo = await getModelInfo(model);
   
   // Call OpenRouter API
-  const response = await callOpenRouter(apiUrl, model, prompt, systemPrompt);
+  const response = await callOpenRouter(apiUrl, model, prompt, systemPrompt, maxTokens);
   
   // Generate report
-  const report = await generateReport(response, modelInfo, prompt, systemPrompt, { model });
+  const report = await generateReport(response, modelInfo, prompt, systemPrompt, { model }, maxTokens);
   
   // Create output directory
   const outputDir = path.dirname(outputPath);
@@ -1106,9 +1106,11 @@ program
   .option('-d, --demo <demo>', 'Demo slug (directory name)')
   .option('-m, --model <models...>', 'OpenRouter model(s) to use (e.g., openai/gpt-3.5-turbo)')
   .option('-f, --force', 'Force regeneration if demo already exists')
+  .option('--max-tokens <number>', 'Maximum tokens for generation (default: 8000)', '8000')
   .action(async (options) => {
     try {
-      let { demo, model, force } = options;
+      let { demo, model, force, maxTokens } = options;
+      maxTokens = parseInt(maxTokens) || 8000;
       
       // Ensure model is an array
       if (model && !Array.isArray(model)) {
@@ -1349,7 +1351,7 @@ program
         
         try {
           // Generate demo using direct function call
-          await generateDemoWithModel(prompt, currentModel, outputPath);
+          await generateDemoWithModel(prompt, currentModel, outputPath, null, maxTokens);
           results.push({
             model: currentModel,
             success: true,
@@ -1518,9 +1520,11 @@ program
   .option('-d, --demo <name>', 'Demo name/directory to regenerate')
   .option('--skip-existing', 'Skip models that already have results')
   .option('--force', 'Force regeneration even if results exist')
+  .option('--max-tokens <number>', 'Maximum tokens for generation (default: 8000)', '8000')
   .action(async (options) => {
     try {
-      const { demo, skipExisting, force } = options;
+      const { demo, skipExisting, force, maxTokens: maxTokensStr } = options;
+      const maxTokens = parseInt(maxTokensStr) || 8000;
       
       // Get list of available demos
       const demosDir = path.join(path.dirname(__dirname), 'pages', 'demos');
@@ -1675,7 +1679,7 @@ program
             const outputPath = path.join(model.path, 'index.html');
             
             // Use the existing generateDemoWithModel function
-            await generateDemoWithModel(prompt, model.name, outputPath);
+            await generateDemoWithModel(prompt, model.name, outputPath, null, maxTokens);
             
             console.log(chalk.green(`✅ Successfully regenerated ${model.name}`));
             allResults.success.push(`${currentDemo}/${model.name}`);
@@ -1761,7 +1765,7 @@ program
             const outputPath = path.join(model.path, 'index.html');
             
             // Use the existing generateDemoWithModel function
-            await generateDemoWithModel(prompt, model.name, outputPath);
+            await generateDemoWithModel(prompt, model.name, outputPath, null, maxTokens);
             
             console.log(chalk.green(`✅ Successfully regenerated ${model.name}`));
             
@@ -2040,5 +2044,235 @@ program
   .name('ai-demo-cli')
   .description('AI Demo Generator - Create and manage AI-powered demos')
   .version('1.0.0');
+
+// Command: continue-generation
+program
+  .command('continue-generation')
+  .description('Continue a truncated demo generation')
+  .option('-d, --demo <demo>', 'Demo slug (directory name)')
+  .option('-m, --model <model>', 'Model to continue (e.g., openai/gpt-3.5-turbo)')
+  .option('--max-tokens <number>', 'Maximum tokens for continuation (default: 8000)', '8000')
+  .action(async (options) => {
+    try {
+      let { demo, model, maxTokens: maxTokensStr } = options;
+      const maxTokens = parseInt(maxTokensStr) || 8000;
+      
+      // Interactive demo selection if not provided
+      if (!demo) {
+        const demosDir = path.join(path.dirname(__dirname), 'pages', 'demos');
+        const demos = await fs.readdir(demosDir, { withFileTypes: true });
+        const demoChoices = demos
+          .filter(entry => entry.isDirectory())
+          .map(entry => entry.name);
+        
+        if (demoChoices.length === 0) {
+          console.log(chalk.yellow('⚠️  No demos found.'));
+          process.exit(1);
+        }
+        
+        const demoAnswer = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'demo',
+            message: '📁 Select a demo to continue:',
+            choices: demoChoices,
+            pageSize: 10
+          }
+        ]);
+        demo = demoAnswer.demo;
+      }
+      
+      const demoDir = path.join(path.dirname(__dirname), 'pages', 'demos', demo);
+      
+      // Interactive model selection if not provided
+      if (!model) {
+        const modelDirs = await fs.readdir(demoDir, { withFileTypes: true });
+        const modelChoices = modelDirs
+          .filter(entry => entry.isDirectory())
+          .map(entry => entry.name);
+        
+        if (modelChoices.length === 0) {
+          console.log(chalk.yellow(`⚠️  No models found for demo '${demo}'.`));
+          process.exit(1);
+        }
+        
+        const modelAnswer = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'model',
+            message: '🤖 Select a model to continue:',
+            choices: modelChoices,
+            pageSize: 10
+          }
+        ]);
+        model = modelAnswer.model;
+      }
+      
+      const modelDir = path.join(demoDir, model);
+      const responsePath = path.join(modelDir, 'RESPONSE.md');
+      const outputPath = path.join(modelDir, 'index.html');
+      const promptPath = path.join(demoDir, 'PROMPT.md');
+      
+      // Check if files exist
+      try {
+        await fs.access(responsePath);
+        await fs.access(promptPath);
+      } catch {
+        console.error(chalk.red(`❌ Required files not found:`));
+        console.error(chalk.red(`   - ${responsePath}`));
+        console.error(chalk.red(`   - ${promptPath}`));
+        console.error(chalk.gray('   Make sure the demo was previously generated.'));
+        process.exit(1);
+      }
+      
+      // Read the existing response and original prompt
+      const existingResponse = await fs.readFile(responsePath, 'utf-8');
+      const originalPrompt = await fs.readFile(promptPath, 'utf-8');
+      
+      console.log(chalk.blue(`\n🔄 Continuing generation for: ${chalk.bold(demo)} with model: ${chalk.bold(model)}`));
+      console.log(chalk.gray(`📄 Reading existing response from: ${responsePath}`));
+      
+      // Check if response appears to be truncated
+      const isTruncated = existingResponse.includes('---\n*Generated by OpenRouter CLI*') || 
+                          existingResponse.trim().endsWith('---') ||
+                          existingResponse.includes('```html') && !existingResponse.includes('</html>');
+      
+      if (!isTruncated) {
+        console.log(chalk.yellow('⚠️  The response doesn\'t appear to be truncated.'));
+        const { proceed } = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'proceed',
+            message: 'Do you want to continue anyway?',
+            default: false
+          }
+        ]);
+        
+        if (!proceed) {
+          console.log(chalk.yellow('Operation cancelled.'));
+          process.exit(0);
+        }
+      }
+      
+      // Create continuation prompt
+      const continuationPrompt = `Please continue the HTML code from where it was cut off. Here's what was generated so far:
+
+${existingResponse}
+
+Please continue from where it was truncated and complete the HTML. Only provide the continuation, not the full code again.`;
+      
+      console.log(chalk.cyan('🤖 Generating continuation...'));
+      
+      // Get API configuration
+      const apiKey = process.env.OPENROUTER_API_KEY;
+      const apiUrl = process.env.OPENROUTER_API_URL || 'https://openrouter-proxy-h2dj.onrender.com/api/v1/chat/completions';
+      
+      // Validate configuration
+      validateConfig(apiKey, apiUrl);
+      
+      // Get model information
+      const modelInfo = await getModelInfo(model);
+      
+      // Call OpenRouter API for continuation
+      const response = await callOpenRouter(apiUrl, model, continuationPrompt, null, maxTokens);
+      
+      // Combine the responses
+      const combinedResponse = existingResponse + '\n' + response.content;
+      
+      // Generate report for the continuation
+      const report = await generateReport(response, modelInfo, continuationPrompt, null, { model }, maxTokens);
+      
+      // Save updated files
+      const reportPath = path.join(modelDir, 'continue-report.json');
+      const updatedResponsePath = path.join(modelDir, 'RESPONSE-CONTINUED.md');
+      
+      await fs.writeFile(reportPath, JSON.stringify(report, null, 2), 'utf-8');
+      await fs.writeFile(updatedResponsePath, combinedResponse, 'utf-8');
+      
+      console.log(`📊 Continuation report saved to: ${reportPath}`);
+      console.log(`📝 Updated response saved to: ${updatedResponsePath}`);
+      
+      // Extract and save HTML from combined response
+      const extractedHTML = extractHTMLFromResponse(combinedResponse);
+      await saveOutput(extractedHTML, outputPath);
+      
+      console.log(chalk.green(`\n✅ Continuation completed!`));
+      console.log(chalk.gray(`📄 Updated HTML: ${outputPath}`));
+      console.log(chalk.gray(`📊 Continuation metrics: ${reportPath}`));
+      console.log(chalk.gray(`📝 Full response: ${updatedResponsePath}`));
+      
+      // Ask if user wants to start preview server
+      const { startPreview } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'startPreview',
+          message: 'Would you like to start the preview server and view the continued demo?',
+          default: true
+        }
+      ]);
+      
+      if (startPreview) {
+        console.log(chalk.cyan('\n🚀 Starting preview server...'));
+        const pagesDir = path.join(path.dirname(__dirname), 'pages');
+        
+        // Find available port starting from 8900
+        const port = await findAvailablePort(8900);
+        console.log(chalk.green(`✅ Found available port: ${port}`));
+        
+        // Start server
+        const server = await startStaticServer(pagesDir, port);
+        const previewUrl = `http://localhost:${port}/?demo=${demo}&model=${model.replace('/', '-')}`;
+        
+        console.log(chalk.green(`\n✅ Server running!`));
+        console.log(chalk.white(`🌐 Opening continued demo at: ${chalk.bold(previewUrl)}`));
+        console.log(chalk.gray(`📁 Serving files from: ${pagesDir}`));
+        
+        // Open browser automatically
+        console.log(chalk.cyan(`🚀 Opening browser...`));
+        openBrowser(previewUrl);
+        
+        console.log(chalk.yellow(`\n⏹️  Press Ctrl+C to stop the server\n`));
+        
+        // Track shutdown state to prevent multiple shutdowns
+        let isShuttingDown = false;
+        
+        // Handle graceful shutdown
+        const handleShutdown = (signal) => {
+          if (isShuttingDown) {
+            return;
+          }
+          isShuttingDown = true;
+          
+          console.log(chalk.yellow(`\n🛑 Received ${signal}, shutting down gracefully...`));
+          server.close(() => {
+            console.log(chalk.green('✅ Server stopped successfully'));
+            process.exit(0);
+          });
+          
+          // Force exit after 5 seconds if server doesn't close
+          setTimeout(() => {
+            console.log(chalk.red('❌ Force closing server'));
+            process.exit(1);
+          }, 5000);
+        };
+        
+        // Listen for shutdown signals
+        process.once('SIGINT', () => handleShutdown('SIGINT'));
+        process.once('SIGTERM', () => handleShutdown('SIGTERM'));
+        
+        // Keep the process alive
+        return;
+      } else {
+        console.log('');
+        console.log(chalk.cyan(`Next steps:`));
+        console.log(chalk.white(`  1. Open the continued demo: open "${outputPath}"`));
+        console.log(chalk.white(`  2. Preview all demos: npm run preview-server`));
+      }
+      
+    } catch (error) {
+      console.error('❌ Failed to continue generation:', error.message);
+      process.exit(1);
+    }
+  });
 
 program.parse();
