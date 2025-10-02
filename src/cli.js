@@ -15,6 +15,7 @@ import http from 'http';
 import { createReadStream } from 'fs';
 import { stat } from 'fs/promises';
 import { spawn } from 'child_process';
+import { createServer } from 'net';
 
 dotenv.config();
 
@@ -663,6 +664,47 @@ async function generateDemoWithModel(prompt, model, outputPath, systemPrompt = n
   }
 }
 
+// Find an available port starting from a given port
+function findAvailablePort(startPort = 8900, maxAttempts = 100) {
+  return new Promise((resolve, reject) => {
+    let currentPort = startPort;
+    let attempts = 0;
+    
+    function tryPort(port) {
+      if (attempts >= maxAttempts) {
+        reject(new Error(`Could not find an available port after ${maxAttempts} attempts starting from ${startPort}`));
+        return;
+      }
+      
+      const server = createServer();
+      
+      server.listen(port, (err) => {
+        if (err) {
+          attempts++;
+          currentPort++;
+          tryPort(currentPort);
+        } else {
+          server.close(() => {
+            resolve(port);
+          });
+        }
+      });
+      
+      server.on('error', (err) => {
+        if (err.code === 'EADDRINUSE') {
+          attempts++;
+          currentPort++;
+          tryPort(currentPort);
+        } else {
+          reject(err);
+        }
+      });
+    }
+    
+    tryPort(currentPort);
+  });
+}
+
 // Open URL in browser
 function openBrowser(url) {
   const platform = process.platform;
@@ -1271,13 +1313,22 @@ program
 program
   .command('preview-server')
   .description('Start a static file server to preview demos')
-  .option('-p, --port <port>', 'Port to serve on', '3000')
+  .option('-p, --port <port>', 'Specific port to serve on (if not specified, auto-finds from 8900+)')
   .option('-d, --directory <path>', 'Directory to serve', 'pages')
   .option('--no-open', 'Do not open browser automatically')
   .action(async (options) => {
     try {
-      const port = parseInt(options.port, 10);
+      let port;
       const directory = path.resolve(options.directory);
+      
+      // If port is specified, use it; otherwise find an available port starting from 8081
+      if (options.port) {
+        port = parseInt(options.port, 10);
+      } else {
+        console.log(chalk.cyan(`🔍 Finding available port starting from 8900...`));
+        port = await findAvailablePort(8900);
+        console.log(chalk.green(`✅ Found available port: ${port}`));
+      }
       
       // Check if directory exists
       try {
@@ -1328,9 +1379,12 @@ program
       });
       
     } catch (error) {
-      if (error.code === 'EADDRINUSE') {
+      if (error.code === 'EADDRINUSE' && options.port) {
         console.error(chalk.red(`❌ Error: Port ${options.port} is already in use`));
-        console.error(chalk.yellow(`   Try a different port with: --port <number>`));
+        console.error(chalk.yellow(`   Try omitting --port to auto-find an available port`));
+      } else if (error.message.includes('Could not find an available port')) {
+        console.error(chalk.red(`❌ Error: ${error.message}`));
+        console.error(chalk.yellow(`   Try specifying a port manually with: --port <number>`));
       } else {
         console.error(chalk.red('❌ Failed to start server:'), error.message);
       }
