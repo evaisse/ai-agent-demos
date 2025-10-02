@@ -1,0 +1,75 @@
+name: 🎨 Demo Submission
+description: Submit a new demo idea to benchmark AI models
+title: "[Demo] "
+labels: ["demo-submission", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Submit a Demo Idea
+
+        Submit your demo idea and we'll generate implementations using multiple AI models to compare their performance!
+
+        **What happens next?**
+        1. A maintainer will review your submission
+        2. Once approved (by adding the `approved` label), an automated workflow will generate the demo
+        3. The results will be published to the demo viewer
+
+  - type: input
+    id: title
+    attributes:
+      label: Demo Title
+      description: A short, descriptive title for your demo
+      placeholder: "e.g., Snake Game, Todo App, Calculator"
+    validations:
+      required: true
+
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Demo Prompt
+      description: Describe what you want to create (max 200 characters). The prompt will be prefixed with "In a single HTML file named index.html, create"
+      placeholder: "e.g., a classic snake game with smooth animations and score tracking"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: models
+    attributes:
+      label: Models to Test
+      description: Select which AI models should generate this demo (select at least one)
+      options:
+        - label: "OpenAI GPT-4o"
+          required: false
+        - label: "OpenAI GPT-4o-mini"
+          required: false
+        - label: "Anthropic Claude 3.5 Sonnet"
+          required: false
+        - label: "Anthropic Claude 3 Haiku"
+          required: false
+        - label: "Google Gemini Pro 1.5"
+          required: false
+        - label: "Meta Llama 3.1 70B Instruct"
+          required: false
+        - label: "Meta Llama 3.1 8B Instruct"
+          required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context (Optional)
+      description: Any additional requirements or context for the demo
+      placeholder: "e.g., Should include dark mode, mobile responsive, etc."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Submission Guidelines
+      description: Please confirm you agree to these guidelines
+      options:
+        - label: I understand the prompt will be publicly visible
+          required: true
+        - label: I confirm this doesn't request any copyrighted or harmful content
+          required: true

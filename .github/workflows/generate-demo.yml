@@ -1,0 +1,229 @@
+name: Generate Demo from Issue
+
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to process'
+        required: true
+        type: number
+      force_regenerate:
+        description: 'Force regenerate existing demos'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  generate-demo:
+    # Only run when the 'approved' label is added to a demo-submission issue
+    if: |
+      (github.event_name == 'issues' && github.event.label.name == 'approved' && contains(github.event.issue.labels.*.name, 'demo-submission')) ||
+      github.event_name == 'workflow_dispatch'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Parse issue body
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = context.payload.issue?.number || context.payload.inputs?.issue_number;
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber
+            });
+
+            console.log('Issue body:', issue.body);
+
+            // Parse the issue body (YAML form format)
+            const body = issue.body || '';
+
+            // Extract title
+            const titleMatch = body.match(/### Demo Title\s*\n\s*(.+)/);
+            const title = titleMatch ? titleMatch[1].trim() : issue.title.replace('[Demo]', '').trim();
+
+            // Extract prompt
+            const promptMatch = body.match(/### Demo Prompt\s*\n\s*(.+?)(?=\n###|\n\n###|$)/s);
+            const prompt = promptMatch ? promptMatch[1].trim() : '';
+
+            // Validate prompt length (200 chars max)
+            if (prompt.length > 200) {
+              core.setFailed(`Prompt is too long (${prompt.length} chars). Maximum is 200 characters.`);
+              return;
+            }
+
+            // Extract selected models
+            const modelsSection = body.match(/### Models to Test\s*\n([\s\S]*?)(?=\n###|$)/);
+            const models = [];
+
+            if (modelsSection) {
+              const modelLines = modelsSection[1];
+              if (modelLines.includes('[x] OpenAI GPT-4o') || modelLines.includes('[X] OpenAI GPT-4o')) {
+                models.push('openai/gpt-4o');
+              }
+              if (modelLines.includes('[x] OpenAI GPT-4o-mini') || modelLines.includes('[X] OpenAI GPT-4o-mini')) {
+                models.push('openai/gpt-4o-mini');
+              }
+              if (modelLines.includes('[x] Anthropic Claude 3.5 Sonnet') || modelLines.includes('[X] Anthropic Claude 3.5 Sonnet')) {
+                models.push('anthropic/claude-3.5-sonnet');
+              }
+              if (modelLines.includes('[x] Anthropic Claude 3 Haiku') || modelLines.includes('[X] Anthropic Claude 3 Haiku')) {
+                models.push('anthropic/claude-3-haiku');
+              }
+              if (modelLines.includes('[x] Google Gemini Pro 1.5') || modelLines.includes('[X] Google Gemini Pro 1.5')) {
+                models.push('google/gemini-pro-1.5');
+              }
+              if (modelLines.includes('[x] Meta Llama 3.1 70B Instruct') || modelLines.includes('[X] Meta Llama 3.1 70B Instruct')) {
+                models.push('meta-llama/llama-3.1-70b-instruct');
+              }
+              if (modelLines.includes('[x] Meta Llama 3.1 8B Instruct') || modelLines.includes('[X] Meta Llama 3.1 8B Instruct')) {
+                models.push('meta-llama/llama-3.1-8b-instruct');
+              }
+            }
+
+            if (models.length === 0) {
+              core.setFailed('No models selected. Please select at least one model.');
+              return;
+            }
+
+            console.log('Parsed data:', { title, prompt, models });
+
+            core.setOutput('title', title);
+            core.setOutput('prompt', prompt);
+            core.setOutput('models', models.join(','));
+            core.setOutput('issue_number', issueNumber);
+
+      - name: Create demo
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          TITLE="${{ steps.parse.outputs.title }}"
+          PROMPT="${{ steps.parse.outputs.prompt }}"
+
+          echo "Creating demo: $TITLE"
+          echo "Prompt: $PROMPT"
+
+          npm run create-demo -- --title "$TITLE" --prompt "$PROMPT" || echo "Demo may already exist, continuing..."
+
+      - name: Generate demo with models
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          TITLE="${{ steps.parse.outputs.title }}"
+          MODELS="${{ steps.parse.outputs.models }}"
+          FORCE_FLAG=""
+
+          if [ "${{ github.event.inputs.force_regenerate }}" == "true" ]; then
+            FORCE_FLAG="--force"
+          fi
+
+          # Create slug from title
+          SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 -]//g' | sed 's/ \+/-/g' | sed 's/-\+/-/g')
+
+          echo "Demo slug: $SLUG"
+          echo "Generating for models: $MODELS"
+
+          # Generate for each model
+          IFS=',' read -ra MODEL_ARRAY <<< "$MODELS"
+          for MODEL in "${MODEL_ARRAY[@]}"; do
+            echo "Generating with model: $MODEL"
+            npm run generate-demo -- --demo "$SLUG" --model "$MODEL" $FORCE_FLAG || {
+              echo "Failed to generate with $MODEL, continuing..."
+            }
+          done
+
+      - name: Generate viewer data
+        run: |
+          npm run generate-viewer
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create Pull Request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "feat: add demo ${{ steps.parse.outputs.title }}"
+          branch: demo/${{ steps.parse.outputs.issue_number }}
+          delete-branch: true
+          title: "Demo: ${{ steps.parse.outputs.title }}"
+          body: |
+            ## Demo Generated from Issue #${{ steps.parse.outputs.issue_number }}
+
+            **Title:** ${{ steps.parse.outputs.title }}
+            **Prompt:** ${{ steps.parse.outputs.prompt }}
+            **Models:** ${{ steps.parse.outputs.models }}
+
+            This PR was automatically generated from the approved demo submission.
+
+            ### What's included
+            - ✅ Demo structure created
+            - ✅ Generated implementations for selected models
+            - ✅ Updated viewer data
+
+            Closes #${{ steps.parse.outputs.issue_number }}
+          labels: |
+            auto-generated
+            demo
+
+      - name: Comment on issue
+        if: steps.create_pr.outputs.pull-request-number
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.parse.outputs.issue_number }},
+              body: `🎉 Demo generation complete! Pull request created: #${{ steps.create_pr.outputs.pull-request-number }}
+
+              The demo has been generated with the following models:
+              ${{ steps.parse.outputs.models }}
+
+              Please review the PR and merge it to publish the demo to the viewer.`
+            });
+
+      - name: Handle errors
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.parse.outputs.issue_number }},
+              body: `❌ Demo generation failed. Please check the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
+
+              Common issues:
+              - Prompt may be too long (max 200 characters)
+              - API key may be missing or invalid
+              - Model may be unavailable
+
+              Please review the error logs and try again.`
+            });
