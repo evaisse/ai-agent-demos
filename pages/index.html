@@ -73,7 +73,7 @@
             color: white;
         }
         
-        .info-btn, .refresh-btn {
+        .info-btn, .refresh-btn, .nav-btn {
             background: rgba(255,255,255,0.2);
             border: 1px solid rgba(255,255,255,0.3);
             color: white;
@@ -84,13 +84,22 @@
             transition: background 0.2s;
         }
         
-        .info-btn:hover, .refresh-btn:hover {
+        .info-btn:hover, .refresh-btn:hover, .nav-btn:hover {
             background: rgba(255,255,255,0.3);
         }
         
-        .refresh-btn:disabled {
+        .nav-btn {
+            padding: 0.5rem 0.75rem;
+            font-size: 1rem;
+        }
+        
+        .refresh-btn:disabled, .nav-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+        
+        .nav-btn:disabled:hover {
+            background: rgba(255,255,255,0.2);
         }
         
         .main-content {
@@ -325,9 +334,13 @@
                 display: none; /* Hide info button on mobile, use burger menu instead */
             }
             
-            .refresh-btn {
+            .refresh-btn, .nav-btn {
                 padding: 0.4rem 0.6rem;
                 font-size: 1rem;
+            }
+            
+            .nav-btn {
+                padding: 0.4rem 0.5rem;
             }
             
             .sidebar {
@@ -397,6 +410,9 @@
             <select class="model-selector" id="modelSelector" disabled>
                 <option value="">Select a model...</option>
             </select>
+            <button class="nav-btn" id="randomBtn" title="Random demo & model">🎲</button>
+            <button class="nav-btn" id="prevBtn" title="Previous demo">⬅️</button>
+            <button class="nav-btn" id="nextBtn" title="Next demo">➡️</button>
             <button class="info-btn" id="infoBtn" disabled>ℹ️ Info</button>
             <button class="refresh-btn" id="refreshBtn">🔄 Refresh</button>
         </div>
@@ -458,6 +474,9 @@
         const closeBtn = document.getElementById('closeBtn');
         const burgerMenu = document.getElementById('burgerMenu');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const randomBtn = document.getElementById('randomBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
         
         // Load demos from JSON file
         async function loadDemos() {
@@ -474,6 +493,7 @@
                 populateDemoSelector();
                 applyURLState();
                 hideLoading();
+                updateNavigationButtons();
                 
                 refreshBtn.disabled = false;
                 refreshBtn.textContent = '🔄 Refresh';
@@ -646,6 +666,64 @@
             }
         }
         
+        // Navigation functions
+        function getRandomDemoAndModel() {
+            if (demos.length === 0) return null;
+            
+            const randomDemo = demos[Math.floor(Math.random() * demos.length)];
+            if (randomDemo.models.length === 0) return null;
+            
+            const randomModel = randomDemo.models[Math.floor(Math.random() * randomDemo.models.length)];
+            
+            return {
+                demo: randomDemo,
+                model: randomModel
+            };
+        }
+        
+        function getCurrentDemoIndex() {
+            if (!currentDemo) return -1;
+            return demos.findIndex(d => d.name === currentDemo.name);
+        }
+        
+        function navigateToDemo(direction) {
+            const currentIndex = getCurrentDemoIndex();
+            if (currentIndex === -1) return;
+            
+            let newIndex;
+            if (direction === 'next') {
+                newIndex = (currentIndex + 1) % demos.length;
+            } else {
+                newIndex = currentIndex === 0 ? demos.length - 1 : currentIndex - 1;
+            }
+            
+            const newDemo = demos[newIndex];
+            demoSelector.value = newDemo.name;
+            currentDemo = newDemo;
+            updateModelSelector();
+            
+            // Select first model if available
+            if (newDemo.models.length > 0) {
+                setTimeout(() => {
+                    modelSelector.value = newDemo.models[0].name;
+                    currentModel = newDemo.models[0];
+                    showDemo();
+                    updateURL();
+                }, 100);
+            } else {
+                currentModel = null;
+                hideDemo();
+                updateURL();
+            }
+        }
+        
+        function updateNavigationButtons() {
+            const hasData = demos.length > 0;
+            randomBtn.disabled = !hasData;
+            prevBtn.disabled = !hasData || getCurrentDemoIndex() === -1;
+            nextBtn.disabled = !hasData || getCurrentDemoIndex() === -1;
+        }
+        
         // Event listeners
         demoSelector.addEventListener('change', function() {
             const demoName = this.value;
@@ -659,6 +737,7 @@
                 hideDemo();
             }
             updateURL();
+            updateNavigationButtons();
         });
         
         modelSelector.addEventListener('change', function() {
@@ -681,6 +760,30 @@
         
         refreshBtn.addEventListener('click', function() {
             loadDemos();
+        });
+        
+        randomBtn.addEventListener('click', function() {
+            const random = getRandomDemoAndModel();
+            if (random) {
+                demoSelector.value = random.demo.name;
+                currentDemo = random.demo;
+                updateModelSelector();
+                
+                setTimeout(() => {
+                    modelSelector.value = random.model.name;
+                    currentModel = random.model;
+                    showDemo();
+                    updateURL();
+                }, 100);
+            }
+        });
+        
+        prevBtn.addEventListener('click', function() {
+            navigateToDemo('prev');
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            navigateToDemo('next');
         });
         
         closeBtn.addEventListener('click', function() {
@@ -863,6 +966,43 @@
             div.textContent = text;
             return div.innerHTML;
         }
+        
+        // Add keyboard shortcuts for navigation
+        document.addEventListener('keydown', function(e) {
+            // Don't trigger shortcuts if user is typing in form fields
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+                return;
+            }
+            
+            switch(e.key) {
+                case 'r':
+                case 'R':
+                    if (!randomBtn.disabled) {
+                        e.preventDefault();
+                        randomBtn.click();
+                    }
+                    break;
+                case 'ArrowLeft':
+                    if (!prevBtn.disabled) {
+                        e.preventDefault();
+                        prevBtn.click();
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (!nextBtn.disabled) {
+                        e.preventDefault();
+                        nextBtn.click();
+                    }
+                    break;
+                case 'i':
+                case 'I':
+                    if (currentModel && !infoBtn.disabled) {
+                        e.preventDefault();
+                        infoBtn.click();
+                    }
+                    break;
+            }
+        });
         
         // Initialize
         loadDemos();
