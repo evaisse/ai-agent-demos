@@ -52,7 +52,24 @@ jobs:
             ls -la pages/demos/
           fi
           if [ -f "pages/demos.json" ]; then
-            echo "demos.json found and generated"
+            echo "✅ demos.json found and generated"
+            echo ""
+            echo "📊 Demo Statistics:"
+            cat > /tmp/count_demos.py << 'PYEOF'
+          import json
+          with open('pages/demos.json') as f:
+              data = json.load(f)
+          print(f'   Total demos: {len(data)}')
+          total_implementations = 0
+          for demo in data:
+              impl_count = len(demo['models'])
+              total_implementations += impl_count
+              print(f'   - {demo["name"]}: {impl_count} implementation(s)')
+          print(f'   Total implementations: {total_implementations}')
+          PYEOF
+            python3 /tmp/count_demos.py
+            echo ""
+            echo "📄 First 20 lines of demos.json:"
             cat pages/demos.json | head -20
           fi
           
