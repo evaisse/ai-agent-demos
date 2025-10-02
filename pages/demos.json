@@ -70,6 +70,72 @@
         }
       },
       {
+        "name": "amazon/nova-pro-v1",
+        "htmlPath": "demos/physics-20-balls/amazon/nova-pro-v1/index.html",
+        "results": {
+          "timestamp": "2025-10-02T08:31:32.328Z",
+          "execution": {
+            "duration_seconds": "12.495",
+            "model_used": "amazon/nova-pro-v1",
+            "model_requested": "amazon/nova-pro-v1"
+          },
+          "tokens": {
+            "prompt_tokens": 56,
+            "completion_tokens": 1053,
+            "total_tokens": 1109
+          },
+          "cost": {
+            "currency": "USD",
+            "prompt_cost": 0.000045,
+            "completion_cost": 0.00337,
+            "total_cost": 0.003414
+          },
+          "model_card": {
+            "id": "amazon/nova-pro-v1",
+            "name": "Amazon: Nova Pro 1.0",
+            "description": "Amazon Nova Pro 1.0 is a capable multimodal model from Amazon focused on providing a combination of accuracy, speed, and cost for a wide range of tasks. As of December 2024, it achieves state-of-the-art performance on key benchmarks including visual question answering (TextVQA) and video understanding (VATEX).\n\nAmazon Nova Pro demonstrates strong capabilities in processing both visual and textual information and at analyzing financial documents.\n\n**NOTE**: Video input is not supported at this time.",
+            "context_length": 300000,
+            "architecture": {
+              "input_modalities": [
+                "text",
+                "image"
+              ],
+              "instruct_type": null,
+              "modality": "text+image->text",
+              "output_modalities": [
+                "text"
+              ],
+              "tokenizer": "Nova"
+            },
+            "pricing": {
+              "completion": "0.0000032",
+              "image": "0.0012",
+              "internal_reasoning": "0",
+              "prompt": "0.0000008",
+              "request": "0",
+              "web_search": "0"
+            },
+            "top_provider": {
+              "context_length": 300000,
+              "is_moderated": true,
+              "max_completion_tokens": 5120
+            }
+          },
+          "request": {
+            "prompt": "In a single HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.\n",
+            "system_prompt": null,
+            "temperature": 0.7,
+            "max_tokens": 2000
+          },
+          "response_metadata": {
+            "id": "gen-1759393881-L7NLMYvjx5JiKBHZqYlh",
+            "created": 1759393881,
+            "object": "chat.completion"
+          },
+          "raw_response": "Certainly! Below is a complete HTML file named `index.html` that simulates 20 balls following the rules of gravity and physics within a spinning 2D hexagon. The gravity direction changes from bottom to top every 5 seconds.\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Hexagon Ball Simulation</title>\n    <style>\n        canvas {\n            display: block;\n            margin: auto;\n            background-color: #f0f0f0;\n        }\n    </style>\n</head>\n<body>\n    <canvas id=\"simulationCanvas\"></canvas>\n    <script>\n        const canvas = document.getElementById('simulationCanvas');\n        const ctx = canvas.getContext('2d');\n        canvas.width = window.innerWidth;\n        canvas.height = window.innerHeight;\n\n        const balls = [];\n        const gravity = { x: 0, y: 1 };\n        let angle = 0;\n        let hexagonCenter = { x: canvas.width / 2, y: canvas.height / 2 };\n        const hexagonRadius = 200;\n        const ballRadius = 10;\n\n        class Ball {\n            constructor(x, y, vx, vy) {\n                this.x = x;\n                this.y = y;\n                this.vx = vx;\n                this.vy = vy;\n                this.radius = ballRadius;\n            }\n\n            update() {\n                this.vx += gravity.x;\n                this.vy += gravity.y;\n                this.x += this.vx;\n                this.y += this.vy;\n\n                // Simple collision detection with canvas boundaries\n                if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {\n                    this.vx = -this.vx;\n                }\n                if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) {\n                    this.vy = -this.vy;\n                }\n            }\n\n            draw() {\n                ctx.beginPath();\n                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);\n                ctx.fillStyle = 'blue';\n                ctx.fill();\n                ctx.closePath();\n            }\n        }\n\n        function createBalls() {\n            for (let i = 0; i < 20; i++) {\n                const angle = (i / 20) * Math.PI * 2;\n                const x = hexagonCenter.x + Math.cos(angle) * hexagonRadius;\n                const y = hexagonCenter.y + Math.sin(angle) * hexagonRadius;\n                balls.push(new Ball(x, y, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2));\n            }\n        }\n\n        function drawHexagon() {\n            ctx.beginPath();\n            for (let i = 0; i < 6; i++) {\n                const angle = (i / 6) * Math.PI * 2 + this.angle;\n                const x = hexagonCenter.x + Math.cos(angle) * hexagonRadius;\n                const y = hexagonCenter.y + Math.sin(angle) * hexagonRadius;\n                if (i === 0) ctx.moveTo(x, y);\n                else ctx.lineTo(x, y);\n            }\n            ctx.closePath();\n            ctx.strokeStyle = 'black';\n            ctx.stroke();\n        }\n\n        function animate() {\n            ctx.clearRect(0, 0, canvas.width, canvas.height);\n\n            drawHexagon();\n            balls.forEach(ball => {\n                ball.update();\n                ball.draw();\n            });\n\n            angle += 0.01;\n\n            requestAnimationFrame(animate);\n        }\n\n        function toggleGravity() {\n            gravity.y = -gravity.y;\n        }\n\n        createBalls();\n        setInterval(toggleGravity, 5000);\n        animate();\n    </script>\n</body>\n</html>\n```\n\n### Explanation:\n1. **HTML Structure**:\n   - A single `canvas` element is used to draw the simulation.\n   \n2. **CSS**:\n   - Basic styling to center and size the canvas.\n\n3. **JavaScript**:\n   - The `Ball` class represents each ball with properties for position, velocity, and radius.\n   - Balls are initialized in the center of a hexagon.\n   - The hexagon spins by incrementally changing the `angle` variable.\n   - Gravity direction toggles every 5 seconds using `setInterval`.\n   - The `animate` function continuously updates and redraws the canvas."
+        }
+      },
+      {
         "name": "anthropic/claude-3-haiku",
         "htmlPath": "demos/physics-20-balls/anthropic/claude-3-haiku/index.html",
         "results": {

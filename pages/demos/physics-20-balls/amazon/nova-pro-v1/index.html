@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexagon Ball Simulation</title>
+    <style>
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="simulationCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('simulationCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const balls = [];
+        const gravity = { x: 0, y: 1 };
+        let angle = 0;
+        let hexagonCenter = { x: canvas.width / 2, y: canvas.height / 2 };
+        const hexagonRadius = 200;
+        const ballRadius = 10;
+
+        class Ball {
+            constructor(x, y, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.radius = ballRadius;
+            }
+
+            update() {
+                this.vx += gravity.x;
+                this.vy += gravity.y;
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Simple collision detection with canvas boundaries
+                if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
+                    this.vx = -this.vx;
+                }
+                if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) {
+                    this.vy = -this.vy;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'blue';
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        function createBalls() {
+            for (let i = 0; i < 20; i++) {
+                const angle = (i / 20) * Math.PI * 2;
+                const x = hexagonCenter.x + Math.cos(angle) * hexagonRadius;
+                const y = hexagonCenter.y + Math.sin(angle) * hexagonRadius;
+                balls.push(new Ball(x, y, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2));
+            }
+        }
+
+        function drawHexagon() {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i / 6) * Math.PI * 2 + this.angle;
+                const x = hexagonCenter.x + Math.cos(angle) * hexagonRadius;
+                const y = hexagonCenter.y + Math.sin(angle) * hexagonRadius;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawHexagon();
+            balls.forEach(ball => {
+                ball.update();
+                ball.draw();
+            });
+
+            angle += 0.01;
+
+            requestAnimationFrame(animate);
+        }
+
+        function toggleGravity() {
+            gravity.y = -gravity.y;
+        }
+
+        createBalls();
+        setInterval(toggleGravity, 5000);
+        animate();
+    </script>
+</body>
+</html>
