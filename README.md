@@ -210,11 +210,46 @@ ai-demo-generator/
 
 ## 🤝 Contributing
 
+We welcome contributions! There are two main ways to contribute:
+
+### 💡 Submit a Demo Idea (Easy!)
+
+The easiest way to contribute is to submit a demo idea:
+
+1. **[Create a new issue](../../issues/new/choose)** using the "Demo Submission" template
+2. Fill in:
+   - **Demo Title**: A short, descriptive name
+   - **Demo Prompt**: What to create (max 200 characters)
+   - **Models**: Select which AI models to test
+3. **Wait for approval**: A maintainer will review your submission
+4. **Automatic generation**: Once approved (by adding the `approved` label), a GitHub Actions workflow will:
+   - Create the demo structure
+   - Generate implementations using your selected models
+   - Create a pull request with the results
+5. **Review & merge**: The PR will be reviewed and merged, publishing your demo!
+
+**Example prompts:**
+- "a classic snake game with smooth animations and score tracking"
+- "a todo app with local storage and drag-and-drop sorting"
+- "an interactive calculator with memory functions and history"
+
+### 🔧 Traditional Contributing
+
+For code contributions, bug fixes, or features:
+
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
 4. Test with multiple demos and models
 5. Submit a pull request
+
+### 📋 Contribution Guidelines
+
+- Keep prompts under 200 characters
+- Ensure prompts don't request copyrighted or harmful content
+- Select at least one model for testing
+- Follow the existing code style
+- Test your changes locally before submitting
 
 ## 📄 License
 

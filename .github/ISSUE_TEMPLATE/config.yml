@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/evaisse/ai-agent-demos#readme
+    about: View the project documentation and usage guide
+  - name: 💬 Discussions
+    url: https://github.com/evaisse/ai-agent-demos/discussions
+    about: Ask questions and discuss ideas with the community
