@@ -298,7 +298,7 @@
                 
                 demos = await response.json();
                 populateDemoSelector();
-                checkUrlParameters();
+                applyHashState();
                 hideLoading();
                 
                 refreshBtn.disabled = false;
@@ -343,32 +343,76 @@
             demoFrame.style.display = 'none';
         }
         
-        // Check URL parameters and auto-select demo/model
-        function checkUrlParameters() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const demoParam = urlParams.get('demo');
-            const modelParam = urlParams.get('model');
+        // Parse hash and return navigation state
+        function parseHash() {
+            const hash = window.location.hash.slice(1); // Remove #
+            const params = new URLSearchParams(hash);
+            return {
+                demo: params.get('demo'),
+                model: params.get('model'),
+                info: params.get('info') === 'open'
+            };
+        }
+        
+        // Update hash based on current state
+        function updateHash() {
+            const params = new URLSearchParams();
             
-            if (demoParam && demos.length > 0) {
+            if (currentDemo) {
+                params.set('demo', currentDemo.name);
+            }
+            
+            if (currentModel) {
+                // Convert / to - for URL safety
+                params.set('model', currentModel.name.replace('/', '-'));
+            }
+            
+            if (sidebar.classList.contains('open')) {
+                params.set('info', 'open');
+            }
+            
+            const newHash = params.toString();
+            if (newHash) {
+                window.location.hash = newHash;
+            } else {
+                history.replaceState(null, null, window.location.pathname);
+            }
+        }
+        
+        // Apply navigation state from hash
+        function applyHashState() {
+            if (demos.length === 0) return;
+            
+            const state = parseHash();
+            
+            if (state.demo) {
                 // Find and select the demo
-                const demo = demos.find(d => d.name === demoParam);
+                const demo = demos.find(d => d.name === state.demo);
                 if (demo) {
-                    demoSelector.value = demoParam;
+                    demoSelector.value = state.demo;
                     currentDemo = demo;
                     updateModelSelector();
                     
                     // If model parameter is provided, try to select it
-                    if (modelParam) {
+                    if (state.model) {
                         // Convert back from URL-safe format (- to /)
-                        const modelName = modelParam.replace('-', '/');
+                        const modelName = state.model.replace('-', '/');
                         const model = demo.models.find(m => m.name === modelName);
                         if (model) {
                             setTimeout(() => {
                                 modelSelector.value = modelName;
                                 currentModel = model;
                                 showDemo();
+                                
+                                // Apply info panel state
+                                if (state.info) {
+                                    showSidebar();
+                                }
                             }, 100); // Small delay to ensure model selector is populated
                         }
+                    } else if (state.info) {
+                        // Show info panel even without model selection
+                        showSidebar();
                     }
                 }
             }
@@ -386,6 +430,7 @@
                 updateModelSelector();
                 hideDemo();
             }
+            updateHash();
         });
         
         modelSelector.addEventListener('change', function() {
@@ -397,6 +442,7 @@
                 currentModel = null;
                 hideDemo();
             }
+            updateHash();
         });
         
         infoBtn.addEventListener('click', function() {
@@ -411,6 +457,11 @@
         
         closeBtn.addEventListener('click', function() {
             hideSidebar();
+        });
+        
+        // Handle browser back/forward navigation
+        window.addEventListener('hashchange', function() {
+            applyHashState();
         });
         
         function updateModelSelector() {
@@ -521,10 +572,12 @@
             
             sidebarContent.innerHTML = metricsHTML;
             sidebar.classList.add('open');
+            updateHash();
         }
         
         function hideSidebar() {
             sidebar.classList.remove('open');
+            updateHash();
         }
         
         function escapeHtml(text) {

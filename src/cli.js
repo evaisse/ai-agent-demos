@@ -1307,7 +1307,7 @@ program
       
       if (startPreview) {
         console.log(chalk.cyan('\n🚀 Starting preview server...'));
-        const previewUrl = `http://localhost:8900/?demo=${demo}&model=${model.replace('/', '-')}`;
+        const previewUrl = `http://localhost:8900/#demo=${demo}&model=${model.replace('/', '-')}`;
         const pagesDir = path.join(path.dirname(__dirname), 'pages');
         await startStaticServer(pagesDir, 8900, previewUrl);
       } else {
