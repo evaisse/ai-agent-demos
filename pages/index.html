@@ -405,7 +405,7 @@
                 
                 demos = await response.json();
                 populateDemoSelector();
-                applyHashState();
+                applyURLState();
                 hideLoading();
                 
                 refreshBtn.disabled = false;
@@ -450,10 +450,9 @@
             demoFrame.style.display = 'none';
         }
         
-        // Parse hash and return navigation state
-        function parseHash() {
-            const hash = window.location.hash.slice(1); // Remove #
-            const params = new URLSearchParams(hash);
+        // Parse query string and return navigation state
+        function parseParams() {
+            const params = new URLSearchParams(window.location.search);
             return {
                 demo: params.get('demo'),
                 model: params.get('model'),
@@ -461,8 +460,8 @@
             };
         }
         
-        // Update hash based on current state
-        function updateHash() {
+        // Update URL with current state using pushState
+        function updateURL() {
             const params = new URLSearchParams();
             
             if (currentDemo) {
@@ -485,19 +484,16 @@
                 }
             }
             
-            const newHash = params.toString();
-            if (newHash) {
-                window.location.hash = newHash;
-            } else {
-                history.replaceState(null, null, window.location.pathname);
-            }
+            const queryString = params.toString();
+            const newURL = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
+            history.pushState(null, null, newURL);
         }
         
-        // Apply navigation state from hash
-        function applyHashState() {
+        // Apply navigation state from URL parameters
+        function applyURLState() {
             if (demos.length === 0) return;
             
-            const state = parseHash();
+            const state = parseParams();
             
             if (state.demo) {
                 // Find and select the demo
@@ -544,7 +540,7 @@
                 updateModelSelector();
                 hideDemo();
             }
-            updateHash();
+            updateURL();
         });
         
         modelSelector.addEventListener('change', function() {
@@ -556,7 +552,7 @@
                 currentModel = null;
                 hideDemo();
             }
-            updateHash();
+            updateURL();
         });
         
         infoBtn.addEventListener('click', function() {
@@ -594,8 +590,8 @@
         });
         
         // Handle browser back/forward navigation
-        window.addEventListener('hashchange', function() {
-            applyHashState();
+        window.addEventListener('popstate', function() {
+            applyURLState();
         });
         
         // Handle window resize to adjust sidebar behavior
@@ -731,7 +727,7 @@
             } else {
                 sidebar.classList.remove('desktop-closed');
             }
-            updateHash();
+            updateURL();
         }
         
         function hideSidebar() {
@@ -741,7 +737,7 @@
             } else {
                 sidebar.classList.add('desktop-closed');
             }
-            updateHash();
+            updateURL();
         }
         
         function escapeHtml(text) {

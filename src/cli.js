@@ -1315,7 +1315,7 @@ program
         
         // Start server
         const server = await startStaticServer(pagesDir, port);
-        const previewUrl = `http://localhost:${port}/#demo=${demo}&model=${model.replace('/', '-')}`;
+        const previewUrl = `http://localhost:${port}/?demo=${demo}&model=${model.replace('/', '-')}`;
         
         console.log(chalk.green(`\n✅ Server running!`));
         console.log(chalk.white(`🌐 Opening demo at: ${chalk.bold(previewUrl)}`));
@@ -1683,7 +1683,7 @@ program
           
           // Start server
           const server = await startStaticServer(pagesDir, port);
-          const previewUrl = `http://localhost:${port}/#demo=${selectedDemos[0]}`;
+          const previewUrl = `http://localhost:${port}/?demo=${selectedDemos[0]}`;
           
           console.log(chalk.green(`\n✅ Server running!`));
           console.log(chalk.white(`🌐 Opening demos at: ${chalk.bold(previewUrl)}`));
