@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dominoes Simulation</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Monospace;
+            font-size: 13px;
+            line-height: 24px;
+            overscroll-behavior: none;
+            text-rendering: optimizeLegibility;
+            user-select: none;
+            font-smooth: always;
+        }
+        #canvas {
+            width: 100%;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, dominoes = [];
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({
+                canvas: document.createElement('canvas'),
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            camera.position.z = 200;
+
+            for (let i = 0; i < 200; i++) {
+                let domino = new THREE.Mesh(new THREE.BoxGeometry(5, 20, 2), new THREE.MeshBasicMaterial({color: 0xffffff}));
+                domino.position.x = Math.cos(i * 0.1) * (100 - i * 0.5);
+                domino.position.z = Math.sin(i * 0.1) * (100 - i * 0.5);
+                domino.rotation.y = i * 0.1;
+                scene.add(domino);
+                dominoes.push(domino);
+            }
+
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            let time = Date.now() * 0.001;
+            for (let i = 0; i < dominoes.length; i++) {
+                let domino = dominoes[i];
+                if (i === 0) {
+                    domino.rotation.x = Math.sin(time) * 0.1;
+                } else {
+                    domino.rotation.x = dominoes[i - 1].rotation.x * 0.9 + Math.sin(time + i * 0.1) * 0.01;
+                }
+            }
+            renderer.render(scene, camera);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>

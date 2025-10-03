@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> deepseek/deepseek-v3.2-exp</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:33:26.895Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">3682</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.643s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0015</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"># Tic Tac Toe with a Twist<br><br>I&#039;ll create a complete, interactive tic tac toe game with a unique victory animation when the game ends. The twist: the winning line will animate with a colorful rainbow trail effect!<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe with a Twist&lt;/title&gt;<br>    &lt;style&gt;<br>        * {<br>            box-sizing: border-box;<br>            margin: 0;<br>            padding: 0;<br>        }<br>        <br>        body {<br>            font-family: &#039;Arial&#039;, sans-serif;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            min-height: 100vh;<br>            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);<br>            color: white;<br>            overflow: hidden;<br>        }<br>        <br>        .container {<br>            text-align: center;<br>            background-color: rgba(0, 0, 0, 0.6);<br>            padding: 30px;<br>            border-radius: 15px;<br>            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);<br>            position: relative;<br>            z-index: 2;<br>        }<br>        <br>        h1 {<br>            margin-bottom: 20px;<br>            font-size: 2.5rem;<br>            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);<br>        }<br>        <br>        .status {<br>            margin: 20px 0;<br>            font-size: 1.5rem;<br>            font-weight: bold;<br>            height: 30px;<br>        }<br>        <br>        .board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 1fr);<br>            grid-gap: 10px;<br>            margin: 20px auto;<br>            max-width: 300px;<br>        }<br>        <br>        .cell {<br>            width: 100px;<br>            height: 100px;<br>            background-color: rgba(255, 255, 255, 0.1);<br>            border: 2px solid rgba(255, 255, 255, 0.3);<br>            border-radius: 10px;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            font-size: 3rem;<br>            cursor: pointer;<br>            transition: all 0.3s ease;<br>            position: relative;<br>        }<br>        <br>        .cell:hover {<br>            background-color: rgba(255, 255, 255, 0.2);<br>            transform: scale(1.05);<br>        }<br>        <br>        .cell.x {<br>            color: #ff4d4d;<br>        }<br>        <br>        .cell.o {<br>            color: #4d94ff;<br>        }<br>        <br>        .cell.winner {<br>            animation: pulse 1s infinite;<br>            background-color: rgba(255, 255, 255, 0.3);<br>        }<br>        <br>        .reset-btn {<br>            margin-top: 20px;<br>            padding: 12px 25px;<br>            background: linear-gradient(to right, #ff4d4d, #4d94ff);<br>            border: none;<br>            border-radius: 50px;<br>            color: white;<br>            font-size: 1.1rem;<br>            font-weight: bold;<br>            cursor: pointer;<br>            transition: all 0.3s ease;<br>            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);<br>        }<br>        <br>        .reset-btn:hover {<br>            transform: translateY(-3px);<br>            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);<br>        }<br>        <br>        .reset-btn:active {<br>            transform: translateY(1px);<br>        }<br>        <br>        .win-line {<br>            position: absolute;<br>            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);<br>            opacity: 0;<br>            z-index: 1;<br>        }<br>        <br>        .rainbow-particles {<br>            position: absolute;<br>            top: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 100%;<br>            pointer-events: none;<br>            z-index: 0;<br>        }<br>        <br>        .particle {<br>            position: absolute;<br>            width: 10px;<br>            height: 10px;<br>            border-radius: 50%;<br>            opacity: 0;<br>        }<br>        <br>        @keyframes pulse {<br>            0% { transform: scale(1); }<br>            50% { transform: scale(1.1); }<br>            100% { transform: scale(1); }<br>        }<br>        <br>        @keyframes drawLine {<br>            0% { width: 0; opacity: 1; }<br>            100% { width: 100%; opacity: 1; }<br>        }<br>        <br>        @keyframes rainbow {<br>            0% { background-position: 0% 50%; }<br>            50% { background-position: 100% 50%; }<br>            100% { background-position: 0% 50%; }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div class=&quot;rainbow-particles&quot; id=&quot;rainbowParticles&quot;&gt;&lt;/div&gt;<br>    <br>    &lt;div class=&quot;container&quot;&gt;<br>        &lt;h1&gt;Tic Tac Toe&lt;/h1&gt;<br>        &lt;div class=&quot;status&quot; id=&quot;status&quot;&gt;Player X&#039;s turn&lt;/div&gt;<br>        <br>        &lt;div class=&quot;board&quot; id=&quot;board&quot;&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;0&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;1&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;2&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;3&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;4&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;5&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;6&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;7&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;8&quot;&gt;&lt;/div&gt;<br>        &lt;/div&gt;<br>        <br>        &lt;button class=&quot;reset-btn&quot; id=&quot;resetBtn&quot;&gt;Reset Game&lt;/button&gt;<br>    &lt;/div&gt;<br><br>    &lt;script&gt;<br>        document.addEventListener(&#039;DOMContentLoaded&#039;, () =&gt; {<br>            const statusDisplay = document.getElementById(&#039;status&#039;);<br>            const cells = document.querySelectorAll(&#039;.cell&#039;);<br>            const resetButton = document.getElementById(&#039;resetBtn&#039;);<br>            const rainbowParticles = document.getElementById(&#039;rainbowParticles&#039;);<br>            <br>            let gameActive = true;<br>            let currentPlayer = &#039;X&#039;;<br>            let gameState = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>            <br>            const winningConditions = [<br>                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows<br>                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns<br>                [0, 4, 8], [2, 4, 6] // diagonals<br>            ];<br>            <br>            const winningMessages = {<br>                &#039;X&#039;: &quot;Player X wins!&quot;,<br>                &#039;O&#039;: &quot;Player O wins!&quot;,<br>                &#039;tie&#039;: &quot;Game ended in a tie!&quot;<br>            };<br>            <br>            function handleCellClick(clickedCellEvent) {<br>                const clickedCell = clickedCellEvent.target;<br>                const clickedCellIndex = parseInt(clickedCell.getAttribute(&#039;data-index&#039;));<br>                <br>                if (gameState[clickedCellIndex] !== &#039;&#039; || !gameActive) {<br>                    return;<br>                }<br>                <br>                handleCellPlayed(clickedCell, clickedCellIndex);<br>                handleResultValidation();<br>            }<br>            <br>            function handleCellPlayed(clickedCell, clickedCellIndex) {<br>                gameState[clickedCellIndex] = currentPlayer;<br>                clickedCell.textContent = currentPlayer;<br>                clickedCell.classList.add(currentPlayer.toLowerCase());<br>            }<br>            <br>            function handleResultValidation() {<br>                let roundWon = false;<br>                let winningCombo = [];<br>                <br>                for (let i = 0; i &lt; winningConditions.length; i++) {<br>                    const [a, b, c] = winningConditions[i];<br>                    if (gameState[a] === &#039;&#039; || gameState[b] === &#039;&#039; || gameState[c] === &#039;&#039;) {<br>                        continue;<br>                    }<br>                    if (gameState[a] === gameState[b] &amp;&amp; gameState[b] === gameState[c]) {<br>                        roundWon = true;<br>                        winningCombo = winningConditions[i];<br>                        break;<br>                    }<br>                }<br>                <br>                if (roundWon) {<br>                    statusDisplay.textContent = winningMessages[currentPlayer];<br>                    gameActive = false;<br>                    highlightWinningCells(winningCombo);<br>                    createWinLine(winningCombo);<br>                    createRainbowParticles();<br>                    return;<br>                }<br>                <br>                const roundDraw = !gameState.includes(&#039;&#039;);<br>                if (roundDraw) {<br>                    statusDisplay.textContent = winningMessages[&#039;tie&#039;];<br>                    gameActive = false;<br>                    return;<br>                }<br>                <br>                handlePlayerChange();<br>            }<br>            <br>            function handlePlayerChange() {<br>                currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>                statusDisplay.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br>            }<br>            <br>            function highlightWinningCells(winningCombo) {<br>                winningCombo.forEach(index =&gt; {<br>                    cells[index].classList.add(&#039;winner&#039;);<br>                });<br>            }<br>            <br>            function createWinLine(winningCombo) {<br>                const boardRect = document.getElementById(&#039;board&#039;).getBoundingClientRect();<br>                <br>                // Determine line orientation based on winning combination<br>                if (winningCombo[0] === 0 &amp;&amp; winningCombo[2] === 2) {<br>                    // Top row<br>                    createHorizontalLine(boardRect, 0);<br>                } else if (winningCombo[0] === 3 &amp;&amp; winningCombo[2] === 5) {<br>                    // Middle row<br>                    createHorizontalLine(boardRect, 1);<br>                } else if (winningCombo[0] === 6 &amp;&amp; winningCombo[2] === 8) {<br>                    // Bottom row<br>                    createHorizontalLine(boardRect, 2);<br>                } else if (winningCombo[0] === 0 &amp;&amp; winningCombo[2] === 6) {<br>                    // Left column<br>                    createVerticalLine(boardRect, 0);<br>                } else if (winningCombo[0] === 1 &amp;&amp; winningCombo[2] === 7) {<br>                    // Middle column<br>                    createVerticalLine(boardRect, 1);<br>                } else if (winningCombo[0] === 2 &amp;&amp; winningCombo[2] === 8) {<br>                    // Right column<br>                    createVerticalLine(boardRect, 2);<br>                } else if (winningCombo[0] === 0 &amp;&amp; winningCombo[2] === 8) {<br>                    // Diagonal top-left to bottom-right<br>                    createDiagonalLine(boardRect, true);<br>                } else if (winningCombo[0] === 2 &amp;&amp; winningCombo[2] === 6) {<br>                    // Diagonal top-right to bottom-left<br>                    createDiagonalLine(boardRect, false);<br>                }<br>            }<br>            <br>            function createHorizontalLine(boardRect, row) {<br>                const line = document.createElement(&#039;div&#039;);<br>                line.className = &#039;win-line&#039;;<br>                <br>                const cellSize = 100;<br>                const gap = 10;<br>                const topOffset = row * (cellSize + gap) + cellSize/2 - 5;<br>                <br>                line.style.top = <code>${boardRect.top + topOffset}px</code>;<br>                line.style.left = <code>${boardRect.left}px</code>;<br>                line.style.height = &#039;10px&#039;;<br>                line.style.width = &#039;0&#039;;<br>                line.style.animation = <code>drawLine 1s forwards, rainbow 2s infinite</code>;<br>                <br>                document.body.appendChild(line);<br>            }<br>            <br>            function createVerticalLine(boardRect, col) {<br>                const line = document.createElement(&#039;div&#039;);<br>                line.className = &#039;win-line&#039;;<br>                <br>                const cellSize = 100;<br>                const gap = 10;<br>                const leftOffset = col * (cellSize + gap) + cellSize/2 - 5;<br>                <br>                line.style.left = <code>${boardRect.left + leftOffset}px</code>;<br>                line.style.top = <code>${boardRect.top}px</code>;<br>                line.style.width = &#039;10px&#039;;<br>                line.style.height = &#039;0&#039;;<br>                line.style.animation = <code>drawLine 1s forwards, rainbow 2s infinite</code>;<br>                <br>                document.body.appendChild(line);<br>            }<br>            <br>            function createDiagonalLine(boardRect, isMainDiagonal) {<br>                const line = document.createElement(&#039;div&#039;);<br>                line.className = &#039;win-line&#039;;<br>                <br>                const boardSize = 300;<br>                const lineLength = Math.sqrt(2 * Math.pow(boardSize, 2));<br>                const angle = isMainDiagonal ? 45 : 135;<br>                <br>                line.style.left = <code>${boardRect.left + boardSize/2}px</code>;<br>                line.style.top = <code>${boardRect.top + boardSize/2}px</code>;<br>                line.style.width = &#039;10px&#039;;<br>                line.style.height = &#039;0&#039;;<br>                line.style.transformOrigin = &#039;center&#039;;<br>                line.style.transform = <code>rotate(${angle}deg)</code>;<br>                line.style.animation = <code>drawLine 1s forwards, rainbow 2s infinite</code>;<br>                <br>                document.body.appendChild(line);<br>            }<br>            <br>            function createRainbowParticles() {<br>                // Create 100 rainbow particles<br>                for (let i = 0; i &lt; 100; i++) {<br>                    const particle = document.createElement(&#039;div&#039;);<br>                    particle.className = &#039;particle&#039;;<br>                    <br>                    // Random rainbow color<br>                    const hue = Math.floor(Math.random() * 360);<br>                    particle.style.backgroundColor = <code>hsl(${hue}, 100%, 50%)</code>;<br>                    <br>                    // Random position<br>                    particle.style.left = <code>${Math.random() * 100}vw</code>;<br>                    particle.style.top = <code>${Math.random() * 100}vh</code>;<br>                    <br>                    // Random size<br>                    const size = Math.random() * 20 + 5;<br>                    particle.style.width = <code>${size}px</code>;<br>                    particle.style.height = <code>${size}px</code>;<br>                    <br>                    rainbowParticles.appendChild(particle);<br>                    <br>                    // Animate particle<br>                    animateParticle(particle);<br>                }<br>            }<br>            <br>            function animateParticle(particle) {<br>                const duration = Math.random() * 2 + 1;<br>                const xDirection = Math.random() &gt; 0.5 ? 1 : -1;<br>                const yDirection = Math.random() &gt; 0.5 ? 1 : -1;<br>                <br>                particle.animate([<br>                    { <br>                        transform: &#039;translate(0, 0) scale(0)&#039;,<br>                        opacity: 0<br>                    },<br>                    { <br>                        transform: <code>translate(${xDirection * 100}px, ${yDirection * 100}px) scale(1)</code>,<br>                        opacity: 1<br>                    },<br>                    { <br>                        transform: <code>translate(${xDirection * 200}px, ${yDirection * 200}px) scale(0)</code>,<br>                        opacity: 0<br>                    }<br>                ], {<br>                    duration: duration * 1000,<br>                    easing: &#039;ease-out&#039;<br>                });<br>                <br>                // Remove particle after animation<br>                setTimeout(() =&gt; {<br>                    if (particle.parentNode) {<br>                        particle.parentNode.removeChild(particle);<br>                    }<br>                }, duration * 1000);<br>            }<br>            <br>            function resetGame() {<br>                gameActive = true;<br>                currentPlayer = &#039;X&#039;;<br>                gameState = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>                statusDisplay.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br>                <br>                cells.forEach(cell =&gt; {<br>                    cell.textContent = &#039;&#039;;<br>                    cell.classList.remove(&#039;x&#039;, &#039;o&#039;, &#039;winner&#039;);<br>                });<br>                <br>                // Remove any existing win lines<br>                const winLines = document.querySelectorAll(&#039;.win-line&#039;);<br>                winLines.forEach(line =&gt; line.remove());<br>                <br>                // Clear particles<br>                rainbowParticles.innerHTML = &#039;&#039;;<br>            }<br>            <br>            cells.forEach(cell =&gt; cell.addEventListener(&#039;click&#039;, handleCellClick));<br>            resetButton.addEventListener(&#039;click&#039;, resetGame);<br>        });<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>## Features of this Tic Tac Toe game:<br><br>1. **Clean, modern design** with a gradient background and responsive layout<br>2. **Smooth interactions** with hover effects and animations<br>3. **Turn indicators** showing whose turn it is<br>4. **Original twist animation** when someone wins:<br>   - A rainbow-colored line draws across the winning combination<br>   - Winning cells pulse with a highlight effect<br>   - Rainbow particles burst out from the board in all directions<br><br>5. **Responsive design** that works on different screen sizes<br>6. **Easy reset** functionality to start a new game<br><br>Just copy this code into an <code>index.html</code> file and open it in any modern browser to play!</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-opus-4.1</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:30:47.121Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">3714</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.579s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.2760</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Here&#039;s a complete Tic Tac Toe game with a fun confetti explosion animation when someone wins!<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe - Confetti Edition!&lt;/title&gt;<br>    &lt;style&gt;<br>        * {<br>            margin: 0;<br>            padding: 0;<br>            box-sizing: border-box;<br>        }<br><br>        body {<br>            font-family: &#039;Arial&#039;, sans-serif;<br>            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);<br>            min-height: 100vh;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            flex-direction: column;<br>            position: relative;<br>            overflow: hidden;<br>        }<br><br>        h1 {<br>            color: white;<br>            margin-bottom: 20px;<br>            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);<br>            font-size: 3em;<br>        }<br><br>        .game-container {<br>            background: rgba(255, 255, 255, 0.95);<br>            padding: 30px;<br>            border-radius: 20px;<br>            box-shadow: 0 20px 60px rgba(0,0,0,0.3);<br>            position: relative;<br>            z-index: 10;<br>        }<br><br>        .status {<br>            text-align: center;<br>            margin-bottom: 20px;<br>            font-size: 1.5em;<br>            color: #333;<br>            min-height: 40px;<br>        }<br><br>        .board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 120px);<br>            grid-gap: 10px;<br>            margin: 0 auto;<br>        }<br><br>        .cell {<br>            width: 120px;<br>            height: 120px;<br>            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);<br>            border: none;<br>            border-radius: 15px;<br>            font-size: 3em;<br>            font-weight: bold;<br>            color: white;<br>            cursor: pointer;<br>            transition: all 0.3s ease;<br>            position: relative;<br>            overflow: hidden;<br>        }<br><br>        .cell:hover:not(:disabled) {<br>            transform: scale(1.05);<br>            box-shadow: 0 10px 20px rgba(0,0,0,0.2);<br>        }<br><br>        .cell:disabled {<br>            cursor: not-allowed;<br>        }<br><br>        .cell.winner {<br>            animation: pulse 0.5s ease-in-out infinite;<br>            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);<br>        }<br><br>        @keyframes pulse {<br>            0%, 100% { transform: scale(1); }<br>            50% { transform: scale(1.1); }<br>        }<br><br>        .reset-btn {<br>            display: block;<br>            margin: 30px auto 0;<br>            padding: 15px 40px;<br>            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);<br>            color: white;<br>            border: none;<br>            border-radius: 50px;<br>            font-size: 1.2em;<br>            cursor: pointer;<br>            transition: all 0.3s ease;<br>        }<br><br>        .reset-btn:hover {<br>            transform: translateY(-2px);<br>            box-shadow: 0 10px 20px rgba(0,0,0,0.2);<br>        }<br><br>        .confetti {<br>            position: fixed;<br>            width: 10px;<br>            height: 10px;<br>            background: #f0f;<br>            position: absolute;<br>            animation: confetti-fall 3s ease-out forwards;<br>        }<br><br>        @keyframes confetti-fall {<br>            0% {<br>                transform: translateY(-100vh) rotate(0deg);<br>                opacity: 1;<br>            }<br>            100% {<br>                transform: translateY(100vh) rotate(720deg);<br>                opacity: 0;<br>            }<br>        }<br><br>        .firework {<br>            position: fixed;<br>            width: 4px;<br>            height: 4px;<br>            border-radius: 50%;<br>            animation: firework-explode 1s ease-out forwards;<br>        }<br><br>        @keyframes firework-explode {<br>            0% {<br>                transform: translate(0, 0) scale(1);<br>                opacity: 1;<br>            }<br>            100% {<br>                transform: translate(var(--x), var(--y)) scale(0);<br>                opacity: 0;<br>            }<br>        }<br><br>        .winner-text {<br>            position: fixed;<br>            top: 50%;<br>            left: 50%;<br>            transform: translate(-50%, -50%) scale(0);<br>            font-size: 5em;<br>            font-weight: bold;<br>            color: white;<br>            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);<br>            z-index: 1000;<br>            animation: winner-popup 1s ease-out forwards;<br>            pointer-events: none;<br>        }<br><br>        @keyframes winner-popup {<br>            0% {<br>                transform: translate(-50%, -50%) scale(0) rotate(0deg);<br>            }<br>            50% {<br>                transform: translate(-50%, -50%) scale(1.2) rotate(180deg);<br>            }<br>            100% {<br>                transform: translate(-50%, -50%) scale(1) rotate(360deg);<br>            }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;h1&gt;✨ Tic Tac Toe ✨&lt;/h1&gt;<br>    &lt;div class=&quot;game-container&quot;&gt;<br>        &lt;div class=&quot;status&quot; id=&quot;status&quot;&gt;Player X&#039;s turn&lt;/div&gt;<br>        &lt;div class=&quot;board&quot; id=&quot;board&quot;&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;0&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;1&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;2&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;3&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;4&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;5&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;6&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;7&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;8&quot;&gt;&lt;/button&gt;<br>        &lt;/div&gt;<br>        &lt;button class=&quot;reset-btn&quot; onclick=&quot;resetGame()&quot;&gt;New Game&lt;/button&gt;<br>    &lt;/div&gt;<br><br>    &lt;script&gt;<br>        let currentPlayer = &#039;X&#039;;<br>        let gameBoard = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>        let gameActive = true;<br><br>        const winningConditions = [<br>            [0, 1, 2],<br>            [3, 4, 5],<br>            [6, 7, 8],<br>            [0, 3, 6],<br>            [1, 4, 7],<br>            [2, 5, 8],<br>            [0, 4, 8],<br>            [2, 4, 6]<br>        ];<br><br>        const cells = document.querySelectorAll(&#039;.cell&#039;);<br>        const statusDisplay = document.getElementById(&#039;status&#039;);<br><br>        cells.forEach(cell =&gt; {<br>            cell.addEventListener(&#039;click&#039;, handleCellClick);<br>        });<br><br>        function handleCellClick(event) {<br>            const clickedCell = event.target;<br>            const clickedCellIndex = parseInt(clickedCell.getAttribute(&#039;data-index&#039;));<br><br>            if (gameBoard[clickedCellIndex] !== &#039;&#039; || !gameActive) {<br>                return;<br>            }<br><br>            gameBoard[clickedCellIndex] = currentPlayer;<br>            clickedCell.textContent = currentPlayer;<br>            clickedCell.disabled = true;<br><br>            checkResult();<br>        }<br><br>        function checkResult() {<br>            let roundWon = false;<br>            let winningCombination = [];<br><br>            for (let i = 0; i &lt; winningConditions.length; i++) {<br>                const winCondition = winningConditions[i];<br>                let a = gameBoard[winCondition[0]];<br>                let b = gameBoard[winCondition[1]];<br>                let c = gameBoard[winCondition[2]];<br><br>                if (a === &#039;&#039; || b === &#039;&#039; || c === &#039;&#039;) {<br>                    continue;<br>                }<br><br>                if (a === b &amp;&amp; b === c) {<br>                    roundWon = true;<br>                    winningCombination = winCondition;<br>                    break;<br>                }<br>            }<br><br>            if (roundWon) {<br>                statusDisplay.textContent = <code>Player ${currentPlayer} wins! 🎉</code>;<br>                gameActive = false;<br>                <br>                // Highlight winning cells<br>                winningCombination.forEach(index =&gt; {<br>                    cells[index].classList.add(&#039;winner&#039;);<br>                });<br><br>                // Trigger celebration animation<br>                celebrateWin();<br>                return;<br>            }<br><br>            if (!gameBoard.includes(&#039;&#039;)) {<br>                statusDisplay.textContent = &quot;It&#039;s a draw! 🤝&quot;;<br>                gameActive = false;<br>                drawAnimation();<br>                return;<br>            }<br><br>            currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>            statusDisplay.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br>        }<br><br>        function celebrateWin() {<br>            // Create winner text<br>            const winnerText = document.createElement(&#039;div&#039;);<br>            winnerText.className = &#039;winner-text&#039;;<br>            winnerText.textContent = <code>${currentPlayer} WINS!</code>;<br>            document.body.appendChild(winnerText);<br><br>            setTimeout(() =&gt; {<br>                winnerText.remove();<br>            }, 3000);<br><br>            // Create confetti<br>            for (let i = 0; i &lt; 100; i++) {<br>                setTimeout(() =&gt; {<br>                    createConfetti();<br>                }, i * 30);<br>            }<br><br>            // Create fireworks<br>            for (let i = 0; i &lt; 5; i++) {<br>                setTimeout(() =&gt; {<br>                    createFirework();<br>                }, i * 200);<br>            }<br>        }<br><br>        function createConfetti() {<br>            const confetti = document.createElement(&#039;div&#039;);<br>            confetti.className = &#039;confetti&#039;;<br>            confetti.style.left = Math.random() * 100 + &#039;%&#039;;<br>            confetti.style.background = <code>hsl(${Math.random() * 360}, 100%, 50%)</code>;<br>            confetti.style.animationDuration = (Math.random() * 2 + 2) + &#039;s&#039;;<br>            confetti.style.width = Math.random() * 10 + 5 + &#039;px&#039;;<br>            confetti.style.height = confetti.style.width;<br>            document.body.appendChild(confetti);<br><br>            setTimeout(() =&gt; {<br>                confetti.remove();<br>            }, 3000);<br>        }<br><br>        function createFirework() {<br>            const x = Math.random() * window.innerWidth;<br>            const y = Math.random() * window.innerHeight / 2;<br><br>            for (let i = 0; i &lt; 30; i++) {<br>                const particle = document.createElement(&#039;div&#039;);<br>                particle.className = &#039;firework&#039;;<br>                particle.style.left = x + &#039;px&#039;;<br>                particle.style.top = y + &#039;px&#039;;<br>                particle.style.background = <code>hsl(${Math.random() * 360}, 100%, 50%)</code>;<br>                <br>                const angle = (Math.PI * 2 * i) / 30;<br>                const velocity = 100 + Math.random() * 100;<br>                particle.style.setProperty(&#039;--x&#039;, Math.cos(angle) * velocity + &#039;px&#039;);<br>                particle.style.setProperty(&#039;--y&#039;, Math.sin(angle) * velocity + &#039;px&#039;);<br>                <br>                document.body.appendChild(particle);<br><br>                setTimeout(() =&gt; {<br>                    particle.remove();<br>                }, 1000);<br>            }<br>        }<br><br>        function drawAnimation() {<br>            // Shake animation for draw<br>            const gameContainer = document.querySelector(&#039;.game-container&#039;);<br>            gameContainer.style.animation = &#039;shake 0.5s&#039;;<br>            <br>            setTimeout(() =&gt; {<br>                gameContainer.style.animation = &#039;&#039;;<br>            }, 500);<br><br>            // Add some sad confetti for draw<br>            for (let i = 0; i &lt; 30; i++) {<br>                setTimeout(() =&gt; {<br>                    const confetti = document.createElement(&#039;div&#039;);<br>                    confetti.className = &#039;confetti&#039;;<br>                    confetti.style.left = Math.random() * 100 + &#039;%&#039;;<br>                    confetti.style.background = &#039;#888&#039;;<br>                    confetti.style.animationDuration = &#039;4s&#039;;<br>                    document.body.appendChild(confetti);<br><br>                    setTimeout(() =&gt; {<br>                        confetti.remove();<br>                    }, 4000);<br>                }, i * 50);<br>            }<br>        }<br><br>        function resetGame() {<br>            currentPlayer = &#039;X&#039;;<br>            gameBoard = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>            gameActive = true;<br>            statusDisplay.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br><br>            cells.forEach(cell =&gt; {<br>                cell.textContent = &#039;&#039;;<br>                cell.disabled = false;<br>                cell.classList.remove(&#039;winner&#039;);<br>            });<br><br>            // Clean up any remaining animations<br>            document.querySelectorAll(&#039;.confetti, .firework, .winner-text&#039;).forEach(el =&gt; el.remove());<br>        }<br><br>        // Add shake animation<br>        const style = document.createElement(&#039;style&#039;);<br>        style.textContent = <code><br>            @keyframes shake {<br>                0%, 100% { transform: translateX(0); }<br>                25% { transform: translateX(-10px); }<br>                75% { transform: translateX(10px); }<br>            }<br>        </code>;<br>        document.head.appendChild(style);<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This Tic Tac Toe game features:<br><br>**Gameplay:**<br>- Classic 3x3 grid<br>- Two players (X and O) take turns<br>- Automatic win detection for rows, columns, and diagonals<br>- Draw detection when the board is full<br><br>**Original Twist - Victory Animations:**<br>- 🎆 **Confetti explosion** with 100 colorful pieces falling when someone wins<br>- 🎇 **Fireworks** that burst in random positions<br>- 🏆 **Giant winner text** that pops up with a spinning animation<br>- ✨ **Winning cells pulse** with a gradient animation<br>- 🤝 **Draw animation** includes a shake effect and gray confetti<br><br>The game has a beautiful gradient design with smooth hover effects and a modern, polished look. The celebration animations make winning feel extra special!</div>
+        </div>
+    </div>
+</body>
+</html>

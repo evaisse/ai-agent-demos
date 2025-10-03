@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-sonnet-4.5</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:29:43.334Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">3827</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">8.655s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0569</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe - Epic Edition&lt;/title&gt;<br>    &lt;style&gt;<br>        * {<br>            margin: 0;<br>            padding: 0;<br>            box-sizing: border-box;<br>        }<br><br>        body {<br>            font-family: &#039;Arial&#039;, sans-serif;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            min-height: 100vh;<br>            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);<br>            overflow: hidden;<br>        }<br><br>        .container {<br>            text-align: center;<br>            position: relative;<br>            z-index: 10;<br>        }<br><br>        h1 {<br>            color: white;<br>            margin-bottom: 20px;<br>            font-size: 3em;<br>            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);<br>        }<br><br>        .status {<br>            color: white;<br>            font-size: 1.5em;<br>            margin-bottom: 20px;<br>            min-height: 40px;<br>            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);<br>        }<br><br>        .board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 120px);<br>            grid-template-rows: repeat(3, 120px);<br>            gap: 10px;<br>            margin: 0 auto;<br>            perspective: 1000px;<br>        }<br><br>        .cell {<br>            background: white;<br>            border: none;<br>            font-size: 3em;<br>            font-weight: bold;<br>            cursor: pointer;<br>            transition: all 0.3s ease;<br>            border-radius: 10px;<br>            box-shadow: 0 4px 6px rgba(0,0,0,0.1);<br>        }<br><br>        .cell:hover:not(.taken) {<br>            background: #f0f0f0;<br>            transform: scale(1.05);<br>        }<br><br>        .cell.taken {<br>            cursor: not-allowed;<br>        }<br><br>        .cell.x {<br>            color: #e74c3c;<br>        }<br><br>        .cell.o {<br>            color: #3498db;<br>        }<br><br>        .reset-btn {<br>            margin-top: 30px;<br>            padding: 15px 40px;<br>            font-size: 1.2em;<br>            background: white;<br>            border: none;<br>            border-radius: 50px;<br>            cursor: pointer;<br>            box-shadow: 0 4px 6px rgba(0,0,0,0.1);<br>            transition: all 0.3s ease;<br>            font-weight: bold;<br>            color: #667eea;<br>        }<br><br>        .reset-btn:hover {<br>            transform: translateY(-2px);<br>            box-shadow: 0 6px 12px rgba(0,0,0,0.2);<br>        }<br><br>        /* Firework Animation */<br>        .firework {<br>            position: fixed;<br>            width: 4px;<br>            height: 4px;<br>            border-radius: 50%;<br>            pointer-events: none;<br>            z-index: 1000;<br>        }<br><br>        @keyframes explode {<br>            0% {<br>                transform: translate(0, 0) scale(1);<br>                opacity: 1;<br>            }<br>            100% {<br>                transform: translate(var(--tx), var(--ty)) scale(0);<br>                opacity: 0;<br>            }<br>        }<br><br>        /* Portal Animation */<br>        .portal {<br>            position: fixed;<br>            width: 300px;<br>            height: 300px;<br>            border-radius: 50%;<br>            top: 50%;<br>            left: 50%;<br>            transform: translate(-50%, -50%) scale(0);<br>            pointer-events: none;<br>            z-index: 5;<br>            opacity: 0;<br>        }<br><br>        @keyframes portalOpen {<br>            0% {<br>                transform: translate(-50%, -50%) scale(0) rotate(0deg);<br>                opacity: 0;<br>            }<br>            50% {<br>                opacity: 1;<br>            }<br>            100% {<br>                transform: translate(-50%, -50%) scale(3) rotate(720deg);<br>                opacity: 0;<br>            }<br>        }<br><br>        .portal.active {<br>            animation: portalOpen 2s ease-out forwards;<br>            background: radial-gradient(circle, <br>                transparent 30%, <br>                rgba(255, 255, 255, 0.3) 40%, <br>                rgba(102, 126, 234, 0.5) 50%, <br>                rgba(118, 75, 162, 0.5) 60%, <br>                transparent 70%);<br>            box-shadow: 0 0 50px rgba(255, 255, 255, 0.5),<br>                        inset 0 0 50px rgba(255, 255, 255, 0.3);<br>        }<br><br>        /* Winning cells glow */<br>        .cell.winner {<br>            animation: glow 0.5s ease-in-out infinite alternate;<br>        }<br><br>        @keyframes glow {<br>            from {<br>                box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;<br>                transform: scale(1.1);<br>            }<br>            to {<br>                box-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff;<br>                transform: scale(1.15);<br>            }<br>        }<br><br>        /* Confetti */<br>        .confetti {<br>            position: fixed;<br>            width: 10px;<br>            height: 10px;<br>            pointer-events: none;<br>            z-index: 1000;<br>        }<br><br>        @keyframes confettiFall {<br>            to {<br>                transform: translateY(100vh) rotate(360deg);<br>                opacity: 0;<br>            }<br>        }<br><br>        /* Vortex effect */<br>        @keyframes vortex {<br>            0% {<br>                transform: translate(-50%, -50%) scale(1) rotate(0deg);<br>            }<br>            100% {<br>                transform: translate(-50%, -50%) scale(0) rotate(1080deg);<br>            }<br>        }<br><br>        .board.vortex .cell {<br>            animation: vortex 1s ease-in forwards;<br>            position: relative;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div class=&quot;container&quot;&gt;<br>        &lt;h1&gt;⚡ Tic Tac Toe ⚡&lt;/h1&gt;<br>        &lt;div class=&quot;status&quot;&gt;Player X&#039;s Turn&lt;/div&gt;<br>        &lt;div class=&quot;board&quot; id=&quot;board&quot;&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;0&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;1&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;2&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;3&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;4&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;5&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;6&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;7&quot;&gt;&lt;/button&gt;<br>            &lt;button class=&quot;cell&quot; data-index=&quot;8&quot;&gt;&lt;/button&gt;<br>        &lt;/div&gt;<br>        &lt;button class=&quot;reset-btn&quot; onclick=&quot;resetGame()&quot;&gt;New Game&lt;/button&gt;<br>    &lt;/div&gt;<br>    &lt;div class=&quot;portal&quot; id=&quot;portal&quot;&gt;&lt;/div&gt;<br><br>    &lt;script&gt;<br>        let currentPlayer = &#039;X&#039;;<br>        let gameBoard = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>        let gameActive = true;<br><br>        const statusDisplay = document.querySelector(&#039;.status&#039;);<br>        const cells = document.querySelectorAll(&#039;.cell&#039;);<br>        const board = document.getElementById(&#039;board&#039;);<br>        const portal = document.getElementById(&#039;portal&#039;);<br><br>        const winningConditions = [<br>            [0, 1, 2],<br>            [3, 4, 5],<br>            [6, 7, 8],<br>            [0, 3, 6],<br>            [1, 4, 7],<br>            [2, 5, 8],<br>            [0, 4, 8],<br>            [2, 4, 6]<br>        ];<br><br>        cells.forEach(cell =&gt; {<br>            cell.addEventListener(&#039;click&#039;, handleCellClick);<br>        });<br><br>        function handleCellClick(e) {<br>            const clickedCell = e.target;<br>            const clickedCellIndex = parseInt(clickedCell.getAttribute(&#039;data-index&#039;));<br><br>            if (gameBoard[clickedCellIndex] !== &#039;&#039; || !gameActive) {<br>                return;<br>            }<br><br>            gameBoard[clickedCellIndex] = currentPlayer;<br>            clickedCell.textContent = currentPlayer;<br>            clickedCell.classList.add(&#039;taken&#039;, currentPlayer.toLowerCase());<br><br>            checkResult();<br>        }<br><br>        function checkResult() {<br>            let roundWon = false;<br>            let winningCombination = [];<br><br>            for (let i = 0; i &lt; winningConditions.length; i++) {<br>                const [a, b, c] = winningConditions[i];<br>                if (gameBoard[a] === &#039;&#039; || gameBoard[b] === &#039;&#039; || gameBoard[c] === &#039;&#039;) {<br>                    continue;<br>                }<br>                if (gameBoard[a] === gameBoard[b] &amp;&amp; gameBoard[b] === gameBoard[c]) {<br>                    roundWon = true;<br>                    winningCombination = [a, b, c];<br>                    break;<br>                }<br>            }<br><br>            if (roundWon) {<br>                statusDisplay.textContent = <code>Player ${currentPlayer} Wins! 🎉</code>;<br>                gameActive = false;<br>                highlightWinningCells(winningCombination);<br>                triggerEpicFinish();<br>                return;<br>            }<br><br>            if (!gameBoard.includes(&#039;&#039;)) {<br>                statusDisplay.textContent = &quot;It&#039;s a Draw! 🤝&quot;;<br>                gameActive = false;<br>                triggerDrawAnimation();<br>                return;<br>            }<br><br>            currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>            statusDisplay.textContent = <code>Player ${currentPlayer}&#039;s Turn</code>;<br>        }<br><br>        function highlightWinningCells(combination) {<br>            combination.forEach(index =&gt; {<br>                cells[index].classList.add(&#039;winner&#039;);<br>            });<br>        }<br><br>        function triggerEpicFinish() {<br>            // Portal effect<br>            portal.classList.add(&#039;active&#039;);<br>            setTimeout(() =&gt; {<br>                portal.classList.remove(&#039;active&#039;);<br>            }, 2000);<br><br>            // Vortex effect on board<br>            setTimeout(() =&gt; {<br>                board.classList.add(&#039;vortex&#039;);<br>            }, 500);<br><br>            // Fireworks<br>            setTimeout(() =&gt; {<br>                createFireworks();<br>            }, 300);<br><br>            // Confetti<br>            createConfetti();<br>        }<br><br>        function triggerDrawAnimation() {<br>            // Gentle confetti for draw<br>            createConfetti(30);<br>        }<br><br>        function createFireworks() {<br>            const colors = [&#039;#ff0000&#039;, &#039;#00ff00&#039;, &#039;#0000ff&#039;, &#039;#ffff00&#039;, &#039;#ff00ff&#039;, &#039;#00ffff&#039;];<br>            <br>            for (let i = 0; i &lt; 5; i++) {<br>                setTimeout(() =&gt; {<br>                    const x = Math.random() * window.innerWidth;<br>                    const y = Math.random() * window.innerHeight * 0.5;<br>                    <br>                    for (let j = 0; j &lt; 30; j++) {<br>                        const firework = document.createElement(&#039;div&#039;);<br>                        firework.className = &#039;firework&#039;;<br>                        firework.style.left = x + &#039;px&#039;;<br>                        firework.style.top = y + &#039;px&#039;;<br>                        firework.style.background = colors[Math.floor(Math.random() * colors.length)];<br>                        <br>                        const angle = (Math.PI * 2 * j) / 30;<br>                        const velocity = 50 + Math.random() * 100;<br>                        const tx = Math.cos(angle) * velocity;<br>                        const ty = Math.sin(angle) * velocity;<br>                        <br>                        firework.style.setProperty(&#039;--tx&#039;, tx + &#039;px&#039;);<br>                        firework.style.setProperty(&#039;--ty&#039;, ty + &#039;px&#039;);<br>                        firework.style.animation = &#039;explode 1s ease-out forwards&#039;;<br>                        <br>                        document.body.appendChild(firework);<br>                        <br>                        setTimeout(() =&gt; firework.remove(), 1000);<br>                    }<br>                }, i * 300);<br>            }<br>        }<br><br>        function createConfetti(count = 100) {<br>            const colors = [&#039;#ff0000&#039;, &#039;#00ff00&#039;, &#039;#0000ff&#039;, &#039;#ffff00&#039;, &#039;#ff00ff&#039;, &#039;#00ffff&#039;, &#039;#ffa500&#039;];<br>            <br>            for (let i = 0; i &lt; count; i++) {<br>                setTimeout(() =&gt; {<br>                    const confetti = document.createElement(&#039;div&#039;);<br>                    confetti.className = &#039;confetti&#039;;<br>                    confetti.style.left = Math.random() * 100 + &#039;%&#039;;<br>                    confetti.style.top = &#039;-10px&#039;;<br>                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];<br>                    confetti.style.animation = <code>confettiFall ${2 + Math.random() * 2}s linear forwards</code>;<br>                    confetti.style.animationDelay = Math.random() * 0.5 + &#039;s&#039;;<br>                    <br>                    document.body.appendChild(confetti);<br>                    <br>                    setTimeout(() =&gt; confetti.remove(), 4000);<br>                }, i * 30);<br>            }<br>        }<br><br>        function resetGame() {<br>            currentPlayer = &#039;X&#039;;<br>            gameBoard = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>            gameActive = true;<br>            statusDisplay.textContent = &quot;Player X&#039;s Turn&quot;;<br>            board.classList.remove(&#039;vortex&#039;);<br>            <br>            cells.forEach(cell =&gt; {<br>                cell.textContent = &#039;&#039;;<br>                cell.className = &#039;cell&#039;;<br>            });<br>        }<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>I&#039;ve created a Tic Tac Toe game with an epic finish animation that includes:<br><br>🎆 **Original Twist Features:**<br>1. **Portal Vortex Effect** - A swirling portal appears and expands when someone wins<br>2. **Fireworks Display** - Multiple colorful fireworks explode across the screen<br>3. **Board Vortex** - The game board cells spiral into the center dramatically<br>4. **Confetti Rain** - Colorful confetti falls from the top<br>5. **Glowing Winner Cells** - The winning combination pulses with a glowing effect<br><br>The game features:<br>- Clean, modern UI with gradient background<br>- Smooth animations and hover effects<br>- Player turn indication<br>- Win detection for all possible combinations<br>- Draw detection<br>- Reset functionality<br>- Responsive design<br><br>The finish animation is a combination of multiple effects that create an exciting, celebratory moment when the game ends!</div>
+        </div>
+    </div>
+</body>
+</html>

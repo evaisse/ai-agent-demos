@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> x-ai/grok-code-fast-1</p>
+            <p><strong>Generated:</strong> 2025-10-02T14:23:54.925Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">998</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">7.270s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0012</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Raining Thunder Animation&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            margin: 0;<br>            padding: 0;<br>            background: linear-gradient(to bottom, #1e3c72, #2a5298);<br>            overflow: hidden;<br>            height: 100vh;<br>        }<br>        .rain {<br>            position: absolute;<br>            width: 2px;<br>            height: 100px;<br>            background: rgba(255, 255, 255, 0.8);<br>            animation: fall linear infinite;<br>        }<br>        .thunder {<br>            position: absolute;<br>            width: 100%;<br>            height: 100%;<br>            background: rgba(255, 255, 255, 0.3);<br>            opacity: 0;<br>            animation: flash 0.1s ease-in-out;<br>        }<br>        @keyframes fall {<br>            to {<br>                transform: translateY(100vh);<br>            }<br>        }<br>        @keyframes flash {<br>            0% { opacity: 0; }<br>            50% { opacity: 1; }<br>            100% { opacity: 0; }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;rain-container&quot;&gt;&lt;/div&gt;<br>    &lt;script&gt;<br>        const rainContainer = document.getElementById(&#039;rain-container&#039;);<br>        const numDrops = 100; // Number of raindrops<br><br>        // Create raindrops<br>        for (let i = 0; i &lt; numDrops; i++) {<br>            const drop = document.createElement(&#039;div&#039;);<br>            drop.className = &#039;rain&#039;;<br>            drop.style.left = Math.random() * 100 + &#039;%&#039;;<br>            drop.style.animationDelay = Math.random() * 2 + &#039;s&#039;;<br>            drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + &#039;s&#039;;<br>            rainContainer.appendChild(drop);<br>        }<br><br>        // Thunder effect: occasional flashes<br>        setInterval(() =&gt; {<br>            if (Math.random() &lt; 0.1) { // 10% chance every second<br>                const thunder = document.createElement(&#039;div&#039;);<br>                thunder.className = &#039;thunder&#039;;<br>                document.body.appendChild(thunder);<br>                setTimeout(() =&gt; {<br>                    thunder.remove();<br>                }, 100);<br>            }<br>        }, 1000);<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre></div>
+        </div>
+    </div>
+</body>
+</html>

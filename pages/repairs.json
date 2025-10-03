@@ -1,0 +1,11 @@
+{
+  "failed": [
+    {
+      "demo": "domino-3d",
+      "model": "aion-labs/aion-1.0",
+      "error": "Unexpected end of JSON input",
+      "timestamp": "2025-10-02T23:15:42.511Z",
+      "attempts": 1
+    }
+  ]
+}

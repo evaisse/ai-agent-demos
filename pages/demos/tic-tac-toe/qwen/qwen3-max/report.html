@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> qwen/qwen3-max</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:40:33.896Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">3293</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.472s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0196</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"># Tic Tac Toe with Confetti Celebration<br><br>I&#039;ll create a complete tic-tac-toe game with a fun confetti celebration when someone wins or the game ends in a draw. The game will have a clean, modern design with smooth animations.<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe with Confetti Celebration&lt;/title&gt;<br>    &lt;style&gt;<br>        * {<br>            margin: 0;<br>            padding: 0;<br>            box-sizing: border-box;<br>            font-family: &#039;Segoe UI&#039;, Tahoma, Geneva, Verdana, sans-serif;<br>        }<br>        <br>        body {<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            min-height: 100vh;<br>            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);<br>            padding: 20px;<br>        }<br>        <br>        .container {<br>            background-color: rgba(255, 255, 255, 0.9);<br>            border-radius: 20px;<br>            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);<br>            padding: 30px;<br>            width: 100%;<br>            max-width: 500px;<br>            text-align: center;<br>        }<br>        <br>        h1 {<br>            color: #2c3e50;<br>            margin-bottom: 20px;<br>            font-size: 2.5rem;<br>            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);<br>        }<br>        <br>        .status {<br>            font-size: 1.5rem;<br>            margin: 20px 0;<br>            padding: 10px;<br>            border-radius: 10px;<br>            background-color: #f8f9fa;<br>            font-weight: bold;<br>            color: #2c3e50;<br>            min-height: 30px;<br>        }<br>        <br>        .board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 1fr);<br>            grid-gap: 10px;<br>            margin: 20px auto;<br>            max-width: 400px;<br>        }<br>        <br>        .cell {<br>            aspect-ratio: 1;<br>            background-color: #3498db;<br>            border-radius: 10px;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            font-size: 4rem;<br>            font-weight: bold;<br>            cursor: pointer;<br>            transition: all 0.3s ease;<br>            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);<br>        }<br>        <br>        .cell:hover {<br>            background-color: #2980b9;<br>            transform: translateY(-3px);<br>        }<br>        <br>        .cell.x {<br>            color: #e74c3c;<br>        }<br>        <br>        .cell.o {<br>            color: #2ecc71;<br>        }<br>        <br>        .controls {<br>            display: flex;<br>            justify-content: center;<br>            gap: 15px;<br>            margin-top: 20px;<br>        }<br>        <br>        button {<br>            padding: 12px 25px;<br>            font-size: 1.1rem;<br>            border: none;<br>            border-radius: 50px;<br>            cursor: pointer;<br>            background: linear-gradient(to right, #3498db, #2980b9);<br>            color: white;<br>            font-weight: bold;<br>            transition: all 0.3s ease;<br>            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);<br>        }<br>        <br>        button:hover {<br>            transform: translateY(-3px);<br>            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);<br>        }<br>        <br>        button:active {<br>            transform: translateY(1px);<br>        }<br>        <br>        #resetBtn {<br>            background: linear-gradient(to right, #e74c3c, #c0392b);<br>        }<br>        <br>        .winning-cell {<br>            animation: pulse 1.5s infinite;<br>            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);<br>        }<br>        <br>        @keyframes pulse {<br>            0% { transform: scale(1); }<br>            50% { transform: scale(1.05); }<br>            100% { transform: scale(1); }<br>        }<br>        <br>        .confetti {<br>            position: absolute;<br>            width: 10px;<br>            height: 10px;<br>            background-color: #f00;<br>            opacity: 0;<br>        }<br>        <br>        .message {<br>            font-size: 2rem;<br>            font-weight: bold;<br>            margin: 20px 0;<br>            color: #2c3e50;<br>            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);<br>            opacity: 0;<br>            transform: translateY(20px);<br>            transition: all 0.5s ease;<br>        }<br>        <br>        .message.show {<br>            opacity: 1;<br>            transform: translateY(0);<br>        }<br>        <br>        .score-board {<br>            display: flex;<br>            justify-content: center;<br>            gap: 30px;<br>            margin: 20px 0;<br>            font-size: 1.2rem;<br>            font-weight: bold;<br>        }<br>        <br>        .score {<br>            padding: 10px 20px;<br>            border-radius: 10px;<br>            background-color: #f8f9fa;<br>        }<br>        <br>        .x-score { color: #e74c3c; }<br>        .o-score { color: #2ecc71; }<br>        .draws { color: #3498db; }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div class=&quot;container&quot;&gt;<br>        &lt;h1&gt;Tic Tac Toe&lt;/h1&gt;<br>        &lt;div class=&quot;status&quot; id=&quot;status&quot;&gt;Player X&#039;s turn&lt;/div&gt;<br>        <br>        &lt;div class=&quot;score-board&quot;&gt;<br>            &lt;div class=&quot;score x-score&quot;&gt;X: &lt;span id=&quot;xScore&quot;&gt;0&lt;/span&gt;&lt;/div&gt;<br>            &lt;div class=&quot;score draws&quot;&gt;Draws: &lt;span id=&quot;drawScore&quot;&gt;0&lt;/span&gt;&lt;/div&gt;<br>            &lt;div class=&quot;score o-score&quot;&gt;O: &lt;span id=&quot;oScore&quot;&gt;0&lt;/span&gt;&lt;/div&gt;<br>        &lt;/div&gt;<br>        <br>        &lt;div class=&quot;board&quot; id=&quot;board&quot;&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;0&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;1&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;2&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;3&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;4&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;5&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;6&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;7&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;8&quot;&gt;&lt;/div&gt;<br>        &lt;/div&gt;<br>        <br>        &lt;div class=&quot;message&quot; id=&quot;message&quot;&gt;&lt;/div&gt;<br>        <br>        &lt;div class=&quot;controls&quot;&gt;<br>            &lt;button id=&quot;newGameBtn&quot;&gt;New Game&lt;/button&gt;<br>            &lt;button id=&quot;resetBtn&quot;&gt;Reset Scores&lt;/button&gt;<br>        &lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;script&gt;<br>        document.addEventListener(&#039;DOMContentLoaded&#039;, () =&gt; {<br>            // Game state<br>            const board = Array(9).fill(&#039;&#039;);<br>            let currentPlayer = &#039;X&#039;;<br>            let gameActive = true;<br>            let scores = { X: 0, O: 0, draws: 0 };<br>            <br>            // DOM elements<br>            const cells = document.querySelectorAll(&#039;.cell&#039;);<br>            const statusDisplay = document.getElementById(&#039;status&#039;);<br>            const messageDisplay = document.getElementById(&#039;message&#039;);<br>            const newGameBtn = document.getElementById(&#039;newGameBtn&#039;);<br>            const resetBtn = document.getElementById(&#039;resetBtn&#039;);<br>            const xScoreDisplay = document.getElementById(&#039;xScore&#039;);<br>            const oScoreDisplay = document.getElementById(&#039;oScore&#039;);<br>            const drawScoreDisplay = document.getElementById(&#039;drawScore&#039;);<br>            <br>            // Winning combinations<br>            const winPatterns = [<br>                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows<br>                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns<br>                [0, 4, 8], [2, 4, 6]             // diagonals<br>            ];<br>            <br>            // Initialize game<br>            initGame();<br>            <br>            function initGame() {<br>                board.fill(&#039;&#039;);<br>                gameActive = true;<br>                currentPlayer = &#039;X&#039;;<br>                statusDisplay.textContent = &quot;Player X&#039;s turn&quot;;<br>                messageDisplay.textContent = &#039;&#039;;<br>                messageDisplay.classList.remove(&#039;show&#039;);<br>                <br>                cells.forEach(cell =&gt; {<br>                    cell.textContent = &#039;&#039;;<br>                    cell.classList.remove(&#039;x&#039;, &#039;o&#039;, &#039;winning-cell&#039;);<br>                    cell.addEventListener(&#039;click&#039;, handleCellClick);<br>                });<br>            }<br>            <br>            function handleCellClick(e) {<br>                const cell = e.target;<br>                const index = parseInt(cell.getAttribute(&#039;data-index&#039;));<br>                <br>                // Check if cell is already taken or game is inactive<br>                if (board[index] !== &#039;&#039; || !gameActive) return;<br>                <br>                // Update board and UI<br>                board[index] = currentPlayer;<br>                cell.textContent = currentPlayer;<br>                cell.classList.add(currentPlayer.toLowerCase());<br>                <br>                // Check for win or draw<br>                if (checkWin()) {<br>                    endGame(false);<br>                } else if (checkDraw()) {<br>                    endGame(true);<br>                } else {<br>                    // Switch player<br>                    currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>                    statusDisplay.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br>                }<br>            }<br>            <br>            function checkWin() {<br>                for (const pattern of winPatterns) {<br>                    const [a, b, c] = pattern;<br>                    if (board[a] &amp;&amp; board[a] === board[b] &amp;&amp; board[a] === board[c]) {<br>                        // Highlight winning cells<br>                        pattern.forEach(index =&gt; {<br>                            cells[index].classList.add(&#039;winning-cell&#039;);<br>                        });<br>                        return true;<br>                    }<br>                }<br>                return false;<br>            }<br>            <br>            function checkDraw() {<br>                return board.every(cell =&gt; cell !== &#039;&#039;);<br>            }<br>            <br>            function endGame(isDraw) {<br>                gameActive = false;<br>                <br>                if (isDraw) {<br>                    statusDisplay.textContent = &quot;Game ended in a draw!&quot;;<br>                    messageDisplay.textContent = &quot;It&#039;s a tie!&quot;;<br>                    scores.draws++;<br>                    drawScoreDisplay.textContent = scores.draws;<br>                } else {<br>                    statusDisplay.textContent = <code>Player ${currentPlayer} wins!</code>;<br>                    messageDisplay.textContent = <code>Player ${currentPlayer} wins!</code>;<br>                    scores[currentPlayer]++;<br>                    if (currentPlayer === &#039;X&#039;) {<br>                        xScoreDisplay.textContent = scores.X;<br>                    } else {<br>                        oScoreDisplay.textContent = scores.O;<br>                    }<br>                }<br>                <br>                messageDisplay.classList.add(&#039;show&#039;);<br>                <br>                // Create confetti celebration<br>                createConfetti();<br>            }<br>            <br>            function createConfetti() {<br>                const colors = [&#039;#e74c3c&#039;, &#039;#2ecc71&#039;, &#039;#3498db&#039;, &#039;#f1c40f&#039;, &#039;#9b59b6&#039;, &#039;#1abc9c&#039;];<br>                const container = document.querySelector(&#039;.container&#039;);<br>                const confettiCount = 150;<br>                <br>                for (let i = 0; i &lt; confettiCount; i++) {<br>                    const confetti = document.createElement(&#039;div&#039;);<br>                    confetti.classList.add(&#039;confetti&#039;);<br>                    <br>                    // Random properties<br>                    const size = Math.random() * 10 + 5;<br>                    const color = colors[Math.floor(Math.random() * colors.length)];<br>                    const left = Math.random() * 100;<br>                    const animationDelay = Math.random() * 5;<br>                    const animationDuration = Math.random() * 3 + 2;<br>                    <br>                    confetti.style.width = <code>${size}px</code>;<br>                    confetti.style.height = <code>${size}px</code>;<br>                    confetti.style.backgroundColor = color;<br>                    confetti.style.left = <code>${left}%</code>;<br>                    confetti.style.top = &#039;-10px&#039;;<br>                    confetti.style.opacity = &#039;0&#039;;<br>                    confetti.style.animation = <code>fall ${animationDuration}s ${animationDelay}s linear forwards</code>;<br>                    <br>                    // Add rotation for some confetti<br>                    if (Math.random() &gt; 0.5) {<br>                        confetti.style.borderRadius = &#039;50%&#039;;<br>                    }<br>                    <br>                    document.body.appendChild(confetti);<br>                    <br>                    // Remove confetti after animation<br>                    setTimeout(() =&gt; {<br>                        confetti.remove();<br>                    }, (animationDuration + animationDelay) * 1000);<br>                }<br>            }<br>            <br>            // Add CSS for confetti animation<br>            const style = document.createElement(&#039;style&#039;);<br>            style.textContent = <code><br>                @keyframes fall {<br>                    0% {<br>                        transform: translateY(0) rotate(0deg);<br>                        opacity: 1;<br>                    }<br>                    100% {<br>                        transform: translateY(100vh) rotate(360deg);<br>                        opacity: 0;<br>                    }<br>                }<br>            </code>;<br>            document.head.appendChild(style);<br>            <br>            // Event listeners<br>            newGameBtn.addEventListener(&#039;click&#039;, initGame);<br>            <br>            resetBtn.addEventListener(&#039;click&#039;, () =&gt; {<br>                scores = { X: 0, O: 0, draws: 0 };<br>                xScoreDisplay.textContent = &#039;0&#039;;<br>                oScoreDisplay.textContent = &#039;0&#039;;<br>                drawScoreDisplay.textContent = &#039;0&#039;;<br>                initGame();<br>            });<br>        });<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>## Features of this Tic Tac Toe Game:<br><br>1. **Modern Design**:<br>   - Gradient background with a clean game board<br>   - Responsive layout that works on all devices<br>   - Smooth animations and hover effects<br><br>2. **Game Functionality**:<br>   - Turn-based gameplay with X and O<br>   - Win detection for all possible combinations<br>   - Draw detection when the board is full<br>   - Score tracking for wins and draws<br><br>3. **Special Finish Animation**:<br>   - When the game ends (win or draw), a colorful confetti celebration rains down<br>   - The winning message appears with a smooth fade-in animation<br>   - Winning cells pulse with a golden glow effect<br><br>4. **User Controls**:<br>   - &quot;New Game&quot; button to start a fresh game<br>   - &quot;Reset Scores&quot; button to reset all counters<br>   - Clear status messages showing whose turn it is or the game result<br><br>The confetti effect is created entirely with CSS animations and JavaScript - no external libraries needed. The confetti pieces have random sizes, colors, and fall speeds to create a realistic celebration effect.<br><br>Simply save this code as <code>index.html</code> and open it in any modern browser to play!</div>
+        </div>
+    </div>
+</body>
+</html>

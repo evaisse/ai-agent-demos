@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> openai/gpt-4o-mini</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:27:31.759Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">1194</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.597s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0007</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Certainly! Below is a simple implementation of a Tic Tac Toe game in a single HTML file named <code>index.html</code>. This version includes a twist at the end with an animation when the game concludes.<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            font-family: Arial, sans-serif;<br>            display: flex;<br>            flex-direction: column;<br>            align-items: center;<br>            justify-content: center;<br>            height: 100vh;<br>            margin: 0;<br>            background-color: #f0f0f0;<br>        }<br><br>        h1 {<br>            margin-bottom: 20px;<br>        }<br><br>        #board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 100px);<br>            grid-template-rows: repeat(3, 100px);<br>            gap: 5px;<br>        }<br><br>        .cell {<br>            width: 100px;<br>            height: 100px;<br>            display: flex;<br>            align-items: center;<br>            justify-content: center;<br>            font-size: 24px;<br>            background-color: white;<br>            border: 2px solid #444;<br>            cursor: pointer;<br>        }<br><br>        .cell:hover {<br>            background-color: #e0e0e0;<br>        }<br><br>        .winner {<br>            color: green;<br>            animation: fadeIn 1s;<br>        }<br><br>        @keyframes fadeIn {<br>            from {<br>                opacity: 0;<br>            }<br>            to {<br>                opacity: 1;<br>            }<br>        }<br><br>        #message {<br>            margin-top: 20px;<br>            font-size: 20px;<br>            display: none;<br>        }<br><br>        .twist {<br>            animation: spin 2s forwards;<br>        }<br><br>        @keyframes spin {<br>            from {<br>                transform: rotate(0deg);<br>            }<br>            to {<br>                transform: rotate(360deg);<br>            }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;h1&gt;Tic Tac Toe&lt;/h1&gt;<br>    &lt;div id=&quot;board&quot;&gt;&lt;/div&gt;<br>    &lt;div id=&quot;message&quot;&gt;&lt;/div&gt;<br>    &lt;button onclick=&quot;restartGame()&quot;&gt;Restart Game&lt;/button&gt;<br><br>    &lt;script&gt;<br>        const boardElement = document.getElementById(&#039;board&#039;);<br>        const messageElement = document.getElementById(&#039;message&#039;);<br>        let board = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>        let currentPlayer = &#039;X&#039;;<br>        let gameActive = true;<br><br>        const winningConditions = [<br>            [0, 1, 2],<br>            [3, 4, 5],<br>            [6, 7, 8],<br>            [0, 3, 6],<br>            [1, 4, 7],<br>            [2, 5, 8],<br>            [0, 4, 8],<br>            [2, 4, 6]<br>        ];<br><br>        function createBoard() {<br>            boardElement.innerHTML = &#039;&#039;;<br>            board.forEach((cell, index) =&gt; {<br>                const cellElement = document.createElement(&#039;div&#039;);<br>                cellElement.classList.add(&#039;cell&#039;);<br>                cellElement.innerText = cell;<br>                cellElement.addEventListener(&#039;click&#039;, () =&gt; handleCellClick(index));<br>                boardElement.appendChild(cellElement);<br>            });<br>        }<br><br>        function handleCellClick(index) {<br>            if (board[index] === &#039;&#039; &amp;&amp; gameActive) {<br>                board[index] = currentPlayer;<br>                checkResult();<br>                currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>                createBoard();<br>            }<br>        }<br><br>        function checkResult() {<br>            let roundWon = false;<br><br>            for (let i = 0; i &lt; winningConditions.length; i++) {<br>                const [a, b, c] = winningConditions[i];<br>                if (board[a] === &#039;&#039; || board[b] === &#039;&#039; || board[c] === &#039;&#039;) continue;<br>                if (board[a] === board[b] &amp;&amp; board[a] === board[c]) {<br>                    roundWon = true;<br>                    break;<br>                }<br>            }<br><br>            if (roundWon) {<br>                gameActive = false;<br>                messageElement.innerText = <code>Player ${currentPlayer} wins!</code>;<br>                messageElement.style.display = &#039;block&#039;;<br>                animateTwist();<br>            } else if (!board.includes(&#039;&#039;)) {<br>                gameActive = false;<br>                messageElement.innerText = <code>It&#039;s a draw!</code>;<br>                messageElement.style.display = &#039;block&#039;;<br>            }<br>        }<br><br>        function animateTwist() {<br>            boardElement.classList.add(&#039;twist&#039;);<br>        }<br><br>        function restartGame() {<br>            board = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>            currentPlayer = &#039;X&#039;;<br>            gameActive = true;<br>            messageElement.style.display = &#039;none&#039;;<br>            boardElement.classList.remove(&#039;twist&#039;);<br>            createBoard();<br>        }<br><br>        createBoard();<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>### How to Use<br>1. Create a file named <code>index.html</code> and copy the code above into it.<br>2. Open the <code>index.html</code> file in any web browser.<br>3. Play the Tic Tac Toe game by clicking on the cells. The game will announce the winner or if it’s a draw, and it will apply a spinning animation effect to the board when the game ends.<br>4. Click the &quot;Restart Game&quot; button to reset and play again.<br><br>Feel free to modify the styles and animations as you see fit! Enjoy the game!</div>
+        </div>
+    </div>
+</body>
+</html>

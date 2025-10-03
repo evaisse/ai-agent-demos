@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Demo Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            position: relative;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            flex: 1;
+        }
+        
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+        
+        .breadcrumb-item:hover {
+            opacity: 1;
+        }
+        
+        .breadcrumb-separator {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb-home {
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb-demo {
+            font-weight: 500;
+        }
+        
+        .breadcrumb-model {
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        
+        .burger-menu {
+            display: none;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 1;
+            transition: background 0.3s ease;
+        }
+        
+        .burger-menu:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .nav-btn {
+            padding: 0.5rem 0.75rem;
+            font-size: 1rem;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .nav-btn:disabled:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .main-content {
+            display: flex;
+            height: calc(100vh - 120px);
+        }
+        
+        .second-header {
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.75rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 999;
+            position: relative;
+        }
+        
+        .second-header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .model-selector {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            min-width: 200px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .model-selector option {
+            background: white;
+            color: #374151;
+        }
+        
+        .info-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 1px solid rgba(102,126,234,0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .info-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(102,126,234,0.3);
+        }
+        
+        .info-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .demo-frame {
+            flex: 1;
+            background: white;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .sidebar {
+            width: 400px;
+            background: white;
+            border-left: 1px solid #e2e8f0;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+            position: relative;
+        }
+
+        .title-selector {
+            appearance: none;
+            background: transparent;
+            border: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a202c;
+            width: 100%;
+            cursor: pointer;
+            margin: 0;
+            padding: 0.25rem 0;
+            font-family: inherit;
+        }
+
+        .title-selector:focus {
+            outline: 2px solid #4299e1;
+            outline-offset: 2px;
+        }
+
+        .subtitle-selector {
+            appearance: none;
+            background: transparent;
+            border: none;
+            color: #718096;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            width: 100%;
+            cursor: pointer;
+            padding: 0.25rem 0;
+            font-family: inherit;
+        }
+
+        .subtitle-selector:focus {
+            outline: 2px solid #4299e1;
+            outline-offset: 2px;
+        }
+
+        .title-selector option, .subtitle-selector option {
+            background: white;
+            color: #1a202c;
+            padding: 0.5rem;
+        }
+        
+        .sidebar-content {
+            padding: 1.5rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            padding-top: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .metric-rank {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+        }
+        
+        .metric-rank.rank-good {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            color: #fff;
+        }
+        
+        .metric-rank.rank-bad {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            color: #fff;
+        }
+        
+        .metric-rank.rank-medium {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #fff;
+        }
+        
+        .rank-visual {
+            display: inline-flex;
+            align-items: center;
+            gap: 1px;
+            margin-left: 2px;
+        }
+        
+        .rank-dot {
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+        
+        .rank-dot.filled {
+            background: #fff;
+        }
+        
+        .section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+        
+        .section-content {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .no-demo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100%;
+            text-align: center;
+            color: #718096;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .no-demo-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .demo-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .demo-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-card-prompt {
+            font-size: 0.85rem;
+            color: #718096;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .demo-card-models {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .model-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        
+        .model-badge:hover {
+            transform: scale(1.05);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #718096;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        
+        .close-btn:hover {
+            background: #e2e8f0;
+        }
+        
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 1.1rem;
+            color: #718096;
+        }
+        
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: #e53e3e;
+        }
+        
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Media queries for responsive design */
+        @media (max-width: 768px) {
+            .burger-menu {
+                display: block;
+            }
+            
+            .breadcrumbs {
+                font-size: 0.9rem;
+            }
+            
+            .breadcrumb-model {
+                display: none;
+            }
+            
+            .breadcrumb-demo {
+                font-size: 0.8rem;
+            }
+            
+            
+            .nav-btn {
+                padding: 0.4rem 0.5rem;
+                font-size: 1rem;
+            }
+            
+            .sidebar {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 100%;
+                z-index: 2000;
+                transform: translateX(100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            /* On desktop, sidebar is open by default */
+            .sidebar {
+                transform: translateX(0);
+                width: 400px;
+            }
+            
+            .sidebar.desktop-closed {
+                transform: translateX(100%);
+            }
+        }
+        
+        /* Overlay for mobile when sidebar is open */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar-overlay.show {
+                display: block;
+            }
+        }
+        
+        /* Settings Drawer */
+        .settings-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 350px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 2000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .settings-drawer.open {
+            transform: translateX(0);
+        }
+        
+        .settings-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+        }
+        
+        .settings-overlay.show {
+            display: block;
+        }
+        
+        .settings-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .settings-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a202c;
+        }
+        
+        .settings-content {
+            padding: 1.5rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+        
+        .settings-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .settings-section p {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .settings-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .settings-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(102,126,234,0.3);
+        }
+        
+        .shortcut-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .shortcut-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 0;
+        }
+        
+        .shortcut-item kbd {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            font-family: monospace;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #4a5568;
+            min-width: 2rem;
+            text-align: center;
+        }
+        
+        .shortcut-item span {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .settings-drawer {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="breadcrumbs" id="breadcrumbs">
+            <a href="/" class="breadcrumb-item breadcrumb-home" title="Home">
+                🏠
+            </a>
+        </div>
+        
+        <div class="header-actions">
+            <button class="burger-menu" id="burgerMenu" title="Toggle menu">
+                ☰
+            </button>
+            <button class="nav-btn" id="randomBtn" title="Random demo & model">🎲</button>
+        </div>
+    </div>
+    
+    <div class="second-header" id="secondHeader" style="display: none;">
+        <div class="second-header-content">
+            <select class="model-selector" id="modelSelector">
+                <option value="">Select a model...</option>
+            </select>
+        </div>
+        <button class="info-btn" id="infoBtn" disabled>ℹ️</button>
+    </div>
+        
+    <!-- Hidden selectors for backward compatibility with existing JavaScript -->
+    <select id="demoSelector" style="display: none;">
+        <option value="">Loading demos...</option>
+    </select>
+    
+    <div class="main-content">
+        <div class="loading" id="loadingState">
+            🔄 Loading demos...
+        </div>
+        
+        <div class="error" id="errorState" style="display: none;">
+            <div class="error-icon">⚠️</div>
+            <h2>Failed to Load Demos</h2>
+            <p>Could not load demos.json. Make sure to run:</p>
+            <p><code>npm run generate-viewer</code></p>
+        </div>
+        
+        <iframe class="demo-frame" id="demoFrame" src="about:blank" style="display: none;"></iframe>
+        
+        <div class="no-demo" id="noDemo" style="display: none;">
+            <div class="no-demo-icon">🎨</div>
+            <h2>Select a Demo to Explore</h2>
+            <p>Choose from the available demos and models below:</p>
+            <div id="demoGrid" class="demo-grid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <button class="close-btn" id="closeBtn">×</button>
+                <select class="title-selector" id="sidebarTitleSelector">
+                    <option value="">Select Demo...</option>
+                </select>
+                <select class="subtitle-selector" id="sidebarModelSelector">
+                    <option value="">Select Model...</option>
+                </select>
+            </div>
+            <div class="sidebar-content" id="sidebarContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="settings-overlay" id="settingsOverlay"></div>
+        <div class="settings-drawer" id="settingsDrawer">
+            <div class="settings-header">
+                <h2>Settings & Info</h2>
+                <button class="close-btn" id="settingsCloseBtn">×</button>
+            </div>
+            <div class="settings-content">
+                <div class="settings-section">
+                    <h3>🚀 Project</h3>
+                    <p>AI Demo Generator - Create and manage AI-powered HTML demos</p>
+                    <a href="https://github.com/evaisse/ai-agent-demos" target="_blank" rel="noopener noreferrer" class="settings-link">
+                        📂 View on GitHub
+                    </a>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>💡 Submit a Demo</h3>
+                    <p>Have an idea for a new demo? Submit a request!</p>
+                    <a href="https://github.com/evaisse/ai-agent-demos/issues/new?template=demo-request.md&title=[Demo%20Request]%20" target="_blank" rel="noopener noreferrer" class="settings-link">
+                        ✨ Request New Demo
+                    </a>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>🔧 Keyboard Shortcuts</h3>
+                    <div class="shortcut-list">
+                        <div class="shortcut-item">
+                            <span style="color: #4a5568;">No keyboard shortcuts available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let demos = [];
+        let currentDemo = null;
+        let currentModel = null;
+        
+        const demoSelector = document.getElementById('demoSelector');
+        const modelSelector = document.getElementById('modelSelector');
+        const demoFrame = document.getElementById('demoFrame');
+        const sidebar = document.getElementById('sidebar');
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const noDemo = document.getElementById('noDemo');
+        const sidebarTitleSelector = document.getElementById('sidebarTitleSelector');
+        const sidebarModelSelector = document.getElementById('sidebarModelSelector');
+        const sidebarContent = document.getElementById('sidebarContent');
+        const closeBtn = document.getElementById('closeBtn');
+        const burgerMenu = document.getElementById('burgerMenu');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const randomBtn = document.getElementById('randomBtn');
+        const infoBtn = document.getElementById('infoBtn');
+        const secondHeader = document.getElementById('secondHeader');
+        const settingsDrawer = document.getElementById('settingsDrawer');
+        const settingsOverlay = document.getElementById('settingsOverlay');
+        const settingsCloseBtn = document.getElementById('settingsCloseBtn');
+        
+        // Load demos from JSON file
+        async function loadDemos() {
+            try {
+                const response = await fetch('./demos.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                demos = await response.json();
+                populateDemoSelector();
+                populateSidebarDemoSelector();
+                applyURLState();
+                hideLoading();
+                updateNavigationButtons();
+                updateSecondHeader();
+                
+            } catch (error) {
+                console.error('Failed to load demos:', error);
+                showError();
+            }
+        }
+        
+        function populateDemoSelector() {
+            demoSelector.innerHTML = '<option value="">Select a demo...</option>';
+            
+            demos.forEach(demo => {
+                const option = document.createElement('option');
+                option.value = demo.name;
+                option.textContent = demo.title;
+                demoSelector.appendChild(option);
+            });
+            
+            demoSelector.disabled = false;
+        }
+
+        function populateSidebarDemoSelector() {
+            sidebarTitleSelector.innerHTML = '<option value="">Select Demo...</option>';
+            
+            demos.forEach(demo => {
+                const option = document.createElement('option');
+                option.value = demo.name;
+                option.textContent = demo.title;
+                sidebarTitleSelector.appendChild(option);
+            });
+            
+            sidebarTitleSelector.disabled = false;
+        }
+
+        function updateSidebarModelSelector(autoSelectFirst = true) {
+            sidebarModelSelector.innerHTML = '<option value="">Select Model...</option>';
+            
+            if (currentDemo) {
+                currentDemo.models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.name;
+                    option.textContent = model.name;
+                    sidebarModelSelector.appendChild(option);
+                });
+                sidebarModelSelector.disabled = false;
+
+                // Set the current model if available
+                if (currentModel && autoSelectFirst) {
+                    sidebarModelSelector.value = currentModel.name;
+                }
+            } else {
+                sidebarModelSelector.disabled = true;
+            }
+        }
+        
+        function hideLoading() {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'none';
+            
+            if (demos.length === 0) {
+                noDemo.style.display = 'flex';
+            } else {
+                // Show demo grid when no demo is selected
+                if (!currentDemo) {
+                    showDemoGrid();
+                }
+            }
+        }
+        
+        function showDemoGrid() {
+            const demoGrid = document.getElementById('demoGrid');
+            demoGrid.innerHTML = '';
+            
+            demos.forEach(demo => {
+                const demoCard = document.createElement('div');
+                demoCard.className = 'demo-card';
+                demoCard.id = `demo-${demo.name}`; // Add unique ID for anchor linking
+                
+                const modelsHTML = demo.models.map(model => {
+                    const modelUrl = `?demo=${encodeURIComponent(demo.name)}&model=${encodeURIComponent(model.name.replace('/', '-'))}`;
+                    return `<a href="${modelUrl}" class="model-badge" onclick="selectDemoModel(event, '${demo.name}', '${model.name}')">${model.name}</a>`;
+                }).join('');
+                
+                demoCard.innerHTML = `
+                    <div class="demo-card-title">${demo.title}</div>
+                    <div class="demo-card-prompt">${escapeHtml(demo.prompt)}</div>
+                    <div class="demo-card-models">
+                        ${modelsHTML}
+                    </div>
+                `;
+                
+                demoGrid.appendChild(demoCard);
+            });
+            
+            noDemo.style.display = 'flex';
+            demoFrame.style.display = 'none';
+        }
+        
+        function selectDemoModel(event, demoName, modelName) {
+            event.preventDefault();
+            
+            // Find and select the demo
+            const demo = demos.find(d => d.name === demoName);
+            if (demo) {
+                demoSelector.value = demoName;
+                currentDemo = demo;
+                updateModelSelector(false); // Don't auto-select when jumping to specific demo/model
+                updateBreadcrumbs();
+                updateSecondHeader();
+                
+                // Select the model
+                setTimeout(() => {
+                    modelSelector.value = modelName;
+                    currentModel = demo.models.find(m => m.name === modelName);
+                    showDemo();
+                    updateURL();
+                    updateBreadcrumbs();
+                    updateSecondHeader();
+                }, 100);
+            }
+        }
+        
+        function showError() {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'flex';
+            noDemo.style.display = 'none';
+            demoFrame.style.display = 'none';
+        }
+        
+        // Parse query string and return navigation state
+        function parseParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                demo: params.get('demo'),
+                model: params.get('model'),
+                info: params.get('info') === 'open'
+            };
+        }
+        
+        // Update URL with current state using pushState
+        function updateURL() {
+            const params = new URLSearchParams();
+            
+            if (currentDemo) {
+                params.set('demo', currentDemo.name);
+            }
+            
+            if (currentModel) {
+                // Convert / to - for URL safety
+                params.set('model', currentModel.name.replace('/', '-'));
+            }
+            
+            // Check sidebar state based on device type
+            if (isMobile()) {
+                if (sidebar.classList.contains('open')) {
+                    params.set('info', 'open');
+                }
+            } else {
+                if (!sidebar.classList.contains('desktop-closed')) {
+                    params.set('info', 'open');
+                }
+            }
+            
+            const queryString = params.toString();
+            const newURL = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
+            history.pushState(null, null, newURL);
+        }
+        
+        // Apply navigation state from URL parameters
+        function applyURLState() {
+            if (demos.length === 0) return;
+            
+            const state = parseParams();
+            
+            if (state.demo) {
+                // Find and select the demo
+                const demo = demos.find(d => d.name === state.demo);
+                if (demo) {
+                    demoSelector.value = state.demo;
+                    currentDemo = demo;
+                    updateModelSelector(!state.model); // Only auto-select if no model specified in URL
+                    updateBreadcrumbs();
+                    updateSecondHeader();
+                    
+                    // If model parameter is provided, try to select it
+                    if (state.model) {
+                        // Convert back from URL-safe format (- to /)
+                        const modelName = state.model.replace('-', '/');
+                        const model = demo.models.find(m => m.name === modelName);
+                        if (model) {
+                            setTimeout(() => {
+                                modelSelector.value = modelName;
+                                currentModel = model;
+                                showDemo();
+                                
+                                // Apply info panel state
+                                if (state.info) {
+                                    showSidebar();
+                                }
+                            }, 100); // Small delay to ensure model selector is populated
+                        }
+                    } else if (state.info && currentDemo) {
+                        // Show info panel only if there's a demo selected
+                        showSidebar();
+                    }
+                }
+            }
+        }
+        
+        // Navigation functions
+        function getRandomDemoAndModel() {
+            if (demos.length === 0) return null;
+            
+            const randomDemo = demos[Math.floor(Math.random() * demos.length)];
+            if (randomDemo.models.length === 0) return null;
+            
+            const randomModel = randomDemo.models[Math.floor(Math.random() * randomDemo.models.length)];
+            
+            return {
+                demo: randomDemo,
+                model: randomModel
+            };
+        }
+        
+        
+        function updateNavigationButtons() {
+            const hasData = demos.length > 0;
+            randomBtn.disabled = !hasData;
+        }
+        
+        function updateSecondHeader() {
+            // Show second header when we have a current demo, hide when on home page
+            if (currentDemo) {
+                secondHeader.style.display = 'flex';
+                // Enable info button when we have a model selected
+                if (infoBtn) {
+                    infoBtn.disabled = !currentModel;
+                    console.log('updateSecondHeader: currentModel:', currentModel, 'infoBtn.disabled:', infoBtn.disabled);
+                }
+            } else {
+                secondHeader.style.display = 'none';
+            }
+        }
+        
+        function showSettingsDrawer() {
+            settingsDrawer.classList.add('open');
+            settingsOverlay.classList.add('show');
+        }
+        
+        function hideSettingsDrawer() {
+            settingsDrawer.classList.remove('open');
+            settingsOverlay.classList.remove('show');
+        }
+        
+        // Event listeners
+        demoSelector.addEventListener('change', function() {
+            const demoName = this.value;
+            if (demoName) {
+                currentDemo = demos.find(d => d.name === demoName);
+                updateModelSelector();
+                hideDemo();
+                updateBreadcrumbs();
+            } else {
+                currentDemo = null;
+                updateModelSelector();
+                hideDemo();
+                updateBreadcrumbs();
+            }
+            updateURL();
+            updateNavigationButtons();
+            updateSecondHeader();
+        });
+        
+        modelSelector.addEventListener('change', function() {
+            const modelName = this.value;
+            if (modelName && currentDemo) {
+                currentModel = currentDemo.models.find(m => m.name === modelName);
+                showDemo();
+                updateBreadcrumbs();
+            } else {
+                currentModel = null;
+                hideDemo();
+                updateBreadcrumbs();
+            }
+            updateURL();
+            updateSecondHeader();
+        });
+
+        // Sidebar selector event listeners
+        sidebarTitleSelector.addEventListener('change', function() {
+            const demoName = this.value;
+            if (demoName) {
+                // Update main selectors to stay in sync
+                demoSelector.value = demoName;
+                currentDemo = demos.find(d => d.name === demoName);
+                updateModelSelector();
+                updateSidebarModelSelector();
+                hideDemo();
+                updateBreadcrumbs();
+            } else {
+                currentDemo = null;
+                updateModelSelector();
+                updateSidebarModelSelector();
+                hideDemo();
+                updateBreadcrumbs();
+            }
+            updateURL();
+            updateNavigationButtons();
+        });
+
+        sidebarModelSelector.addEventListener('change', function() {
+            const modelName = this.value;
+            if (modelName && currentDemo) {
+                // Update main selectors to stay in sync
+                modelSelector.value = modelName;
+                currentModel = currentDemo.models.find(m => m.name === modelName);
+                showDemo();
+                updateBreadcrumbs();
+            } else {
+                currentModel = null;
+                hideDemo();
+                updateBreadcrumbs();
+            }
+            updateURL();
+        });
+        
+        randomBtn.addEventListener('click', function() {
+            const random = getRandomDemoAndModel();
+            if (random) {
+                demoSelector.value = random.demo.name;
+                currentDemo = random.demo;
+                updateModelSelector(false); // Don't auto-select for random selection
+                updateBreadcrumbs();
+                updateSecondHeader();
+                
+                setTimeout(() => {
+                    modelSelector.value = random.model.name;
+                    currentModel = random.model;
+                    showDemo();
+                    updateURL();
+                    updateBreadcrumbs();
+                    updateSecondHeader();
+                }, 100);
+            }
+        });
+        
+        infoBtn.addEventListener('click', function() {
+            console.log('Info button clicked, currentModel:', currentModel);
+            if (currentModel) {
+                showSidebar();
+            }
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            hideSidebar();
+        });
+        
+        settingsCloseBtn.addEventListener('click', function() {
+            hideSettingsDrawer();
+        });
+        
+        
+        // Burger menu listener - always opens settings drawer
+        burgerMenu.addEventListener('click', function() {
+            if (settingsDrawer.classList.contains('open')) {
+                hideSettingsDrawer();
+            } else {
+                showSettingsDrawer();
+            }
+        });
+        
+        // Close drawers when clicking outside
+        document.addEventListener('click', function(e) {
+            const burgerMenu = document.getElementById('burgerMenu');
+            
+            // Close settings drawer if clicking outside (but not on burger menu)
+            if (!settingsDrawer.contains(e.target) && !burgerMenu.contains(e.target)) {
+                if (settingsDrawer.classList.contains('open')) {
+                    hideSettingsDrawer();
+                }
+            }
+            
+            // Close sidebar if clicking outside on mobile
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !burgerMenu.contains(e.target)) {
+                    if (sidebar.classList.contains('open')) {
+                        hideSidebar();
+                    }
+                }
+            }
+        });
+        
+        // Overlay click to close sidebar on mobile
+        sidebarOverlay.addEventListener('click', function() {
+            hideSidebar();
+        });
+        
+        // Overlay click to close settings drawer
+        settingsOverlay.addEventListener('click', function() {
+            hideSettingsDrawer();
+        });
+        
+        // Handle browser back/forward navigation
+        window.addEventListener('popstate', function() {
+            applyURLState();
+        });
+        
+        // Handle window resize to adjust sidebar behavior
+        window.addEventListener('resize', function() {
+            if (!isMobile() && !sidebar.classList.contains('desktop-closed')) {
+                // On desktop, ensure sidebar is visible without 'open' class
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('show');
+            }
+            
+            // Close mobile controls when switching to desktop
+            if (!isMobile()) {
+                const controls = document.querySelector('.controls');
+                controls.classList.remove('show');
+            }
+        });
+        
+        function updateModelSelector(autoSelectFirst = true) {
+            modelSelector.innerHTML = '<option value="">Select a model...</option>';
+            
+            if (currentDemo) {
+                currentDemo.models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.name;
+                    option.textContent = model.name;
+                    modelSelector.appendChild(option);
+                });
+                modelSelector.disabled = false;
+                
+                // Auto-select the first model if available and autoSelectFirst is true
+                if (autoSelectFirst && currentDemo.models.length > 0) {
+                    modelSelector.value = currentDemo.models[0].name;
+                    currentModel = currentDemo.models[0];
+                    showDemo();
+                    updateBreadcrumbs();
+                }
+            } else {
+                modelSelector.disabled = true;
+                currentModel = null;
+                updateBreadcrumbs();
+            }
+            
+        }
+        
+        function showDemo() {
+            if (currentModel) {
+                demoFrame.src = currentModel.htmlPath;
+                demoFrame.style.display = 'block';
+                loadingState.style.display = 'none';
+                errorState.style.display = 'none';
+                noDemo.style.display = 'none';
+                
+                // Auto-open sidebar on desktop when demo is shown
+                if (!isMobile() && currentModel.results) {
+                    showSidebar();
+                }
+            }
+        }
+        
+        function hideDemo() {
+            demoFrame.style.display = 'none';
+            if (demos.length > 0) {
+                showDemoGrid();
+            }
+            hideSidebar();
+        }
+        
+        // Check if we're on mobile
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+        
+        function calculateRankings() {
+            if (!currentDemo || !currentModel) return {};
+            
+            const metrics = {
+                tokens: [],
+                duration: [],
+                cost: [],
+                context: []
+            };
+            
+            // Collect all metrics from models in current demo
+            currentDemo.models.forEach(model => {
+                if (model.results) {
+                    metrics.tokens.push({
+                        model: model.name,
+                        value: model.results.tokens?.total_tokens || 0
+                    });
+                    metrics.duration.push({
+                        model: model.name,
+                        value: parseFloat(model.results.execution?.duration_seconds) || 0
+                    });
+                    metrics.cost.push({
+                        model: model.name,
+                        value: model.results.cost?.total_cost || 0
+                    });
+                    metrics.context.push({
+                        model: model.name,
+                        value: model.results.model_card?.context_length || 0
+                    });
+                }
+            });
+            
+            // Sort and find rankings (lower is better for tokens, duration, cost; higher is better for context)
+            const rankings = {};
+            
+            // For tokens, duration, and cost - lower is better
+            ['tokens', 'duration', 'cost'].forEach(metric => {
+                metrics[metric].sort((a, b) => a.value - b.value);
+                const rank = metrics[metric].findIndex(m => m.model === currentModel.name) + 1;
+                rankings[metric] = {
+                    rank: rank,
+                    total: metrics[metric].length,
+                    isBest: rank === 1,
+                    isWorst: rank === metrics[metric].length && metrics[metric].length > 1
+                };
+            });
+            
+            // For context - higher is better
+            metrics.context.sort((a, b) => b.value - a.value);
+            const contextRank = metrics.context.findIndex(m => m.model === currentModel.name) + 1;
+            rankings.context = {
+                rank: contextRank,
+                total: metrics.context.length,
+                isBest: contextRank === 1,
+                isWorst: contextRank === metrics.context.length && metrics.context.length > 1
+            };
+            
+            return rankings;
+        }
+        
+        function createRankBadge(ranking, metricType) {
+            if (!ranking || ranking.total <= 1) return '';
+            
+            let className = 'metric-rank';
+            
+            // Determine color based on performance
+            // For tokens, duration, cost: lower is better (rank 1 = green, last = red)
+            // For context: higher is better (rank 1 = green, last = red)
+            const performanceRatio = ranking.rank / ranking.total;
+            
+            if (metricType === 'context') {
+                // For context length, higher is better, so rank 1 is best
+                if (ranking.rank === 1) className += ' rank-good';
+                else if (ranking.rank === ranking.total) className += ' rank-bad';
+                else if (performanceRatio <= 0.4) className += ' rank-good';
+                else if (performanceRatio >= 0.7) className += ' rank-bad';
+                else className += ' rank-medium';
+            } else {
+                // For tokens, duration, cost: lower values are better
+                if (ranking.rank === 1) className += ' rank-good';
+                else if (ranking.rank === ranking.total) className += ' rank-bad';
+                else if (performanceRatio <= 0.4) className += ' rank-good';
+                else if (performanceRatio >= 0.7) className += ' rank-bad';
+                else className += ' rank-medium';
+            }
+            
+            // Create visual dots indicator
+            const dots = [];
+            for (let i = 0; i < ranking.total; i++) {
+                const filled = i < ranking.rank ? 'filled' : '';
+                dots.push(`<span class="rank-dot ${filled}"></span>`);
+            }
+            
+            return `<div class="${className}">
+                #${ranking.rank}/${ranking.total}
+                <span class="rank-visual">${dots.join('')}</span>
+            </div>`;
+        }
+        
+        function showSidebar() {
+            // Don't show sidebar on home page or if no model selected
+            if (!currentDemo || !currentModel) return;
+            
+            const results = currentModel.results;
+            
+            // Update sidebar selectors with current demo and model
+            sidebarTitleSelector.value = currentDemo.name;
+            updateSidebarModelSelector(false);
+            sidebarModelSelector.value = currentModel.name;
+            
+            let metricsHTML;
+            
+            if (results) {
+                // Model has been generated - show full details
+                const rankings = calculateRankings();
+                
+                metricsHTML = `
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            ${createRankBadge(rankings.tokens, 'tokens')}
+                            <div class="metric-value">${results.tokens?.total_tokens || 'N/A'}</div>
+                            <div class="metric-label">Total Tokens</div>
+                        </div>
+                        <div class="metric-card">
+                            ${createRankBadge(rankings.duration, 'duration')}
+                            <div class="metric-value">${results.execution?.duration_seconds || 'N/A'}s</div>
+                            <div class="metric-label">Duration</div>
+                        </div>
+                        <div class="metric-card">
+                            ${createRankBadge(rankings.cost, 'cost')}
+                            <div class="metric-value">$${results.cost?.total_cost?.toFixed(4) || '0.0000'}</div>
+                            <div class="metric-label">Total Cost</div>
+                        </div>
+                        <div class="metric-card">
+                            ${createRankBadge(rankings.context, 'context')}
+                            <div class="metric-value">${results.model_card?.context_length || 'N/A'}</div>
+                            <div class="metric-label">Context Length</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">Prompt</div>
+                        <div class="section-content">${escapeHtml(currentDemo.prompt)}</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">Model Information</div>
+                        <div class="section-content">
+                            <strong>Name:</strong> ${results.model_card?.name || currentModel.name}<br>
+                            <strong>ID:</strong> ${results.model_card?.id || currentModel.name}<br>
+                            <strong>Provider:</strong> ${results.model_card?.top_provider?.name || 'Unknown'}
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">Token Breakdown</div>
+                        <div class="section-content">
+                            <strong>Prompt Tokens:</strong> ${results.tokens?.prompt_tokens || 0}<br>
+                            <strong>Completion Tokens:</strong> ${results.tokens?.completion_tokens || 0}<br>
+                            <strong>Total Tokens:</strong> ${results.tokens?.total_tokens || 0}
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">Cost Breakdown</div>
+                        <div class="section-content">
+                            <strong>Prompt Cost:</strong> $${results.cost?.prompt_cost?.toFixed(6) || '0.000000'}<br>
+                            <strong>Completion Cost:</strong> $${results.cost?.completion_cost?.toFixed(6) || '0.000000'}<br>
+                            <strong>Total Cost:</strong> $${results.cost?.total_cost?.toFixed(6) || '0.000000'}
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">Generation Info</div>
+                        <div class="section-content">
+                            <strong>Generated:</strong> ${new Date(results.timestamp).toLocaleString()}<br>
+                            <strong>Duration:</strong> ${results.execution?.duration_seconds || 'N/A'} seconds<br>
+                            <strong>Temperature:</strong> ${results.request?.temperature || 'N/A'}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Model hasn't been generated yet - show basic info
+                metricsHTML = `
+                    <div class="section">
+                        <div class="section-title">📋 Demo Information</div>
+                        <div class="section-content">
+                            <strong>Demo:</strong> ${currentDemo.title}<br>
+                            <strong>Model:</strong> ${currentModel.name}
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">📝 Prompt</div>
+                        <div class="section-content">${escapeHtml(currentDemo.prompt)}</div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚠️ Status</div>
+                        <div class="section-content">
+                            This model hasn't been generated yet. The demo exists but no AI model has created the HTML output for this specific model.
+                            <br><br>
+                            <strong>To generate this model:</strong><br>
+                            Run the CLI command: <code>npm run gen -d ${currentDemo.name} -m ${currentModel.name}</code>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            sidebarContent.innerHTML = metricsHTML;
+            
+            if (isMobile()) {
+                sidebar.classList.add('open');
+                sidebarOverlay.classList.add('show');
+            } else {
+                sidebar.classList.remove('desktop-closed');
+            }
+            updateURL();
+        }
+        
+        function hideSidebar() {
+            if (isMobile()) {
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('show');
+            } else {
+                sidebar.classList.add('desktop-closed');
+            }
+            updateURL();
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Update breadcrumbs based on current demo and model
+        function updateBreadcrumbs() {
+            const breadcrumbs = document.getElementById('breadcrumbs');
+            
+            // Start with home
+            let breadcrumbsHTML = `
+                <a href="/" class="breadcrumb-item breadcrumb-home" title="Home">
+                    🏠
+                </a>
+            `;
+            
+            // Add demo if selected
+            if (currentDemo) {
+                breadcrumbsHTML += `
+                    <span class="breadcrumb-separator">›</span>
+                    <a href="/#demo-${encodeURIComponent(currentDemo.name)}" class="breadcrumb-item breadcrumb-demo" title="View ${currentDemo.title} demo card with all models">
+                        🎨 ${currentDemo.title}
+                    </a>
+                `;
+                
+                // Add model if selected
+                if (currentModel) {
+                    breadcrumbsHTML += `
+                        <span class="breadcrumb-separator">›</span>
+                        <span class="breadcrumb-item breadcrumb-model" title="Model: ${currentModel.name}">
+                            🤖 ${currentModel.name}
+                        </span>
+                    `;
+                }
+            }
+            
+            breadcrumbs.innerHTML = breadcrumbsHTML;
+        }
+        
+        // Add keyboard shortcuts for navigation
+        document.addEventListener('keydown', function(e) {
+            // Don't trigger shortcuts if user is typing in form fields
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+                return;
+            }
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    if (!sidebarPrevBtn.disabled) {
+                        e.preventDefault();
+                        sidebarPrevBtn.click();
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (!sidebarNextBtn.disabled) {
+                        e.preventDefault();
+                        sidebarNextBtn.click();
+                    }
+                    break;
+            }
+        });
+        
+        // Initialize
+        loadDemos();
+        updateBreadcrumbs();
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> x-ai/grok-4-fast</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:40:57.267Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">2432</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">10.156s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0012</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            font-family: Arial, sans-serif;<br>            display: flex;<br>            flex-direction: column;<br>            align-items: center;<br>            justify-content: center;<br>            height: 100vh;<br>            margin: 0;<br>            background-color: #f0f0f0;<br>        }<br>        #board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 100px);<br>            grid-template-rows: repeat(3, 100px);<br>            gap: 5px;<br>            margin-bottom: 20px;<br>        }<br>        .cell {<br>            background-color: white;<br>            border: 2px solid #333;<br>            display: flex;<br>            align-items: center;<br>            justify-content: center;<br>            font-size: 2em;<br>            font-weight: bold;<br>            cursor: pointer;<br>            user-select: none;<br>            transition: all 0.3s ease;<br>        }<br>        .cell:hover {<br>            background-color: #e0e0e0;<br>        }<br>        .cell.x {<br>            color: #ff4444;<br>        }<br>        .cell.o {<br>            color: #4444ff;<br>        }<br>        #status {<br>            font-size: 1.5em;<br>            margin-bottom: 10px;<br>            min-height: 30px;<br>        }<br>        #reset {<br>            padding: 10px 20px;<br>            font-size: 1em;<br>            background-color: #333;<br>            color: white;<br>            border: none;<br>            cursor: pointer;<br>            border-radius: 5px;<br>        }<br>        #reset:hover {<br>            background-color: #555;<br>        }<br>        /* Finish Animation: Original Twist - &quot;Victory Burst&quot; */<br>        /* When the game ends with a win, the winning cells burst outward with a colorful explosion effect,<br>           scaling up, rotating slightly, and emitting a radial gradient burst. For draw, cells fade to gray. */<br>        .winning {<br>            animation: victoryBurst 1s ease-out forwards;<br>            position: relative;<br>            overflow: hidden;<br>        }<br>        .winning::before {<br>            content: &#039;&#039;;<br>            position: absolute;<br>            top: 50%;<br>            left: 50%;<br>            width: 0;<br>            height: 0;<br>            background: radial-gradient(circle, rgba(255,255,0,0.8) 0%, rgba(255,0,0,0.6) 50%, transparent 100%);<br>            border-radius: 50%;<br>            transform: translate(-50%, -50%);<br>            animation: burstExpand 0.8s ease-out forwards;<br>            z-index: -1;<br>        }<br>        @keyframes victoryBurst {<br>            0% {<br>                transform: scale(1) rotate(0deg);<br>                background-color: white;<br>            }<br>            50% {<br>                transform: scale(1.3) rotate(5deg);<br>                background-color: #ffffaa;<br>                box-shadow: 0 0 20px rgba(255, 255, 0, 0.8);<br>            }<br>            100% {<br>                transform: scale(1.1) rotate(0deg);<br>                background-color: #fff;<br>                box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);<br>            }<br>        }<br>        @keyframes burstExpand {<br>            0% {<br>                width: 0;<br>                height: 0;<br>                opacity: 1;<br>            }<br>            100% {<br>                width: 200px;<br>                height: 200px;<br>                opacity: 0;<br>            }<br>        }<br>        .draw {<br>            animation: fadeToGray 1s ease-out forwards;<br>        }<br>        @keyframes fadeToGray {<br>            0% {<br>                background-color: white;<br>            }<br>            100% {<br>                background-color: #ccc;<br>                cursor: not-allowed;<br>            }<br>        }<br>        .game-over .cell {<br>            cursor: not-allowed;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;status&quot;&gt;Player X&#039;s turn&lt;/div&gt;<br>    &lt;div id=&quot;board&quot;&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;0&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;1&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;2&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;3&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;4&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;5&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;6&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;7&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;8&quot;&gt;&lt;/div&gt;<br>    &lt;/div&gt;<br>    &lt;button id=&quot;reset&quot;&gt;Reset Game&lt;/button&gt;<br><br>    &lt;script&gt;<br>        const board = Array(9).fill(null);<br>        const cells = document.querySelectorAll(&#039;.cell&#039;);<br>        const status = document.getElementById(&#039;status&#039;);<br>        const resetBtn = document.getElementById(&#039;reset&#039;);<br>        let currentPlayer = &#039;X&#039;;<br>        let gameOver = false;<br><br>        const winningCombos = [<br>            [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows<br>            [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns<br>            [0, 4, 8], [2, 4, 6] // diagonals<br>        ];<br><br>        function handleClick(event) {<br>            const cell = event.target;<br>            const index = parseInt(cell.dataset.index);<br><br>            if (board[index] || gameOver) return;<br><br>            board[index] = currentPlayer;<br>            cell.textContent = currentPlayer;<br>            cell.classList.add(currentPlayer.toLowerCase());<br><br>            const winCombo = checkWin();<br>            if (winCombo) {<br>                status.textContent = <code>Player ${currentPlayer} wins!</code>;<br>                highlightWinningCells(winCombo);<br>                gameOver = true;<br>                document.getElementById(&#039;board&#039;).classList.add(&#039;game-over&#039;);<br>                return;<br>            }<br><br>            if (board.every(cell =&gt; cell !== null)) {<br>                status.textContent = &quot;It&#039;s a draw!&quot;;<br>                applyDrawEffect();<br>                gameOver = true;<br>                document.getElementById(&#039;board&#039;).classList.add(&#039;game-over&#039;);<br>                return;<br>            }<br><br>            currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>            status.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br>        }<br><br>        function checkWin() {<br>            for (let combo of winningCombos) {<br>                const [a, b, c] = combo;<br>                if (board[a] &amp;&amp; board[a] === board[b] &amp;&amp; board[a] === board[c]) {<br>                    return combo;<br>                }<br>            }<br>            return null;<br>        }<br><br>        function highlightWinningCells(combo) {<br>            combo.forEach(index =&gt; {<br>                cells[index].classList.add(&#039;winning&#039;);<br>            });<br>        }<br><br>        function applyDrawEffect() {<br>            cells.forEach(cell =&gt; cell.classList.add(&#039;draw&#039;));<br>        }<br><br>        function resetGame() {<br>            board.fill(null);<br>            cells.forEach(cell =&gt; {<br>                cell.textContent = &#039;&#039;;<br>                cell.classList.remove(&#039;x&#039;, &#039;o&#039;, &#039;winning&#039;, &#039;draw&#039;);<br>            });<br>            currentPlayer = &#039;X&#039;;<br>            gameOver = false;<br>            status.textContent = &quot;Player X&#039;s turn&quot;;<br>            document.getElementById(&#039;board&#039;).classList.remove(&#039;game-over&#039;);<br>        }<br><br>        cells.forEach(cell =&gt; cell.addEventListener(&#039;click&#039;, handleClick));<br>        resetBtn.addEventListener(&#039;click&#039;, resetGame);<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre></div>
+        </div>
+    </div>
+</body>
+</html>

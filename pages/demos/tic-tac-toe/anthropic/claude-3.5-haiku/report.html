@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-3.5-haiku</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:31:07.626Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">1609</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.819s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0063</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Here&#039;s a complete HTML file with a Tic Tac Toe game and a unique finish animation:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            display: flex;<br>            flex-direction: column;<br>            align-items: center;<br>            font-family: Arial, sans-serif;<br>            background-color: #f0f0f0;<br>        }<br>        #board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 100px);<br>            grid-gap: 5px;<br>            margin: 20px 0;<br>        }<br>        .cell {<br>            width: 100px;<br>            height: 100px;<br>            background-color: white;<br>            border: 2px solid #333;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            font-size: 60px;<br>            cursor: pointer;<br>            transition: all 0.3s ease;<br>        }<br>        .cell:hover {<br>            background-color: #e0e0e0;<br>        }<br>        #status {<br>            font-size: 24px;<br>            margin-bottom: 20px;<br>        }<br>        #confetti-canvas {<br>            position: fixed;<br>            top: 0;<br>            left: 0;<br>            pointer-events: none;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;status&quot;&gt;Tic Tac Toe&lt;/div&gt;<br>    &lt;div id=&quot;board&quot;&gt;&lt;/div&gt;<br>    &lt;button onclick=&quot;resetGame()&quot;&gt;Reset Game&lt;/button&gt;<br>    &lt;canvas id=&quot;confetti-canvas&quot;&gt;&lt;/canvas&gt;<br><br>    &lt;script&gt;<br>        const board = document.getElementById(&#039;board&#039;);<br>        const status = document.getElementById(&#039;status&#039;);<br>        const confettiCanvas = document.getElementById(&#039;confetti-canvas&#039;);<br>        let currentPlayer = &#039;X&#039;;<br>        let gameBoard = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>        let gameActive = true;<br><br>        function createBoard() {<br>            board.innerHTML = &#039;&#039;;<br>            for (let i = 0; i &lt; 9; i++) {<br>                const cell = document.createElement(&#039;div&#039;);<br>                cell.classList.add(&#039;cell&#039;);<br>                cell.setAttribute(&#039;data-index&#039;, i);<br>                cell.addEventListener(&#039;click&#039;, cellClicked);<br>                board.appendChild(cell);<br>            }<br>        }<br><br>        function cellClicked(e) {<br>            const index = e.target.getAttribute(&#039;data-index&#039;);<br>            if (gameBoard[index] || !gameActive) return;<br><br>            gameBoard[index] = currentPlayer;<br>            e.target.textContent = currentPlayer;<br>            <br>            if (checkWinner()) {<br>                status.textContent = <code>${currentPlayer} Wins!</code>;<br>                gameActive = false;<br>                startConfetti();<br>            } else if (gameBoard.every(cell =&gt; cell)) {<br>                status.textContent = &quot;It&#039;s a Draw!&quot;;<br>                gameActive = false;<br>            } else {<br>                currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>                status.textContent = <code>${currentPlayer}&#039;s Turn</code>;<br>            }<br>        }<br><br>        function checkWinner() {<br>            const winConditions = [<br>                [0, 1, 2], [3, 4, 5], [6, 7, 8],  // Rows<br>                [0, 3, 6], [1, 4, 7], [2, 5, 8],  // Columns<br>                [0, 4, 8], [2, 4, 6]  // Diagonals<br>            ];<br><br>            return winConditions.some(condition =&gt; {<br>                const [a, b, c] = condition;<br>                return gameBoard[a] &amp;&amp; <br>                       gameBoard[a] === gameBoard[b] &amp;&amp; <br>                       gameBoard[a] === gameBoard[c];<br>            });<br>        }<br><br>        function resetGame() {<br>            gameBoard = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>            gameActive = true;<br>            currentPlayer = &#039;X&#039;;<br>            status.textContent = <code>${currentPlayer}&#039;s Turn</code>;<br>            createBoard();<br>            stopConfetti();<br>        }<br><br>        function startConfetti() {<br>            confettiCanvas.width = window.innerWidth;<br>            confettiCanvas.height = window.innerHeight;<br>            const ctx = confettiCanvas.getContext(&#039;2d&#039;);<br>            const confettiColors = [&#039;#ff0a54&#039;, &#039;#ff477e&#039;, &#039;#ff7096&#039;, &#039;#ff85a2&#039;, &#039;#fbb1bd&#039;, &#039;#f9bec7&#039;];<br><br>            function createConfetti() {<br>                ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);<br>                for (let i = 0; i &lt; 200; i++) {<br>                    const x = Math.random() * confettiCanvas.width;<br>                    const y = Math.random() * confettiCanvas.height;<br>                    const size = Math.random() * 10 + 5;<br>                    const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];<br>                    <br>                    ctx.beginPath();<br>                    ctx.fillStyle = color;<br>                    ctx.arc(x, y, size, 0, Math.PI * 2);<br>                    ctx.fill();<br>                }<br>                requestAnimationFrame(createConfetti);<br>            }<br>            createConfetti();<br>        }<br><br>        function stopConfetti() {<br>            const ctx = confettiCanvas.getContext(&#039;2d&#039;);<br>            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);<br>        }<br><br>        createBoard();<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This Tic Tac Toe game includes several unique features:<br><br>1. A responsive and interactive game board<br>2. Turn-based gameplay for X and O<br>3. Win and draw detection<br>4. A reset game button<br>5. A colorful confetti animation when a player wins<br>6. Hover effects on cells<br>7. Dynamic status display<br><br>The finish animation is a fun, colorful confetti explosion that covers the entire screen when a player wins. The confetti uses random colors and sizes to create a celebratory effect.<br><br>You can simply save this as <code>index.html</code> and open it in a web browser to play the game. Enjoy!</div>
+        </div>
+    </div>
+</body>
+</html>

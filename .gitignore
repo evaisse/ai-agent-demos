@@ -1,0 +1,13 @@
+*.log
+.env
+.env.*
+!.env.example
+tmp/
+build/
+var/
+.aider*
+.crush
+.claude
+.gemini
+node_modules/
+.env

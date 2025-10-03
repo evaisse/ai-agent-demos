@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> openai/gpt-5-codex</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:39:15.353Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">12445</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">12.777s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.1080</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>  &lt;meta charset=&quot;UTF-8&quot;&gt;<br>  &lt;title&gt;Tic Tac Toe - Skybound Finish&lt;/title&gt;<br>  &lt;style&gt;<br>    :root {<br>      --accent-x: #ff8b7b;<br>      --accent-o: #7bc8ff;<br>    }<br><br>    * {<br>      box-sizing: border-box;<br>    }<br><br>    body {<br>      margin: 0;<br>      min-height: 100vh;<br>      display: flex;<br>      align-items: center;<br>      justify-content: center;<br>      padding: 2rem;<br>      font-family: &quot;Segoe UI&quot;, Tahoma, sans-serif;<br>      color: #f5f7ff;<br>      background:<br>        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.16), transparent 55%),<br>        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.08), transparent 60%),<br>        linear-gradient(135deg, #0c0024, #052b45 55%, #001935);<br>      overflow: hidden;<br>      position: relative;<br>    }<br><br>    body::after {<br>      content: &quot;&quot;;<br>      position: fixed;<br>      inset: 0;<br>      background-image:<br>        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.45), transparent),<br>        radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,0.25), transparent),<br>        radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,0.35), transparent),<br>        radial-gradient(1px 1px at 60% 10%, rgba(255,255,255,0.25), transparent);<br>      opacity: 0.6;<br>      animation: twinkle 18s linear infinite;<br>      pointer-events: none;<br>      mix-blend-mode: screen;<br>    }<br><br>    @keyframes twinkle {<br>      0%, 100% { transform: translateY(0); opacity: 0.6; }<br>      50% { transform: translateY(-10px); opacity: 0.9; }<br>    }<br><br>    h1 {<br>      margin: 0 0 0.75rem;<br>      font-size: clamp(1.6rem, 3vw, 2.4rem);<br>      letter-spacing: 0.08rem;<br>      text-transform: uppercase;<br>      text-align: center;<br>    }<br><br>    .game {<br>      background: rgba(9, 17, 46, 0.75);<br>      border: 1px solid rgba(255,255,255,0.12);<br>      border-radius: 1.25rem;<br>      padding: clamp(1.5rem, 4vw, 2.5rem);<br>      box-shadow:<br>        0 18px 45px rgba(4, 10, 40, 0.55),<br>        0 0 0 1px rgba(255,255,255,0.06) inset;<br>      backdrop-filter: blur(12px);<br>      width: min(90vw, 420px);<br>      position: relative;<br>      z-index: 1;<br>    }<br><br>    #status {<br>      margin-bottom: 1.4rem;<br>      text-align: center;<br>      font-size: 1rem;<br>      letter-spacing: 0.04em;<br>      opacity: 0.9;<br>    }<br><br>    .board {<br>      display: grid;<br>      grid-template-columns: repeat(3, minmax(80px, 1fr));<br>      gap: 0.9rem;<br>      margin: 0 auto 1.5rem;<br>      width: min(80vw, 320px);<br>      transition: transform 0.8s ease, filter 0.8s ease;<br>    }<br><br>    .board.finished {<br>      filter: blur(4px) saturate(80%);<br>      transform: perspective(600px) rotateX(25deg) scale(0.92);<br>    }<br><br>    .board.no-click .cell {<br>      pointer-events: none;<br>    }<br><br>    .cell {<br>      position: relative;<br>      width: 100%;<br>      padding-top: 100%;<br>      background: rgba(15, 26, 64, 0.7);<br>      border: 2px solid rgba(255,255,255,0.12);<br>      border-radius: 1rem;<br>      box-shadow: 0 8px 18px rgba(3, 11, 38, 0.45);<br>      color: #fff;<br>      font-size: clamp(2.1rem, 5vw, 3.2rem);<br>      font-weight: 700;<br>      letter-spacing: 0.1em;<br>      cursor: pointer;<br>      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.2s;<br>      text-transform: uppercase;<br>    }<br><br>    .cell::after {<br>      content: attr(data-symbol);<br>      position: absolute;<br>      inset: 0;<br>      display: flex;<br>      align-items: center;<br>      justify-content: center;<br>    }<br><br>    .cell:hover {<br>      transform: translateY(-4px);<br>      box-shadow: 0 12px 25px rgba(8, 24, 53, 0.55);<br>    }<br><br>    .cell.taken {<br>      cursor: default;<br>      transform: none;<br>      box-shadow: 0 6px 12px rgba(5, 13, 41, 0.35);<br>    }<br><br>    .cell.player-x {<br>      border-color: rgba(255, 125, 110, 0.65);<br>      text-shadow: 0 4px 12px rgba(255, 140, 120, 0.48);<br>    }<br><br>    .cell.player-o {<br>      border-color: rgba(123, 200, 255, 0.6);<br>      text-shadow: 0 4px 12px rgba(123, 200, 255, 0.48);<br>    }<br><br>    .cell.win {<br>      background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0));<br>      animation: pulse 0.8s ease-in-out infinite;<br>    }<br><br>    @keyframes pulse {<br>      0%, 100% {<br>        box-shadow: 0 0 12px rgba(255, 214, 120, 0.4);<br>      }<br>      50% {<br>        box-shadow: 0 0 22px rgba(255, 214, 120, 0.75);<br>      }<br>    }<br><br>    button {<br>      border: none;<br>      font-family: inherit;<br>    }<br><br>    #resetButton,<br>    #playAgain {<br>      display: inline-flex;<br>      align-items: center;<br>      gap: 0.35rem;<br>      padding: 0.7rem 1.6rem;<br>      border-radius: 999px;<br>      font-weight: 600;<br>      letter-spacing: 0.06em;<br>      text-transform: uppercase;<br>      font-size: 0.82rem;<br>      cursor: pointer;<br>      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.2s;<br>    }<br><br>    #resetButton {<br>      width: 100%;<br>      background: rgba(255,255,255,0.08);<br>      color: #dce8ff;<br>      border: 1px solid rgba(255,255,255,0.16);<br>    }<br><br>    #resetButton:hover,<br>    #playAgain:hover {<br>      transform: translateY(-3px);<br>      box-shadow: 0 10px 22px rgba(5, 13, 41, 0.45);<br>    }<br><br>    #playAgain {<br>      margin-top: 1.75rem;<br>      background: linear-gradient(135deg, rgba(255, 143, 125, 0.95), rgba(123, 200, 255, 0.95));<br>      color: #0a1033;<br>    }<br><br>    #finishOverlay {<br>      position: fixed;<br>      inset: 0;<br>      background: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.08), rgba(5,12,32,0.92));<br>      display: flex;</code></pre>html<br>      align-items: center;<br>      justify-content: center;<br>      opacity: 0;<br>      pointer-events: none;<br>      transition: opacity 0.6s ease;<br>      z-index: 2;<br>    }<br><br>    #finishOverlay.show {<br>      opacity: 1;<br>      pointer-events: auto;<br>    }<br><br>    #finishOverlay::before,<br>    #finishOverlay::after {<br>      content: &quot;&quot;;<br>      position: absolute;<br>      inset: 0;<br>      background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.12), transparent 45%);<br>      opacity: 0.35;<br>      filter: blur(18px);<br>      pointer-events: none;<br>    }<br><br>    #finishOverlay::after {<br>      background: radial-gradient(circle at 70% 60%, rgba(95,150,255,0.18), transparent 55%);<br>      opacity: 0.4;<br>    }<br><br>    .result-card {<br>      position: relative;<br>      padding: 2.5rem clamp(1.5rem, 5vw, 3rem);<br>      background: rgba(10, 16, 38, 0.85);<br>      border: 1px solid rgba(255,255,255,0.12);<br>      border-radius: 1.5rem;<br>      text-align: center;<br>      box-shadow:<br>        0 22px 50px rgba(3, 10, 32, 0.65),<br>        0 0 0 1px rgba(255,255,255,0.08) inset;<br>      backdrop-filter: blur(18px);<br>      animation: floatIn 0.7s ease forwards;<br>      transform: translateY(30px);<br>      opacity: 0;<br>    }<br><br>    #finishOverlay.show .result-card {<br>      animation-delay: 0.1s;<br>    }<br><br>    .result-card h2 {<br>      margin: 0 0 0.75rem;<br>      font-size: clamp(1.6rem, 5vw, 2.3rem);<br>      letter-spacing: 0.08em;<br>      text-transform: uppercase;<br>    }<br><br>    .result-card p {<br>      margin: 0 0 1.6rem;<br>      font-size: clamp(1rem, 3vw, 1.15rem);<br>      opacity: 0.88;<br>      line-height: 1.5;<br>    }<br><br>    @keyframes floatIn {<br>      to {<br>        transform: translateY(0);<br>        opacity: 1;<br>      }<br>    }<br>  &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>  &lt;div class=&quot;game&quot;&gt;<br>    &lt;h1&gt;Tic Tac Toe&lt;/h1&gt;<br>    &lt;div id=&quot;status&quot;&gt;Player X, it&#039;s your move.&lt;/div&gt;<br>    &lt;div class=&quot;board&quot; id=&quot;board&quot;&gt;<br>      &lt;div class=&quot;cell&quot; data-index=&quot;0&quot; data-symbol=&quot;&quot;&gt;&lt;/div&gt;<br>      &lt;div class=&quot;cell&quot; data-index=&quot;1&quot; data-symbol=&quot;&quot;&gt;&lt;/div&gt;<br>      &lt;div class=&quot;cell&quot; data-index=&quot;2&quot; data-symbol=&quot;&quot;&gt;&lt;/div&gt;<br>      &lt;div class=&quot;cell&quot; data-index=&quot;3&quot; data-symbol=&quot;&quot;&gt;&lt;/div&gt;<br>      &lt;div class=&quot;cell&quot; data-index=&quot;4&quot; data-symbol=&quot;&quot;&gt;&lt;/div&gt;<br>      &lt;div class=&quot;cell&quot; data-index=&quot;5&quot; data-symbol=&quot;&quot;&gt;&lt;/div&gt;<br>      &lt;div class=&quot;cell&quot; data-index=&quot;6&quot; data-symbol=&quot;&quot;&gt;&lt;/div&gt;<br>      &lt;div class=&quot;cell&quot; data-index=&quot;7&quot; data-symbol=&quot;&quot;&gt;&lt;/div&gt;<br>      &lt;div class=&quot;cell&quot; data-index=&quot;8&quot; data-symbol=&quot;&quot;&gt;&lt;/div&gt;<br>    &lt;/div&gt;<br>    &lt;button id=&quot;resetButton&quot;&gt;Reset Game&lt;/button&gt;<br>  &lt;/div&gt;<br><br>  &lt;div id=&quot;finishOverlay&quot;&gt;<br>    &lt;div class=&quot;result-card&quot;&gt;<br>      &lt;h2&gt;Skybound Finish&lt;/h2&gt;<br>      &lt;p id=&quot;winnerMessage&quot;&gt;Player X claims the skies!&lt;/p&gt;<br>      &lt;button id=&quot;playAgain&quot;&gt;Play Again&lt;/button&gt;<br>    &lt;/div&gt;<br>  &lt;/div&gt;<br><br>  &lt;script&gt;<br>    const boardElement = document.getElementById(&#039;board&#039;);<br>    const cells = Array.from(boardElement.querySelectorAll(&#039;.cell&#039;));<br>    const statusElement = document.getElementById(&#039;status&#039;);<br>    const resetButton = document.getElementById(&#039;resetButton&#039;);<br>    const overlay = document.getElementById(&#039;finishOverlay&#039;);<br>    const winnerMessage = document.getElementById(&#039;winnerMessage&#039;);<br>    const playAgain = document.getElementById(&#039;playAgain&#039;);<br><br>    const PLAYER_X = &#039;X&#039;;<br>    const PLAYER_O = &#039;O&#039;;<br>    const winningCombos = [<br>      [0, 1, 2],<br>      [3, 4, 5],<br>      [6, 7, 8],<br>      [0, 3, 6],<br>      [1, 4, 7],<br>      [2, 5, 8],<br>      [0, 4, 8],<br>      [2, 4, 6]<br>    ];<br><br>    let boardState = Array(9).fill(&#039;&#039;);<br>    let currentPlayer = PLAYER_X;<br>    let gameActive = true;<br><br>    const setStatus = (message) =&gt; {<br>      statusElement.textContent = message;<br>    };<br><br>    const togglePlayer = () =&gt; {<br>      currentPlayer = currentPlayer === PLAYER_X ? PLAYER_O : PLAYER_X;<br>      setStatus(<code>Player ${currentPlayer}, it&#039;s your move.</code>);<br>    };<br><br>    const highlightWinningCells = (combo) =&gt; {<br>      combo.forEach(index =&gt; {<br>        cells[index].classList.add(&#039;win&#039;);<br>      });<br>    };<br><br>    const showOverlay = (message) =&gt; {<br>      winnerMessage.textContent = message;<br>      overlay.classList.add(&#039;show&#039;);<br>    };<br><br>    const endGame = (message) =&gt; {<br>      gameActive = false;<br>      boardElement.classList.add(&#039;finished&#039;, &#039;no-click&#039;);<br>      showOverlay(message);<br>    };<br><br>    const checkWinner = () =&gt; {<br>      for (const combo of winningCombos) {<br>        const [a, b, c] = combo;<br>        if (boardState[a] &amp;&amp; boardState[a] === boardState[b] &amp;&amp; boardState[a] === boardState[c]) {<br>          highlightWinningCells(combo);<br>          const winner = boardState[a];<br>          endGame(<code>Player ${winner} soared to victory!</code>);<br>          return true;<br>        }<br>      }<br>      if (boardState.every(cell =&gt; cell)) {<br>        endGame(&#039;A perfect draw! No winner this time.&#039;);<br>        return true;<br>      }<br>      return false;<br>    };<br><br>    const handleCellClick = (event) =&gt; {<br>      const cell = event.currentTarget;<br>      const index = parseInt(cell.dataset.index, 10);<br><br>      if (!gameActive || boardState[index]) return;<br><br>      boardState[index] = currentPlayer;<br>      cell.dataset.symbol = currentPlayer;<br>      cell.classList.add(&#039;taken&#039;, currentPlayer === PLAYER_X ? &#039;player-x&#039; : &#039;player-o&#039;);<br><br>      if (!checkWinner()) {<br>        togglePlayer();<br>      }<br>    };<br><br>    const resetBoard = (reopenOverlay = false) =&gt; {<br>      boardState = Array(9).fill(&#039;&#039;);<br>      currentPlayer = PLAYER_X;<br>      gameActive = true;<br>      cells.forEach(cell =&gt; {<br>        cell.dataset.symbol = &#039;&#039;;<br>        cell.className = &#039;cell&#039;;<br>      });<br>      boardElement.classList.remove(&#039;finished&#039;, &#039;no-click&#039;);<br>      setStatus(<code>Player ${PLAYER_X}, it&#039;s your move.</code>);<br>      if (!reopenOverlay) {<br>        overlay.classList.remove(&#039;show&#039;);<br>      }<br>    };<br><br>    cells.forEach(cell =&gt; cell.addEventListener(&#039;click&#039;, handleCellClick));<br>    resetButton.addEventListener(&#039;click&#039;, () =&gt; resetBoard());<br>    playAgain.addEventListener(&#039;click&#039;, () =&gt; resetBoard());<br><br>    // Allow closing overlay with Escape key<br>    document.addEventListener(&#039;keydown&#039;, (event) =&gt; {<br>      if (event.key === &#039;Escape&#039; &amp;&amp; overlay.classList.contains(&#039;show&#039;)) {<br>        overlay.classList.remove(&#039;show&#039;);<br>      }<br>    });<br>  &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;<br>```</div>
+        </div>
+    </div>
+</body>
+</html>

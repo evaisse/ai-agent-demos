@@ -1,0 +1,62 @@
+{
+  "timestamp": "2025-10-02T21:43:30.846Z",
+  "execution": {
+    "duration_seconds": "6.178",
+    "model_used": "x-ai/grok-3",
+    "model_requested": "x-ai/grok-3"
+  },
+  "tokens": {
+    "prompt_tokens": 39,
+    "completion_tokens": 1897,
+    "total_tokens": 1936
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000117,
+    "completion_cost": 0.028455,
+    "total_cost": 0.028572
+  },
+  "model_card": {
+    "id": "x-ai/grok-3",
+    "name": "xAI: Grok 3",
+    "description": "Grok 3 is the latest model from xAI. It's their flagship model that excels at enterprise use cases like data extraction, coding, and text summarization. Possesses deep domain knowledge in finance, healthcare, law, and science.\n\n",
+    "context_length": 131072,
+    "architecture": {
+      "input_modalities": [
+        "text"
+      ],
+      "instruct_type": null,
+      "modality": "text->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Grok"
+    },
+    "pricing": {
+      "completion": "0.000015",
+      "image": "0",
+      "input_cache_read": "0.00000075",
+      "internal_reasoning": "0",
+      "prompt": "0.000003",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 131072,
+      "is_moderated": false,
+      "max_completion_tokens": null
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! \n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759441329-x5Qhrvh6tMUiX77W5yla",
+    "created": 1759441329,
+    "object": "chat.completion"
+  },
+  "raw_response": "et's plan out the Tic Tac Toe game with a unique finish animation:\n1. **HTML Structure**:\n   - A 3x3 grid using `<div>` elements for the game board.\n   - A status message area to show whose turn it is or who won.\n   - Basic styling and script tags for functionality and animation.\n2. **CSS Styling**:\n   - Grid layout for the 3x3 board.\n   - Responsive design to ensure it looks good on different devices.\n   - Styling for the finish animation (to be defined with the twist).\n3. **JavaScript Logic**:\n   - Handle player turns (X and O).\n   - Check for win conditions or a draw.\n   - Implement a reset feature to play again.\n4. **Unique Finish Animation**:\n   - When the game ends (win or draw), instead of just displaying a message, we'll add a \"fireworks\" style particle explosion animation over the board as a celebratory or dramatic effect. This will be achieved using JavaScript to dynamically create and animate particle elements with CSS.\nHere's the complete `index.html` file with the game and the unique finish animation:\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Tic Tac Toe</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n            background-color: #f0f0f0;\n            flex-direction: column;\n        }\n        #game-container {\n            text-align: center;\n        }\n        #status {\n            font-size: 1.5em;\n            margin-bottom: 20px;\n        }\n        #board {\n            display: grid;\n            grid-template-columns: repeat(3, 100px);\n            grid-template-rows: repeat(3, 100px);\n            gap: 5px;\n            background-color: #333;\n            border-radius: 10px;\n            padding: 10px;\n        }\n        .cell {\n            width: 100px;\n            height: 100px;\n            background-color: #fff;\n            border: 2px solid #333;\n            font-size: 3em;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            cursor: pointer;\n            border-radius: 5px;\n            transition: background-color 0.3s;\n        }\n        .cell:hover {\n            background-color: #e0e0e0;\n        }\n        #reset {\n            margin-top: 20px;\n            padding: 10px 20px;\n            font-size: 1em;\n            cursor: pointer;\n        }\n        /* Fireworks Animation */\n        .particle {\n            position: absolute;\n            width: 5px;\n            height: 5px;\n            background-color: red;\n            border-radius: 50%;\n            pointer-events: none;\n            animation: explode 1s ease-out forwards;\n        }\n        @keyframes explode {\n            0% {\n                opacity: 1;\n                transform: scale(1) translate(0, 0);\n            }\n            100% {\n                opacity: 0;\n                transform: scale(0.5) translate(var(--tx), var(--ty));\n            }\n        }\n    </style>\n</head>\n<body>\n    <div id=\"game-container\">\n        <div id=\"status\">Player X's Turn</div>\n        <div id=\"board\">\n            <div class=\"cell\" data-index=\"0\"></div>\n            <div class=\"cell\" data-index=\"1\"></div>\n            <div class=\"cell\" data-index=\"2\"></div>\n            <div class=\"cell\" data-index=\"3\"></div>\n            <div class=\"cell\" data-index=\"4\"></div>\n            <div class=\"cell\" data-index=\"5\"></div>\n            <div class=\"cell\" data-index=\"6\"></div>\n            <div class=\"cell\" data-index=\"7\"></div>\n            <div class=\"cell\" data-index=\"8\"></div>\n        </div>\n        <button id=\"reset\">Reset Game</button>\n    </div>\n\n    <script>\n        let currentPlayer = 'X';\n        let board = ['', '', '', '', '', '', '', '', ''];\n        let gameOver = false;\n\n        const winCombos = [\n            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows\n            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns\n            [0, 4, 8], [2, 4, 6] // Diagonals\n        ];\n\n        const cells = document.querySelectorAll('.cell');\n        const status = document.getElementById('status');\n        const resetButton = document.getElementById('reset');\n\n        cells.forEach(cell => {\n            cell.addEventListener('click', () => handleCellClick(cell));\n        });\n\n        resetButton.addEventListener('click', resetGame);\n\n        function handleCellClick(cell) {\n            const index = cell.getAttribute('data-index');\n            if (board[index] === '' && !gameOver) {\n                board[index] = currentPlayer;\n                cell.textContent = currentPlayer;\n                checkWin();\n                if (!gameOver) {\n                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';\n                    status.textContent = `Player ${currentPlayer}'s Turn`;\n                }\n            }\n        }\n\n        function checkWin() {\n            for (const combo of winCombos) {\n                const [a, b, c] = combo;\n                if (board[a] && board[a] === board[b] && board[a] === board[c]) {\n                    status.textContent = `Player ${currentPlayer} Wins!`;\n                    gameOver = true;\n                    highlightWinningCells(combo);\n                    triggerFireworks();\n                    return;\n                }\n            }\n            if (!board.includes('')) {\n                status.textContent = \"It's a Draw!\";\n                gameOver = true;\n                triggerFireworks();\n            }\n        }\n\n        function highlightWinningCells(combo) {\n            combo.forEach(index => {\n                cells[index].style.backgroundColor = '#d4edda';\n            });\n        }\n\n        function resetGame() {\n            board = ['', '', '', '', '', '', '', '', ''];\n            currentPlayer = 'X';\n            gameOver = false;\n            status.textContent = `Player ${currentPlayer}'s Turn`;\n            cells.forEach(cell => {\n                cell.textContent = '';\n                cell.style.backgroundColor = '#fff';\n            });\n        }\n\n        function triggerFireworks() {\n            const boardRect = document.getElementById('board').getBoundingClientRect();\n            const centerX = boardRect.left + boardRect.width / 2;\n            const centerY = boardRect.top + boardRect.height / 2;\n\n            for (let i = 0; i < 50; i++) {\n                const particle = document.createElement('div');\n                particle.classList.add('particle');\n                particle.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;\n                particle.style.left = `${centerX}px`;\n                particle.style.top = `${centerY}px`;\n                const angle = (Math.PI * 2 * i) / 50;\n                const distance = 100 + Math.random() * 150;\n                particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);\n                particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);\n                document.body.appendChild(particle);\n                setTimeout(() => particle.remove(), 1000);\n            }\n        }\n    </script>\n</body>\n</html>\n```\n### Explanation of the Code:\n- **HTML**: A simple structure with a status display, a 3x3 grid using CSS Grid, and a reset button.\n- **CSS**: Styles the board with a grid layout, adds hover effects on cells, and defines the particle animation for the fireworks effect.\n- **JavaScript**:\n  - Manages the game state, player turns, and checks for wins or draws.\n  - On game end, triggers the `triggerFireworks()` function which creates 50 particles that explode outward from the center of the board in random colors, fading out over 1 second.\n- **Unique Twist**: The finish animation is a fireworks-like explosion. When a player wins or the game ends in a draw, colorful particles burst from the center of the board, creating a celebratory effect. Each particle has a random color (using HSL color space) and travels in a random direction and distance.\nYou can save this as `index.html` and open it in a web browser to play the game. When the game ends, you'll see the fireworks animation as the unique twist!"
+}

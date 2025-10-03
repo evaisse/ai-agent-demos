@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-10-02T12:25:07.812Z",
+  "execution": {
+    "duration_seconds": "24.110",
+    "model_used": "openai/gpt-4o",
+    "model_requested": "openai/gpt-4o"
+  },
+  "tokens": {
+    "prompt_tokens": 89,
+    "completion_tokens": 1409,
+    "total_tokens": 1498
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000223,
+    "completion_cost": 0.01409,
+    "total_cost": 0.014313
+  },
+  "model_card": {
+    "id": "openai/gpt-4o",
+    "name": "OpenAI: GPT-4o",
+    "description": "GPT-4o (\"o\" for \"omni\") is OpenAI's latest AI model, supporting both text and image inputs with text outputs. It maintains the intelligence level of [GPT-4 Turbo](/models/openai/gpt-4-turbo) while being twice as fast and 50% more cost-effective. GPT-4o also offers improved performance in processing non-English languages and enhanced visual capabilities.\n\nFor benchmarking against other models, it was briefly called [\"im-also-a-good-gpt2-chatbot\"](https://twitter.com/LiamFedus/status/1790064963966370209)\n\n#multimodal",
+    "context_length": 128000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "GPT"
+    },
+    "pricing": {
+      "completion": "0.00001",
+      "image": "0.003613",
+      "input_cache_read": "0.00000125",
+      "internal_reasoning": "0",
+      "prompt": "0.0000025",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 128000,
+      "is_moderated": true,
+      "max_completion_tokens": 16384
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file with no other file dependencies, create a Chatbot messaging screen that can use an OpenRouter API Key and select models from OpenRouter GET https://openrouter.ai/api/v1/models (without auth), from there store the Key localy and allow use to try the model in the chatbot. You can use external dependencies but only with CDNJS. Feel free to make pretty and shiny.\n\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 2000
+  },
+  "response_metadata": {
+    "id": "gen-1759407884-LoVuSVYfrcf1RnDGOTSQ",
+    "created": 1759407884,
+    "object": "chat.completion"
+  },
+  "raw_response": "To create a single HTML file with a chatbot messaging screen that interacts with the OpenRouter API, we'll use HTML, CSS, and JavaScript. We'll use a few external libraries for styling and functionality from CDNJS. Here's a complete example:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Chatbot with OpenRouter</title>\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css\">\n    <style>\n        body, html {\n            height: 100%;\n            margin: 0;\n            display: flex;\n            flex-direction: column;\n            font-family: Arial, sans-serif;\n        }\n        #chat-container {\n            flex: 1;\n            display: flex;\n            flex-direction: column;\n            border: 1px solid #ccc;\n            border-radius: 8px;\n            margin: 20px;\n            padding: 10px;\n            background-color: #f8f9fa;\n        }\n        #messages {\n            flex: 1;\n            overflow-y: auto;\n            padding: 10px;\n            border-bottom: 1px solid #ddd;\n        }\n        .message {\n            margin-bottom: 10px;\n            padding: 8px;\n            border-radius: 5px;\n            max-width: 70%;\n        }\n        .user-message {\n            background-color: #007bff;\n            color: white;\n            align-self: flex-end;\n        }\n        .bot-message {\n            background-color: #e9ecef;\n            align-self: flex-start;\n        }\n        #input-container {\n            display: flex;\n            align-items: center;\n            padding: 10px;\n        }\n        #message-input {\n            flex: 1;\n            padding: 8px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            margin-right: 10px;\n        }\n        #send-button {\n            padding: 8px 15px;\n            background-color: #007bff;\n            color: white;\n            border: none;\n            border-radius: 5px;\n            cursor: pointer;\n        }\n        #api-key-input {\n            width: 100%;\n            margin-bottom: 10px;\n        }\n        #model-select {\n            width: 100%;\n            margin-bottom: 10px;\n        }\n    </style>\n</head>\n<body>\n    <div id=\"chat-container\">\n        <input type=\"text\" id=\"api-key-input\" placeholder=\"Enter OpenRouter API Key\" class=\"form-control\">\n        <select id=\"model-select\" class=\"form-control\">\n            <option value=\"\">Select Model</option>\n        </select>\n        <div id=\"messages\"></div>\n        <div id=\"input-container\">\n            <input type=\"text\" id=\"message-input\" placeholder=\"Type a message...\" class=\"form-control\">\n            <button id=\"send-button\"><i class=\"fas fa-paper-plane\"></i></button>\n        </div>\n    </div>\n\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js\"></script>\n    <script>\n        document.addEventListener('DOMContentLoaded', () => {\n            const apiKeyInput = document.getElementById('api-key-input');\n            const modelSelect = document.getElementById('model-select');\n            const messagesContainer = document.getElementById('messages');\n            const messageInput = document.getElementById('message-input');\n            const sendButton = document.getElementById('send-button');\n\n            // Load models from OpenRouter\n            axios.get('https://openrouter.ai/api/v1/models')\n                .then(response => {\n                    const models = response.data;\n                    models.forEach(model => {\n                        const option = document.createElement('option');\n                        option.value = model.id;\n                        option.textContent = model.name;\n                        modelSelect.appendChild(option);\n                    });\n                })\n                .catch(error => console.error('Error fetching models:', error));\n\n            // Handle sending message\n            sendButton.addEventListener('click', () => {\n                const apiKey = apiKeyInput.value.trim();\n                const selectedModel = modelSelect.value;\n                const messageText = messageInput.value.trim();\n\n                if (!apiKey || !selectedModel || !messageText) {\n                    alert('Please enter API Key, select a model, and type a message.');\n                    return;\n                }\n\n                const userMessage = document.createElement('div');\n                userMessage.className = 'message user-message';\n                userMessage.textContent = messageText;\n                messagesContainer.appendChild(userMessage);\n                messageInput.value = '';\n\n                // Simulate API call to OpenRouter (you'll replace this with actual API call)\n                axios.post(`https://openrouter.ai/api/v1/chat`, {\n                    model_id: selectedModel,\n                    input: messageText\n                }, {\n                    headers: {\n                        'Authorization': `Bearer ${apiKey}`\n                    }\n                })\n                .then(response => {\n                    const botMessage = document.createElement('div');\n                    botMessage.className = 'message bot-message';\n                    botMessage.textContent = response.data.output; // Assuming API returns this field\n                    messagesContainer.appendChild(botMessage);\n                })\n                .catch(error => {\n                    console.error('Error during API call:', error);\n                    const botMessage = document.createElement('div');\n                    botMessage.className = 'message bot-message';\n                    botMessage.textContent = 'Error: Unable to get a response from the model.';\n                    messagesContainer.appendChild(botMessage);\n                });\n            });\n        });\n    </script>\n</body>\n</html>\n```\n\n### Explanation:\n- **HTML Structure**: We have an input for the API key, a dropdown to select models, a message display area, and an input field to type messages with a send button.\n- **Styling**: We're using Bootstrap for basic styling and Font Awesome for the send button icon.\n- **JavaScript**: \n  - First, we fetch the available models from the OpenRouter API and populate the dropdown.\n  - On clicking the send button, we send the user message to the OpenRouter API using the selected model and API key.\n  - Responses are displayed in the chat area, simulating a chatbot interaction.\n\n### Note:\n- Replace the simulated API call with actual API details and response fields as per the real API documentation.\n- Ensure you handle errors gracefully in a production environment, especially around API calls and input validations."
+}

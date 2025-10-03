@@ -1,0 +1,62 @@
+{
+  "timestamp": "2025-10-02T23:05:35.145Z",
+  "execution": {
+    "duration_seconds": "6.593",
+    "model_used": "amazon/nova-pro-v1",
+    "model_requested": "amazon/nova-pro-v1"
+  },
+  "tokens": {
+    "prompt_tokens": 56,
+    "completion_tokens": 1172,
+    "total_tokens": 1228
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000045,
+    "completion_cost": 0.00375,
+    "total_cost": 0.003795
+  },
+  "model_card": {
+    "id": "amazon/nova-pro-v1",
+    "name": "Amazon: Nova Pro 1.0",
+    "description": "Amazon Nova Pro 1.0 is a capable multimodal model from Amazon focused on providing a combination of accuracy, speed, and cost for a wide range of tasks. As of December 2024, it achieves state-of-the-art performance on key benchmarks including visual question answering (TextVQA) and video understanding (VATEX).\n\nAmazon Nova Pro demonstrates strong capabilities in processing both visual and textual information and at analyzing financial documents.\n\n**NOTE**: Video input is not supported at this time.",
+    "context_length": 300000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Nova"
+    },
+    "pricing": {
+      "completion": "0.0000032",
+      "image": "0.0012",
+      "internal_reasoning": "0",
+      "prompt": "0.0000008",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 300000,
+      "is_moderated": true,
+      "max_completion_tokens": 5120
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759446319-Nb65HNqZfNbZNttQx4b6",
+    "created": 1759446320,
+    "object": "chat.completion"
+  },
+  "raw_response": "Certainly! Below is a complete HTML file named `index.html` that simulates 20 balls following the rules of gravity and physics within a spinning 2D hexagon. The gravity direction changes from bottom to top every 5 seconds.\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Hexagon Ball Simulation</title>\n    <style>\n        canvas {\n            display: block;\n            margin: auto;\n            background-color: #f0f0f0;\n        }\n    </style>\n</head>\n<body>\n    <canvas id=\"simulationCanvas\"></canvas>\n    <script>\n        const canvas = document.getElementById('simulationCanvas');\n        const ctx = canvas.getContext('2d');\n        canvas.width = window.innerWidth;\n        canvas.height = window.innerHeight;\n\n        const balls = [];\n        const gravity = { x: 0, y: 1 };\n        let angle = 0;\n        let hexagonCenter = { x: canvas.width / 2, y: canvas.height / 2 };\n        const hexagonRadius = 200;\n        const ballRadius = 10;\n        const ballCount = 20;\n\n        function Ball(x, y, radius) {\n            this.x = x;\n            this.y = y;\n            this.radius = radius;\n            this.velocity = { x: 0, y: 0 };\n        }\n\n        Ball.prototype.draw = function() {\n            ctx.beginPath();\n            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);\n            ctx.fillStyle = 'blue';\n            ctx.fill();\n            ctx.closePath();\n        };\n\n        Ball.prototype.update = function() {\n            this.velocity.y += gravity.y;\n            this.velocity.x += gravity.x;\n\n            this.x += this.velocity.x;\n            this.y += this.velocity.y;\n\n            if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {\n                this.velocity.y = -this.velocity.y * 0.9;\n            }\n\n            if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {\n                this.velocity.x = -this.velocity.x * 0.9;\n            }\n        };\n\n        function createBalls() {\n            for (let i = 0; i < ballCount; i++) {\n                const angle = (i / ballCount) * Math.PI * 2;\n                const x = hexagonCenter.x + Math.cos(angle) * hexagonRadius;\n                const y = hexagonCenter.y + Math.sin(angle) * hexagonRadius;\n                balls.push(new Ball(x, y, ballRadius));\n            }\n        }\n\n        function drawHexagon() {\n            ctx.beginPath();\n            ctx.moveTo(\n                hexagonCenter.x + Math.cos(0) * hexagonRadius,\n                hexagonCenter.y + Math.sin(0) * hexagonRadius\n            );\n\n            for (let i = 1; i <= 6; i++) {\n                ctx.lineTo(\n                    hexagonCenter.x + Math.cos(i * Math.PI / 3) * hexagonRadius,\n                    hexagonCenter.y + Math.sin(i * Math.PI / 3) * hexagonRadius\n                );\n            }\n\n            ctx.closePath();\n            ctx.strokeStyle = 'black';\n            ctx.stroke();\n        }\n\n        function animate() {\n            requestAnimationFrame(animate);\n            ctx.clearRect(0, 0, canvas.width, canvas.height);\n\n            ctx.save();\n            ctx.translate(hexagonCenter.x, hexagonCenter.y);\n            ctx.rotate(angle);\n            ctx.translate(-hexagonCenter.x, -hexagonCenter.y);\n\n            drawHexagon();\n            balls.forEach(ball => {\n                ball.update();\n                ball.draw();\n            });\n\n            ctx.restore();\n            angle += 0.01;\n        }\n\n        function toggleGravity() {\n            gravity.y = -gravity.y;\n        }\n\n        createBalls();\n        animate();\n        setInterval(toggleGravity, 5000);\n    </script>\n</body>\n</html>\n```\n\n### Explanation:\n1. **HTML Structure**:\n   - A single `<canvas>` element is used to render the simulation.\n   \n2. **CSS**:\n   - Basic styles to center and size the canvas.\n\n3. **JavaScript**:\n   - **Ball Class**: Represents each ball with properties for position, radius, and velocity. Methods for drawing and updating the ball's position.\n   - **createBalls**: Initializes 20 balls in a circular formation at the center of the hexagon.\n   - **drawHexagon**: Draws a spinning hexagon.\n   - **animate**: The main animation loop that clears the canvas, rotates the hexagon, updates and draws each ball.\n   - **toggleGravity**: Changes the direction of gravity every 5 seconds.\n   \nThis code will create a visually engaging simulation where 20 balls move under the influence of gravity within a spinning hexagon."
+}

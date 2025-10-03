@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> openai/gpt-4o-mini</p>
+            <p><strong>Generated:</strong> 2025-10-02T13:04:13.300Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">1036</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">26.991s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0006</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Creating a full-fledged PAC-MAN game in a single HTML file is quite complex, but I can provide you with a simplified version that captures the essence of the game. Below is a basic implementation of a PAC-MAN-like game, using HTML, CSS, and JavaScript, all contained within one HTML file. This example won&#039;t include all the features of the original game, but it will give you a starting point.<br><br>Here&#039;s the code for <code>index.html</code>:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;PAC-MAN Game&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            height: 100vh;<br>            background-color: black;<br>            margin: 0;<br>        }<br><br>        #game {<br>            position: relative;<br>            width: 300px;<br>            height: 300px;<br>            background-color: blue;<br>            overflow: hidden;<br>        }<br><br>        .pacman {<br>            position: absolute;<br>            width: 30px;<br>            height: 30px;<br>            background-color: yellow;<br>            border-radius: 50%;<br>            transition: transform 0.1s;<br>        }<br><br>        .dot {<br>            position: absolute;<br>            width: 5px;<br>            height: 5px;<br>            background-color: white;<br>            border-radius: 50%;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;game&quot;&gt;<br>        &lt;div class=&quot;pacman&quot; id=&quot;pacman&quot; style=&quot;top: 135px; left: 135px;&quot;&gt;&lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;script&gt;<br>        const game = document.getElementById(&#039;game&#039;);<br>        const pacman = document.getElementById(&#039;pacman&#039;);<br>        const dots = [];<br>        const dotCount = 50;<br>        const pacmanSpeed = 5;<br><br>        // Create dots<br>        for (let i = 0; i &lt; dotCount; i++) {<br>            const dot = document.createElement(&#039;div&#039;);<br>            dot.classList.add(&#039;dot&#039;);<br>            dot.style.top = Math.random() * (game.clientHeight - 5) + &#039;px&#039;;<br>            dot.style.left = Math.random() * (game.clientWidth - 5) + &#039;px&#039;;<br>            game.appendChild(dot);<br>            dots.push(dot);<br>        }<br><br>        // Move PAC-MAN<br>        let pacmanX = 135;<br>        let pacmanY = 135;<br><br>        document.addEventListener(&#039;keydown&#039;, (event) =&gt; {<br>            switch (event.key) {<br>                case &#039;ArrowUp&#039;:<br>                    pacmanY = Math.max(0, pacmanY - pacmanSpeed);<br>                    break;<br>                case &#039;ArrowDown&#039;:<br>                    pacmanY = Math.min(game.clientHeight - 30, pacmanY + pacmanSpeed);<br>                    break;<br>                case &#039;ArrowLeft&#039;:<br>                    pacmanX = Math.max(0, pacmanX - pacmanSpeed);<br>                    break;<br>                case &#039;ArrowRight&#039;:<br>                    pacmanX = Math.min(game.clientWidth - 30, pacmanX + pacmanSpeed);<br>                    break;<br>            }<br>            pacman.style.top = pacmanY + &#039;px&#039;;<br>            pacman.style.left = pacmanX + &#039;px&#039;;<br>            checkCollision();<br>        });<br><br>        // Check collision with dots<br>        function checkCollision() {<br>            dots.forEach((dot, index) =&gt; {<br>                const dotRect = dot.getBoundingClientRect();<br>                const pacmanRect = pacman.getBoundingClientRect();<br><br>                if (<br>                    pacmanRect.x &lt; dotRect.x + dotRect.width &amp;&amp;<br>                    pacmanRect.x + pacmanRect.width &gt; dotRect.x &amp;&amp;<br>                    pacmanRect.y &lt; dotRect.y + dotRect.height &amp;&amp;<br>                    pacmanRect.y + pacmanRect.height &gt; dotRect.y<br>                ) {<br>                    game.removeChild(dot);<br>                    dots.splice(index, 1);<br>                }<br>            });<br>        }<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>### How to Use the Code:<br><br>1. Create a new file named <code>index.html</code>.<br>2. Copy and paste the above code into the <code>index.html</code> file.<br>3. Open the file in a web browser.<br><br>### Features of the Game:<br>- Move PAC-MAN using the arrow keys.<br>- Collect small white dots scattered around the blue game area.<br>- The game area is a simple 300x300 pixel square.<br><br>### Limitations:<br>- This is a very basic version of PAC-MAN and lacks features such as ghosts, scoring, levels, and actual maze walls.<br>- You can further enhance this game by adding more features, animations, and improving the graphics.<br><br>Feel free to modify and expand upon this code to create a more complete game!</div>
+        </div>
+    </div>
+</body>
+</html>

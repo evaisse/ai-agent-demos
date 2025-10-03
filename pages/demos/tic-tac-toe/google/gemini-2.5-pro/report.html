@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> google/gemini-2.5-pro</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:34:20.268Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">5949</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">8.103s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0592</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Of course! Here is a complete, single-file Tic-Tac-Toe game with a unique &quot;gravity&quot; animation when the game is over. The winning pieces will glow, and then all the pieces will fall off the board.<br><br>Just copy the code below, paste it into a new file, and name it <code>index.html</code>. Then, open it in any web browser to play.<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe - Gravity Twist&lt;/title&gt;<br>    &lt;style&gt;<br>        /* --- Basic Setup &amp; Typography --- */<br>        @import url(&#039;https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap&#039;);<br><br>        :root {<br>            --board-bg: #1a2a33;<br>            --cell-bg: #1f3641;<br>            --text-color: #a8bec9;<br>            --x-color: #31c3bd;<br>            --o-color: #f2b137;<br>            --shadow-color: #10212a;<br>            --winning-glow: #ffffff;<br>        }<br><br>        body {<br>            background-color: var(--board-bg);<br>            color: var(--text-color);<br>            font-family: &#039;Poppins&#039;, sans-serif;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            height: 100vh;<br>            margin: 0;<br>            text-align: center;<br>        }<br><br>        /* --- Game Container &amp; Header --- */<br>        .game-container {<br>            display: flex;<br>            flex-direction: column;<br>            align-items: center;<br>            gap: 20px;<br>        }<br><br>        h1 {<br>            color: var(--text-color);<br>            font-weight: 700;<br>            letter-spacing: 1px;<br>            margin: 0;<br>        }<br><br>        .status {<br>            font-size: 1.2em;<br>            font-weight: 600;<br>            min-height: 30px; /* Prevents layout shift */<br>        }<br><br>        /* --- Game Board &amp; Cells --- */<br>        .board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 100px);<br>            grid-template-rows: repeat(3, 100px);<br>            gap: 15px;<br>            background-color: var(--board-bg);<br>            padding: 15px;<br>            border-radius: 10px;<br>            transition: box-shadow 0.5s ease-in-out;<br>        }<br>        <br>        /* The Twist: When game is over, the board&#039;s grid lines disappear */<br>        .board.game-over {<br>            box-shadow: none;<br>        }<br><br>        .cell {<br>            background-color: var(--cell-bg);<br>            border-radius: 10px;<br>            box-shadow: 0 6px var(--shadow-color);<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            font-size: 4em;<br>            font-weight: 700;<br>            cursor: pointer;<br>            transition: background-color 0.2s ease;<br>            position: relative; /* Needed for the falling animation */<br>        }<br><br>        .cell:hover:not(:empty) {<br>            cursor: not-allowed;<br>        }<br>        <br>        .cell:hover:empty {<br>             background-color: #2c4858;<br>        }<br><br>        .cell.x {<br>            color: var(--x-color);<br>        }<br><br>        .cell.o {<br>            color: var(--o-color);<br>        }<br>        <br>        /* --- The Finish Animation Twist --- */<br><br>        /* 1. Highlight the winning cells */<br>        .cell.winning-cell {<br>            animation: winning-glow 0.5s ease-in-out infinite alternate;<br>        }<br><br>        @keyframes winning-glow {<br>            from {<br>                background-color: var(--cell-bg);<br>            }<br>            to {<br>                background-color: var(--winning-glow);<br>            }<br>        }<br>        <br>        /* 2. Make the pieces fall with gravity */<br>        .cell.falling {<br>            animation: fall 1.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;<br>            cursor: default;<br>        }<br><br>        @keyframes fall {<br>            0% {<br>                transform: translateY(0) rotate(0deg);<br>                opacity: 1;<br>            }<br>            100% {<br>                transform: translateY(60vh) rotate(360deg);<br>                opacity: 0;<br>            }<br>        }<br>        <br>        /* --- End Game Overlay &amp; Restart Button --- */<br>        .overlay {<br>            position: fixed;<br>            top: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 100%;<br>            background-color: rgba(0, 0, 0, 0.7);<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            opacity: 0;<br>            visibility: hidden;<br>            transition: opacity 0.5s ease, visibility 0.5s ease;<br>            z-index: 1000;<br>        }<br>        <br>        .overlay.show {<br>            opacity: 1;<br>            visibility: visible;<br>        }<br><br>        .end-game-message {<br>            background-color: var(--cell-bg);<br>            padding: 40px;<br>            border-radius: 15px;<br>            box-shadow: 0 10px 30px rgba(0,0,0,0.5);<br>            text-align: center;<br>        }<br><br>        .end-game-message h2 {<br>            margin-top: 0;<br>            font-size: 2.5em;<br>        }<br><br>        .restart-button {<br>            background-color: var(--x-color);<br>            color: var(--board-bg);<br>            border: none;<br>            padding: 15px 30px;<br>            font-size: 1em;<br>            font-weight: 600;<br>            border-radius: 8px;<br>            cursor: pointer;<br>            transition: transform 0.2s ease, background-color 0.2s ease;<br>            box-shadow: 0 4px var(--shadow-color);<br>        }<br><br>        .restart-button:hover {<br>            transform: translateY(-2px);<br>            background-color: #65e9e4;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br><br>    &lt;div class=&quot;game-container&quot;&gt;<br>        &lt;h1&gt;Tic Tac Toe&lt;/h1&gt;<br>        &lt;p class=&quot;status&quot;&gt;Player X&#039;s turn&lt;/p&gt;<br>        &lt;div class=&quot;board&quot; id=&quot;board&quot;&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;0&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;1&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;2&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;3&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;4&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;5&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;6&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;7&quot;&gt;&lt;/div&gt;<br>            &lt;div class=&quot;cell&quot; data-index=&quot;8&quot;&gt;&lt;/div&gt;<br>        &lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;div class=&quot;overlay&quot; id=&quot;overlay&quot;&gt;<br>        &lt;div class=&quot;end-game-message&quot;&gt;<br>            &lt;h2 id=&quot;end-game-text&quot;&gt;&lt;/h2&gt;<br>            &lt;button class=&quot;restart-button&quot; id=&quot;restart-button&quot;&gt;Play Again&lt;/button&gt;<br>        &lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;script&gt;<br>        document.addEventListener(&#039;DOMContentLoaded&#039;, () =&gt; {<br>            const cells = document.querySelectorAll(&#039;.cell&#039;);<br>            const statusText = document.querySelector(&#039;.status&#039;);<br>            const boardElement = document.getElementById(&#039;board&#039;);<br>            const overlay = document.getElementById(&#039;overlay&#039;);<br>            const endGameText = document.getElementById(&#039;end-game-text&#039;);<br>            const restartButton = document.getElementById(&#039;restart-button&#039;);<br><br>            let isGameActive = true;<br>            let currentPlayer = &#039;X&#039;;<br>            let board = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br><br>            const winningConditions = [<br>                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows<br>                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns<br>                [0, 4, 8], [2, 4, 6]             // Diagonals<br>            ];<br><br>            const updateStatus = () =&gt; {<br>                statusText.textContent = isGameActive ? <code>Player ${currentPlayer}&#039;s turn</code> : &#039;&#039;;<br>            };<br><br>            const handleResultValidation = () =&gt; {<br>                let roundWon = false;<br>                let winningCombination = [];<br>                for (let i = 0; i &lt; winningConditions.length; i++) {<br>                    const winCondition = winningConditions[i];<br>                    const a = board[winCondition[0]];<br>                    const b = board[winCondition[1]];<br>                    const c = board[winCondition[2]];<br>                    if (a === &#039;&#039; || b === &#039;&#039; || c === &#039;&#039;) {<br>                        continue;<br>                    }<br>                    if (a === b &amp;&amp; b === c) {<br>                        roundWon = true;<br>                        winningCombination = winCondition;<br>                        break;<br>                    }<br>                }<br><br>                if (roundWon) {<br>                    handleGameEnd(false, winningCombination);<br>                    return;<br>                }<br><br>                if (!board.includes(&#039;&#039;)) {<br>                    handleGameEnd(true);<br>                }<br>            };<br>            <br>            const handleGameEnd = (isDraw, winningCombination = []) =&gt; {<br>                isGameActive = false;<br>                statusText.textContent = &#039;&#039;; // Clear the turn status<br><br>                // --- THE ANIMATION TWIST ---<br>                <br>                // 1. Highlight winning cells if it&#039;s a win<br>                if (!isDraw) {<br>                    winningCombination.forEach(index =&gt; {<br>                        cells[index].classList.add(&#039;winning-cell&#039;);<br>                    });<br>                }<br>                <br>                // 2. After a brief pause, make all pieces fall<br>                setTimeout(() =&gt; {<br>                    boardElement.classList.add(&#039;game-over&#039;); // Fades board lines<br>                    cells.forEach((cell, index) =&gt; {<br>                        // Remove winning glow to not interfere with fall<br>                        cell.classList.remove(&#039;winning-cell&#039;); <br>                        if(cell.textContent !== &#039;&#039;) {<br>                            cell.classList.add(&#039;falling&#039;);<br>                            // Add a random delay for a more chaotic, natural fall<br>                            cell.style.animationDelay = <code>${Math.random() * 0.5}s</code>;<br>                        }<br>                    });<br>                }, isDraw ? 500 : 1500); // Shorter delay for a draw, longer for a win to see the glowing line<br><br>                // 3. Show the final message after the fall animation starts<br>                setTimeout(() =&gt; {<br>                    const winner = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>                    endGameText.innerHTML = isDraw ? &quot;It&#039;s a Draw!&quot; : <code>Player &lt;span class=&quot;${winner.toLowerCase()}&quot;&gt;${winner}&lt;/span&gt; Wins!</code>;<br>                    overlay.classList.add(&#039;show&#039;);<br>                }, isDraw ? 1500 : 2500);<br>            };<br><br>            const switchPlayer = () =&gt; {<br>                currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>                updateStatus();<br>            };<br><br>            const handleCellClick = (e) =&gt; {<br>                const clickedCell = e.target;<br>                const clickedCellIndex = parseInt(clickedCell.getAttribute(&#039;data-index&#039;));<br><br>                if (board[clickedCellIndex] !== &#039;&#039; || !isGameActive) {<br>                    return;<br>                }<br><br>                board[clickedCellIndex] = currentPlayer;<br>                clickedCell.textContent = currentPlayer;<br>                clickedCell.classList.add(currentPlayer.toLowerCase());<br><br>                handleResultValidation();<br>                if(isGameActive) {<br>                   switchPlayer();<br>                }<br>            };<br><br>            const restartGame = () =&gt; {<br>                isGameActive = true;<br>                currentPlayer = &#039;X&#039;;<br>                board = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>                <br>                overlay.classList.remove(&#039;show&#039;);<br>                boardElement.classList.remove(&#039;game-over&#039;);<br><br>                cells.forEach(cell =&gt; {<br>                    cell.textContent = &#039;&#039;;<br>                    cell.classList.remove(&#039;x&#039;, &#039;o&#039;, &#039;falling&#039;, &#039;winning-cell&#039;);<br>                    cell.style.animationDelay = &#039;0s&#039;;<br>                });<br><br>                updateStatus();<br>            };<br><br>            cells.forEach(cell =&gt; cell.addEventListener(&#039;click&#039;, handleCellClick));<br>            restartButton.addEventListener(&#039;click&#039;, restartGame);<br><br>            updateStatus(); // Initial status<br>        });<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>### How the &quot;Original Twist&quot; Animation Works:<br><br>1.  **Winning Glow:** When a player wins, the three winning cells get a <code>winning-cell</code> class. This class triggers a CSS keyframe animation called <code>winning-glow</code> that makes the cells pulse with a white background, clearly highlighting the winning line.<br><br>2.  **Gravity Fall:**<br>    *   After a short delay (to allow the player to see the winning line), a JavaScript function is called.<br>    *   This function adds a <code>game-over</code> class to the main board, which is styled in CSS to remove its <code>box-shadow</code>, making the grid lines effectively disappear.<br>    *   It then iterates through all the cells. If a cell has an &#039;X&#039; or an &#039;O&#039; in it, it&#039;s given a <code>falling</code> class.<br>    *   The <code>falling</code> class applies a CSS keyframe animation called <code>fall</code>. This animation uses <code>transform: translateY()</code> to move the piece downwards off the screen and <code>rotate()</code> to make it tumble as it falls.<br>    *   **The best part:** A random <code>animation-delay</code> is applied to each falling piece using JavaScript. This makes them all start falling at slightly different times, creating a much more natural and chaotic &quot;gravity&quot; effect instead of them all falling in perfect sync.<br><br>3.  **Final Message:** After another delay (timed to coincide with the pieces falling), a full-screen overlay appears with the final result (&quot;Player X Wins!&quot;, &quot;It&#039;s a Draw!&quot;, etc.) and a &quot;Play Again&quot; button.<br><br>4.  **Restart:** Clicking &quot;Play Again&quot; resets everything, removes all the animation classes, and brings the board back to its initial state for a new game.</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "timestamp": "2025-10-02T14:15:06.916Z",
+  "execution": {
+    "duration_seconds": "28.479",
+    "model_used": "anthropic/claude-sonnet-4",
+    "model_requested": "anthropic/claude-sonnet-4"
+  },
+  "tokens": {
+    "prompt_tokens": 33,
+    "completion_tokens": 2373,
+    "total_tokens": 2406
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000099,
+    "completion_cost": 0.035595,
+    "total_cost": 0.035694
+  },
+  "model_card": {
+    "id": "anthropic/claude-sonnet-4",
+    "name": "Anthropic: Claude Sonnet 4",
+    "description": "Claude Sonnet 4 significantly enhances the capabilities of its predecessor, Sonnet 3.7, excelling in both coding and reasoning tasks with improved precision and controllability. Achieving state-of-the-art performance on SWE-bench (72.7%), Sonnet 4 balances capability and computational efficiency, making it suitable for a broad range of applications from routine coding tasks to complex software development projects. Key enhancements include improved autonomous codebase navigation, reduced error rates in agent-driven workflows, and increased reliability in following intricate instructions. Sonnet 4 is optimized for practical everyday use, providing advanced reasoning capabilities while maintaining efficiency and responsiveness in diverse internal and external scenarios.\n\nRead more at the [blog post here](https://www.anthropic.com/news/claude-4)",
+    "context_length": 1000000,
+    "architecture": {
+      "input_modalities": [
+        "image",
+        "text",
+        "file"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Claude"
+    },
+    "pricing": {
+      "completion": "0.000015",
+      "image": "0.0048",
+      "input_cache_read": "0.0000003",
+      "input_cache_write": "0.00000375",
+      "internal_reasoning": "0",
+      "prompt": "0.000003",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 1000000,
+      "is_moderated": false,
+      "max_completion_tokens": 64000
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759414479-ZK2fXWBhwBKu74EoGgYu",
+    "created": 1759414479,
+    "object": "chat.completion"
+  },
+  "raw_response": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Rain and Thunder Animation</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            overflow: hidden;\n            background: linear-gradient(to bottom, #1e3c72, #2a5298, #1e3c72);\n            height: 100vh;\n            position: relative;\n        }\n\n        /* Dark clouds */\n        .clouds {\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 200px;\n            background: linear-gradient(to bottom, #2c3e50, #34495e);\n            z-index: 10;\n        }\n\n        .cloud {\n            position: absolute;\n            background: #34495e;\n            border-radius: 50px;\n            opacity: 0.8;\n            animation: drift 20s infinite linear;\n        }\n\n        .cloud:before,\n        .cloud:after {\n            content: '';\n            position: absolute;\n            background: #34495e;\n            border-radius: 50px;\n        }\n\n        .cloud1 {\n            width: 100px;\n            height: 40px;\n            top: 50px;\n            left: -100px;\n            animation-duration: 25s;\n        }\n\n        .cloud1:before {\n            width: 50px;\n            height: 50px;\n            top: -25px;\n            left: 10px;\n        }\n\n        .cloud1:after {\n            width: 60px;\n            height: 20px;\n            top: -10px;\n            right: 10px;\n        }\n\n        .cloud2 {\n            width: 80px;\n            height: 30px;\n            top: 80px;\n            left: -80px;\n            animation-duration: 30s;\n            animation-delay: -10s;\n        }\n\n        .cloud2:before {\n            width: 40px;\n            height: 40px;\n            top: -20px;\n            left: 15px;\n        }\n\n        .cloud2:after {\n            width: 50px;\n            height: 15px;\n            top: -5px;\n            right: 15px;\n        }\n\n        .cloud3 {\n            width: 120px;\n            height: 50px;\n            top: 30px;\n            left: -120px;\n            animation-duration: 35s;\n            animation-delay: -20s;\n        }\n\n        .cloud3:before {\n            width: 60px;\n            height: 60px;\n            top: -30px;\n            left: 20px;\n        }\n\n        .cloud3:after {\n            width: 70px;\n            height: 25px;\n            top: -15px;\n            right: 20px;\n        }\n\n        @keyframes drift {\n            0% {\n                transform: translateX(0);\n            }\n            100% {\n                transform: translateX(calc(100vw + 200px));\n            }\n        }\n\n        /* Rain drops */\n        .rain {\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            z-index: 5;\n        }\n\n        .drop {\n            position: absolute;\n            width: 2px;\n            height: 15px;\n            background: linear-gradient(to bottom, transparent, #87ceeb, #4682b4);\n            border-radius: 0 0 50% 50%;\n            animation: fall linear infinite;\n        }\n\n        @keyframes fall {\n            0% {\n                transform: translateY(-100px);\n                opacity: 1;\n            }\n            100% {\n                transform: translateY(100vh);\n                opacity: 0.3;\n            }\n        }\n\n        /* Lightning flash */\n        .lightning {\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: rgba(255, 255, 255, 0);\n            z-index: 15;\n            animation: flash 4s infinite;\n        }\n\n        @keyframes flash {\n            0%, 85%, 87%, 89%, 100% {\n                background: rgba(255, 255, 255, 0);\n            }\n            86%, 88% {\n                background: rgba(255, 255, 255, 0.8);\n            }\n        }\n\n        /* Lightning bolt */\n        .bolt {\n            position: absolute;\n            width: 4px;\n            height: 150px;\n            background: #fff;\n            top: 100px;\n            left: 50%;\n            transform: translateX(-50%);\n            opacity: 0;\n            animation: bolt-flash 4s infinite;\n            box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00f;\n        }\n\n        .bolt:before {\n            content: '';\n            position: absolute;\n            width: 0;\n            height: 0;\n            border-left: 10px solid transparent;\n            border-right: 10px solid transparent;\n            border-top: 20px solid #fff;\n            top: -20px;\n            left: -8px;\n        }\n\n        @keyframes bolt-flash {\n            0%, 85%, 87%, 89%, 100% {\n                opacity: 0;\n            }\n            86%, 88% {\n                opacity: 1;\n            }\n        }\n\n        /* Ground reflection */\n        .ground {\n            position: absolute;\n            bottom: 0;\n            left: 0;\n            width: 100%;\n            height: 50px;\n            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));\n            z-index: 1;\n        }\n\n        /* Ripples */\n        .ripple {\n            position: absolute;\n            border: 2px solid rgba(135, 206, 235, 0.3);\n            border-radius: 50%;\n            animation: ripple-effect 1s ease-out infinite;\n        }\n\n        @keyframes ripple-effect {\n            0% {\n                width: 0;\n                height: 0;\n                opacity: 1;\n            }\n            100% {\n                width: 20px;\n                height: 20px;\n                opacity: 0;\n            }\n        }\n    </style>\n</head>\n<body>\n    <!-- Clouds -->\n    <div class=\"clouds\">\n        <div class=\"cloud cloud1\"></div>\n        <div class=\"cloud cloud2\"></div>\n        <div class=\"cloud cloud3\"></div>\n    </div>\n\n    <!-- Lightning -->\n    <div class=\"lightning\"></div>\n    <div class=\"bolt\"></div>\n\n    <!-- Rain -->\n    <div class=\"rain\" id=\"rain\"></div>\n\n    <!-- Ground -->\n    <div class=\"ground\"></div>\n\n    <script>\n        // Create rain drops\n        function createRain() {\n            const rainContainer = document.getElementById('rain');\n            const numberOfDrops = 100;\n\n            for (let i = 0; i < numberOfDrops; i++) {\n                const drop = document.createElement('div');\n                drop.className = 'drop';\n                drop.style.left = Math.random() * 100 + '%';\n                drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';\n                drop.style.animationDelay = Math.random() * 2 + 's';\n                rainContainer.appendChild(drop);\n            }\n        }\n\n        // Create ripples on ground\n        function createRipple() {\n            const ripple = document.createElement('div');\n            ripple.className = 'ripple';\n            ripple.style.left = Math.random() * 100 + '%';\n            ripple.style.bottom = Math.random() * 50 + 'px';\n            document.body.appendChild(ripple);\n\n            setTimeout(() => {\n                ripple.remove();\n            }, 1000);\n        }\n\n        // Thunder sound simulation (visual only)\n        function thunderEffect() {\n            const bolt = document.querySelector('.bolt');\n            const randomLeft = Math.random() * 80 + 10 + '%';\n            bolt.style.left = randomLeft;\n        }\n\n        // Initialize\n        createRain();\n\n        // Create ripples periodically\n        setInterval(createRipple, 200);\n\n        // Change lightning position\n        setInterval(thunderEffect, 4000);\n    </script>\n</body>\n</html>\n```\n\nThis HTML file creates a beautiful rain and thunder animation with the following features:\n\n1. **Dark storm clouds** that drift across the sky\n2. **Animated raindrops** falling at different speeds and positions\n3. **Lightning flashes** that illuminate the entire screen\n4. **Lightning bolts** that appear in different positions\n5. **Ground ripples** that simulate raindrops hitting the ground\n6. **Atmospheric gradient background** that gives a stormy feel\n\nThe animation runs continuously without any user interaction, creating an immersive stormy weather experience. The rain falls naturally, lightning strikes periodically, and ripples appear on the ground to simulate the impact of raindrops."
+}

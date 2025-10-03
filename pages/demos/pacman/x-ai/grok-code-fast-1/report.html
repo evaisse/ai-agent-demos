@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> x-ai/grok-code-fast-1</p>
+            <p><strong>Generated:</strong> 2025-10-02T13:15:10.735Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">4009</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">16.378s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0057</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;PAC-MAN Game&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            height: 100vh;<br>            margin: 0;<br>            background-color: #000;<br>            font-family: Arial, sans-serif;<br>            color: #fff;<br>        }<br>        canvas {<br>            border: 2px solid #fff;<br>        }<br>        #score {<br>            position: absolute;<br>            top: 10px;<br>            left: 10px;<br>            font-size: 20px;<br>        }<br>        #lives {<br>            position: absolute;<br>            top: 10px;<br>            right: 10px;<br>            font-size: 20px;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;score&quot;&gt;Score: 0&lt;/div&gt;<br>    &lt;div id=&quot;lives&quot;&gt;Lives: 3&lt;/div&gt;<br>    &lt;canvas id=&quot;gameCanvas&quot; width=&quot;400&quot; height=&quot;400&quot;&gt;&lt;/canvas&gt;<br>    &lt;script&gt;<br>        const canvas = document.getElementById(&#039;gameCanvas&#039;);<br>        const ctx = canvas.getContext(&#039;2d&#039;);<br>        const scoreDisplay = document.getElementById(&#039;score&#039;);<br>        const livesDisplay = document.getElementById(&#039;lives&#039;);<br><br>        // Maze layout (1 = wall, 0 = path, 2 = dot, 3 = power pellet, 4 = empty)<br>        const maze = [<br>            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],<br>            [1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1],<br>            [1,3,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,3,1],<br>            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],<br>            [1,2,1,1,1,2,1,2,1,1,1,1,2,1,2,1,1,1,2,1],<br>            [1,2,2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,2,2,1],<br>            [1,1,1,1,1,2,1,1,1,0,0,1,1,1,2,1,1,1,1,1],<br>            [0,0,0,0,1,2,1,0,0,0,0,0,0,1,2,1,0,0,0,0],<br>            [1,1,1,1,1,2,1,0,1,1,1,1,0,1,2,1,1,1,1,1],<br>            [0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0],<br>            [1,1,1,1,1,2,1,0,1,1,1,1,0,1,2,1,1,1,1,1],<br>            [0,0,0,0,1,2,1,0,0,0,0,0,0,1,2,1,0,0,0,0],<br>            [1,1,1,1,1,2,1,1,1,0,0,1,1,1,2,1,1,1,1,1],<br>            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],<br>            [1,2,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,2,1],<br>            [1,3,2,2,1,2,2,2,2,2,2,2,2,2,2,1,2,2,3,1],<br>            [1,1,2,2,1,2,1,2,1,1,1,1,2,1,2,1,2,2,1,1],<br>            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],<br>            [1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1],<br>            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]<br>        ];<br><br>        const tileSize = 20;<br>        let pacman = { x: 9.5, y: 15.5, dir: 0, nextDir: 0 }; // Position in tiles, direction (0=right, 1=down, 2=left, 3=up)<br>        let ghosts = [<br>            { x: 9.5, y: 9.5, dir: 0, color: &#039;red&#039;, mode: &#039;scatter&#039; },<br>            { x: 9.5, y: 10.5, dir: 1, color: &#039;pink&#039;, mode: &#039;scatter&#039; },<br>            { x: 8.5, y: 9.5, dir: 2, color: &#039;cyan&#039;, mode: &#039;scatter&#039; },<br>            { x: 10.5, y: 9.5, dir: 3, color: &#039;orange&#039;, mode: &#039;scatter&#039; }<br>        ];<br>        let score = 0;<br>        let lives = 3;<br>        let powerMode = false;<br>        let powerTimer = 0;<br><br>        function drawMaze() {<br>            ctx.fillStyle = &#039;#000&#039;;<br>            ctx.fillRect(0, 0, canvas.width, canvas.height);<br>            ctx.fillStyle = &#039;#00f&#039;;<br>            for (let y = 0; y &lt; maze.length; y++) {<br>                for (let x = 0; x &lt; maze[y].length; x++) {<br>                    if (maze[y][x] === 1) {<br>                        ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);<br>                    } else if (maze[y][x] === 2) {<br>                        ctx.fillStyle = &#039;#fff&#039;;<br>                        ctx.beginPath();<br>                        ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, 3, 0, Math.PI * 2);<br>                        ctx.fill();<br>                    } else if (maze[y][x] === 3) {<br>                        ctx.fillStyle = &#039;#fff&#039;;<br>                        ctx.beginPath();<br>                        ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, 6, 0, Math.PI * 2);<br>                        ctx.fill();<br>                    }<br>                }<br>            }<br>        }<br><br>        function drawPacman() {<br>            ctx.fillStyle = &#039;#ff0&#039;;<br>            ctx.beginPath();<br>            let angle = pacman.dir * Math.PI / 2;<br>            ctx.arc(pacman.x * tileSize, pacman.y * tileSize, tileSize / 2, angle + 0.2, angle + Math.PI * 1.8);<br>            ctx.lineTo(pacman.x * tileSize, pacman.y * tileSize);<br>            ctx.closePath();<br>            ctx.fill();<br>        }<br><br>        function drawGhosts() {<br>            ghosts.forEach(ghost =&gt; {<br>                ctx.fillStyle = ghost.color;<br>                ctx.fillRect(ghost.x * tileSize - tileSize / 2, ghost.y * tileSize - tileSize / 2, tileSize, tileSize);<br>                // Simple eye<br>                ctx.fillStyle = &#039;#fff&#039;;<br>                ctx.fillRect(ghost.x * tileSize - tileSize / 4 - 2, ghost.y * tileSize - tileSize / 4 - 2, 4, 4);<br>                ctx.fillRect(ghost.x * tileSize + tileSize / 4 - 2, ghost.y * tileSize - tileSize / 4 - 2, 4, 4);<br>            });<br>        }<br><br>        function movePacman() {<br>            // Try to change direction<br>            let newX = pacman.x;<br>            let newY = pacman.y;<br>            if (pacman.nextDir === 0) newX += 0.1;<br>            else if (pacman.nextDir === 1) newY += 0.1;<br>            else if (pacman.nextDir === 2) newX -= 0.1;<br>            else if (pacman.nextDir === 3) newY -= 0.1;<br><br>            if (!isWall(Math.floor(newX), Math.floor(newY)) &amp;&amp; !isWall(Math.ceil(newX), Math.ceil(newY))) {<br>                pacman.dir = pacman.nextDir;<br>            }<br><br>            // Move in current direction<br>            if (pacman.dir === 0) pacman.x += 0.1;<br>            else if (pacman.dir === 1) pacman.y += 0.1;<br>            else if (pacman.dir === 2) pacman.x -= 0.1;<br>            else if (pacman.dir === 3) pacman.y -= 0.1;<br><br>            // Wrap around<br>            if (pacman.x &lt; 0) pacman.x = 19.9;<br>            if (pacman.x &gt; 20) pacman.x = 0.1;<br>            if (pacman.y &lt; 0) pacman.y = 19.9;<br>            if (pacman.y &gt; 20) pacman.y = 0.1;<br><br>            // Eat dots<br>            let tileX = Math.floor(pacman.x);<br>            let tileY = Math.floor(pacman.y);<br>            if (maze[tileY][tileX] === 2) {<br>                maze[tileY][tileX] = 0;<br>                score += 10;<br>                scoreDisplay.textContent = &#039;Score: &#039; + score;<br>            } else if (maze[tileY][tileX] === 3) {<br>                maze[tileY][tileX] = 0;<br>                score += 50;<br>                powerMode = true;<br>                powerTimer = 300; // 5 seconds at 60fps<br>                scoreDisplay.textContent = &#039;Score: &#039; + score;<br>            }<br>        }<br><br>        function moveGhosts() {<br>            ghosts.forEach(ghost =&gt; {<br>                // Simple random movement for now<br>                let dirs = [0,1,2,3];<br>                let validDirs = dirs.filter(d =&gt; {<br>                    let nx = ghost.x, ny = ghost.y;<br>                    if (d === 0) nx += 0.1;<br>                    else if (d === 1) ny += 0.1;<br>                    else if (d === 2) nx -= 0.1;<br>                    else if (d === 3) ny -= 0.1;<br>                    return !isWall(Math.floor(nx), Math.floor(ny));<br>                });<br>                if (validDirs.length &gt; 0) {<br>                    ghost.dir = validDirs[Math.floor(Math.random() * validDirs.length)];<br>                }<br><br>                if (ghost.dir === 0) ghost.x += 0.05;<br>                else if (ghost.dir === 1) ghost.y += 0.05;<br>                else if (ghost.dir === 2) ghost.x -= 0.05;<br>                else if (ghost.dir === 3) ghost.y -= 0.05;<br><br>                // Wrap around<br>                if (ghost.x &lt; 0) ghost.x = 19.9;<br>                if (ghost.x &gt; 20) ghost.x = 0.1;<br>                if (ghost.y &lt; 0) ghost.y = 19.9;<br>                if (ghost.y &gt; 20) ghost.y = 0.1;<br>            });<br>        }<br><br>        function isWall(x, y) {<br>            return maze[y] &amp;&amp; maze[y][x] === 1;<br>        }<br><br>        function checkCollisions() {<br>            ghosts.forEach(ghost =&gt; {<br>                if (Math.abs(pacman.x - ghost.x) &lt; 0.5 &amp;&amp; Math.abs(pacman.y - ghost.y) &lt; 0.5) {<br>                    if (powerMode) {<br>                        // Eat ghost<br>                        ghost.x = 9.5;<br>                        ghost.y = 9.5;<br>                        score += 200;<br>                        scoreDisplay.textContent = &#039;Score: &#039; + score;<br>                    } else {<br>                        // Lose life<br>                        lives--;<br>                        livesDisplay.textContent = &#039;Lives: &#039; + lives;<br>                        if (lives &lt;= 0) {<br>                            alert(&#039;Game Over&#039;);<br>                            resetGame();<br>                        } else {<br>                            pacman.x = 9.5;<br>                            pacman.y = 15.5;<br>                            pacman.dir = 0;<br>                        }<br>                    }<br>                }<br>            });<br>        }<br><br>        function resetGame() {<br>            score = 0;<br>            lives = 3;<br>            pacman = { x: 9.5, y: 15.5, dir: 0, nextDir: 0 };<br>            ghosts = [<br>                { x: 9.5, y: 9.5, dir: 0, color: &#039;red&#039;, mode: &#039;scatter&#039; },<br>                { x: 9.5, y: 10.5, dir: 1, color: &#039;pink&#039;, mode: &#039;scatter&#039; },<br>                { x: 8.5, y: 9.5, dir: 2, color: &#039;cyan&#039;, mode: &#039;scatter&#039; },<br>                { x: 10.5, y: 9.5, dir: 3, color: &#039;orange&#039;, mode: &#039;scatter&#039; }<br>            ];<br>            // Reset maze<br>            for (let y = 0; y &lt; maze.length; y++) {<br>                for (let x = 0; x &lt; maze[y].length; x++) {<br>                    if (maze[y][x] === 0 &amp;&amp; (y !== 9 || x !== 9)) { // Keep center empty<br>                        maze[y][x] = 2; // Restore dots, but simplified<br>                    }<br>                }<br>            }<br>            scoreDisplay.textContent = &#039;Score: 0&#039;;<br>            livesDisplay.textContent = &#039;Lives: 3&#039;;<br>        }<br><br>        document.addEventListener(&#039;keydown&#039;, (e) =&gt; {<br>            if (e.key === &#039;ArrowRight&#039;) pacman.nextDir = 0;<br>            else if (e.key === &#039;ArrowDown&#039;) pacman.nextDir = 1;<br>            else if (e.key === &#039;ArrowLeft&#039;) pacman.nextDir = 2;<br>            else if (e.key === &#039;ArrowUp&#039;) pacman.nextDir = 3;<br>        });<br><br>        function gameLoop() {<br>            drawMaze();<br>            movePacman();<br>            moveGhosts();<br>            checkCollisions();<br>            drawPacman();<br>            drawGhosts();<br><br>            if (powerTimer &gt; 0) {<br>                powerTimer--;<br>                if (powerTimer === 0) {<br>                    powerMode = false;<br>                }<br>            }<br><br>            requestAnimationFrame(gameLoop);<br>        }<br><br>        gameLoop();<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre></div>
+        </div>
+    </div>
+</body>
+</html>

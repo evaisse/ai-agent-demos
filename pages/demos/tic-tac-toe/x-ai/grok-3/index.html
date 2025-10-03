@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            flex-direction: column;
+        }
+        #game-container {
+            text-align: center;
+        }
+        #status {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            background-color: #333;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border: 2px solid #333;
+            font-size: 3em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .cell:hover {
+            background-color: #e0e0e0;
+        }
+        #reset {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        /* Fireworks Animation */
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: red;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: explode 1s ease-out forwards;
+        }
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: scale(1) translate(0, 0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) translate(var(--tx), var(--ty));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="status">Player X's Turn</div>
+        <div id="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+        <button id="reset">Reset Game</button>
+    </div>
+
+    <script>
+        let currentPlayer = 'X';
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let gameOver = false;
+
+        const winCombos = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6] // Diagonals
+        ];
+
+        const cells = document.querySelectorAll('.cell');
+        const status = document.getElementById('status');
+        const resetButton = document.getElementById('reset');
+
+        cells.forEach(cell => {
+            cell.addEventListener('click', () => handleCellClick(cell));
+        });
+
+        resetButton.addEventListener('click', resetGame);
+
+        function handleCellClick(cell) {
+            const index = cell.getAttribute('data-index');
+            if (board[index] === '' && !gameOver) {
+                board[index] = currentPlayer;
+                cell.textContent = currentPlayer;
+                checkWin();
+                if (!gameOver) {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                    status.textContent = `Player ${currentPlayer}'s Turn`;
+                }
+            }
+        }
+
+        function checkWin() {
+            for (const combo of winCombos) {
+                const [a, b, c] = combo;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    status.textContent = `Player ${currentPlayer} Wins!`;
+                    gameOver = true;
+                    highlightWinningCells(combo);
+                    triggerFireworks();
+                    return;
+                }
+            }
+            if (!board.includes('')) {
+                status.textContent = "It's a Draw!";
+                gameOver = true;
+                triggerFireworks();
+            }
+        }
+
+        function highlightWinningCells(combo) {
+            combo.forEach(index => {
+                cells[index].style.backgroundColor = '#d4edda';
+            });
+        }
+
+        function resetGame() {
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameOver = false;
+            status.textContent = `Player ${currentPlayer}'s Turn`;
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.style.backgroundColor = '#fff';
+            });
+        }
+
+        function triggerFireworks() {
+            const boardRect = document.getElementById('board').getBoundingClientRect();
+            const centerX = boardRect.left + boardRect.width / 2;
+            const centerY = boardRect.top + boardRect.height / 2;
+
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                const angle = (Math.PI * 2 * i) / 50;
+                const distance = 100 + Math.random() * 150;
+                particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+                particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-sonnet-4.5</p>
+            <p><strong>Generated:</strong> 2025-10-02T23:05:47.007Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">2490</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.584s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0366</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simulation of 20 balls (they follow the rules of gravity and physics) which start in the center of a spinning 2D hexagon. Gravity should change from the bottom to the top every 5 seconds.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Spinning Hexagon with Balls&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            margin: 0;<br>            padding: 0;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            height: 100vh;<br>            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);<br>            overflow: hidden;<br>        }<br>        canvas {<br>            border: 2px solid #fff;<br>            box-shadow: 0 0 20px rgba(0,0,0,0.5);<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;canvas id=&quot;canvas&quot;&gt;&lt;/canvas&gt;<br>    &lt;script&gt;<br>        const canvas = document.getElementById(&#039;canvas&#039;);<br>        const ctx = canvas.getContext(&#039;2d&#039;);<br>        <br>        canvas.width = 800;<br>        canvas.height = 800;<br>        <br>        const centerX = canvas.width / 2;<br>        const centerY = canvas.height / 2;<br>        const hexRadius = 250;<br>        let hexRotation = 0;<br>        let gravityDirection = 1; // 1 for down, -1 for up<br>        <br>        // Ball class<br>        class Ball {<br>            constructor(x, y) {<br>                this.x = x;<br>                this.y = y;<br>                this.vx = (Math.random() - 0.5) * 2;<br>                this.vy = (Math.random() - 0.5) * 2;<br>                this.radius = 8;<br>                this.color = <code>hsl(${Math.random() * 360}, 70%, 60%)</code>;<br>                this.mass = 1;<br>            }<br>            <br>            update() {<br>                // Apply gravity<br>                this.vy += 0.3 * gravityDirection;<br>                <br>                // Apply velocity<br>                this.x += this.vx;<br>                this.y += this.vy;<br>                <br>                // Damping<br>                this.vx *= 0.999;<br>                this.vy *= 0.999;<br>            }<br>            <br>            draw() {<br>                ctx.beginPath();<br>                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);<br>                ctx.fillStyle = this.color;<br>                ctx.fill();<br>                ctx.strokeStyle = &#039;rgba(255,255,255,0.5)&#039;;<br>                ctx.lineWidth = 2;<br>                ctx.stroke();<br>            }<br>        }<br>        <br>        // Create balls<br>        const balls = [];<br>        for (let i = 0; i &lt; 20; i++) {<br>            balls.push(new Ball(centerX, centerY));<br>        }<br>        <br>        // Get hexagon vertices<br>        function getHexagonVertices(rotation) {<br>            const vertices = [];<br>            for (let i = 0; i &lt; 6; i++) {<br>                const angle = (Math.PI / 3) * i + rotation;<br>                vertices.push({<br>                    x: centerX + hexRadius * Math.cos(angle),<br>                    y: centerY + hexRadius * Math.sin(angle)<br>                });<br>            }<br>            return vertices;<br>        }<br>        <br>        // Draw hexagon<br>        function drawHexagon(rotation) {<br>            const vertices = getHexagonVertices(rotation);<br>            <br>            ctx.beginPath();<br>            ctx.moveTo(vertices[0].x, vertices[0].y);<br>            for (let i = 1; i &lt; vertices.length; i++) {<br>                ctx.lineTo(vertices[i].x, vertices[i].y);<br>            }<br>            ctx.closePath();<br>            ctx.strokeStyle = &#039;#fff&#039;;<br>            ctx.lineWidth = 4;<br>            ctx.stroke();<br>            ctx.fillStyle = &#039;rgba(255,255,255,0.05)&#039;;<br>            ctx.fill();<br>            <br>            return vertices;<br>        }<br>        <br>        // Check collision with hexagon edges<br>        function checkHexagonCollision(ball, vertices) {<br>            for (let i = 0; i &lt; vertices.length; i++) {<br>                const v1 = vertices[i];<br>                const v2 = vertices[(i + 1) % vertices.length];<br>                <br>                // Calculate distance from ball to line segment<br>                const dx = v2.x - v1.x;<br>                const dy = v2.y - v1.y;<br>                const len = Math.sqrt(dx * dx + dy * dy);<br>                const nx = -dy / len; // Normal vector<br>                const ny = dx / len;<br>                <br>                // Vector from v1 to ball<br>                const vx = ball.x - v1.x;<br>                const vy = ball.y - v1.y;<br>                <br>                // Project ball onto line<br>                const t = Math.max(0, Math.min(1, (vx * dx + vy * dy) / (len * len)));<br>                const closestX = v1.x + t * dx;<br>                const closestY = v1.y + t * dy;<br>                <br>                // Distance to closest point<br>                const distX = ball.x - closestX;<br>                const distY = ball.y - closestY;<br>                const distance = Math.sqrt(distX * distX + distY * distY);<br>                <br>                // Check if ball is outside hexagon<br>                const dotProduct = vx * nx + vy * ny;<br>                <br>                if (distance &lt; ball.radius &amp;&amp; dotProduct &gt; 0) {<br>                    // Move ball outside<br>                    const overlap = ball.radius - distance;<br>                    ball.x += nx * overlap;<br>                    ball.y += ny * overlap;<br>                    <br>                    // Reflect velocity<br>                    const dotVel = ball.vx * nx + ball.vy * ny;<br>                    ball.vx -= 2 * dotVel * nx * 0.8; // 0.8 for energy loss<br>                    ball.vy -= 2 * dotVel * ny * 0.8;<br>                }<br>            }<br>        }<br>        <br>        // Check ball-to-ball collision<br>        function checkBallCollision(ball1, ball2) {<br>            const dx = ball2.x - ball1.x;<br>            const dy = ball2.y - ball1.y;<br>            const distance = Math.sqrt(dx * dx + dy * dy);<br>            const minDist = ball1.radius + ball2.radius;<br>            <br>            if (distance &lt; minDist) {<br>                // Normalize<br>                const nx = dx / distance;<br>                const ny = dy / distance;<br>                <br>                // Separate balls<br>                const overlap = minDist - distance;<br>                ball1.x -= nx * overlap / 2;<br>                ball1.y -= ny * overlap / 2;<br>                ball2.x += nx * overlap / 2;<br>                ball2.y += ny * overlap / 2;<br>                <br>                // Calculate relative velocity<br>                const dvx = ball2.vx - ball1.vx;<br>                const dvy = ball2.vy - ball1.vy;<br>                const dotProduct = dvx * nx + dvy * ny;<br>                <br>                // Update velocities (elastic collision)<br>                if (dotProduct &lt; 0) {<br>                    ball1.vx += dotProduct * nx * 0.9;<br>                    ball1.vy += dotProduct * ny * 0.9;<br>                    ball2.vx -= dotProduct * nx * 0.9;<br>                    ball2.vy -= dotProduct * ny * 0.9;<br>                }<br>            }<br>        }<br>        <br>        // Animation loop<br>        function animate() {<br>            ctx.clearRect(0, 0, canvas.width, canvas.height);<br>            <br>            // Update hexagon rotation<br>            hexRotation += 0.01;<br>            <br>            // Draw hexagon<br>            const vertices = drawHexagon(hexRotation);<br>            <br>            // Update and draw balls<br>            balls.forEach(ball =&gt; {<br>                ball.update();<br>            });<br>            <br>            // Check collisions<br>            balls.forEach(ball =&gt; {<br>                checkHexagonCollision(ball, vertices);<br>            });<br>            <br>            // Check ball-to-ball collisions<br>            for (let i = 0; i &lt; balls.length; i++) {<br>                for (let j = i + 1; j &lt; balls.length; j++) {<br>                    checkBallCollision(balls[i], balls[j]);<br>                }<br>            }<br>            <br>            // Draw balls<br>            balls.forEach(ball =&gt; {<br>                ball.draw();<br>            });<br>            <br>            // Draw gravity indicator<br>            ctx.fillStyle = &#039;#fff&#039;;<br>            ctx.font = &#039;20px Arial&#039;;<br>            ctx.fillText(<code>Gravity: ${gravityDirection === 1 ? &#039;DOWN ↓&#039; : &#039;UP ↑&#039;}</code>, 20, 30);<br>            <br>            requestAnimationFrame(animate);<br>        }<br>        <br>        // Change gravity direction every 5 seconds<br>        setInterval(() =&gt; {<br>            gravityDirection *= -1;<br>        }, 5000);<br>        <br>        animate();<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This HTML file creates a complete simulation with:<br><br>1. **20 colorful balls** that start at the center of the canvas<br>2. **A rotating hexagon** that spins continuously<br>3. **Physics simulation** including:<br>   - Gravity (changes direction every 5 seconds)<br>   - Ball-to-ball collisions<br>   - Ball-to-hexagon wall collisions<br>   - Velocity damping for realistic movement<br>4. **Visual feedback** showing the current gravity direction<br><br>The balls will bounce off the hexagon walls and each other, creating a dynamic and entertaining simulation. The hexagon continuously rotates, and gravity alternates between pulling down and pulling up every 5 seconds.</div>
+        </div>
+    </div>
+</body>
+</html>

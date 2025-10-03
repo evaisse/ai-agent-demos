@@ -1,0 +1,62 @@
+{
+  "timestamp": "2025-10-02T21:42:08.856Z",
+  "execution": {
+    "duration_seconds": "5.901",
+    "model_used": "x-ai/grok-3-mini",
+    "model_requested": "x-ai/grok-3-mini"
+  },
+  "tokens": {
+    "prompt_tokens": 40,
+    "completion_tokens": 3324,
+    "total_tokens": 3364
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000012,
+    "completion_cost": 0.001662,
+    "total_cost": 0.001674
+  },
+  "model_card": {
+    "id": "x-ai/grok-3-mini",
+    "name": "xAI: Grok 3 Mini",
+    "description": "A lightweight model that thinks before responding. Fast, smart, and great for logic-based tasks that do not require deep domain knowledge. The raw thinking traces are accessible.",
+    "context_length": 131072,
+    "architecture": {
+      "input_modalities": [
+        "text"
+      ],
+      "instruct_type": null,
+      "modality": "text->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Grok"
+    },
+    "pricing": {
+      "completion": "0.0000005",
+      "image": "0",
+      "input_cache_read": "0.000000075",
+      "internal_reasoning": "0",
+      "prompt": "0.0000003",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 131072,
+      "is_moderated": false,
+      "max_completion_tokens": null
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! \n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759441298-U4oL8GO5LEYoPbwaCIqh",
+    "created": 1759441298,
+    "object": "chat.completion"
+  },
+  "raw_response": "Below is the complete code for a single HTML file named `index.html`. This file includes a simple Tic Tac Toe game implemented using HTML, CSS, and JavaScript. The game allows two players (X and O) to take turns clicking on a 3x3 grid. After the game ends (either a win or a draw), an original twist is added: a confetti animation where colorful particles rain down from the top of the screen to celebrate the end of the game. This animation is triggered dynamically using JavaScript and styled with CSS.\n\nHere's a quick overview:\n- **Game Logic**: Players click on empty cells to place their symbol (X or O). The game checks for a winner after each move or declares a draw if the board is full.\n- **Original Twist**: When the game ends, confetti particles (small colored dots) fall from the top of the screen. This is a fun, original animation that adds a celebratory feel.\n- **Reset**: A button appears at the end of the game to restart.\n\nSave this code in a file named `index.html` and open it in a web browser to play.\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Tic Tac Toe</title>\n    <style>\n        /* Basic styling for the game */\n        body {\n            font-family: Arial, sans-serif;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            justify-content: center;\n            height: 100vh;\n            margin: 0;\n            background-color: #f0f0f0;\n        }\n\n        h1 {\n            margin-bottom: 20px;\n        }\n\n        #status {\n            font-size: 1.2em;\n            margin-bottom: 20px;\n            font-weight: bold;\n        }\n\n        #board {\n            display: grid;\n            grid-template-columns: repeat(3, 100px);\n            grid-gap: 5px;\n            margin-bottom: 20px;\n        }\n\n        .cell {\n            width: 100px;\n            height: 100px;\n            background-color: #fff;\n            border: 1px solid #ccc;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-size: 2em;\n            cursor: pointer;\n            transition: background-color 0.3s;\n        }\n\n        .cell:hover {\n            background-color: #e0e0e0;\n        }\n\n        .cell.x {\n            color: #3498db; /* Blue for X */\n        }\n\n        .cell.o {\n            color: #e74c3c; /* Red for O */\n        }\n\n        #reset-button {\n            margin-top: 20px;\n            padding: 10px 20px;\n            font-size: 1em;\n            background-color: #2ecc71;\n            color: #fff;\n            border: none;\n            cursor: pointer;\n            border-radius: 5px;\n            display: none; /* Hidden until game ends */\n        }\n\n        #reset-button:hover {\n            background-color: #27ae60;\n        }\n\n        /* Confetti animation styles */\n        #confetti {\n            position: fixed;\n            top: 0;\n            left: 0;\n            width: 100vw;\n            height: 100vh;\n            pointer-events: none; /* So it doesn't interfere with clicks */\n            overflow: hidden;\n            z-index: 1000;\n        }\n\n        .confetti-particle {\n            position: absolute;\n            width: 10px;\n            height: 10px;\n            background-color: hsl(0, 100%, 50%); /* Default red, will be randomized */\n            border-radius: 50%;\n            animation: fall 2s linear forwards;\n        }\n\n        @keyframes fall {\n            0% {\n                transform: translateY(0) rotate(0deg);\n                opacity: 1;\n            }\n            100% {\n                transform: translateY(100vh) rotate(360deg);\n                opacity: 0;\n            }\n        }\n    </style>\n</head>\n<body>\n    <h1>Tic Tac Toe</h1>\n    <div id=\"status\">Player X's turn</div>\n    <div id=\"board\">\n        <div class=\"cell\" data-index=\"0\"></div>\n        <div class=\"cell\" data-index=\"1\"></div>\n        <div class=\"cell\" data-index=\"2\"></div>\n        <div class=\"cell\" data-index=\"3\"></div>\n        <div class=\"cell\" data-index=\"4\"></div>\n        <div class=\"cell\" data-index=\"5\"></div>\n        <div class=\"cell\" data-index=\"6\"></div>\n        <div class=\"cell\" data-index=\"7\"></div>\n        <div class=\"cell\" data-index=\"8\"></div>\n    </div>\n    <button id=\"reset-button\">Play Again</button>\n    <div id=\"confetti\"></div>\n\n    <script>\n        const statusDisplay = document.getElementById('status');\n        const board = document.getElementById('board');\n        const cells = document.querySelectorAll('.cell');\n        const resetButton = document.getElementById('reset-button');\n        const confettiContainer = document.getElementById('confetti');\n        let gameBoard = Array(9).fill(null); // Tracks the board state\n        let currentPlayer = 'X'; // Start with X\n        let gameActive = true; // Flag to check if game is ongoing\n\n        // Function to handle cell clicks\n        function handleCellClick(event) {\n            const cell = event.target;\n            const index = cell.getAttribute('data-index');\n\n            if (gameBoard[index] || !gameActive) {\n                return; // Cell already taken or game over\n            }\n\n            gameBoard[index] = currentPlayer;\n            cell.textContent = currentPlayer;\n            cell.classList.add(currentPlayer.toLowerCase()); // Add class for styling\n\n            if (checkWinner()) {\n                statusDisplay.textContent = `Player ${currentPlayer} wins!`;\n                gameActive = false;\n                triggerConfetti(); // Original twist: Trigger animation\n                resetButton.style.display = 'block'; // Show reset button\n            } else if (gameBoard.every(cell => cell)) {\n                statusDisplay.textContent = \"It's a draw!\";\n                gameActive = false;\n                triggerConfetti(); // Trigger animation for draw too\n                resetButton.style.display = 'block'; // Show reset button\n            } else {\n                currentPlayer = currentPlayer === 'X' ? 'O' : 'X'; // Switch player\n                statusDisplay.textContent = `Player ${currentPlayer}'s turn`;\n            }\n        }\n\n        // Function to check for a winner\n        function checkWinner() {\n            const winConditions = [\n                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows\n                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns\n                [0, 4, 8], [2, 4, 6] // Diagonals\n            ];\n\n            for (let condition of winConditions) {\n                const [a, b, c] = condition;\n                if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {\n                    return true; // Winner found\n                }\n            }\n            return false; // No winner\n        }\n\n        // Function to trigger the original confetti animation\n        function triggerConfetti() {\n            for (let i = 0; i < 100; i++) { // Create 100 particles for a festive effect\n                const particle = document.createElement('div');\n                particle.className = 'confetti-particle';\n                particle.style.left = `${Math.random() * 100}vw`; // Random horizontal position\n                particle.style.top = `${Math.random() * 20}px`; // Start near the top\n                particle.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color\n                particle.style.animationDelay = `${Math.random() * 0.5}s`; // Stagger the start\n                confettiContainer.appendChild(particle);\n\n                // Remove particle after animation to clean up\n                setTimeout(() => {\n                    particle.remove();\n                }, 2000); // Matches the animation duration\n            }\n        }\n\n        // Add event listeners to cells\n        cells.forEach(cell => cell.addEventListener('click', handleCellClick));\n\n        // Reset game function\n        resetButton.addEventListener('click', () => {\n            gameBoard = Array(9).fill(null);\n            gameActive = true;\n            currentPlayer = 'X';\n            statusDisplay.textContent = `Player ${currentPlayer}'s turn`;\n            cells.forEach(cell => {\n                cell.textContent = '';\n                cell.classList.remove('x', 'o');\n            });\n            resetButton.style.display = 'none'; // Hide reset button\n            confettiContainer.innerHTML = ''; // Clear any remaining confetti\n        });\n    </script>\n</body>\n</html>\n```\n\n### How to Play:\n1. Open the `index.html` file in a web browser.\n2. Players take turns clicking on empty cells to place X or O.\n3. The game announces the winner or a draw and triggers the confetti animation.\n4. Click the \"Play Again\" button to reset the game.\n\n### Original Twist Details:\n- The confetti animation is a creative way to end the game, using randomly colored and positioned particles that fall down the screen.\n- It's implemented with CSS animations for smoothness and JavaScript for dynamic creation, making it feel lively and fun.\n- This adds a celebratory element without overcomplicating the game, keeping the file size and complexity low.\n\nThis code is self-contained in a single file, as requested. If you have any modifications or additions, let me know!"
+}

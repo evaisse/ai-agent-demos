@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-3.5-sonnet</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:32:21.321Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">1977</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.431s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0292</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Here&#039;s a fun Tic Tac toe game with a colorful spiral animation when someone wins:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe with Twist&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            display: flex;<br>            flex-direction: column;<br>            align-items: center;<br>            font-family: Arial, sans-serif;<br>            background-color: #f0f0f0;<br>        }<br><br>        #game-board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 100px);<br>            gap: 5px;<br>            margin: 20px;<br>        }<br><br>        .cell {<br>            width: 100px;<br>            height: 100px;<br>            background-color: white;<br>            border: 2px solid #333;<br>            display: flex;<br>            align-items: center;<br>            justify-content: center;<br>            font-size: 40px;<br>            cursor: pointer;<br>            transition: background-color 0.3s;<br>        }<br><br>        .cell:hover {<br>            background-color: #eee;<br>        }<br><br>        #status {<br>            font-size: 24px;<br>            margin: 20px;<br>        }<br><br>        #reset-btn {<br>            padding: 10px 20px;<br>            font-size: 18px;<br>            background-color: #4CAF50;<br>            color: white;<br>            border: none;<br>            border-radius: 5px;<br>            cursor: pointer;<br>        }<br><br>        #reset-btn:hover {<br>            background-color: #45a049;<br>        }<br><br>        .winner-cell {<br>            animation: winPulse 0.5s infinite;<br>        }<br><br>        @keyframes winPulse {<br>            0% { transform: scale(1); }<br>            50% { transform: scale(1.1); }<br>            100% { transform: scale(1); }<br>        }<br><br>        .celebration {<br>            position: fixed;<br>            width: 10px;<br>            height: 10px;<br>            border-radius: 50%;<br>            pointer-events: none;<br>            animation: spiral 1s linear forwards;<br>        }<br><br>        @keyframes spiral {<br>            0% {<br>                transform: translate(-50%, -50%) rotate(0deg) translateX(0);<br>                opacity: 1;<br>            }<br>            100% {<br>                transform: translate(-50%, -50%) rotate(1080deg) translateX(500px);<br>                opacity: 0;<br>            }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;h1&gt;Tic Tac Toe&lt;/h1&gt;<br>    &lt;div id=&quot;status&quot;&gt;Player X&#039;s turn&lt;/div&gt;<br>    &lt;div id=&quot;game-board&quot;&gt;&lt;/div&gt;<br>    &lt;button id=&quot;reset-btn&quot;&gt;Reset Game&lt;/button&gt;<br><br>    &lt;script&gt;<br>        const board = document.getElementById(&#039;game-board&#039;);<br>        const status = document.getElementById(&#039;status&#039;);<br>        const resetBtn = document.getElementById(&#039;reset-btn&#039;);<br>        let currentPlayer = &#039;X&#039;;<br>        let gameBoard = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>        let gameActive = true;<br><br>        // Create the game board<br>        for (let i = 0; i &lt; 9; i++) {<br>            const cell = document.createElement(&#039;div&#039;);<br>            cell.classList.add(&#039;cell&#039;);<br>            cell.setAttribute(&#039;data-index&#039;, i);<br>            cell.addEventListener(&#039;click&#039;, handleCellClick);<br>            board.appendChild(cell);<br>        }<br><br>        function handleCellClick(e) {<br>            const index = e.target.getAttribute(&#039;data-index&#039;);<br>            if (gameBoard[index] === &#039;&#039; &amp;&amp; gameActive) {<br>                gameBoard[index] = currentPlayer;<br>                e.target.textContent = currentPlayer;<br>                <br>                if (checkWin()) {<br>                    status.textContent = <code>Player ${currentPlayer} wins!</code>;<br>                    gameActive = false;<br>                    celebrateWin();<br>                    highlightWinningCells();<br>                } else if (gameBoard.every(cell =&gt; cell !== &#039;&#039;)) {<br>                    status.textContent = &quot;It&#039;s a draw!&quot;;<br>                    gameActive = false;<br>                } else {<br>                    currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>                    status.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br>                }<br>            }<br>        }<br><br>        function checkWin() {<br>            const winPatterns = [<br>                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows<br>                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns<br>                [0, 4, 8], [2, 4, 6] // Diagonals<br>            ];<br><br>            return winPatterns.some(pattern =&gt; {<br>                return pattern.every(index =&gt; {<br>                    return gameBoard[index] === currentPlayer;<br>                });<br>            });<br>        }<br><br>        function celebrateWin() {<br>            const colors = [&#039;#FF0000&#039;, &#039;#00FF00&#039;, &#039;#0000FF&#039;, &#039;#FFFF00&#039;, &#039;#FF00FF&#039;, &#039;#00FFFF&#039;];<br>            <br>            for (let i = 0; i &lt; 50; i++) {<br>                setTimeout(() =&gt; {<br>                    const particle = document.createElement(&#039;div&#039;);<br>                    particle.classList.add(&#039;celebration&#039;);<br>                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];<br>                    particle.style.left = <code>${Math.random() * window.innerWidth}px</code>;<br>                    particle.style.top = <code>${Math.random() * window.innerHeight}px</code>;<br>                    document.body.appendChild(particle);<br><br>                    setTimeout(() =&gt; {<br>                        particle.remove();<br>                    }, 1000);<br>                }, i * 50);<br>            }<br>        }<br><br>        function highlightWinningCells() {<br>            const cells = document.querySelectorAll(&#039;.cell&#039;);<br>            cells.forEach(cell =&gt; {<br>                const index = cell.getAttribute(&#039;data-index&#039;);<br>                if (gameBoard[index] === currentPlayer) {<br>                    cell.classList.add(&#039;winner-cell&#039;);<br>                }<br>            });<br>        }<br><br>        resetBtn.addEventListener(&#039;click&#039;, () =&gt; {<br>            gameBoard = [&#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;, &#039;&#039;];<br>            gameActive = true;<br>            currentPlayer = &#039;X&#039;;<br>            status.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br>            <br>            const cells = document.querySelectorAll(&#039;.cell&#039;);<br>            cells.forEach(cell =&gt; {<br>                cell.textContent = &#039;&#039;;<br>                cell.classList.remove(&#039;winner-cell&#039;);<br>            });<br>        });<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This Tic Tac Toe game includes:<br><br>1. A clean and responsive design<br>2. Turn-based gameplay between X and O players<br>3. Win detection<br>4. A reset button to start a new game<br>5. Visual feedback for hover and click states<br><br>The winning animation features:<br>1. Pulsing animation on the winning cells<br>2. Colorful particles that spiral outward from random positions on the screen<br>3. Each particle has a random color from a preset palette<br>4. The particles animate in a staggered sequence for a more dynamic effect<br><br>When a player wins, the winning cells will pulse, and colorful particles will spiral out across the screen in a celebratory animation. The game can be reset at any time using the Reset Game button.<br><br>To play:<br>1. Simply click on any empty cell to place your mark (X or O)<br>2. Players alternate turns<br>3. Get three in a row (horizontally, vertically, or diagonally) to win<br>4. Click the Reset Game button to start a new game<br><br>The celebration animation creates a fun and engaging ending to each game, making it more entertaining for the players.</div>
+        </div>
+    </div>
+</body>
+</html>

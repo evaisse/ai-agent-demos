@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-10-02T14:14:16.778Z",
+  "execution": {
+    "duration_seconds": "7.394",
+    "model_used": "anthropic/claude-3-haiku",
+    "model_requested": "anthropic/claude-3-haiku"
+  },
+  "tokens": {
+    "prompt_tokens": 33,
+    "completion_tokens": 821,
+    "total_tokens": 854
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000008,
+    "completion_cost": 0.001026,
+    "total_cost": 0.001035
+  },
+  "model_card": {
+    "id": "anthropic/claude-3-haiku",
+    "name": "Anthropic: Claude 3 Haiku",
+    "description": "Claude 3 Haiku is Anthropic's fastest and most compact model for\nnear-instant responsiveness. Quick and accurate targeted performance.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-haiku)\n\n#multimodal",
+    "context_length": 200000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Claude"
+    },
+    "pricing": {
+      "completion": "0.00000125",
+      "image": "0.0004",
+      "input_cache_read": "0.00000003",
+      "input_cache_write": "0.0000003",
+      "internal_reasoning": "0",
+      "prompt": "0.00000025",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 200000,
+      "is_moderated": true,
+      "max_completion_tokens": 4096
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759414449-sW3Y0iLAQ6tNeDZoYIsH",
+    "created": 1759414450,
+    "object": "chat.completion"
+  },
+  "raw_response": "Here's an example of a cool raining and thunder animation using HTML, CSS, and JavaScript in a single `index.html` file:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Raining and Thunder Animation</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      height: 100vh;\n      background-color: #000;\n      overflow: hidden;\n    }\n\n    .rain {\n      position: absolute;\n      width: 100%;\n      height: 100%;\n      z-index: 2;\n      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);\n      background-repeat: repeat-y;\n      animation: rain 0.3s linear infinite;\n    }\n\n    .thunder {\n      position: absolute;\n      width: 100%;\n      height: 100%;\n      z-index: 1;\n      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);\n      animation: thunder 5s ease-in-out infinite;\n    }\n\n    @keyframes rain {\n      0% {\n        background-position: 0 0;\n      }\n      100% {\n        background-position: 0 100%;\n      }\n    }\n\n    @keyframes thunder {\n      0% {\n        opacity: 1;\n      }\n      90% {\n        opacity: 1;\n      }\n      95% {\n        opacity: 0;\n      }\n      100% {\n        opacity: 1;\n      }\n    }\n  </style>\n</head>\n<body>\n  <div class=\"rain\"></div>\n  <div class=\"thunder\"></div>\n\n  <script>\n    // Add lightning and thunder sound effects\n    const thunderSound = new Audio('thunder.mp3');\n    const lightningSound = new Audio('lightning.mp3');\n\n    function playThunder() {\n      thunderSound.play();\n    }\n\n    function playLightning() {\n      lightningSound.play();\n    }\n\n    // Randomly trigger thunder and lightning\n    setInterval(() => {\n      const randomDelay = Math.random() * 5000; // Random delay between 0 and 5 seconds\n      setTimeout(() => {\n        playThunder();\n        playLightning();\n      }, randomDelay);\n    }, 10000); // Trigger thunder and lightning every 10 seconds\n  </script>\n</body>\n</html>\n```\n\nThis code creates a cool raining and thunder animation using CSS animations. The `rain` class creates a rain effect, and the `thunder` class creates a lightning effect. The JavaScript code adds sound effects for thunder and lightning, which are randomly triggered every 10 seconds.\n\nTo use this code, you'll need to have the `thunder.mp3` and `lightning.mp3` audio files in the same directory as the `index.html` file. You can replace these files with your own sound effects if desired.\n\nNote that this is a simple example, and you can further customize the animation and sound effects to your liking."
+}

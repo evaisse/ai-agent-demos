@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> deepseek/deepseek-v3.2-exp</p>
+            <p><strong>Generated:</strong> 2025-10-02T23:15:22.009Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">2073</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.981s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0008</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a 3d simulation of 200 dominoes arranged in a spiral. The outermost domino falls, triggering a satisfying, cascading chain reaction towards the center. No interactions. 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"># Domino Spiral Chain Reaction<br><br>I&#039;ll create a 3D simulation of dominoes arranged in a spiral pattern with a cascading chain reaction. This will use Three.js for the 3D rendering and physics.<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Domino Spiral Chain Reaction&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            margin: 0;<br>            overflow: hidden;<br>            background-color: #000;<br>            font-family: Arial, sans-serif;<br>        }<br>        #info {<br>            position: absolute;<br>            top: 10px;<br>            width: 100%;<br>            text-align: center;<br>            color: white;<br>            z-index: 100;<br>            pointer-events: none;<br>        }<br>        #controls {<br>            position: absolute;<br>            bottom: 10px;<br>            width: 100%;<br>            text-align: center;<br>            z-index: 100;<br>        }<br>        button {<br>            background-color: rgba(255, 255, 255, 0.2);<br>            color: white;<br>            border: 1px solid white;<br>            padding: 8px 16px;<br>            margin: 0 5px;<br>            cursor: pointer;<br>            border-radius: 4px;<br>        }<br>        button:hover {<br>            background-color: rgba(255, 255, 255, 0.3);<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;info&quot;&gt;Domino Spiral Chain Reaction&lt;/div&gt;<br>    &lt;div id=&quot;controls&quot;&gt;<br>        &lt;button id=&quot;startBtn&quot;&gt;Start Animation&lt;/button&gt;<br>        &lt;button id=&quot;resetBtn&quot;&gt;Reset&lt;/button&gt;<br>    &lt;/div&gt;<br>    <br>    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js&quot;&gt;&lt;/script&gt;<br>    &lt;script&gt;<br>        // Initialize Three.js scene<br>        const scene = new THREE.Scene();<br>        scene.background = new THREE.Color(0x222222);<br>        <br>        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);<br>        camera.position.set(0, 30, 50);<br>        camera.lookAt(0, 0, 0);<br>        <br>        const renderer = new THREE.WebGLRenderer({ antialias: true });<br>        renderer.setSize(window.innerWidth, window.innerHeight);<br>        document.body.appendChild(renderer.domElement);<br>        <br>        // Add lighting<br>        const ambientLight = new THREE.AmbientLight(0x404040);<br>        scene.add(ambientLight);<br>        <br>        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);<br>        directionalLight.position.set(10, 20, 15);<br>        scene.add(directionalLight);<br>        <br>        // Parameters<br>        const dominoCount = 200;<br>        const dominoWidth = 1;<br>        const dominoHeight = 3;<br>        const dominoDepth = 0.5;<br>        const dominoSpacing = 0.3;<br>        const spiralTurns = 5;<br>        <br>        // Create dominoes<br>        const dominoes = [];<br>        const dominoGroup = new THREE.Group();<br>        scene.add(dominoGroup);<br>        <br>        // Create domino geometry and materials<br>        const dominoGeometry = new THREE.BoxGeometry(dominoWidth, dominoHeight, dominoDepth);<br>        const dominoMaterials = [<br>            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Right side<br>            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Left side<br>            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Top side<br>            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Bottom side<br>            new THREE.MeshLambertMaterial({ color: 0xff0000 }), // Front side (red)<br>            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Back side<br>        ];<br>        <br>        // Create spiral of dominoes<br>        for (let i = 0; i &lt; dominoCount; i++) {<br>            const domino = new THREE.Mesh(dominoGeometry, dominoMaterials);<br>            <br>            // Calculate position along spiral<br>            const t = i / dominoCount;<br>            const angle = t * 2 * Math.PI * spiralTurns;<br>            const radius = 20 * (1 - t);<br>            <br>            domino.position.x = radius * Math.cos(angle);<br>            domino.position.z = radius * Math.sin(angle);<br>            <br>            // Rotate domino to be perpendicular to spiral<br>            domino.rotation.y = -angle - Math.PI / 2;<br>            <br>            domino.userData = {<br>                originalPosition: domino.position.clone(),<br>                originalRotation: domino.rotation.clone(),<br>                falling: false,<br>                fallen: false,<br>                fallTime: 0,<br>                fallDelay: t * 2, // Delay based on position in spiral<br>                targetRotation: new THREE.Euler(0, domino.rotation.y, Math.PI / 2)<br>            };<br>            <br>            dominoes.push(domino);<br>            dominoGroup.add(domino);<br>        }<br>        <br>        // Animation state<br>        let animationRunning = false;<br>        let animationStartTime = 0;<br>        <br>        // Start the animation<br>        document.getElementById(&#039;startBtn&#039;).addEventListener(&#039;click&#039;, () =&gt; {<br>            if (!animationRunning) {<br>                animationRunning = true;<br>                animationStartTime = Date.now();<br>            }<br>        });<br>        <br>        // Reset the animation<br>        document.getElementById(&#039;resetBtn&#039;).addEventListener(&#039;click&#039;, () =&gt; {<br>            animationRunning = false;<br>            for (const domino of dominoes) {<br>                domino.position.copy(domino.userData.originalPosition);<br>                domino.rotation.copy(domino.userData.originalRotation);<br>                domino.userData.falling = false;<br>                domino.userData.fallen = false;<br>                domino.userData.fallTime = 0;<br>            }<br>        });<br>        <br>        // Animation loop<br>        function animate() {<br>            requestAnimationFrame(animate);<br>            <br>            if (animationRunning) {<br>                const currentTime = Date.now();<br>                const elapsedTime = (currentTime - animationStartTime) / 1000;<br>                <br>                // Update domino positions<br>                for (let i = 0; i &lt; dominoes.length; i++) {<br>                    const domino = dominoes[i];<br>                    <br>                    // Check if it&#039;s time for this domino to fall<br>                    if (!domino.userData.falling &amp;&amp; !domino.userData.fallen &amp;&amp; elapsedTime &gt; domino.userData.fallDelay) {<br>                        domino.userData.falling = true;<br>                        domino.userData.fallTime = elapsedTime;<br>                    }<br>                    <br>                    // Animate falling domino<br>                    if (domino.userData.falling &amp;&amp; !domino.userData.fallen) {<br>                        const fallProgress = (elapsedTime - domino.userData.fallTime) / 0.5; // 0.5 seconds to fall<br>                        <br>                        if (fallProgress &gt;= 1) {<br>                            domino.userData.falling = false;<br>                            domino.userData.fallen = true;<br>                            domino.rotation.x = Math.PI / 2;<br>                        } else {<br>                            // Smooth falling animation<br>                            const easedProgress = 1 - Math.pow(1 - fallProgress, 3); // Ease out cubic<br>                            domino.rotation.x = easedProgress * Math.PI / 2;<br>                            <br>                            // Add slight forward movement<br>                            const forwardMovement = easedProgress * 0.5;<br>                            domino.position.x -= Math.sin(domino.userData.originalRotation.y) * forwardMovement;<br>                            domino.position.z -= Math.cos(domino.userData.originalRotation.y) * forwardMovement;<br>                        }<br>                    }<br>                }<br>            }<br>            <br>            // Rotate camera around the scene<br>            const time = Date.now() * 0.0005;<br>            camera.position.x = Math.cos(time) * 50;<br>            camera.position.z = Math.sin(time) * 50;<br>            camera.lookAt(0, 0, 0);<br>            <br>            renderer.render(scene, camera);<br>        }<br>        <br>        // Handle window resize<br>        window.addEventListener(&#039;resize&#039;, () =&gt; {<br>            camera.aspect = window.innerWidth / window.innerHeight;<br>            camera.updateProjectionMatrix();<br>            renderer.setSize(window.innerWidth, window.innerHeight);<br>        });<br>        <br>        // Start animation loop<br>        animate();<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>## How This Works<br><br>1. **Setup**: Uses Three.js to create a 3D scene with lighting and a camera that orbits around the domino spiral.<br><br>2. **Domino Creation**: <br>   - Creates 200 dominoes arranged in a spiral pattern<br>   - Each domino has a red front face for visibility<br>   - Dominoes are positioned and rotated to form a spiral that gets tighter toward the center<br><br>3. **Animation**:<br>   - The outermost domino falls first, triggering a chain reaction<br>   - Each domino falls with a slight delay based on its position in the spiral<br>   - The falling animation includes rotation and a small forward movement for realism<br>   - The camera slowly orbits around the scene to give a full view of the chain reaction<br><br>4. **Controls**:<br>   - &quot;Start Animation&quot; button begins the chain reaction<br>   - &quot;Reset&quot; button returns all dominoes to their original positions<br><br>You can simply copy this code into a file named <code>index.html</code> and open it in a modern browser to see the domino spiral chain reaction in action.</div>
+        </div>
+    </div>
+</body>
+</html>

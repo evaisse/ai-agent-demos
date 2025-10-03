@@ -1,0 +1,63 @@
+{
+  "timestamp": "2025-10-02T21:40:57.261Z",
+  "execution": {
+    "duration_seconds": "10.156",
+    "model_used": "x-ai/grok-4-fast",
+    "model_requested": "x-ai/grok-4-fast"
+  },
+  "tokens": {
+    "prompt_tokens": 150,
+    "completion_tokens": 2282,
+    "total_tokens": 2432
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.00003,
+    "completion_cost": 0.001141,
+    "total_cost": 0.001171
+  },
+  "model_card": {
+    "id": "x-ai/grok-4-fast",
+    "name": "xAI: Grok 4 Fast",
+    "description": "Grok 4 Fast is xAI's latest multimodal model with SOTA cost-efficiency and a 2M token context window. It comes in two flavors: non-reasoning and reasoning. Read more about the model on xAI's [news post](http://x.ai/news/grok-4-fast). Reasoning can be enabled using the `reasoning` `enabled` parameter in the API. [Learn more in our docs](https://openrouter.ai/docs/use-cases/reasoning-tokens#controlling-reasoning-tokens)\n\nPrompts and completions on Grok 4 Fast Free may be used by xAI or OpenRouter to improve future models.",
+    "context_length": 2000000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Grok"
+    },
+    "pricing": {
+      "completion": "0.0000005",
+      "image": "0",
+      "input_cache_read": "0.00000005",
+      "internal_reasoning": "0",
+      "prompt": "0.0000002",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 2000000,
+      "is_moderated": false,
+      "max_completion_tokens": 30000
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! \n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759441234-l9lhwVAXWL6fTupfwJII",
+    "created": 1759441234,
+    "object": "chat.completion"
+  },
+  "raw_response": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Tic Tac Toe</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            justify-content: center;\n            height: 100vh;\n            margin: 0;\n            background-color: #f0f0f0;\n        }\n        #board {\n            display: grid;\n            grid-template-columns: repeat(3, 100px);\n            grid-template-rows: repeat(3, 100px);\n            gap: 5px;\n            margin-bottom: 20px;\n        }\n        .cell {\n            background-color: white;\n            border: 2px solid #333;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            font-size: 2em;\n            font-weight: bold;\n            cursor: pointer;\n            user-select: none;\n            transition: all 0.3s ease;\n        }\n        .cell:hover {\n            background-color: #e0e0e0;\n        }\n        .cell.x {\n            color: #ff4444;\n        }\n        .cell.o {\n            color: #4444ff;\n        }\n        #status {\n            font-size: 1.5em;\n            margin-bottom: 10px;\n            min-height: 30px;\n        }\n        #reset {\n            padding: 10px 20px;\n            font-size: 1em;\n            background-color: #333;\n            color: white;\n            border: none;\n            cursor: pointer;\n            border-radius: 5px;\n        }\n        #reset:hover {\n            background-color: #555;\n        }\n        /* Finish Animation: Original Twist - \"Victory Burst\" */\n        /* When the game ends with a win, the winning cells burst outward with a colorful explosion effect,\n           scaling up, rotating slightly, and emitting a radial gradient burst. For draw, cells fade to gray. */\n        .winning {\n            animation: victoryBurst 1s ease-out forwards;\n            position: relative;\n            overflow: hidden;\n        }\n        .winning::before {\n            content: '';\n            position: absolute;\n            top: 50%;\n            left: 50%;\n            width: 0;\n            height: 0;\n            background: radial-gradient(circle, rgba(255,255,0,0.8) 0%, rgba(255,0,0,0.6) 50%, transparent 100%);\n            border-radius: 50%;\n            transform: translate(-50%, -50%);\n            animation: burstExpand 0.8s ease-out forwards;\n            z-index: -1;\n        }\n        @keyframes victoryBurst {\n            0% {\n                transform: scale(1) rotate(0deg);\n                background-color: white;\n            }\n            50% {\n                transform: scale(1.3) rotate(5deg);\n                background-color: #ffffaa;\n                box-shadow: 0 0 20px rgba(255, 255, 0, 0.8);\n            }\n            100% {\n                transform: scale(1.1) rotate(0deg);\n                background-color: #fff;\n                box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);\n            }\n        }\n        @keyframes burstExpand {\n            0% {\n                width: 0;\n                height: 0;\n                opacity: 1;\n            }\n            100% {\n                width: 200px;\n                height: 200px;\n                opacity: 0;\n            }\n        }\n        .draw {\n            animation: fadeToGray 1s ease-out forwards;\n        }\n        @keyframes fadeToGray {\n            0% {\n                background-color: white;\n            }\n            100% {\n                background-color: #ccc;\n                cursor: not-allowed;\n            }\n        }\n        .game-over .cell {\n            cursor: not-allowed;\n        }\n    </style>\n</head>\n<body>\n    <div id=\"status\">Player X's turn</div>\n    <div id=\"board\">\n        <div class=\"cell\" data-index=\"0\"></div>\n        <div class=\"cell\" data-index=\"1\"></div>\n        <div class=\"cell\" data-index=\"2\"></div>\n        <div class=\"cell\" data-index=\"3\"></div>\n        <div class=\"cell\" data-index=\"4\"></div>\n        <div class=\"cell\" data-index=\"5\"></div>\n        <div class=\"cell\" data-index=\"6\"></div>\n        <div class=\"cell\" data-index=\"7\"></div>\n        <div class=\"cell\" data-index=\"8\"></div>\n    </div>\n    <button id=\"reset\">Reset Game</button>\n\n    <script>\n        const board = Array(9).fill(null);\n        const cells = document.querySelectorAll('.cell');\n        const status = document.getElementById('status');\n        const resetBtn = document.getElementById('reset');\n        let currentPlayer = 'X';\n        let gameOver = false;\n\n        const winningCombos = [\n            [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows\n            [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns\n            [0, 4, 8], [2, 4, 6] // diagonals\n        ];\n\n        function handleClick(event) {\n            const cell = event.target;\n            const index = parseInt(cell.dataset.index);\n\n            if (board[index] || gameOver) return;\n\n            board[index] = currentPlayer;\n            cell.textContent = currentPlayer;\n            cell.classList.add(currentPlayer.toLowerCase());\n\n            const winCombo = checkWin();\n            if (winCombo) {\n                status.textContent = `Player ${currentPlayer} wins!`;\n                highlightWinningCells(winCombo);\n                gameOver = true;\n                document.getElementById('board').classList.add('game-over');\n                return;\n            }\n\n            if (board.every(cell => cell !== null)) {\n                status.textContent = \"It's a draw!\";\n                applyDrawEffect();\n                gameOver = true;\n                document.getElementById('board').classList.add('game-over');\n                return;\n            }\n\n            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';\n            status.textContent = `Player ${currentPlayer}'s turn`;\n        }\n\n        function checkWin() {\n            for (let combo of winningCombos) {\n                const [a, b, c] = combo;\n                if (board[a] && board[a] === board[b] && board[a] === board[c]) {\n                    return combo;\n                }\n            }\n            return null;\n        }\n\n        function highlightWinningCells(combo) {\n            combo.forEach(index => {\n                cells[index].classList.add('winning');\n            });\n        }\n\n        function applyDrawEffect() {\n            cells.forEach(cell => cell.classList.add('draw'));\n        }\n\n        function resetGame() {\n            board.fill(null);\n            cells.forEach(cell => {\n                cell.textContent = '';\n                cell.classList.remove('x', 'o', 'winning', 'draw');\n            });\n            currentPlayer = 'X';\n            gameOver = false;\n            status.textContent = \"Player X's turn\";\n            document.getElementById('board').classList.remove('game-over');\n        }\n\n        cells.forEach(cell => cell.addEventListener('click', handleClick));\n        resetBtn.addEventListener('click', resetGame);\n    </script>\n</body>\n</html>\n```"
+}

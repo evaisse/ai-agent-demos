@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raining and Thunder Animation</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            background: #0d0d0d;
+        }
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.5);
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+        .thunder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            animation: flash 5s infinite;
+        }
+        @keyframes flash {
+            0%, 20%, 40%, 60%, 80%, 100% {
+                opacity: 0;
+            }
+            10%, 30%, 50%, 70%, 90% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thunder"></div>
+    <script>
+        function createRain() {
+            const rainContainer = document.createElement('div');
+            const numDrops = 100;
+            for (let i = 0; i < numDrops; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'rain';
+                drop.style.left = Math.random() * 100 + 'vw';
+                drop.style.animationDuration = Math.random() * 0.5 + 0.5 + 's';
+                drop.style.animationDelay = Math.random() * 5 + 's';
+                rainContainer.appendChild(drop);
+            }
+            document.body.appendChild(rainContainer);
+        }
+        createRain();
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> openai/gpt-4o</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:27:07.969Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">990</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">29.091s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0096</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Creating a simple Tic Tac Toe game in a single HTML file involves combining HTML, CSS, and JavaScript. Below is a complete example. For the twist at the end, I&#039;ve added a simple animation where the winning line flashes in different colors. You can expand or modify this as you see fit.<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            height: 100vh;<br>            margin: 0;<br>            background-color: #f0f0f0;<br>            font-family: Arial, sans-serif;<br>        }<br>        #game {<br>            display: grid;<br>            grid-template-columns: repeat(3, 100px);<br>            grid-template-rows: repeat(3, 100px);<br>            gap: 5px;<br>        }<br>        .cell {<br>            width: 100px;<br>            height: 100px;<br>            background-color: white;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            font-size: 2em;<br>            cursor: pointer;<br>            border: 1px solid #ccc;<br>        }<br>        .cell.winning {<br>            animation: flash 1s infinite;<br>        }<br>        @keyframes flash {<br>            0% { background-color: yellow; }<br>            50% { background-color: orange; }<br>            100% { background-color: yellow; }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;game&quot;&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;0&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;1&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;2&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;3&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;4&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;5&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;6&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;7&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;8&quot;&gt;&lt;/div&gt;<br>    &lt;/div&gt;<br>    &lt;script&gt;<br>        const cells = document.querySelectorAll(&#039;.cell&#039;);<br>        let currentPlayer = &#039;X&#039;;<br>        let board = Array(9).fill(null);<br><br>        function handleClick(e) {<br>            const index = e.target.dataset.index;<br>            if (board[index] !== null) return;<br><br>            board[index] = currentPlayer;<br>            e.target.textContent = currentPlayer;<br><br>            if (checkWin()) {<br>                alert(<code>${currentPlayer} wins!</code>);<br>                highlightWinningCells(checkWin());<br>                return;<br>            }<br><br>            if (board.every(cell =&gt; cell !== null)) {<br>                alert(&#039;It\&#039;s a draw!&#039;);<br>                return;<br>            }<br><br>            currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;;<br>        }<br><br>        function checkWin() {<br>            const winPatterns = [<br>                [0, 1, 2],<br>                [3, 4, 5],<br>                [6, 7, 8],<br>                [0, 3, 6],<br>                [1, 4, 7],<br>                [2, 5, 8],<br>                [0, 4, 8],<br>                [2, 4, 6],<br>            ];<br><br>            for (const pattern of winPatterns) {<br>                const [a, b, c] = pattern;<br>                if (board[a] &amp;&amp; board[a] === board[b] &amp;&amp; board[a] === board[c]) {<br>                    return pattern;<br>                }<br>            }<br>            return null;<br>        }<br><br>        function highlightWinningCells(winningCells) {<br>            winningCells.forEach(index =&gt; {<br>                cells[index].classList.add(&#039;winning&#039;);<br>            });<br>        }<br><br>        cells.forEach(cell =&gt; cell.addEventListener(&#039;click&#039;, handleClick));<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>### Explanation:<br>- **HTML**: Contains a 3x3 grid for the Tic Tac Toe board.<br>- **CSS**: Styles the board and defines an animation for the winning cells.<br>- **JavaScript**: Manages the game logic, handles player turns, checks for a win or draw, and applies the finishing animation.<br><br>When a player wins, the winning line will flash with a color animation. You can further enhance this by adding sound effects or more complex animations.</div>
+        </div>
+    </div>
+</body>
+</html>

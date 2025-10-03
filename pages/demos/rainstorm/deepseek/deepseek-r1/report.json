@@ -1,0 +1,61 @@
+{
+  "timestamp": "2025-10-02T14:17:53.020Z",
+  "execution": {
+    "duration_seconds": "16.024",
+    "model_used": "deepseek/deepseek-r1",
+    "model_requested": "deepseek/deepseek-r1"
+  },
+  "tokens": {
+    "prompt_tokens": 28,
+    "completion_tokens": 1531,
+    "total_tokens": 1559
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000011,
+    "completion_cost": 0.003062,
+    "total_cost": 0.003073
+  },
+  "model_card": {
+    "id": "deepseek/deepseek-r1",
+    "name": "DeepSeek: R1",
+    "description": "DeepSeek R1 is here: Performance on par with [OpenAI o1](/openai/o1), but open-sourced and with fully open reasoning tokens. It's 671B parameters in size, with 37B active in an inference pass.\n\nFully open-source model & [technical report](https://api-docs.deepseek.com/news/news250120).\n\nMIT licensed: Distill & commercialize freely!",
+    "context_length": 163840,
+    "architecture": {
+      "input_modalities": [
+        "text"
+      ],
+      "instruct_type": "deepseek-r1",
+      "modality": "text->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "DeepSeek"
+    },
+    "pricing": {
+      "completion": "0.000002",
+      "image": "0",
+      "internal_reasoning": "0",
+      "prompt": "0.0000004",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 163840,
+      "is_moderated": false,
+      "max_completion_tokens": 163840
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759414657-DWdUTvxAGmXIL6BR3MIh",
+    "created": 1759414657,
+    "object": "chat.completion"
+  },
+  "raw_response": "Here's a captivating raining and thunderstorm animation in a single HTML file:\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Thunderstorm</title>\n    <style>\n        body {\n            margin: 0;\n            height: 100vh;\n            overflow: hidden;\n            background: #000;\n            position: relative;\n            transition: background 0.5s ease;\n        }\n\n        .rain {\n            position: absolute;\n            width: 2px;\n            height: 50px;\n            background: linear-gradient(transparent, #00f7ff);\n            animation: fall 1s linear infinite;\n            opacity: 0.7;\n        }\n\n        @keyframes fall {\n            0% { transform: translateY(-100vh) translateX(0); }\n            100% { transform: translateY(100vh) translateX(30px); }\n        }\n\n        .lightning {\n            position: absolute;\n            width: 100%;\n            height: 100%;\n            background: white;\n            opacity: 0;\n            animation: flash 0.2s ease-out;\n        }\n\n        @keyframes flash {\n            0% { opacity: 0.8; }\n            100% { opacity: 0; }\n        }\n    </style>\n</head>\n<body>\n    <script>\n        // Create rain drops\n        function createRain() {\n            const rainContainer = document.body;\n            for (let i = 0; i < 100; i++) {\n                const rain = document.createElement('div');\n                rain.className = 'rain';\n                rain.style.left = Math.random() * 100 + '%';\n                rain.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';\n                rain.style.height = (Math.random() * 30 + 20) + 'px';\n                rainContainer.appendChild(rain);\n            }\n        }\n\n        // Create lightning effect\n        function createLightning() {\n            const lightning = document.createElement('div');\n            lightning.className = 'lightning';\n            document.body.appendChild(lightning);\n            \n            setTimeout(() => {\n                lightning.remove();\n            }, 200);\n        }\n\n        // Start animation\n        createRain();\n        \n        // Random lightning strikes\n        setInterval(() => {\n            if (Math.random() < 0.1) { // 10% chance every check\n                document.body.style.background = '#111';\n                setTimeout(() => {\n                    document.body.style.background = '#000';\n                }, 100);\n                createLightning();\n            }\n        }, 1000);\n\n        // Continuous thunder effect\n        setInterval(() => {\n            if (Math.random() < 0.3) { // 30% chance every check\n                document.body.style.background = '#222';\n                setTimeout(() => {\n                    document.body.style.background = '#000';\n                }, 50);\n            }\n        }, 300);\n    </script>\n</body>\n</html>\n```\n\nThis animation features:\n1. Falling raindrops with varying speeds and lengths\n2. Random lightning flashes that illuminate the entire screen\n3. Subtle background flickering to simulate thunder\n4. Blue-cyan colored raindrops for better visibility\n5. Smooth animations using CSS transitions and keyframes\n\nThe animation runs automatically and infinitely, creating a dramatic thunderstorm effect. The lightning strikes randomly with varying intensity, and the continuous rain effect is created using dynamically generated div elements with randomized properties.\n\nTo use this, simply save it as `index.html` and open it in a web browser. The storm will start immediately and run indefinitely without any user interaction required. The combination of the falling rain, sudden lightning flashes, and background flickering creates an immersive atmospheric effect."
+}

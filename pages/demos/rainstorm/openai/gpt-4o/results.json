@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-10-02T14:23:21.450Z",
+  "execution": {
+    "duration_seconds": "17.972",
+    "model_used": "openai/gpt-4o",
+    "model_requested": "openai/gpt-4o"
+  },
+  "tokens": {
+    "prompt_tokens": 30,
+    "completion_tokens": 718,
+    "total_tokens": 748
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000075,
+    "completion_cost": 0.00718,
+    "total_cost": 0.007255
+  },
+  "model_card": {
+    "id": "openai/gpt-4o",
+    "name": "OpenAI: GPT-4o",
+    "description": "GPT-4o (\"o\" for \"omni\") is OpenAI's latest AI model, supporting both text and image inputs with text outputs. It maintains the intelligence level of [GPT-4 Turbo](/models/openai/gpt-4-turbo) while being twice as fast and 50% more cost-effective. GPT-4o also offers improved performance in processing non-English languages and enhanced visual capabilities.\n\nFor benchmarking against other models, it was briefly called [\"im-also-a-good-gpt2-chatbot\"](https://twitter.com/LiamFedus/status/1790064963966370209)\n\n#multimodal",
+    "context_length": 128000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "GPT"
+    },
+    "pricing": {
+      "completion": "0.00001",
+      "image": "0.003613",
+      "input_cache_read": "0.00000125",
+      "internal_reasoning": "0",
+      "prompt": "0.0000025",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 128000,
+      "is_moderated": true,
+      "max_completion_tokens": 16384
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759414984-qiZ2Mj85L71KrAdreyNL",
+    "created": 1759414984,
+    "object": "chat.completion"
+  },
+  "raw_response": "Creating a raining and thunder animation involves using HTML, CSS, and a bit of JavaScript. Below is a simple example of how you can achieve this effect. This code creates a dark sky with rain and occasional flashes to simulate thunder.\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Raining and Thunder Animation</title>\n    <style>\n        body, html {\n            margin: 0;\n            padding: 0;\n            overflow: hidden;\n            height: 100%;\n            background: #0d0d0d;\n        }\n        .rain {\n            position: absolute;\n            width: 2px;\n            height: 80px;\n            background: rgba(255, 255, 255, 0.5);\n            animation: fall linear infinite;\n        }\n        @keyframes fall {\n            0% {\n                transform: translateY(-100vh);\n            }\n            100% {\n                transform: translateY(100vh);\n            }\n        }\n        .thunder {\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: rgba(255, 255, 255, 0.1);\n            opacity: 0;\n            animation: flash 5s infinite;\n        }\n        @keyframes flash {\n            0%, 20%, 40%, 60%, 80%, 100% {\n                opacity: 0;\n            }\n            10%, 30%, 50%, 70%, 90% {\n                opacity: 1;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"thunder\"></div>\n    <script>\n        function createRain() {\n            const rainContainer = document.createElement('div');\n            const numDrops = 100;\n            for (let i = 0; i < numDrops; i++) {\n                const drop = document.createElement('div');\n                drop.className = 'rain';\n                drop.style.left = Math.random() * 100 + 'vw';\n                drop.style.animationDuration = Math.random() * 0.5 + 0.5 + 's';\n                drop.style.animationDelay = Math.random() * 5 + 's';\n                rainContainer.appendChild(drop);\n            }\n            document.body.appendChild(rainContainer);\n        }\n        createRain();\n    </script>\n</body>\n</html>\n```\n\n### Explanation:\n- **HTML**: Sets up a basic structure with a `<div>` for the thunder overlay.\n- **CSS**:\n  - Sets up the body and HTML to use a dark background.\n  - Defines styles for the rain drops, using a vertical line with a fall animation.\n  - Creates a flashing effect for thunder using a `@keyframes` animation on the `.thunder` class.\n- **JavaScript**:\n  - The function `createRain()` creates multiple rain drops by appending `<div>` elements with the class `rain`.\n  - Each rain drop is positioned randomly across the screen and has a random falling speed and delay to simulate natural rain.\n\nThis code will play the rain and thunder animation continuously without any interactivity or controls. You can modify the number of raindrops, speed, or intensity of thunder flashes to suit your preferences."
+}

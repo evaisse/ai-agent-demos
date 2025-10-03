@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexagon Ball Simulation</title>
+    <style>
+        body, html {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="simulationCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('simulationCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const hexagonRadius = 200;
+        const ballCount = 20;
+        const ballRadius = 10;
+        const gravityStrength = 0.1;
+        let gravityDirection = 1; // 1 for down, -1 for up
+
+        class Ball {
+            constructor(x, y, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+            }
+
+            update() {
+                this.vy += gravityStrength * gravityDirection;
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Collision detection with hexagon walls
+                this.handleCollision();
+            }
+
+            handleCollision() {
+                // Simple bounding box collision to keep the example concise
+                if (this.x - ballRadius < centerX - hexagonRadius ||
+                    this.x + ballRadius > centerX + hexagonRadius) {
+                    this.vx *= -0.9; // reverse direction with some energy loss
+                }
+
+                if (this.y - ballRadius < centerY - hexagonRadius ||
+                    this.y + ballRadius > centerY + hexagonRadius) {
+                    this.vy *= -0.9; // reverse direction with some energy loss
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, ballRadius, 0, Math.PI * 2);
+                ctx.fillStyle = 'blue';
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        const balls = [];
+        for (let i = 0; i < ballCount; i++) {
+            balls.push(new Ball(centerX, centerY, Math.random() * 2 - 1, Math.random() * 2 - 1));
+        }
+
+        function drawHexagon() {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI / 3) * i;
+                const x = centerX + hexagonRadius * Math.cos(angle);
+                const y = centerY + hexagonRadius * Math.sin(angle);
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.closePath();
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(Date.now() / 1000); // Rotate hexagon
+            ctx.translate(-centerX, -centerY);
+            drawHexagon();
+            ctx.restore();
+
+            balls.forEach(ball => {
+                ball.update();
+                ball.draw();
+            });
+
+            requestAnimationFrame(update);
+        }
+
+        setInterval(() => {
+            gravityDirection *= -1; // Change gravity direction every 5 seconds
+        }, 5000);
+
+        update();
+    </script>
+</body>
+</html>

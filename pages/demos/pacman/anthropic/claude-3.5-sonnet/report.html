@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-3.5-sonnet</p>
+            <p><strong>Generated:</strong> 2025-10-02T13:04:39.853Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">1718</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">26.465s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0253</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Here&#039;s a simplified version of PAC-MAN in a single HTML file. Note that this is a basic implementation and doesn&#039;t include all features of the original game:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&lt;head&gt;<br>    &lt;title&gt;PAC-MAN&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            background-color: black;<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            height: 100vh;<br>            margin: 0;<br>        }<br>        <br>        #gameBoard {<br>            border: 2px solid blue;<br>        }<br><br>        .score {<br>            color: white;<br>            font-family: Arial, sans-serif;<br>            font-size: 20px;<br>            position: absolute;<br>            top: 10px;<br>            left: 10px;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div class=&quot;score&quot;&gt;Score: &lt;span id=&quot;score&quot;&gt;0&lt;/span&gt;&lt;/div&gt;<br>    &lt;canvas id=&quot;gameBoard&quot;&gt;&lt;/canvas&gt;<br><br>    &lt;script&gt;<br>        const canvas = document.getElementById(&#039;gameBoard&#039;);<br>        const ctx = canvas.getContext(&#039;2d&#039;);<br>        const scoreElement = document.getElementById(&#039;score&#039;);<br><br>        canvas.width = 560;<br>        canvas.height = 600;<br><br>        class Pacman {<br>            constructor(x, y) {<br>                this.x = x;<br>                this.y = y;<br>                this.radius = 15;<br>                this.speed = 3;<br>                this.direction = 0; // 0: right, 1: up, 2: left, 3: down<br>                this.mouthOpen = 0;<br>                this.mouthSpeed = 0.15;<br>            }<br><br>            draw() {<br>                ctx.save();<br>                ctx.translate(this.x, this.y);<br>                ctx.rotate((this.direction * 90) * Math.PI / 180);<br>                <br>                ctx.beginPath();<br>                ctx.arc(0, 0, this.radius, this.mouthOpen * Math.PI, (2 - this.mouthOpen) * Math.PI);<br>                ctx.lineTo(0, 0);<br>                ctx.fillStyle = &#039;yellow&#039;;<br>                ctx.fill();<br>                <br>                ctx.restore();<br>            }<br><br>            update() {<br>                this.mouthOpen += this.mouthSpeed;<br>                if (this.mouthOpen &gt; 0.5 || this.mouthOpen &lt; 0) {<br>                    this.mouthSpeed = -this.mouthSpeed;<br>                }<br>            }<br><br>            move() {<br>                switch(this.direction) {<br>                    case 0: this.x += this.speed; break;<br>                    case 1: this.y -= this.speed; break;<br>                    case 2: this.x -= this.speed; break;<br>                    case 3: this.y += this.speed; break;<br>                }<br><br>                // Keep Pacman within bounds<br>                if (this.x &lt; this.radius) this.x = this.radius;<br>                if (this.x &gt; canvas.width - this.radius) this.x = canvas.width - this.radius;<br>                if (this.y &lt; this.radius) this.y = this.radius;<br>                if (this.y &gt; canvas.height - this.radius) this.y = canvas.height - this.radius;<br>            }<br>        }<br><br>        class Dot {<br>            constructor(x, y) {<br>                this.x = x;<br>                this.y = y;<br>                this.radius = 3;<br>                this.eaten = false;<br>            }<br><br>            draw() {<br>                if (!this.eaten) {<br>                    ctx.beginPath();<br>                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);<br>                    ctx.fillStyle = &#039;white&#039;;<br>                    ctx.fill();<br>                }<br>            }<br>        }<br><br>        const pacman = new Pacman(100, 100);<br>        let dots = [];<br>        let score = 0;<br><br>        // Create dots grid<br>        for (let i = 40; i &lt; canvas.width; i += 40) {<br>            for (let j = 40; j &lt; canvas.height; j += 40) {<br>                dots.push(new Dot(i, j));<br>            }<br>        }<br><br>        function checkCollision() {<br>            dots.forEach(dot =&gt; {<br>                if (!dot.eaten) {<br>                    const dx = pacman.x - dot.x;<br>                    const dy = pacman.y - dot.y;<br>                    const distance = Math.sqrt(dx * dx + dy * dy);<br>                    <br>                    if (distance &lt; pacman.radius + dot.radius) {<br>                        dot.eaten = true;<br>                        score += 10;<br>                        scoreElement.textContent = score;<br>                    }<br>                }<br>            });<br>        }<br><br>        document.addEventListener(&#039;keydown&#039;, (event) =&gt; {<br>            switch(event.key) {<br>                case &#039;ArrowRight&#039;:<br>                    pacman.direction = 0;<br>                    break;<br>                case &#039;ArrowUp&#039;:<br>                    pacman.direction = 1;<br>                    break;<br>                case &#039;ArrowLeft&#039;:<br>                    pacman.direction = 2;<br>                    break;<br>                case &#039;ArrowDown&#039;:<br>                    pacman.direction = 3;<br>                    break;<br>            }<br>        });<br><br>        function gameLoop() {<br>            ctx.clearRect(0, 0, canvas.width, canvas.height);<br>            <br>            // Draw dots<br>            dots.forEach(dot =&gt; dot.draw());<br>            <br>            // Update and draw Pacman<br>            pacman.update();<br>            pacman.move();<br>            pacman.draw();<br>            <br>            // Check for collisions<br>            checkCollision();<br>            <br>            requestAnimationFrame(gameLoop);<br>        }<br><br>        gameLoop();<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This implementation includes:<br><br>1. A basic Pacman that can move in four directions using arrow keys<br>2. Dots that can be collected for points<br>3. Score tracking<br>4. Simple collision detection<br>5. Animated Pacman mouth<br><br>To play:<br>1. Use arrow keys to move Pacman<br>2. Collect white dots to increase your score<br>3. Each dot is worth 10 points<br><br>Limitations of this basic version:<br>1. No ghosts<br>2. No maze walls<br>3. No power pellets<br>4. No game over condition<br>5. No sound effects<br>6. Simplified graphics<br><br>You can save this code in a file named <code>index.html</code> and open it in a web browser to play. To make it more like the original game, you would need to add:<br><br>1. Ghost AI and movement<br>2. Maze walls and collision detection<br>3. Power pellets and ghost vulnerability<br>4. Sound effects<br>5. More sophisticated graphics<br>6. Lives system<br>7. Game over conditions<br>8. Level progression<br><br>But this gives you a basic foundation for a Pac-Man-style game.</div>
+        </div>
+    </div>
+</body>
+</html>

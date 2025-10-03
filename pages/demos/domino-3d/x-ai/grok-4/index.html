@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domino Spiral Simulation</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+    <script>
+        // Set up the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add lighting
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        // Set up physics world
+        const world = new CANNON.World();
+        world.gravity.set(0, -9.82, 0); // Gravity
+
+        // Ground plane
+        const groundMaterial = new CANNON.Material();
+        const groundBody = new CANNON.Body({ mass: 0, material: groundMaterial });
+        groundBody.addShape(new CANNON.Plane());
+        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+        world.addBody(groundBody);
+
+        const groundMesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(100, 100),
+            new THREE.MeshLambertMaterial({ color: 0xaaaaaa })
+        );
+        groundMesh.rotation.x = -Math.PI / 2;
+        scene.add(groundMesh);
+
+        // Domino properties
+        const dominoWidth = 0.5;
+        const dominoHeight = 2;
+        const dominoDepth = 0.2;
+        const numDominoes = 200;
+        const spiralTightness = 0.1; // Controls how tight the spiral is
+        const spacing = 0.6; // Distance between dominoes
+
+        // Materials
+        const dominoMaterial = new CANNON.Material();
+        const contactMaterial = new CANNON.ContactMaterial(groundMaterial, dominoMaterial, { friction: 0.3, restitution: 0.1 });
+        world.addContactMaterial(contactMaterial);
+
+        // Array to hold domino meshes and bodies
+        const dominoes = [];
+
+        // Function to create a domino
+        function createDomino(position, angle) {
+            // Physics body
+            const dominoShape = new CANNON.Box(new CANNON.Vec3(dominoWidth / 2, dominoHeight / 2, dominoDepth / 2));
+            const dominoBody = new CANNON.Body({ mass: 1, material: dominoMaterial });
+            dominoBody.addShape(dominoShape);
+            dominoBody.position.set(position.x, dominoHeight / 2, position.z);
+            dominoBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), angle);
+            world.addBody(dominoBody);
+
+            // Visual mesh
+            const dominoGeometry = new THREE.BoxGeometry(dominoWidth, dominoHeight, dominoDepth);
+            const dominoMesh = new THREE.Mesh(dominoGeometry, new THREE.MeshLambertMaterial({ color: 0x0000ff }));
+            scene.add(dominoMesh);
+
+            return { mesh: dominoMesh, body: dominoBody };
+        }
+
+        // Arrange dominoes in a spiral
+        let radius = 0;
+        let angle = 0;
+        for (let i = 0; i < numDominoes; i++) {
+            radius += spiralTightness;
+            angle += spacing / radius;
+
+            const x = radius * Math.cos(angle);
+            const z = radius * Math.sin(angle);
+            const dominoAngle = angle + Math.PI / 2; // Orient domino to face the direction of the spiral
+
+            const domino = createDomino({ x, z }, dominoAngle);
+            dominoes.push(domino);
+        }
+
+        // Reverse the array so outermost is first (since spiral builds from center out)
+        dominoes.reverse();
+
+        // Position camera
+        camera.position.set(0, 20, 30);
+        camera.lookAt(0, 0, 0);
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Update physics
+            world.step(1 / 60);
+
+            // Sync meshes with physics bodies
+            dominoes.forEach(domino => {
+                domino.mesh.position.copy(domino.body.position);
+                domino.mesh.quaternion.copy(domino.body.quaternion);
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        // Start the animation
+        animate();
+
+        // Trigger the chain reaction: Apply force to the outermost domino
+        setTimeout(() => {
+            const outermost = dominoes[0].body;
+            // Apply a small impulse to tip it over towards the next one
+            const force = new CANNON.Vec3(0, 0, -2); // Adjust direction based on orientation
+            outermost.applyImpulse(force, new CANNON.Vec3(0, dominoHeight / 2, 0));
+        }, 1000); // Delay to allow scene to load
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

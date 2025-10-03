@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-10-02T14:15:56.317Z",
+  "execution": {
+    "duration_seconds": "34.213",
+    "model_used": "anthropic/claude-3-opus",
+    "model_requested": "anthropic/claude-3-opus"
+  },
+  "tokens": {
+    "prompt_tokens": 33,
+    "completion_tokens": 934,
+    "total_tokens": 967
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000495,
+    "completion_cost": 0.07005,
+    "total_cost": 0.070545
+  },
+  "model_card": {
+    "id": "anthropic/claude-3-opus",
+    "name": "Anthropic: Claude 3 Opus",
+    "description": "Claude 3 Opus is Anthropic's most powerful model for highly complex tasks. It boasts top-level performance, intelligence, fluency, and understanding.\n\nSee the launch announcement and benchmark results [here](https://www.anthropic.com/news/claude-3-family)\n\n#multimodal",
+    "context_length": 200000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Claude"
+    },
+    "pricing": {
+      "completion": "0.000075",
+      "image": "0.024",
+      "input_cache_read": "0.0000015",
+      "input_cache_write": "0.00001875",
+      "internal_reasoning": "0",
+      "prompt": "0.000015",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 200000,
+      "is_moderated": true,
+      "max_completion_tokens": 4096
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759414522-DtFeVL6Zby91DDtOZWzB",
+    "created": 1759414522,
+    "object": "chat.completion"
+  },
+  "raw_response": "Here's an example of a cool raining and thunder animation in a single HTML file named `index.html`:\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Raining and Thunder Animation</title>\n  <style>\n    body {\n      background-color: #000;\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n    }\n\n    .rain {\n      position: absolute;\n      top: -50px;\n      width: 2px;\n      height: 50px;\n      background-color: #fff;\n      animation: rain 1s linear infinite;\n    }\n\n    @keyframes rain {\n      0% {\n        transform: translateY(0);\n      }\n      100% {\n        transform: translateY(100vh);\n      }\n    }\n\n    .thunder {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%;\n      background-color: #fff;\n      opacity: 0;\n      animation: thunder 5s linear infinite;\n    }\n\n    @keyframes thunder {\n      0% {\n        opacity: 0;\n      }\n      10% {\n        opacity: 0.8;\n      }\n      11% {\n        opacity: 0;\n      }\n      20% {\n        opacity: 0;\n      }\n      21% {\n        opacity: 0.8;\n      }\n      22% {\n        opacity: 0;\n      }\n      100% {\n        opacity: 0;\n      }\n    }\n  </style>\n</head>\n<body>\n  <div class=\"thunder\"></div>\n\n  <script>\n    function createRain() {\n      const rain = document.createElement('div');\n      rain.classList.add('rain');\n      rain.style.left = Math.random() * window.innerWidth + 'px';\n      rain.style.animationDuration = Math.random() * 1 + 0.5 + 's';\n      document.body.appendChild(rain);\n\n      setTimeout(() => {\n        rain.remove();\n      }, 1000);\n    }\n\n    setInterval(createRain, 50);\n  </script>\n</body>\n</html>\n```\n\nThis HTML file creates a raining and thunder animation using CSS and JavaScript. Here's how it works:\n\n1. The `<style>` section defines the styles for the animation.\n   - The `body` has a black background color and hides any overflow.\n   - The `.rain` class represents each raindrop. It has a white color, a thin width, and a fixed height. The `animation` property is used to animate the raindrops falling from the top to the bottom of the screen.\n   - The `.thunder` class represents the lightning effect. It covers the entire screen and has a white background color. The `animation` property is used to create the flashing effect by changing the opacity.\n\n2. The `<body>` section contains a `<div>` element with the class `thunder`, which will display the lightning effect.\n\n3. The `<script>` section contains JavaScript code to create the raindrops dynamically.\n   - The `createRain()` function creates a new `<div>` element with the class `rain`, sets its random position on the screen, and appends it to the `<body>`.\n   - The `setTimeout()` function is used to remove each raindrop after 1 second.\n   - The `setInterval()` function is used to call `createRain()` every 50 milliseconds, creating a continuous raining effect.\n\nWhen you open this HTML file in a web browser, you will see a cool raining and thunder animation with raindrops falling from the top of the screen and periodic lightning flashes.\n\nNote: This is a basic example, and you can further enhance the animation by adjusting the styles, adding sound effects, or incorporating more advanced techniques."
+}

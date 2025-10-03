@@ -1,0 +1,61 @@
+{
+  "timestamp": "2025-10-02T23:15:22.002Z",
+  "execution": {
+    "duration_seconds": "6.981",
+    "model_used": "deepseek/deepseek-v3.2-exp",
+    "model_requested": "deepseek/deepseek-v3.2-exp"
+  },
+  "tokens": {
+    "prompt_tokens": 51,
+    "completion_tokens": 2022,
+    "total_tokens": 2073
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000014,
+    "completion_cost": 0.000809,
+    "total_cost": 0.000823
+  },
+  "model_card": {
+    "id": "deepseek/deepseek-v3.2-exp",
+    "name": "DeepSeek: DeepSeek V3.2 Exp",
+    "description": "DeepSeek-V3.2-Exp is an experimental large language model released by DeepSeek as an intermediate step between V3.1 and future architectures. It introduces DeepSeek Sparse Attention (DSA), a fine-grained sparse attention mechanism designed to improve training and inference efficiency in long-context scenarios while maintaining output quality. Users can control the reasoning behaviour with the `reasoning` `enabled` boolean. [Learn more in our docs](https://openrouter.ai/docs/use-cases/reasoning-tokens#enable-reasoning-with-default-config)\n\nThe model was trained under conditions aligned with V3.1-Terminus to enable direct comparison. Benchmarking shows performance roughly on par with V3.1 across reasoning, coding, and agentic tool-use tasks, with minor tradeoffs and gains depending on the domain. This release focuses on validating architectural optimizations for extended context lengths rather than advancing raw task accuracy, making it primarily a research-oriented model for exploring efficient transformer designs.",
+    "context_length": 163840,
+    "architecture": {
+      "input_modalities": [
+        "text"
+      ],
+      "instruct_type": "deepseek-v3.1",
+      "modality": "text->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "DeepSeek"
+    },
+    "pricing": {
+      "completion": "0.0000004",
+      "image": "0",
+      "internal_reasoning": "0",
+      "prompt": "0.00000027",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 163840,
+      "is_moderated": false,
+      "max_completion_tokens": null
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a 3d simulation of 200 dominoes arranged in a spiral. The outermost domino falls, triggering a satisfying, cascading chain reaction towards the center. No interactions. \n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759446827-ANk18K7gr1OlzMHaymCw",
+    "created": 1759446827,
+    "object": "chat.completion"
+  },
+  "raw_response": "# Domino Spiral Chain Reaction\n\nI'll create a 3D simulation of dominoes arranged in a spiral pattern with a cascading chain reaction. This will use Three.js for the 3D rendering and physics.\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Domino Spiral Chain Reaction</title>\n    <style>\n        body {\n            margin: 0;\n            overflow: hidden;\n            background-color: #000;\n            font-family: Arial, sans-serif;\n        }\n        #info {\n            position: absolute;\n            top: 10px;\n            width: 100%;\n            text-align: center;\n            color: white;\n            z-index: 100;\n            pointer-events: none;\n        }\n        #controls {\n            position: absolute;\n            bottom: 10px;\n            width: 100%;\n            text-align: center;\n            z-index: 100;\n        }\n        button {\n            background-color: rgba(255, 255, 255, 0.2);\n            color: white;\n            border: 1px solid white;\n            padding: 8px 16px;\n            margin: 0 5px;\n            cursor: pointer;\n            border-radius: 4px;\n        }\n        button:hover {\n            background-color: rgba(255, 255, 255, 0.3);\n        }\n    </style>\n</head>\n<body>\n    <div id=\"info\">Domino Spiral Chain Reaction</div>\n    <div id=\"controls\">\n        <button id=\"startBtn\">Start Animation</button>\n        <button id=\"resetBtn\">Reset</button>\n    </div>\n    \n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js\"></script>\n    <script>\n        // Initialize Three.js scene\n        const scene = new THREE.Scene();\n        scene.background = new THREE.Color(0x222222);\n        \n        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);\n        camera.position.set(0, 30, 50);\n        camera.lookAt(0, 0, 0);\n        \n        const renderer = new THREE.WebGLRenderer({ antialias: true });\n        renderer.setSize(window.innerWidth, window.innerHeight);\n        document.body.appendChild(renderer.domElement);\n        \n        // Add lighting\n        const ambientLight = new THREE.AmbientLight(0x404040);\n        scene.add(ambientLight);\n        \n        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);\n        directionalLight.position.set(10, 20, 15);\n        scene.add(directionalLight);\n        \n        // Parameters\n        const dominoCount = 200;\n        const dominoWidth = 1;\n        const dominoHeight = 3;\n        const dominoDepth = 0.5;\n        const dominoSpacing = 0.3;\n        const spiralTurns = 5;\n        \n        // Create dominoes\n        const dominoes = [];\n        const dominoGroup = new THREE.Group();\n        scene.add(dominoGroup);\n        \n        // Create domino geometry and materials\n        const dominoGeometry = new THREE.BoxGeometry(dominoWidth, dominoHeight, dominoDepth);\n        const dominoMaterials = [\n            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Right side\n            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Left side\n            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Top side\n            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Bottom side\n            new THREE.MeshLambertMaterial({ color: 0xff0000 }), // Front side (red)\n            new THREE.MeshLambertMaterial({ color: 0xffffff }), // Back side\n        ];\n        \n        // Create spiral of dominoes\n        for (let i = 0; i < dominoCount; i++) {\n            const domino = new THREE.Mesh(dominoGeometry, dominoMaterials);\n            \n            // Calculate position along spiral\n            const t = i / dominoCount;\n            const angle = t * 2 * Math.PI * spiralTurns;\n            const radius = 20 * (1 - t);\n            \n            domino.position.x = radius * Math.cos(angle);\n            domino.position.z = radius * Math.sin(angle);\n            \n            // Rotate domino to be perpendicular to spiral\n            domino.rotation.y = -angle - Math.PI / 2;\n            \n            domino.userData = {\n                originalPosition: domino.position.clone(),\n                originalRotation: domino.rotation.clone(),\n                falling: false,\n                fallen: false,\n                fallTime: 0,\n                fallDelay: t * 2, // Delay based on position in spiral\n                targetRotation: new THREE.Euler(0, domino.rotation.y, Math.PI / 2)\n            };\n            \n            dominoes.push(domino);\n            dominoGroup.add(domino);\n        }\n        \n        // Animation state\n        let animationRunning = false;\n        let animationStartTime = 0;\n        \n        // Start the animation\n        document.getElementById('startBtn').addEventListener('click', () => {\n            if (!animationRunning) {\n                animationRunning = true;\n                animationStartTime = Date.now();\n            }\n        });\n        \n        // Reset the animation\n        document.getElementById('resetBtn').addEventListener('click', () => {\n            animationRunning = false;\n            for (const domino of dominoes) {\n                domino.position.copy(domino.userData.originalPosition);\n                domino.rotation.copy(domino.userData.originalRotation);\n                domino.userData.falling = false;\n                domino.userData.fallen = false;\n                domino.userData.fallTime = 0;\n            }\n        });\n        \n        // Animation loop\n        function animate() {\n            requestAnimationFrame(animate);\n            \n            if (animationRunning) {\n                const currentTime = Date.now();\n                const elapsedTime = (currentTime - animationStartTime) / 1000;\n                \n                // Update domino positions\n                for (let i = 0; i < dominoes.length; i++) {\n                    const domino = dominoes[i];\n                    \n                    // Check if it's time for this domino to fall\n                    if (!domino.userData.falling && !domino.userData.fallen && elapsedTime > domino.userData.fallDelay) {\n                        domino.userData.falling = true;\n                        domino.userData.fallTime = elapsedTime;\n                    }\n                    \n                    // Animate falling domino\n                    if (domino.userData.falling && !domino.userData.fallen) {\n                        const fallProgress = (elapsedTime - domino.userData.fallTime) / 0.5; // 0.5 seconds to fall\n                        \n                        if (fallProgress >= 1) {\n                            domino.userData.falling = false;\n                            domino.userData.fallen = true;\n                            domino.rotation.x = Math.PI / 2;\n                        } else {\n                            // Smooth falling animation\n                            const easedProgress = 1 - Math.pow(1 - fallProgress, 3); // Ease out cubic\n                            domino.rotation.x = easedProgress * Math.PI / 2;\n                            \n                            // Add slight forward movement\n                            const forwardMovement = easedProgress * 0.5;\n                            domino.position.x -= Math.sin(domino.userData.originalRotation.y) * forwardMovement;\n                            domino.position.z -= Math.cos(domino.userData.originalRotation.y) * forwardMovement;\n                        }\n                    }\n                }\n            }\n            \n            // Rotate camera around the scene\n            const time = Date.now() * 0.0005;\n            camera.position.x = Math.cos(time) * 50;\n            camera.position.z = Math.sin(time) * 50;\n            camera.lookAt(0, 0, 0);\n            \n            renderer.render(scene, camera);\n        }\n        \n        // Handle window resize\n        window.addEventListener('resize', () => {\n            camera.aspect = window.innerWidth / window.innerHeight;\n            camera.updateProjectionMatrix();\n            renderer.setSize(window.innerWidth, window.innerHeight);\n        });\n        \n        // Start animation loop\n        animate();\n    </script>\n</body>\n</html>\n```\n\n## How This Works\n\n1. **Setup**: Uses Three.js to create a 3D scene with lighting and a camera that orbits around the domino spiral.\n\n2. **Domino Creation**: \n   - Creates 200 dominoes arranged in a spiral pattern\n   - Each domino has a red front face for visibility\n   - Dominoes are positioned and rotated to form a spiral that gets tighter toward the center\n\n3. **Animation**:\n   - The outermost domino falls first, triggering a chain reaction\n   - Each domino falls with a slight delay based on its position in the spiral\n   - The falling animation includes rotation and a small forward movement for realism\n   - The camera slowly orbits around the scene to give a full view of the chain reaction\n\n4. **Controls**:\n   - \"Start Animation\" button begins the chain reaction\n   - \"Reset\" button returns all dominoes to their original positions\n\nYou can simply copy this code into a file named `index.html` and open it in a modern browser to see the domino spiral chain reaction in action."
+}

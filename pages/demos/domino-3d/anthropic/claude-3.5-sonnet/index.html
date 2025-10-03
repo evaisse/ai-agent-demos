@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Domino Spiral</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add ambient light
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+
+        // Add directional light
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        // Domino properties
+        const dominoGeometry = new THREE.BoxGeometry(0.2, 1, 0.5);
+        const dominoMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+        const dominoes = [];
+
+        // Create spiral of dominoes
+        const numDominoes = 200;
+        const spiralRadius = 15;
+        const spiralHeight = 0;
+        const angleStep = (Math.PI * 6) / numDominoes;
+
+        for (let i = 0; i < numDominoes; i++) {
+            const angle = i * angleStep;
+            const radius = spiralRadius * (1 - i / numDominoes);
+            const x = radius * Math.cos(angle);
+            const z = radius * Math.sin(angle);
+            const y = spiralHeight + 0.5;
+
+            const domino = new THREE.Mesh(dominoGeometry, dominoMaterial);
+            domino.position.set(x, y, z);
+            domino.rotation.y = angle + Math.PI / 2;
+            
+            domino.userData = {
+                originalRotation: domino.rotation.clone(),
+                fallDelay: i * 0.1,
+                falling: false,
+                fallProgress: 0
+            };
+
+            dominoes.push(domino);
+            scene.add(domino);
+        }
+
+        camera.position.set(0, 20, 20);
+        camera.lookAt(0, 0, 0);
+
+        const clock = new THREE.Clock();
+        clock.start();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = clock.getElapsedTime();
+
+            // Update domino falls
+            dominoes.forEach((domino, index) => {
+                if (time > domino.userData.fallDelay) {
+                    if (!domino.userData.falling) {
+                        domino.userData.falling = true;
+                    }
+
+                    if (domino.userData.fallProgress < 1) {
+                        domino.userData.fallProgress += 0.1;
+                        const fallAmount = Math.min(Math.PI / 2, domino.userData.fallProgress * Math.PI / 2);
+                        
+                        // Calculate fall axis based on original rotation
+                        const fallAxis = new THREE.Vector3(
+                            Math.cos(domino.userData.originalRotation.y),
+                            0,
+                            Math.sin(domino.userData.originalRotation.y)
+                        );
+
+                        // Apply rotation around the calculated axis
+                        domino.quaternion.setFromAxisAngle(fallAxis, fallAmount);
+                    }
+                }
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

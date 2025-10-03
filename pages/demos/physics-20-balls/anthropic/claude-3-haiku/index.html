@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ball Simulation</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      overflow: hidden;
+    }
+
+    .ball {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #fff;
+    }
+
+    .hexagon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      background-color: transparent;
+      border: 2px solid #fff;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: rotate 10s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="hexagon"></div>
+
+  <script>
+    const balls = [];
+    const numBalls = 20;
+    const hexagon = document.querySelector('.hexagon');
+    let gravity = 0.5;
+    let directionChangeInterval;
+
+    function createBalls() {
+      for (let i = 0; i < numBalls; i++) {
+        const ball = document.createElement('div');
+        ball.classList.add('ball');
+        ball.style.left = `${Math.random() * 500}px`;
+        ball.style.top = `${Math.random() * 500}px`;
+        ball.vx = (Math.random() * 4) - 2;
+        ball.vy = (Math.random() * 4) - 2;
+        balls.push(ball);
+        document.body.appendChild(ball);
+      }
+    }
+
+    function updateBalls() {
+      balls.forEach(ball => {
+        ball.style.left = `${ball.offsetLeft + ball.vx}px`;
+        ball.style.top = `${ball.offsetTop + ball.vy}px`;
+
+        if (ball.offsetLeft <= 0 || ball.offsetLeft >= window.innerWidth - 20) {
+          ball.vx *= -1;
+        }
+
+        if (ball.offsetTop <= 0 || ball.offsetTop >= window.innerHeight - 20) {
+          ball.vy *= -1;
+        }
+
+        ball.vy += gravity;
+      });
+
+      requestAnimationFrame(updateBalls);
+    }
+
+    function changeGravityDirection() {
+      gravity *= -1;
+    }
+
+    createBalls();
+    updateBalls();
+
+    directionChangeInterval = setInterval(changeGravityDirection, 5000);
+  </script>
+</body>
+</html>

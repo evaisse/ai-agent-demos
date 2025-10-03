@@ -1,0 +1,65 @@
+{
+  "timestamp": "2025-10-02T13:04:39.829Z",
+  "execution": {
+    "duration_seconds": "26.465",
+    "model_used": "anthropic/claude-3.5-sonnet",
+    "model_requested": "anthropic/claude-3.5-sonnet"
+  },
+  "tokens": {
+    "prompt_tokens": 37,
+    "completion_tokens": 1681,
+    "total_tokens": 1718
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000111,
+    "completion_cost": 0.025215,
+    "total_cost": 0.025326
+  },
+  "model_card": {
+    "id": "anthropic/claude-3.5-sonnet",
+    "name": "Anthropic: Claude 3.5 Sonnet",
+    "description": "New Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Scores ~49% on SWE-Bench Verified, higher than the last best score, and without any fancy prompt scaffolding\n- Data science: Augments human data science expertise; navigates unstructured data while using multiple tools for insights\n- Visual processing: excelling at interpreting charts, graphs, and images, accurately transcribing text to derive insights beyond just the text alone\n- Agentic tasks: exceptional tool use, making it great at agentic tasks (i.e. complex, multi-step problem solving tasks that require engaging with other systems)\n\n#multimodal",
+    "context_length": 200000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Claude"
+    },
+    "pricing": {
+      "completion": "0.000015",
+      "image": "0.0048",
+      "input_cache_read": "0.0000003",
+      "input_cache_write": "0.00000375",
+      "internal_reasoning": "0",
+      "prompt": "0.000003",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 200000,
+      "is_moderated": true,
+      "max_completion_tokens": 8192
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759410253-3T7cEvkbteYUB2LftTOO",
+    "created": 1759410254,
+    "object": "chat.completion"
+  },
+  "raw_response": "Here's a simplified version of PAC-MAN in a single HTML file. Note that this is a basic implementation and doesn't include all features of the original game:\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <title>PAC-MAN</title>\n    <style>\n        body {\n            background-color: black;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n        }\n        \n        #gameBoard {\n            border: 2px solid blue;\n        }\n\n        .score {\n            color: white;\n            font-family: Arial, sans-serif;\n            font-size: 20px;\n            position: absolute;\n            top: 10px;\n            left: 10px;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"score\">Score: <span id=\"score\">0</span></div>\n    <canvas id=\"gameBoard\"></canvas>\n\n    <script>\n        const canvas = document.getElementById('gameBoard');\n        const ctx = canvas.getContext('2d');\n        const scoreElement = document.getElementById('score');\n\n        canvas.width = 560;\n        canvas.height = 600;\n\n        class Pacman {\n            constructor(x, y) {\n                this.x = x;\n                this.y = y;\n                this.radius = 15;\n                this.speed = 3;\n                this.direction = 0; // 0: right, 1: up, 2: left, 3: down\n                this.mouthOpen = 0;\n                this.mouthSpeed = 0.15;\n            }\n\n            draw() {\n                ctx.save();\n                ctx.translate(this.x, this.y);\n                ctx.rotate((this.direction * 90) * Math.PI / 180);\n                \n                ctx.beginPath();\n                ctx.arc(0, 0, this.radius, this.mouthOpen * Math.PI, (2 - this.mouthOpen) * Math.PI);\n                ctx.lineTo(0, 0);\n                ctx.fillStyle = 'yellow';\n                ctx.fill();\n                \n                ctx.restore();\n            }\n\n            update() {\n                this.mouthOpen += this.mouthSpeed;\n                if (this.mouthOpen > 0.5 || this.mouthOpen < 0) {\n                    this.mouthSpeed = -this.mouthSpeed;\n                }\n            }\n\n            move() {\n                switch(this.direction) {\n                    case 0: this.x += this.speed; break;\n                    case 1: this.y -= this.speed; break;\n                    case 2: this.x -= this.speed; break;\n                    case 3: this.y += this.speed; break;\n                }\n\n                // Keep Pacman within bounds\n                if (this.x < this.radius) this.x = this.radius;\n                if (this.x > canvas.width - this.radius) this.x = canvas.width - this.radius;\n                if (this.y < this.radius) this.y = this.radius;\n                if (this.y > canvas.height - this.radius) this.y = canvas.height - this.radius;\n            }\n        }\n\n        class Dot {\n            constructor(x, y) {\n                this.x = x;\n                this.y = y;\n                this.radius = 3;\n                this.eaten = false;\n            }\n\n            draw() {\n                if (!this.eaten) {\n                    ctx.beginPath();\n                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);\n                    ctx.fillStyle = 'white';\n                    ctx.fill();\n                }\n            }\n        }\n\n        const pacman = new Pacman(100, 100);\n        let dots = [];\n        let score = 0;\n\n        // Create dots grid\n        for (let i = 40; i < canvas.width; i += 40) {\n            for (let j = 40; j < canvas.height; j += 40) {\n                dots.push(new Dot(i, j));\n            }\n        }\n\n        function checkCollision() {\n            dots.forEach(dot => {\n                if (!dot.eaten) {\n                    const dx = pacman.x - dot.x;\n                    const dy = pacman.y - dot.y;\n                    const distance = Math.sqrt(dx * dx + dy * dy);\n                    \n                    if (distance < pacman.radius + dot.radius) {\n                        dot.eaten = true;\n                        score += 10;\n                        scoreElement.textContent = score;\n                    }\n                }\n            });\n        }\n\n        document.addEventListener('keydown', (event) => {\n            switch(event.key) {\n                case 'ArrowRight':\n                    pacman.direction = 0;\n                    break;\n                case 'ArrowUp':\n                    pacman.direction = 1;\n                    break;\n                case 'ArrowLeft':\n                    pacman.direction = 2;\n                    break;\n                case 'ArrowDown':\n                    pacman.direction = 3;\n                    break;\n            }\n        });\n\n        function gameLoop() {\n            ctx.clearRect(0, 0, canvas.width, canvas.height);\n            \n            // Draw dots\n            dots.forEach(dot => dot.draw());\n            \n            // Update and draw Pacman\n            pacman.update();\n            pacman.move();\n            pacman.draw();\n            \n            // Check for collisions\n            checkCollision();\n            \n            requestAnimationFrame(gameLoop);\n        }\n\n        gameLoop();\n    </script>\n</body>\n</html>\n```\n\nThis implementation includes:\n\n1. A basic Pacman that can move in four directions using arrow keys\n2. Dots that can be collected for points\n3. Score tracking\n4. Simple collision detection\n5. Animated Pacman mouth\n\nTo play:\n1. Use arrow keys to move Pacman\n2. Collect white dots to increase your score\n3. Each dot is worth 10 points\n\nLimitations of this basic version:\n1. No ghosts\n2. No maze walls\n3. No power pellets\n4. No game over condition\n5. No sound effects\n6. Simplified graphics\n\nYou can save this code in a file named `index.html` and open it in a web browser to play. To make it more like the original game, you would need to add:\n\n1. Ghost AI and movement\n2. Maze walls and collision detection\n3. Power pellets and ghost vulnerability\n4. Sound effects\n5. More sophisticated graphics\n6. Lives system\n7. Game over conditions\n8. Level progression\n\nBut this gives you a basic foundation for a Pac-Man-style game."
+}

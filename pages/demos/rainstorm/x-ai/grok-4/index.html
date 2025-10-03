@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rain and Thunder Animation</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #111;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Thunder flash effect */
+        .thunder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0);
+            animation: thunderFlash 10s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes thunderFlash {
+            0% { background: rgba(255, 255, 255, 0); }
+            5% { background: rgba(255, 255, 255, 0.8); }
+            6% { background: rgba(255, 255, 255, 0); }
+            10% { background: rgba(255, 255, 255, 0.9); }
+            11% { background: rgba(255, 255, 255, 0); }
+            100% { background: rgba(255, 255, 255, 0); }
+        }
+
+        /* Rain container */
+        .rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Individual rain drops */
+        .drop {
+            position: absolute;
+            bottom: 100%;
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thunder"></div>
+    <div class="rain"></div>
+
+    <script>
+        // Generate rain drops
+        function createRain() {
+            const rainContainer = document.querySelector('.rain');
+            const numDrops = 200; // Adjust for more/less rain
+
+            for (let i = 0; i < numDrops; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('drop');
+                drop.style.left = `${Math.random() * 100}vw`;
+                drop.style.animationDuration = `${Math.random() * 1 + 0.5}s`; // Speed variation
+                drop.style.animationDelay = `${Math.random() * 2}s`; // Start delay
+                drop.style.opacity = Math.random() * 0.5 + 0.5; // Opacity variation
+                drop.style.height = `${Math.random() * 50 + 20}px`; // Length variation
+                rainContainer.appendChild(drop);
+            }
+        }
+
+        // Initialize rain
+        createRain();
+    </script>
+</body>
+</html>

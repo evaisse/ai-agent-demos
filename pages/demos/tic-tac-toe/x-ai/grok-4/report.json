@@ -1,0 +1,63 @@
+{
+  "timestamp": "2025-10-02T21:41:38.181Z",
+  "execution": {
+    "duration_seconds": "6.918",
+    "model_used": "x-ai/grok-4",
+    "model_requested": "x-ai/grok-4"
+  },
+  "tokens": {
+    "prompt_tokens": 717,
+    "completion_tokens": 1946,
+    "total_tokens": 2663
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.002151,
+    "completion_cost": 0.02919,
+    "total_cost": 0.031341
+  },
+  "model_card": {
+    "id": "x-ai/grok-4",
+    "name": "xAI: Grok 4",
+    "description": "Grok 4 is xAI's latest reasoning model with a 256k context window. It supports parallel tool calling, structured outputs, and both image and text inputs. Note that reasoning is not exposed, reasoning cannot be disabled, and the reasoning effort cannot be specified. Pricing increases once the total tokens in a given request is greater than 128k tokens. See more details on the [xAI docs](https://docs.x.ai/docs/models/grok-4-0709)",
+    "context_length": 256000,
+    "architecture": {
+      "input_modalities": [
+        "image",
+        "text"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Grok"
+    },
+    "pricing": {
+      "completion": "0.000015",
+      "image": "0",
+      "input_cache_read": "0.00000075",
+      "internal_reasoning": "0",
+      "prompt": "0.000003",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 256000,
+      "is_moderated": false,
+      "max_completion_tokens": null
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! \n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759441257-fBiOJOQDMsoHBwrKefYv",
+    "created": 1759441257,
+    "object": "chat.completion"
+  },
+  "raw_response": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Tic Tac Toe</title>\n    <style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #f0f0f0;\n            font-family: Arial, sans-serif;\n        }\n        #board {\n            display: grid;\n            grid-template-columns: repeat(3, 100px);\n            grid-gap: 5px;\n            background-color: #333;\n            padding: 10px;\n            border-radius: 10px;\n        }\n        .cell {\n            width: 100px;\n            height: 100px;\n            background-color: #fff;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            font-size: 48px;\n            cursor: pointer;\n            border-radius: 5px;\n            transition: background-color 0.3s;\n        }\n        .cell:hover {\n            background-color: #eee;\n        }\n        #status {\n            margin-top: 20px;\n            font-size: 24px;\n            text-align: center;\n        }\n        #reset {\n            margin-top: 10px;\n            padding: 10px 20px;\n            font-size: 18px;\n            cursor: pointer;\n            display: none;\n        }\n        /* Confetti animation styles */\n        .confetti {\n            position: absolute;\n            width: 10px;\n            height: 10px;\n            background-color: red;\n            opacity: 0.8;\n            animation: confetti-fall 3s linear infinite;\n            pointer-events: none;\n        }\n        @keyframes confetti-fall {\n            0% {\n                transform: translateY(-100vh) rotate(0deg);\n                opacity: 1;\n            }\n            100% {\n                transform: translateY(100vh) rotate(720deg);\n                opacity: 0;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div id=\"board\"></div>\n    <div id=\"status\">Player X's turn</div>\n    <button id=\"reset\" onclick=\"resetGame()\">Reset Game</button>\n\n    <script>\n        const board = document.getElementById('board');\n        const status = document.getElementById('status');\n        const resetButton = document.getElementById('reset');\n        let cells = [];\n        let currentPlayer = 'X';\n        let gameActive = true;\n        const winningConditions = [\n            [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows\n            [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns\n            [0, 4, 8], [2, 4, 6] // diagonals\n        ];\n\n        function initBoard() {\n            board.innerHTML = '';\n            cells = [];\n            for (let i = 0; i < 9; i++) {\n                const cell = document.createElement('div');\n                cell.classList.add('cell');\n                cell.dataset.index = i;\n                cell.addEventListener('click', handleCellClick);\n                board.appendChild(cell);\n                cells.push(cell);\n            }\n        }\n\n        function handleCellClick(event) {\n            const cell = event.target;\n            const index = cell.dataset.index;\n            if (cell.textContent !== '' || !gameActive) return;\n            cell.textContent = currentPlayer;\n            checkResult();\n            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';\n            status.textContent = `Player ${currentPlayer}'s turn`;\n        }\n\n        function checkResult() {\n            let roundWon = false;\n            for (let condition of winningConditions) {\n                const [a, b, c] = condition;\n                if (cells[a].textContent === '' || cells[b].textContent === '' || cells[c].textContent === '') continue;\n                if (cells[a].textContent === cells[b].textContent && cells[b].textContent === cells[c].textContent) {\n                    roundWon = true;\n                    highlightWinningCells(condition);\n                    break;\n                }\n            }\n            if (roundWon) {\n                status.textContent = `Player ${currentPlayer} wins!`;\n                gameActive = false;\n                triggerFinishAnimation();\n                resetButton.style.display = 'block';\n                return;\n            }\n            const isDraw = cells.every(cell => cell.textContent !== '');\n            if (isDraw) {\n                status.textContent = 'It\\'s a draw!';\n                gameActive = false;\n                triggerFinishAnimation();\n                resetButton.style.display = 'block';\n            }\n        }\n\n        function highlightWinningCells(condition) {\n            condition.forEach(index => {\n                cells[index].style.backgroundColor = '#aaffaa';\n            });\n        }\n\n        function resetGame() {\n            currentPlayer = 'X';\n            gameActive = true;\n            status.textContent = `Player ${currentPlayer}'s turn`;\n            resetButton.style.display = 'none';\n            initBoard();\n            clearConfetti();\n        }\n\n        // Original twist: Confetti rain with a \"twist\" - confetti pieces rotate and change colors randomly\n        function triggerFinishAnimation() {\n            const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];\n            for (let i = 0; i < 100; i++) { // Create 100 confetti pieces\n                const confetti = document.createElement('div');\n                confetti.classList.add('confetti');\n                confetti.style.left = `${Math.random() * 100}vw`;\n                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];\n                confetti.style.animationDuration = `${Math.random() * 2 + 2}s`; // Random duration between 2-4s\n                confetti.style.animationDelay = `${Math.random() * 2}s`; // Random delay\n                confetti.style.width = `${Math.random() * 10 + 5}px`; // Random size\n                confetti.style.height = confetti.style.width;\n                document.body.appendChild(confetti);\n                // Remove after animation\n                setTimeout(() => confetti.remove(), 5000);\n            }\n        }\n\n        function clearConfetti() {\n            const confettis = document.querySelectorAll('.confetti');\n            confettis.forEach(c => c.remove());\n        }\n\n        initBoard();\n    </script>\n</body>\n</html>\n```\n\nThis is the complete content for `index.html`. Save it as a file and open it in a browser to play. The game is a simple Tic Tac Toe for two players (X and O alternating turns). When the game ends (win or draw), it triggers an original finish animation: a colorful confetti rain where pieces fall, rotate, and have random colors, sizes, and speeds for a fun twist! Click \"Reset Game\" to play again."
+}

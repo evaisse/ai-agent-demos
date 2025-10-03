@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> google/gemini-2.5-flash-lite</p>
+            <p><strong>Generated:</strong> 2025-10-02T14:18:05.134Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">3793</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">11.998s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0015</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Okay, here&#039;s the HTML code for <code>index.html</code> that creates a cool raining and thunder animation. This uses pure CSS and SVG for the animation, with no JavaScript or user interaction.<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Raining and Thunder Animation&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            margin: 0;<br>            overflow: hidden;<br>            background-color: #1a1a2e; /* Dark, stormy background */<br>            display: flex;<br>            justify-content: center;<br>            align-items: center;<br>            min-height: 100vh;<br>            position: relative;<br>        }<br><br>        .rain-container {<br>            position: absolute;<br>            top: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 100%;<br>            pointer-events: none; /* Allows clicks to pass through the rain */<br>        }<br><br>        .raindrop {<br>            position: absolute;<br>            width: 1px;<br>            height: 15px;<br>            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));<br>            animation: fall linear infinite;<br>            opacity: 0; /* Start invisible */<br>        }<br><br>        /* Keyframes for falling rain */<br>        @keyframes fall {<br>            0% {<br>                transform: translateY(-100%);<br>                opacity: 0;<br>            }<br>            20% {<br>                opacity: 1;<br>            }<br>            80% {<br>                opacity: 1;<br>            }<br>            100% {<br>                transform: translateY(100vh);<br>                opacity: 0;<br>            }<br>        }<br><br>        /* Thunder animation */<br>        .thunder-container {<br>            position: absolute;<br>            top: 50%;<br>            left: 50%;<br>            transform: translate(-50%, -50%);<br>            width: 100%;<br>            height: 100%;<br>            pointer-events: none;<br>            z-index: 10; /* Ensure thunder is visible above rain */<br>        }<br><br>        .thunder {<br>            position: absolute;<br>            top: 20%;<br>            left: 50%;<br>            transform: translateX(-50%);<br>            width: 40%; /* Adjust as needed */<br>            height: 30%; /* Adjust as needed */<br>            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);<br>            filter: blur(10px);<br>            opacity: 0;<br>            animation: flash linear infinite;<br>        }<br><br>        .thunder::before {<br>            content: &#039;&#039;;<br>            position: absolute;<br>            top: 10%;<br>            left: 10%;<br>            width: 80%;<br>            height: 80%;<br>            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 80%);<br>            filter: blur(8px);<br>            opacity: 0;<br>            animation: flash linear infinite;<br>            animation-delay: 0.3s; /* Offset for a layered effect */<br>        }<br><br>        .thunder::after {<br>            content: &#039;&#039;;<br>            position: absolute;<br>            top: 30%;<br>            left: 30%;<br>            width: 40%;<br>            height: 40%;<br>            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 90%);<br>            filter: blur(5px);<br>            opacity: 0;<br>            animation: flash linear infinite;<br>            animation-delay: 0.6s; /* Offset for a layered effect */<br>        }<br><br>        @keyframes flash {<br>            0% { opacity: 0; }<br>            5% { opacity: 1; } /* Quick flash */<br>            10% { opacity: 0; }<br>            50% { opacity: 0; } /* Longer pause */<br>            55% { opacity: 0.7; } /* Another flash */<br>            60% { opacity: 0; }<br>            100% { opacity: 0; }<br>        }<br><br>        /* Add more raindrops with varying delays and speeds */<br>        .raindrop:nth-child(1) { animation-delay: 0s; animation-duration: 1s; left: 10%; }<br>        .raindrop:nth-child(2) { animation-delay: 0.2s; animation-duration: 1.2s; left: 25%; }<br>        .raindrop:nth-child(3) { animation-delay: 0.4s; animation-duration: 1s; left: 40%; }<br>        .raindrop:nth-child(4) { animation-delay: 0.6s; animation-duration: 1.3s; left: 55%; }<br>        .raindrop:nth-child(5) { animation-delay: 0.8s; animation-duration: 1.1s; left: 70%; }<br>        .raindrop:nth-child(6) { animation-delay: 1s; animation-duration: 1.4s; left: 85%; }<br>        .raindrop:nth-child(7) { animation-delay: 0.1s; animation-duration: 1.1s; left: 15%; }<br>        .raindrop:nth-child(8) { animation-delay: 0.3s; animation-duration: 1.3s; left: 30%; }<br>        .raindrop:nth-child(9) { animation-delay: 0.5s; animation-duration: 1.2s; left: 45%; }<br>        .raindrop:nth-child(10) { animation-delay: 0.7s; animation-duration: 1.4s; left: 60%; }<br>        .raindrop:nth-child(11) { animation-delay: 0.9s; animation-duration: 1s; left: 75%; }<br>        .raindrop:nth-child(12) { animation-delay: 1.1s; animation-duration: 1.3s; left: 90%; }<br><br>        /* More raindrops for density */<br>        .raindrop:nth-child(13) { animation-delay: 0.15s; animation-duration: 1.2s; left: 5%; }<br>        .raindrop:nth-child(14) { animation-delay: 0.35s; animation-duration: 1.3s; left: 20%; }<br>        .raindrop:nth-child(15) { animation-delay: 0.55s; animation-duration: 1.1s; left: 35%; }<br>        .raindrop:nth-child(16) { animation-delay: 0.75s; animation-duration: 1.4s; left: 50%; }<br>        .raindrop:nth-child(17) { animation-delay: 0.95s; animation-duration: 1.2s; left: 65%; }<br>        .raindrop:nth-child(18) { animation-delay: 1.15s; animation-duration: 1.3s; left: 80%; }<br>        .raindrop:nth-child(19) { animation-delay: 0.05s; animation-duration: 1.3s; left: 95%; }<br>        .raindrop:nth-child(20) { animation-delay: 0.25s; animation-duration: 1.1s; left: 28%; }<br><br>        /* Thunder sound simulation (visual only) */<br>        .thunder-sound {<br>            position: absolute;<br>            top: 0;<br>            left: 0;<br>            width: 100%;<br>            height: 100%;<br>            pointer-events: none;<br>            z-index: 5;<br>            animation: thunder-rumble linear infinite;<br>            opacity: 0;<br>        }<br><br>        @keyframes thunder-rumble {<br>            0% { opacity: 0; }<br>            10% { opacity: 0.2; }<br>            20% { opacity: 0; }<br>            40% { opacity: 0.3; }<br>            50% { opacity: 0; }<br>            70% { opacity: 0.1; }<br>            80% { opacity: 0; }<br>            100% { opacity: 0; }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br><br>    &lt;div class=&quot;rain-container&quot;&gt;<br>        &lt;!-- Generated raindrops --&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;raindrop&quot;&gt;&lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;div class=&quot;thunder-container&quot;&gt;<br>        &lt;div class=&quot;thunder&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;thunder-sound&quot;&gt;&lt;/div&gt; &lt;!-- For a subtle rumble effect --&gt;<br>    &lt;/div&gt;<br><br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>**Explanation:**<br><br>1.  **<code>&lt;!DOCTYPE html&gt;</code> and <code>&lt;html&gt;</code>:** Standard HTML5 document structure.<br>2.  **<code>&lt;head&gt;</code>:**<br>    *   **<code>&lt;meta charset=&quot;UTF-8&quot;&gt;</code>:** Specifies the character encoding.<br>    *   **<code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</code>:** Ensures proper scaling on different devices.<br>    *   **<code>&lt;title&gt;</code>:** Sets the title of the browser tab.<br>    *   **<code>&lt;style&gt;</code>:** Contains all the CSS for the animation.<br><br>3.  **<code>&lt;body&gt;</code>:**<br>    *   **<code>body</code> styles:**<br>        *   <code>margin: 0;</code>: Removes default body margin.<br>        *   <code>overflow: hidden;</code>: Prevents scrollbars from appearing due to animations.<br>        *   <code>background-color: #1a1a2e;</code>: A dark, moody blue-black for the stormy sky.<br>        *   <code>display: flex; justify-content: center; align-items: center; min-height: 100vh;</code>: Centers content vertically and horizontally.<br>        *   <code>position: relative;</code>: Allows absolute positioning of child elements.<br><br>    *   **<code>.rain-container</code>:**<br>        *   <code>position: absolute; top: 0; left: 0; width: 100%; height: 100%;</code>: Makes it cover the entire viewport.<br>        *   <code>pointer-events: none;</code>: Crucial! This ensures that the rain elements don&#039;t interfere with any potential future interactions on the page (though in this case, there are none).<br><br>    *   **<code>.raindrop</code>:**<br>        *   <code>position: absolute;</code>: Allows individual positioning.<br>        *   <code>width: 1px; height: 15px;</code>: Defines the shape of a single raindrop.<br>        *   <code>background: linear-gradient(...)</code>: Creates a subtle gradient from white to transparent, giving the impression of light passing through.<br>        *   <code>animation: fall linear infinite;</code>: Applies the <code>fall</code> animation, makes it loop endlessly, and ensures a constant speed.<br>        *   <code>opacity: 0;</code>: Initially invisible, they fade in as they start to fall.<br><br>    *   **<code>@keyframes fall</code>:**<br>        *   This animation defines the falling motion of the raindrops.<br>        *   <code>0%</code>: Starts off-screen at the top (<code>translateY(-100%)</code>) and invisible.<br>        *   <code>20%</code>: Fades in.<br>        *   <code>80%</code>: Stays visible.<br>        *   <code>100%</code>: Reaches the bottom of the screen (<code>translateY(100vh)</code>) and fades out.<br><br>    *   **<code>.thunder-container</code>:**<br>        *   Positions the thunder effect in the center of the screen.<br>        *   <code>z-index: 10;</code>: Ensures the thunder flashes appear *above* the rain.<br><br>    *   **<code>.thunder</code>:**<br>        *   This is the main thunder flash visual.<br>        *   <code>position: absolute; top: 20%; left: 50%; transform: translateX(-50%);</code>: Centers it horizontally.<br>        *   <code>width: 40%; height: 30%;</code>: Defines the size of the flash.<br>        *   <code>background: radial-gradient(...)</code>: Creates a soft, glowing white circle that fades outwards.<br>        *   <code>filter: blur(10px);</code>: Softens the edges of the glow.<br>        *   <code>opacity: 0;</code>: Starts invisible.<br>        *   <code>animation: flash linear infinite;</code>: Applies the <code>flash</code> animation.<br><br>    *   **<code>.thunder::before</code>, <code>.thunder::after</code>:**<br>        *   These pseudo-elements create layered, slightly offset glows to give the thunder flash more depth and complexity.<br>        *   <code>animation-delay</code>: These are set to different values to make the flashes appear at slightly different times, creating a more dynamic effect.<br><br>    *   **<code>@keyframes flash</code>:**<br>        *   This animation controls the rapid on-off blinking of the thunder.<br>        *   <code>0%</code>: Invisible.<br>        *   <code>5%</code>: Quickly becomes highly visible.<br>        *   <code>10%</code>: Fades back out.<br>        *   <code>50%</code>: A longer pause before the next flash.<br>        *   <code>55%</code>: Another, slightly less intense flash.<br>        *   <code>60%</code>: Fades out.<br>        *   <code>100%</code>: Remains invisible.<br><br>    *   **<code>.raindrop:nth-child(n)</code>:**<br>        *   This is where we create multiple raindrops.<br>        *   <code>nth-child(n)</code> selects the nth raindrop element.<br>        *   <code>animation-delay</code>: Each raindrop has a slightly different delay, making them fall at staggered times.<br>        *   <code>animation-duration</code>: Varying the duration makes some raindrops fall faster than others, adding realism.<br>        *   <code>left</code>: Sets the horizontal position of each raindrop. I&#039;ve added a good number of these to create a dense rain effect.<br><br>    *   **<code>.thunder-sound</code>:**<br>        *   This is a subtle visual representation of the thunder rumble. It&#039;s a semi-transparent overlay that pulses.<br>        *   <code>@keyframes thunder-rumble</code>: Creates a slow pulsing opacity effect to simulate a distant rumble.<br><br>**How to Use:**<br><br>1.  Save the code above as <code>index.html</code> in a folder.<br>2.  Open <code>index.html</code> in your web browser.<br><br>You should see a dark background with animated raindrops falling and occasional, pulsing white flashes representing thunder.</div>
+        </div>
+    </div>
+</body>
+</html>

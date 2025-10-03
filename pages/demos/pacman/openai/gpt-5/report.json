@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-10-02T12:45:12.947Z",
+  "execution": {
+    "duration_seconds": "68.911",
+    "model_used": "openai/gpt-5",
+    "model_requested": "openai/gpt-5"
+  },
+  "tokens": {
+    "prompt_tokens": 33,
+    "completion_tokens": 1984,
+    "total_tokens": 2017
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000041,
+    "completion_cost": 0.01984,
+    "total_cost": 0.019881
+  },
+  "model_card": {
+    "id": "openai/gpt-5",
+    "name": "OpenAI: GPT-5",
+    "description": "GPT-5 is OpenAI’s most advanced model, offering major improvements in reasoning, code quality, and user experience. It is optimized for complex tasks that require step-by-step reasoning, instruction following, and accuracy in high-stakes use cases. It supports test-time routing features and advanced prompt understanding, including user-specified intent like \"think hard about this.\" Improvements include reductions in hallucination, sycophancy, and better performance in coding, writing, and health-related tasks.",
+    "context_length": 400000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "GPT"
+    },
+    "pricing": {
+      "completion": "0.00001",
+      "image": "0",
+      "input_cache_read": "0.000000125",
+      "internal_reasoning": "0",
+      "prompt": "0.00000125",
+      "request": "0",
+      "web_search": "0.01"
+    },
+    "top_provider": {
+      "context_length": 400000,
+      "is_moderated": true,
+      "max_completion_tokens": 128000
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 2000
+  },
+  "response_metadata": {
+    "id": "gen-1759409044-E2khlCvEXKSCc9x8sAM3",
+    "created": 1759409044,
+    "object": "chat.completion"
+  },
+  "raw_response": ""
+}

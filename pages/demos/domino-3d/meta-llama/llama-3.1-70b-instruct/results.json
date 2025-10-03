@@ -1,0 +1,61 @@
+{
+  "timestamp": "2025-10-02T23:14:40.481Z",
+  "execution": {
+    "duration_seconds": "5.989",
+    "model_used": "meta-llama/llama-3.1-70b-instruct",
+    "model_requested": "meta-llama/llama-3.1-70b-instruct"
+  },
+  "tokens": {
+    "prompt_tokens": 58,
+    "completion_tokens": 783,
+    "total_tokens": 841
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000023,
+    "completion_cost": 0.000313,
+    "total_cost": 0.000336
+  },
+  "model_card": {
+    "id": "meta-llama/llama-3.1-70b-instruct",
+    "name": "Meta: Llama 3.1 70B Instruct",
+    "description": "Meta's latest class of model (Llama 3.1) launched with a variety of sizes & flavors. This 70B instruct-tuned version is optimized for high quality dialogue usecases.\n\nIt has demonstrated strong performance compared to leading closed-source models in human evaluations.\n\nTo read more about the model release, [click here](https://ai.meta.com/blog/meta-llama-3-1/). Usage of this model is subject to [Meta's Acceptable Use Policy](https://llama.meta.com/llama3/use-policy/).",
+    "context_length": 131072,
+    "architecture": {
+      "input_modalities": [
+        "text"
+      ],
+      "instruct_type": "llama3",
+      "modality": "text->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Llama3"
+    },
+    "pricing": {
+      "completion": "0.0000004",
+      "image": "0",
+      "internal_reasoning": "0",
+      "prompt": "0.0000004",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 131072,
+      "is_moderated": false,
+      "max_completion_tokens": null
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a 3d simulation of 200 dominoes arranged in a spiral. The outermost domino falls, triggering a satisfying, cascading chain reaction towards the center. No interactions. \n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759446827-0gAldSh1N0Xy1cSi6Sgw",
+    "created": 1759446827,
+    "object": "chat.completion"
+  },
+  "raw_response": "Below is an example HTML file that uses Three.js to create a 3D simulation of 200 dominoes arranged in a spiral. The outermost domino falls, triggering a cascading chain reaction towards the center.\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Dominoes Simulation</title>\n    <style>\n        body {\n            margin: 0;\n            background-color: #f0f0f0;\n            font-family: Monospace;\n            font-size: 13px;\n            line-height: 24px;\n            overscroll-behavior: none;\n            text-rendering: optimizeLegibility;\n            user-select: none;\n            font-smooth: always;\n        }\n        #canvas {\n            width: 100%;\n            height: 100vh;\n            display: block;\n        }\n    </style>\n</head>\n<body>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js\"></script>\n    <script>\n        let scene, camera, renderer, dominoes = [];\n\n        function init() {\n            scene = new THREE.Scene();\n            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);\n            renderer = new THREE.WebGLRenderer({\n                canvas: document.createElement('canvas'),\n                antialias: true\n            });\n            renderer.setSize(window.innerWidth, window.innerHeight);\n            document.body.appendChild(renderer.domElement);\n\n            camera.position.z = 200;\n\n            for (let i = 0; i < 200; i++) {\n                let domino = new THREE.Mesh(new THREE.BoxGeometry(5, 20, 2), new THREE.MeshBasicMaterial({color: 0xffffff}));\n                domino.position.x = Math.cos(i * 0.1) * (100 - i * 0.5);\n                domino.position.z = Math.sin(i * 0.1) * (100 - i * 0.5);\n                domino.rotation.y = i * 0.1;\n                scene.add(domino);\n                dominoes.push(domino);\n            }\n\n            window.addEventListener('resize', onWindowResize, false);\n        }\n\n        function onWindowResize() {\n            camera.aspect = window.innerWidth / window.innerHeight;\n            camera.updateProjectionMatrix();\n            renderer.setSize(window.innerWidth, window.innerHeight);\n        }\n\n        function animate() {\n            requestAnimationFrame(animate);\n            let time = Date.now() * 0.001;\n            for (let i = 0; i < dominoes.length; i++) {\n                let domino = dominoes[i];\n                if (i === 0) {\n                    domino.rotation.x = Math.sin(time) * 0.1;\n                } else {\n                    domino.rotation.x = dominoes[i - 1].rotation.x * 0.9 + Math.sin(time + i * 0.1) * 0.01;\n                }\n            }\n            renderer.render(scene, camera);\n        }\n\n        init();\n        animate();\n    </script>\n</body>\n</html>\n```\n\nThis code creates a 3D scene with 200 dominoes arranged in a spiral. The outermost domino falls, triggering a cascading chain reaction towards the center. The dominoes are updated in the `animate` function, which is called repeatedly using `requestAnimationFrame`. The rotation of each domino is based on the rotation of the previous domino, creating a chain reaction effect.\n\nPlease note that this is a basic example and you may want to add more features, such as collision detection, to create a more realistic simulation."
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> openai/gpt-4o</p>
+            <p><strong>Generated:</strong> 2025-10-02T12:25:07.825Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">1498</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">24.110s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0143</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file with no other file dependencies, create a Chatbot messaging screen that can use an OpenRouter API Key and select models from OpenRouter GET https://openrouter.ai/api/v1/models (without auth), from there store the Key localy and allow use to try the model in the chatbot. You can use external dependencies but only with CDNJS. Feel free to make pretty and shiny.
+
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">To create a single HTML file with a chatbot messaging screen that interacts with the OpenRouter API, we&#039;ll use HTML, CSS, and JavaScript. We&#039;ll use a few external libraries for styling and functionality from CDNJS. Here&#039;s a complete example:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Chatbot with OpenRouter&lt;/title&gt;<br>    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css&quot;&gt;<br>    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css&quot;&gt;<br>    &lt;style&gt;<br>        body, html {<br>            height: 100%;<br>            margin: 0;<br>            display: flex;<br>            flex-direction: column;<br>            font-family: Arial, sans-serif;<br>        }<br>        #chat-container {<br>            flex: 1;<br>            display: flex;<br>            flex-direction: column;<br>            border: 1px solid #ccc;<br>            border-radius: 8px;<br>            margin: 20px;<br>            padding: 10px;<br>            background-color: #f8f9fa;<br>        }<br>        #messages {<br>            flex: 1;<br>            overflow-y: auto;<br>            padding: 10px;<br>            border-bottom: 1px solid #ddd;<br>        }<br>        .message {<br>            margin-bottom: 10px;<br>            padding: 8px;<br>            border-radius: 5px;<br>            max-width: 70%;<br>        }<br>        .user-message {<br>            background-color: #007bff;<br>            color: white;<br>            align-self: flex-end;<br>        }<br>        .bot-message {<br>            background-color: #e9ecef;<br>            align-self: flex-start;<br>        }<br>        #input-container {<br>            display: flex;<br>            align-items: center;<br>            padding: 10px;<br>        }<br>        #message-input {<br>            flex: 1;<br>            padding: 8px;<br>            border: 1px solid #ccc;<br>            border-radius: 5px;<br>            margin-right: 10px;<br>        }<br>        #send-button {<br>            padding: 8px 15px;<br>            background-color: #007bff;<br>            color: white;<br>            border: none;<br>            border-radius: 5px;<br>            cursor: pointer;<br>        }<br>        #api-key-input {<br>            width: 100%;<br>            margin-bottom: 10px;<br>        }<br>        #model-select {<br>            width: 100%;<br>            margin-bottom: 10px;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;div id=&quot;chat-container&quot;&gt;<br>        &lt;input type=&quot;text&quot; id=&quot;api-key-input&quot; placeholder=&quot;Enter OpenRouter API Key&quot; class=&quot;form-control&quot;&gt;<br>        &lt;select id=&quot;model-select&quot; class=&quot;form-control&quot;&gt;<br>            &lt;option value=&quot;&quot;&gt;Select Model&lt;/option&gt;<br>        &lt;/select&gt;<br>        &lt;div id=&quot;messages&quot;&gt;&lt;/div&gt;<br>        &lt;div id=&quot;input-container&quot;&gt;<br>            &lt;input type=&quot;text&quot; id=&quot;message-input&quot; placeholder=&quot;Type a message...&quot; class=&quot;form-control&quot;&gt;<br>            &lt;button id=&quot;send-button&quot;&gt;&lt;i class=&quot;fas fa-paper-plane&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br>        &lt;/div&gt;<br>    &lt;/div&gt;<br><br>    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js&quot;&gt;&lt;/script&gt;<br>    &lt;script&gt;<br>        document.addEventListener(&#039;DOMContentLoaded&#039;, () =&gt; {<br>            const apiKeyInput = document.getElementById(&#039;api-key-input&#039;);<br>            const modelSelect = document.getElementById(&#039;model-select&#039;);<br>            const messagesContainer = document.getElementById(&#039;messages&#039;);<br>            const messageInput = document.getElementById(&#039;message-input&#039;);<br>            const sendButton = document.getElementById(&#039;send-button&#039;);<br><br>            // Load models from OpenRouter<br>            axios.get(&#039;https://openrouter.ai/api/v1/models&#039;)<br>                .then(response =&gt; {<br>                    const models = response.data;<br>                    models.forEach(model =&gt; {<br>                        const option = document.createElement(&#039;option&#039;);<br>                        option.value = model.id;<br>                        option.textContent = model.name;<br>                        modelSelect.appendChild(option);<br>                    });<br>                })<br>                .catch(error =&gt; console.error(&#039;Error fetching models:&#039;, error));<br><br>            // Handle sending message<br>            sendButton.addEventListener(&#039;click&#039;, () =&gt; {<br>                const apiKey = apiKeyInput.value.trim();<br>                const selectedModel = modelSelect.value;<br>                const messageText = messageInput.value.trim();<br><br>                if (!apiKey || !selectedModel || !messageText) {<br>                    alert(&#039;Please enter API Key, select a model, and type a message.&#039;);<br>                    return;<br>                }<br><br>                const userMessage = document.createElement(&#039;div&#039;);<br>                userMessage.className = &#039;message user-message&#039;;<br>                userMessage.textContent = messageText;<br>                messagesContainer.appendChild(userMessage);<br>                messageInput.value = &#039;&#039;;<br><br>                // Simulate API call to OpenRouter (you&#039;ll replace this with actual API call)<br>                axios.post(<code>https://openrouter.ai/api/v1/chat</code>, {<br>                    model_id: selectedModel,<br>                    input: messageText<br>                }, {<br>                    headers: {<br>                        &#039;Authorization&#039;: <code>Bearer ${apiKey}</code><br>                    }<br>                })<br>                .then(response =&gt; {<br>                    const botMessage = document.createElement(&#039;div&#039;);<br>                    botMessage.className = &#039;message bot-message&#039;;<br>                    botMessage.textContent = response.data.output; // Assuming API returns this field<br>                    messagesContainer.appendChild(botMessage);<br>                })<br>                .catch(error =&gt; {<br>                    console.error(&#039;Error during API call:&#039;, error);<br>                    const botMessage = document.createElement(&#039;div&#039;);<br>                    botMessage.className = &#039;message bot-message&#039;;<br>                    botMessage.textContent = &#039;Error: Unable to get a response from the model.&#039;;<br>                    messagesContainer.appendChild(botMessage);<br>                });<br>            });<br>        });<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>### Explanation:<br>- **HTML Structure**: We have an input for the API key, a dropdown to select models, a message display area, and an input field to type messages with a send button.<br>- **Styling**: We&#039;re using Bootstrap for basic styling and Font Awesome for the send button icon.<br>- **JavaScript**: <br>  - First, we fetch the available models from the OpenRouter API and populate the dropdown.<br>  - On clicking the send button, we send the user message to the OpenRouter API using the selected model and API key.<br>  - Responses are displayed in the chat area, simulating a chatbot interaction.<br><br>### Note:<br>- Replace the simulated API call with actual API details and response fields as per the real API documentation.<br>- Ensure you handle errors gracefully in a production environment, especially around API calls and input validations.</div>
+        </div>
+    </div>
+</body>
+</html>

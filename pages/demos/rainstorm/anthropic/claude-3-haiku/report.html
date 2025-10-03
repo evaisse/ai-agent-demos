@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-3-haiku</p>
+            <p><strong>Generated:</strong> 2025-10-02T14:14:16.782Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">854</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">7.394s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0010</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Here&#039;s an example of a cool raining and thunder animation using HTML, CSS, and JavaScript in a single <code>index.html</code> file:<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>  &lt;meta charset=&quot;UTF-8&quot;&gt;<br>  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>  &lt;title&gt;Raining and Thunder Animation&lt;/title&gt;<br>  &lt;style&gt;<br>    body {<br>      margin: 0;<br>      padding: 0;<br>      height: 100vh;<br>      background-color: #000;<br>      overflow: hidden;<br>    }<br><br>    .rain {<br>      position: absolute;<br>      width: 100%;<br>      height: 100%;<br>      z-index: 2;<br>      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);<br>      background-repeat: repeat-y;<br>      animation: rain 0.3s linear infinite;<br>    }<br><br>    .thunder {<br>      position: absolute;<br>      width: 100%;<br>      height: 100%;<br>      z-index: 1;<br>      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);<br>      animation: thunder 5s ease-in-out infinite;<br>    }<br><br>    @keyframes rain {<br>      0% {<br>        background-position: 0 0;<br>      }<br>      100% {<br>        background-position: 0 100%;<br>      }<br>    }<br><br>    @keyframes thunder {<br>      0% {<br>        opacity: 1;<br>      }<br>      90% {<br>        opacity: 1;<br>      }<br>      95% {<br>        opacity: 0;<br>      }<br>      100% {<br>        opacity: 1;<br>      }<br>    }<br>  &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>  &lt;div class=&quot;rain&quot;&gt;&lt;/div&gt;<br>  &lt;div class=&quot;thunder&quot;&gt;&lt;/div&gt;<br><br>  &lt;script&gt;<br>    // Add lightning and thunder sound effects<br>    const thunderSound = new Audio(&#039;thunder.mp3&#039;);<br>    const lightningSound = new Audio(&#039;lightning.mp3&#039;);<br><br>    function playThunder() {<br>      thunderSound.play();<br>    }<br><br>    function playLightning() {<br>      lightningSound.play();<br>    }<br><br>    // Randomly trigger thunder and lightning<br>    setInterval(() =&gt; {<br>      const randomDelay = Math.random() * 5000; // Random delay between 0 and 5 seconds<br>      setTimeout(() =&gt; {<br>        playThunder();<br>        playLightning();<br>      }, randomDelay);<br>    }, 10000); // Trigger thunder and lightning every 10 seconds<br>  &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This code creates a cool raining and thunder animation using CSS animations. The <code>rain</code> class creates a rain effect, and the <code>thunder</code> class creates a lightning effect. The JavaScript code adds sound effects for thunder and lightning, which are randomly triggered every 10 seconds.<br><br>To use this code, you&#039;ll need to have the <code>thunder.mp3</code> and <code>lightning.mp3</code> audio files in the same directory as the <code>index.html</code> file. You can replace these files with your own sound effects if desired.<br><br>Note that this is a simple example, and you can further customize the animation and sound effects to your liking.</div>
+        </div>
+    </div>
+</body>
+</html>

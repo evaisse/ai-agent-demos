@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> openai/gpt-5</p>
+            <p><strong>Generated:</strong> 2025-10-02T23:18:40.071Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">17690</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">12.928s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.1593</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a 3d simulation of 200 dominoes arranged in a spiral. The outermost domino falls, triggering a satisfying, cascading chain reaction towards the center. No interactions. 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>  &lt;meta charset=&quot;utf-8&quot; /&gt;<br>  &lt;title&gt;Spiral Dominoes&lt;/title&gt;<br>  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;<br>  &lt;style&gt;<br>    html, body {<br>      height: 100%;<br>      margin: 0;<br>      overflow: hidden;<br>      background: radial-gradient(1200px 600px at 50% 60%, #1b1f2a 0%, #0d1117 60%, #080b0f 100%);<br>      color: #ccd6f6;<br>      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;<br>    }<br>    canvas { display: block; }<br>    .credit {<br>      position: fixed;<br>      bottom: 10px;<br>      right: 12px;<br>      font-size: 12px;<br>      opacity: 0.6;<br>      user-select: none;<br>      pointer-events: none;<br>    }<br>  &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>  &lt;div class=&quot;credit&quot;&gt;200 dominoes in a spiral • auto-play • no interactions&lt;/div&gt;<br>  &lt;script src=&quot;https://unpkg.com/three@0.160.0/build/three.min.js&quot;&gt;&lt;/script&gt;<br>  &lt;script&gt;<br>    // Basic three.js setup<br>    const renderer = new THREE.WebGLRenderer({ antialias: true });<br>    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));<br>    renderer.setSize(window.innerWidth, window.innerHeight);<br>    renderer.outputColorSpace = THREE.SRGBColorSpace;<br>    renderer.shadowMap.enabled = true;<br>    renderer.shadowMap.type = THREE.PCFSoftShadowMap;<br>    document.body.appendChild(renderer.domElement);<br><br>    const scene = new THREE.Scene();<br><br>    // Camera<br>    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);<br>    camera.position.set(0, 14, 24);<br><br>    // Lights<br>    {<br>      const hemi = new THREE.HemisphereLight(0xb8c6ff, 0x1c2430, 0.4);<br>      scene.add(hemi);<br><br>      const dir = new THREE.DirectionalLight(0xffffff, 1.1);<br>      dir.position.set(18, 22, 14);<br>      dir.castShadow = true;<br>      dir.shadow.mapSize.set(2048, 2048);<br>      const s = 40;<br>      dir.shadow.camera.left = -s; dir.shadow.camera.right = s;<br>      dir.shadow.camera.top = s;   dir.shadow.camera.bottom = -s;<br>      dir.shadow.camera.near = 1;  dir.shadow.camera.far = 80;<br>      scene.add(dir);<br>    }<br><br>    // Ground<br>    {<br>      // A large, slightly rough floor<br>      const groundGeo = new THREE.PlaneGeometry(300, 300);<br>      const groundMat = new THREE.MeshStandardMaterial({<br>        color: new THREE.Color().setHSL(0.6, 0.2, 0.08),<br>        metalness: 0.0,<br>        roughness: 0.85<br>      });<br>      const ground = new THREE.Mesh(groundGeo, groundMat);<br>      ground.rotation.x = -Math.PI / 2;<br>      ground.position.y = 0;<br>      ground.receiveShadow = true;<br>      scene.add(ground);<br><br>      // Soft gradient &quot;light patch&quot; using a transparent disc<br>      const discGeo = new THREE.CircleGeometry(40, 64);<br>      const discMat = new THREE.MeshBasicMaterial({ color: 0x3a3f4f, transparent: true, opacity: 0.18 });<br>      const disc = new THREE.Mesh(discGeo, discMat);<br>      disc.rotation.x = -Math.PI / 2;<br>      disc.position.y = 0.001;<br>      scene.add(disc);<br>    }<br><br>    // Domino parameters<br>    const COUNT = 200;<br>    const dominoW = 0.6;<br>    const dominoH = 2.2;<br>    const dominoT = 0.18;<br><br>    const fallAngle = Math.PI / 2 * 0.98; // ~88 degrees<br>    const fallDuration = 0.75;            // seconds per domino<br>    const startStagger = 0.06;            // delay between dominoes starting to fall<br><br>    // Generate a spiral path with approximately uniform spacing<br>    function generateSpiralPoints(count, spacing) {<br>      const pts = [];<br>      const a = 1.6;    // inner radius offset<br>      const b = 0.35;   // controls spacing between spiral rings<br>      const dTheta = 0.015; // small step for sampling<br><br>      let theta = 0;<br>      let prev = null;<br><br>      while (pts.length &lt; count) {<br>        const r = a + b * theta;<br>        const x = r * Math.cos(theta);<br>        const z = r * Math.sin(theta);<br>        const cur = new THREE.Vector3(x, 0, z);<br><br>        if (!prev || cur.distanceTo(prev) &gt;= spacing) {<br>          pts.push(cur.clone());<br>          prev = cur;<br>        }<br>        theta += dTheta;<br>        // Safety break (unlikely to hit)<br>        if (theta &gt; 200) break;<br>      }<br>      // We want the chain reaction from outside to center<br>      return pts.reverse();<br>    }<br><br>    const points = generateSpiralPoints(COUNT, 0.95);<br><br>    // Compute maximum radius for camera framing<br>    let Rmax = 0;<br>    for (const p of points) Rmax = Math.max(Rmax, Math.sqrt(p.x * p.x + p.z * p.z));<br><br>    // Camera auto framing<br>    {<br>      const rad = Math.max(24, Rmax * 1.6);<br>      camera.position.set(rad * 0.15, Math.max(12, Rmax * 0.55), rad);<br>      camera.lookAt(0, 0.4, 0);<br>    }<br><br>    // Create dominoes and their pivot groups<br>    const up = new THREE.Vector3(0, 1, 0);<br>    const dominos = [];<br><br>    // Geometry and materials<br>    const geo = new THREE.BoxGeometry(dominoW, dominoH, dominoT);<br><br>    // Subtle color gradient around the spiral<br>    function colorForIndex(i) {<br>      const t = i / (COUNT - 1);<br>      const h = 0.58 + 0.32 * t; // 0.58..0.90<br>      const s = 0.55 + 0.15 * (1 - t);<br>      const l = 0.50 - 0.10 * t;<br>      const c = new THREE.Color();<br>      c.setHSL((h % 1 + 1) % 1, s, l);<br>      return c;<br>    }<br><br>    // A slight roughness variation to avoid a too-perfect look<br>    function materialForIndex(i) {<br>      return new THREE.MeshStandardMaterial({<br>        color: colorForIndex(i),<br>        metalness: 0.05,<br>        roughness: 0.55 + 0.25 * Math.sin(i * 0.17)<br>      });<br>    }<br><br>    for (let i = 0; i &lt; COUNT; i++) {<br>      const pos = points[i];<br>      const next = i &lt; COUNT - 1 ? points[i + 1] : new THREE.Vector3(0, 0, 0);<br>      const dir = next.clone().sub(pos).setY(0);<br>      if (dir.lengthSq() === 0) dir.set(1, 0, 0);<br>      dir.normalize();<br><br>      // Pivot at base center of each domino<br>      const pivot = new THREE.Object3D();<br>      pivot.position.set(pos.x, 0, pos.z);<br>      scene.add(pivot);<br><br>      const mesh = new THREE.Mesh(geo, materialForIndex(i));<br>      mesh.castShadow = true;<br>      mesh.receiveShadow = false;<br>      mesh.position.y = dominoH / 2;<br><br>      // Align domino&#039;s &quot;forward&quot; with the fall direction for a natural look<br>      // Rotate around Y so its local +Z points in the &#039;dir&#039; direction<br>      mesh.rotation.y = Math.atan2(dir.x, dir.z);<br><br>      pivot.add(mesh);<br><br>      // Axis to rotate around so that it falls &quot;towards&quot; dir<br>      const axis = new THREE.Vector3().crossVectors(up, dir).normalize();<br>      const qTarget = new THREE.Quaternion().setFromAxisAngle(axis, fallAngle);<br>      const qStart = new THREE.Quaternion(); // identity<br><br>      // Timing<br>      const startOffset = i * startStagger;<br><br>      dominos.push({ pivot, qStart, qTarget, startOffset });<br>    }<br><br>    // Subtle top light reflection to enhance depth<br>    {<br>      const rectLight = new THREE.RectAreaLight(0xffffff, 0.18, 40, 6);<br>      rectLight.position.set(0, 10, 0);<br>     <br>      rectLight.lookAt(0, 0, 0);<br>      if (THREE.RectAreaLightUniformsLib &amp;&amp; THREE.RectAreaLightUniformsLib.init) {<br>        THREE.RectAreaLightUniformsLib.init();<br>      }<br>      scene.add(rectLight);<br><br>      // A faint visible &quot;panel&quot; for the area light<br>      const panelGeo = new THREE.PlaneGeometry(40, 6);<br>      const panelMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.04, side: THREE.DoubleSide });<br>      const panel = new THREE.Mesh(panelGeo, panelMat);<br>      panel.position.copy(rectLight.position);<br>      panel.quaternion.copy(rectLight.quaternion);<br>      scene.add(panel);<br>    }<br><br>    // Nudge each domino so it rotates around its front-bottom edge (more natural tipping)<br>    for (const d of dominos) {<br>      const mesh = d.pivot.children[0];<br>      if (!mesh) continue;<br>      const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(mesh.quaternion).setY(0).normalize();<br>      mesh.position.addScaledVector(forward, -dominoT * 0.5);<br>    }<br><br>    // Timing for auto-play cycle<br>    const lastStart = dominos[dominos.length - 1].startOffset;<br>    const fallTotal = lastStart + fallDuration;<br>    const idlePad = 0.8;       // small pause after the last domino falls<br>    const resetDuration = 1.1; // time to stand them back up<br>    const cycleDuration = fallTotal + idlePad + resetDuration;<br><br>    // Camera slow orbit<br>    const CAM_BASE = camera.position.clone();<br>    const baseR = Math.hypot(CAM_BASE.x, CAM_BASE.z);<br>    const baseA0 = Math.atan2(CAM_BASE.z, CAM_BASE.x);<br>    const orbitSpeed = 0.035;<br><br>    // Helpers<br>    const clock = new THREE.Clock();<br>    function clamp01(x) { return x &lt; 0 ? 0 : x &gt; 1 ? 1 : x; }<br>    function easeOutCubic(t) { t = clamp01(t); return 1 - Math.pow(1 - t, 3); }<br><br>    // Render loop<br>    function animate() {<br>      const t = clock.getElapsedTime();<br>      const m = t % cycleDuration;<br><br>      if (m &lt;= fallTotal + idlePad) {<br>        // Falling phase<br>        const tg = m;<br>        for (const d of dominos) {<br>          const k = (tg - d.startOffset) / fallDuration;<br>          const e = easeOutCubic(k);<br>          d.pivot.quaternion.slerpQuaternions(d.qStart, d.qTarget, clamp01(e));<br>        }<br>      } else {<br>        // Reset phase<br>        const r = (m - (fallTotal + idlePad)) / resetDuration;<br>        const e = easeOutCubic(r);<br>        for (const d of dominos) {<br>          d.pivot.quaternion.slerpQuaternions(d.qTarget, d.qStart, clamp01(e));<br>        }<br>      }<br><br>      // Subtle camera orbit<br>      const a = baseA0 + t * orbitSpeed;<br>      camera.position.x = baseR * Math.cos(a);<br>      camera.position.z = baseR * Math.sin(a);<br>      camera.position.y = CAM_BASE.y + Math.sin(t * 0.6) * 0.25;<br>      camera.lookAt(0, 0.4, 0);<br><br>      renderer.render(scene, camera);<br>    }<br><br>    renderer.setAnimationLoop(animate);<br><br>    // Resize handling<br>    window.addEventListener(&#039;resize&#039;, () =&gt; {<br>      const w = window.innerWidth;<br>      const h = window.innerHeight;<br>      renderer.setSize(w, h);<br>      camera.aspect = w / h;<br>      camera.updateProjectionMatrix();<br>    });<br>  &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</div>
+        </div>
+    </div>
+</body>
+</html>

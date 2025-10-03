@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> x-ai/grok-4</p>
+            <p><strong>Generated:</strong> 2025-10-02T23:14:41.014Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">2554</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.990s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0296</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a 3d simulation of 200 dominoes arranged in a spiral. The outermost domino falls, triggering a satisfying, cascading chain reaction towards the center. No interactions. 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Domino Spiral Simulation&lt;/title&gt;<br>    &lt;style&gt;<br>        body { margin: 0; overflow: hidden; }<br>        canvas { display: block; }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js&quot;&gt;&lt;/script&gt;<br>    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js&quot;&gt;&lt;/script&gt;<br>    &lt;script&gt;<br>        // Set up the scene, camera, and renderer<br>        const scene = new THREE.Scene();<br>        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);<br>        const renderer = new THREE.WebGLRenderer();<br>        renderer.setSize(window.innerWidth, window.innerHeight);<br>        document.body.appendChild(renderer.domElement);<br><br>        // Add lighting<br>        const ambientLight = new THREE.AmbientLight(0x404040);<br>        scene.add(ambientLight);<br>        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);<br>        directionalLight.position.set(5, 5, 5);<br>        scene.add(directionalLight);<br><br>        // Set up physics world<br>        const world = new CANNON.World();<br>        world.gravity.set(0, -9.82, 0); // Gravity<br><br>        // Ground plane<br>        const groundMaterial = new CANNON.Material();<br>        const groundBody = new CANNON.Body({ mass: 0, material: groundMaterial });<br>        groundBody.addShape(new CANNON.Plane());<br>        groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);<br>        world.addBody(groundBody);<br><br>        const groundMesh = new THREE.Mesh(<br>            new THREE.PlaneGeometry(100, 100),<br>            new THREE.MeshLambertMaterial({ color: 0xaaaaaa })<br>        );<br>        groundMesh.rotation.x = -Math.PI / 2;<br>        scene.add(groundMesh);<br><br>        // Domino properties<br>        const dominoWidth = 0.5;<br>        const dominoHeight = 2;<br>        const dominoDepth = 0.2;<br>        const numDominoes = 200;<br>        const spiralTightness = 0.1; // Controls how tight the spiral is<br>        const spacing = 0.6; // Distance between dominoes<br><br>        // Materials<br>        const dominoMaterial = new CANNON.Material();<br>        const contactMaterial = new CANNON.ContactMaterial(groundMaterial, dominoMaterial, { friction: 0.3, restitution: 0.1 });<br>        world.addContactMaterial(contactMaterial);<br><br>        // Array to hold domino meshes and bodies<br>        const dominoes = [];<br><br>        // Function to create a domino<br>        function createDomino(position, angle) {<br>            // Physics body<br>            const dominoShape = new CANNON.Box(new CANNON.Vec3(dominoWidth / 2, dominoHeight / 2, dominoDepth / 2));<br>            const dominoBody = new CANNON.Body({ mass: 1, material: dominoMaterial });<br>            dominoBody.addShape(dominoShape);<br>            dominoBody.position.set(position.x, dominoHeight / 2, position.z);<br>            dominoBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), angle);<br>            world.addBody(dominoBody);<br><br>            // Visual mesh<br>            const dominoGeometry = new THREE.BoxGeometry(dominoWidth, dominoHeight, dominoDepth);<br>            const dominoMesh = new THREE.Mesh(dominoGeometry, new THREE.MeshLambertMaterial({ color: 0x0000ff }));<br>            scene.add(dominoMesh);<br><br>            return { mesh: dominoMesh, body: dominoBody };<br>        }<br><br>        // Arrange dominoes in a spiral<br>        let radius = 0;<br>        let angle = 0;<br>        for (let i = 0; i &lt; numDominoes; i++) {<br>            radius += spiralTightness;<br>            angle += spacing / radius;<br><br>            const x = radius * Math.cos(angle);<br>            const z = radius * Math.sin(angle);<br>            const dominoAngle = angle + Math.PI / 2; // Orient domino to face the direction of the spiral<br><br>            const domino = createDomino({ x, z }, dominoAngle);<br>            dominoes.push(domino);<br>        }<br><br>        // Reverse the array so outermost is first (since spiral builds from center out)<br>        dominoes.reverse();<br><br>        // Position camera<br>        camera.position.set(0, 20, 30);<br>        camera.lookAt(0, 0, 0);<br><br>        // Animation loop<br>        function animate() {<br>            requestAnimationFrame(animate);<br><br>            // Update physics<br>            world.step(1 / 60);<br><br>            // Sync meshes with physics bodies<br>            dominoes.forEach(domino =&gt; {<br>                domino.mesh.position.copy(domino.body.position);<br>                domino.mesh.quaternion.copy(domino.body.quaternion);<br>            });<br><br>            renderer.render(scene, camera);<br>        }<br><br>        // Start the animation<br>        animate();<br><br>        // Trigger the chain reaction: Apply force to the outermost domino<br>        setTimeout(() =&gt; {<br>            const outermost = dominoes[0].body;<br>            // Apply a small impulse to tip it over towards the next one<br>            const force = new CANNON.Vec3(0, 0, -2); // Adjust direction based on orientation<br>            outermost.applyImpulse(force, new CANNON.Vec3(0, dominoHeight / 2, 0));<br>        }, 1000); // Delay to allow scene to load<br><br>        // Handle window resize<br>        window.addEventListener(&#039;resize&#039;, () =&gt; {<br>            camera.aspect = window.innerWidth / window.innerHeight;<br>            camera.updateProjectionMatrix();<br>            renderer.setSize(window.innerWidth, window.innerHeight);<br>        });<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>To use this, save the above code as <code>index.html</code> and open it in a modern web browser. It uses Three.js for 3D rendering and Cannon.js for physics simulation. The dominoes are arranged in an outward-building spiral (reversed to start from outside), and after a short delay, the outermost domino is tipped over to start the chain reaction towards the center. The simulation runs automatically with no user interactions. Note that performance may vary based on your hardware, and the spiral parameters can be tweaked if needed.</div>
+        </div>
+    </div>
+</body>
+</html>

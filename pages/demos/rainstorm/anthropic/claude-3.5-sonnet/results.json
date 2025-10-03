@@ -1,0 +1,65 @@
+{
+  "timestamp": "2025-10-02T14:15:22.069Z",
+  "execution": {
+    "duration_seconds": "15.090",
+    "model_used": "anthropic/claude-3.5-sonnet",
+    "model_requested": "anthropic/claude-3.5-sonnet"
+  },
+  "tokens": {
+    "prompt_tokens": 33,
+    "completion_tokens": 788,
+    "total_tokens": 821
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000099,
+    "completion_cost": 0.01182,
+    "total_cost": 0.011919
+  },
+  "model_card": {
+    "id": "anthropic/claude-3.5-sonnet",
+    "name": "Anthropic: Claude 3.5 Sonnet",
+    "description": "New Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Scores ~49% on SWE-Bench Verified, higher than the last best score, and without any fancy prompt scaffolding\n- Data science: Augments human data science expertise; navigates unstructured data while using multiple tools for insights\n- Visual processing: excelling at interpreting charts, graphs, and images, accurately transcribing text to derive insights beyond just the text alone\n- Agentic tasks: exceptional tool use, making it great at agentic tasks (i.e. complex, multi-step problem solving tasks that require engaging with other systems)\n\n#multimodal",
+    "context_length": 200000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Claude"
+    },
+    "pricing": {
+      "completion": "0.000015",
+      "image": "0.0048",
+      "input_cache_read": "0.0000003",
+      "input_cache_write": "0.00000375",
+      "internal_reasoning": "0",
+      "prompt": "0.000003",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 200000,
+      "is_moderated": true,
+      "max_completion_tokens": 8192
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759414507-OgTyuWqa8m8gxzJcDlwR",
+    "created": 1759414507,
+    "object": "chat.completion"
+  },
+  "raw_response": "Here's a self-contained HTML file with a raining and thunder animation:\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Rain & Thunder Animation</title>\n    <style>\n        body {\n            margin: 0;\n            overflow: hidden;\n            background: #1a1a1a;\n        }\n\n        .rain {\n            position: fixed;\n            width: 2px;\n            height: 100px;\n            background: linear-gradient(transparent, #00b7ff);\n            animation: rain 0.7s linear infinite;\n        }\n\n        @keyframes rain {\n            0% {\n                transform: translateY(-100px);\n            }\n            100% {\n                transform: translateY(100vh);\n            }\n        }\n\n        .lightning {\n            position: fixed;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: transparent;\n            animation: thunder 7s linear infinite;\n        }\n\n        @keyframes thunder {\n            0% {\n                background: transparent;\n            }\n            0.5% {\n                background: rgba(255, 255, 255, 0.8);\n            }\n            0.7% {\n                background: transparent;\n            }\n            1% {\n                background: rgba(255, 255, 255, 0.8);\n            }\n            1.2% {\n                background: transparent;\n            }\n            100% {\n                background: transparent;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"lightning\"></div>\n    <script>\n        function createRain() {\n            const rain = document.createElement('div');\n            rain.classList.add('rain');\n            \n            // Random horizontal position\n            rain.style.left = Math.random() * 100 + '%';\n            \n            // Random delay\n            rain.style.animationDelay = Math.random() * 2 + 's';\n            \n            // Random opacity\n            rain.style.opacity = Math.random() * 0.4 + 0.6;\n            \n            document.body.appendChild(rain);\n            \n            // Remove the raindrop after animation\n            setTimeout(() => {\n                rain.remove();\n            }, 2000);\n        }\n\n        // Create raindrops at regular intervals\n        setInterval(createRain, 20);\n\n        // Create initial batch of raindrops\n        for (let i = 0; i < 50; i++) {\n            setTimeout(createRain, Math.random() * 1000);\n        }\n    </script>\n</body>\n</html>\n```\n\nThis creates:\n1. A dark background\n2. Animated rain drops that fall continuously\n3. Random lightning flashes every 7 seconds\n4. The rain drops:\n   - Have random horizontal positions\n   - Have random delays\n   - Have slightly different opacities\n   - Are automatically removed after their animation completes\n\nThe animation runs continuously without any user interaction. The lightning effect simulates a flash with a quick double-flash effect, and the rain drops are created at regular intervals with random properties to create a more natural look.\n\nJust save this as `index.html` and open it in a web browser to see the effect."
+}

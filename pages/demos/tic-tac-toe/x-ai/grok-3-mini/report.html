@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> x-ai/grok-3-mini</p>
+            <p><strong>Generated:</strong> 2025-10-02T21:42:08.861Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">3364</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">5.901s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.0017</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a simple tic tac toe game, when the game is finished, please make some original twist as finish animation ! 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content">Below is the complete code for a single HTML file named <code>index.html</code>. This file includes a simple Tic Tac Toe game implemented using HTML, CSS, and JavaScript. The game allows two players (X and O) to take turns clicking on a 3x3 grid. After the game ends (either a win or a draw), an original twist is added: a confetti animation where colorful particles rain down from the top of the screen to celebrate the end of the game. This animation is triggered dynamically using JavaScript and styled with CSS.<br><br>Here&#039;s a quick overview:<br>- **Game Logic**: Players click on empty cells to place their symbol (X or O). The game checks for a winner after each move or declares a draw if the board is full.<br>- **Original Twist**: When the game ends, confetti particles (small colored dots) fall from the top of the screen. This is a fun, original animation that adds a celebratory feel.<br>- **Reset**: A button appears at the end of the game to restart.<br><br>Save this code in a file named <code>index.html</code> and open it in a web browser to play.<br><br><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Tic Tac Toe&lt;/title&gt;<br>    &lt;style&gt;<br>        /* Basic styling for the game */<br>        body {<br>            font-family: Arial, sans-serif;<br>            display: flex;<br>            flex-direction: column;<br>            align-items: center;<br>            justify-content: center;<br>            height: 100vh;<br>            margin: 0;<br>            background-color: #f0f0f0;<br>        }<br><br>        h1 {<br>            margin-bottom: 20px;<br>        }<br><br>        #status {<br>            font-size: 1.2em;<br>            margin-bottom: 20px;<br>            font-weight: bold;<br>        }<br><br>        #board {<br>            display: grid;<br>            grid-template-columns: repeat(3, 100px);<br>            grid-gap: 5px;<br>            margin-bottom: 20px;<br>        }<br><br>        .cell {<br>            width: 100px;<br>            height: 100px;<br>            background-color: #fff;<br>            border: 1px solid #ccc;<br>            display: flex;<br>            align-items: center;<br>            justify-content: center;<br>            font-size: 2em;<br>            cursor: pointer;<br>            transition: background-color 0.3s;<br>        }<br><br>        .cell:hover {<br>            background-color: #e0e0e0;<br>        }<br><br>        .cell.x {<br>            color: #3498db; /* Blue for X */<br>        }<br><br>        .cell.o {<br>            color: #e74c3c; /* Red for O */<br>        }<br><br>        #reset-button {<br>            margin-top: 20px;<br>            padding: 10px 20px;<br>            font-size: 1em;<br>            background-color: #2ecc71;<br>            color: #fff;<br>            border: none;<br>            cursor: pointer;<br>            border-radius: 5px;<br>            display: none; /* Hidden until game ends */<br>        }<br><br>        #reset-button:hover {<br>            background-color: #27ae60;<br>        }<br><br>        /* Confetti animation styles */<br>        #confetti {<br>            position: fixed;<br>            top: 0;<br>            left: 0;<br>            width: 100vw;<br>            height: 100vh;<br>            pointer-events: none; /* So it doesn&#039;t interfere with clicks */<br>            overflow: hidden;<br>            z-index: 1000;<br>        }<br><br>        .confetti-particle {<br>            position: absolute;<br>            width: 10px;<br>            height: 10px;<br>            background-color: hsl(0, 100%, 50%); /* Default red, will be randomized */<br>            border-radius: 50%;<br>            animation: fall 2s linear forwards;<br>        }<br><br>        @keyframes fall {<br>            0% {<br>                transform: translateY(0) rotate(0deg);<br>                opacity: 1;<br>            }<br>            100% {<br>                transform: translateY(100vh) rotate(360deg);<br>                opacity: 0;<br>            }<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;h1&gt;Tic Tac Toe&lt;/h1&gt;<br>    &lt;div id=&quot;status&quot;&gt;Player X&#039;s turn&lt;/div&gt;<br>    &lt;div id=&quot;board&quot;&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;0&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;1&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;2&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;3&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;4&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;5&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;6&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;7&quot;&gt;&lt;/div&gt;<br>        &lt;div class=&quot;cell&quot; data-index=&quot;8&quot;&gt;&lt;/div&gt;<br>    &lt;/div&gt;<br>    &lt;button id=&quot;reset-button&quot;&gt;Play Again&lt;/button&gt;<br>    &lt;div id=&quot;confetti&quot;&gt;&lt;/div&gt;<br><br>    &lt;script&gt;<br>        const statusDisplay = document.getElementById(&#039;status&#039;);<br>        const board = document.getElementById(&#039;board&#039;);<br>        const cells = document.querySelectorAll(&#039;.cell&#039;);<br>        const resetButton = document.getElementById(&#039;reset-button&#039;);<br>        const confettiContainer = document.getElementById(&#039;confetti&#039;);<br>        let gameBoard = Array(9).fill(null); // Tracks the board state<br>        let currentPlayer = &#039;X&#039;; // Start with X<br>        let gameActive = true; // Flag to check if game is ongoing<br><br>        // Function to handle cell clicks<br>        function handleCellClick(event) {<br>            const cell = event.target;<br>            const index = cell.getAttribute(&#039;data-index&#039;);<br><br>            if (gameBoard[index] || !gameActive) {<br>                return; // Cell already taken or game over<br>            }<br><br>            gameBoard[index] = currentPlayer;<br>            cell.textContent = currentPlayer;<br>            cell.classList.add(currentPlayer.toLowerCase()); // Add class for styling<br><br>            if (checkWinner()) {<br>                statusDisplay.textContent = <code>Player ${currentPlayer} wins!</code>;<br>                gameActive = false;<br>                triggerConfetti(); // Original twist: Trigger animation<br>                resetButton.style.display = &#039;block&#039;; // Show reset button<br>            } else if (gameBoard.every(cell =&gt; cell)) {<br>                statusDisplay.textContent = &quot;It&#039;s a draw!&quot;;<br>                gameActive = false;<br>                triggerConfetti(); // Trigger animation for draw too<br>                resetButton.style.display = &#039;block&#039;; // Show reset button<br>            } else {<br>                currentPlayer = currentPlayer === &#039;X&#039; ? &#039;O&#039; : &#039;X&#039;; // Switch player<br>                statusDisplay.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br>            }<br>        }<br><br>        // Function to check for a winner<br>        function checkWinner() {<br>            const winConditions = [<br>                [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows<br>                [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns<br>                [0, 4, 8], [2, 4, 6] // Diagonals<br>            ];<br><br>            for (let condition of winConditions) {<br>                const [a, b, c] = condition;<br>                if (gameBoard[a] &amp;&amp; gameBoard[a] === gameBoard[b] &amp;&amp; gameBoard[a] === gameBoard[c]) {<br>                    return true; // Winner found<br>                }<br>            }<br>            return false; // No winner<br>        }<br><br>        // Function to trigger the original confetti animation<br>        function triggerConfetti() {<br>            for (let i = 0; i &lt; 100; i++) { // Create 100 particles for a festive effect<br>                const particle = document.createElement(&#039;div&#039;);<br>                particle.className = &#039;confetti-particle&#039;;<br>                particle.style.left = <code>${Math.random() * 100}vw</code>; // Random horizontal position<br>                particle.style.top = <code>${Math.random() * 20}px</code>; // Start near the top<br>                particle.style.backgroundColor = <code>hsl(${Math.random() * 360}, 100%, 50%)</code>; // Random color<br>                particle.style.animationDelay = <code>${Math.random() * 0.5}s</code>; // Stagger the start<br>                confettiContainer.appendChild(particle);<br><br>                // Remove particle after animation to clean up<br>                setTimeout(() =&gt; {<br>                    particle.remove();<br>                }, 2000); // Matches the animation duration<br>            }<br>        }<br><br>        // Add event listeners to cells<br>        cells.forEach(cell =&gt; cell.addEventListener(&#039;click&#039;, handleCellClick));<br><br>        // Reset game function<br>        resetButton.addEventListener(&#039;click&#039;, () =&gt; {<br>            gameBoard = Array(9).fill(null);<br>            gameActive = true;<br>            currentPlayer = &#039;X&#039;;<br>            statusDisplay.textContent = <code>Player ${currentPlayer}&#039;s turn</code>;<br>            cells.forEach(cell =&gt; {<br>                cell.textContent = &#039;&#039;;<br>                cell.classList.remove(&#039;x&#039;, &#039;o&#039;);<br>            });<br>            resetButton.style.display = &#039;none&#039;; // Hide reset button<br>            confettiContainer.innerHTML = &#039;&#039;; // Clear any remaining confetti<br>        });<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>### How to Play:<br>1. Open the <code>index.html</code> file in a web browser.<br>2. Players take turns clicking on empty cells to place X or O.<br>3. The game announces the winner or a draw and triggers the confetti animation.<br>4. Click the &quot;Play Again&quot; button to reset the game.<br><br>### Original Twist Details:<br>- The confetti animation is a creative way to end the game, using randomly colored and positioned particles that fall down the screen.<br>- It&#039;s implemented with CSS animations for smoothness and JavaScript for dynamic creation, making it feel lively and fun.<br>- This adds a celebratory element without overcomplicating the game, keeping the file size and complexity low.<br><br>This code is self-contained in a single file, as requested. If you have any modifications or additions, let me know!</div>
+        </div>
+    </div>
+</body>
+</html>

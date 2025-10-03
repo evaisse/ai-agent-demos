@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter API Response</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 2rem;
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .metadata {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #4a5568;
+        }
+        .metadata strong {
+            color: #2d3748;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        .prompt-section, .response-section {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        .content-box {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        .response-content {
+            background: white;
+            border: 2px solid #667eea;
+        }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 OpenRouter API Response</h1>
+        
+        <div class="metadata">
+            <p><strong>Model:</strong> anthropic/claude-opus-4.1</p>
+            <p><strong>Generated:</strong> 2025-10-02T23:14:33.443Z</p>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">2564</div>
+                <div class="metric-label">Total Tokens</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6.985s</div>
+                <div class="metric-label">Duration</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$0.1888</div>
+                <div class="metric-label">Total Cost</div>
+            </div>
+        </div>
+        
+        <div class="prompt-section">
+            <div class="section-title">📝 Prompt</div>
+            <div class="content-box">In a single HTML file named index.html, create a 3d simulation of 200 dominoes arranged in a spiral. The outermost domino falls, triggering a satisfying, cascading chain reaction towards the center. No interactions. 
+</div>
+        </div>
+        
+        <div class="response-section">
+            <div class="section-title">💬 Response</div>
+            <div class="content-box response-content"><pre><code>&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;3D Domino Spiral&lt;/title&gt;<br>    &lt;style&gt;<br>        body {<br>            margin: 0;<br>            overflow: hidden;<br>            background: linear-gradient(to bottom, #2a2a3e, #16161d);<br>        }<br>        canvas {<br>            display: block;<br>        }<br>    &lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js&quot;&gt;&lt;/script&gt;<br>    &lt;script&gt;<br>        // Scene setup<br>        const scene = new THREE.Scene();<br>        scene.fog = new THREE.Fog(0x16161d, 50, 200);<br>        <br>        const camera = new THREE.PerspectiveCamera(<br>            75, <br>            window.innerWidth / window.innerHeight, <br>            0.1, <br>            1000<br>        );<br>        <br>        const renderer = new THREE.WebGLRenderer({ antialias: true });<br>        renderer.setSize(window.innerWidth, window.innerHeight);<br>        renderer.shadowMap.enabled = true;<br>        renderer.shadowMap.type = THREE.PCFSoftShadowMap;<br>        document.body.appendChild(renderer.domElement);<br>        <br>        // Lighting<br>        const ambientLight = new THREE.AmbientLight(0x404040, 0.5);<br>        scene.add(ambientLight);<br>        <br>        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);<br>        directionalLight.position.set(50, 100, 50);<br>        directionalLight.castShadow = true;<br>        directionalLight.shadow.camera.left = -100;<br>        directionalLight.shadow.camera.right = 100;<br>        directionalLight.shadow.camera.top = 100;<br>        directionalLight.shadow.camera.bottom = -100;<br>        directionalLight.shadow.mapSize.width = 2048;<br>        directionalLight.shadow.mapSize.height = 2048;<br>        scene.add(directionalLight);<br>        <br>        // Ground<br>        const groundGeometry = new THREE.PlaneGeometry(200, 200);<br>        const groundMaterial = new THREE.MeshStandardMaterial({ <br>            color: 0x1a1a2e,<br>            roughness: 0.8<br>        });<br>        const ground = new THREE.Mesh(groundGeometry, groundMaterial);<br>        ground.rotation.x = -Math.PI / 2;<br>        ground.receiveShadow = true;<br>        scene.add(ground);<br>        <br>        // Domino class<br>        class Domino {<br>            constructor(x, z, angle, index) {<br>                this.index = index;<br>                this.fallen = false;<br>                this.fallStartTime = null;<br>                this.fallDuration = 0.3;<br>                <br>                // Create domino geometry<br>                const geometry = new THREE.BoxGeometry(0.5, 3, 1.5);<br>                const material = new THREE.MeshStandardMaterial({<br>                    color: new THREE.Color().setHSL((index / 200) * 0.8, 0.7, 0.5),<br>                    metalness: 0.2,<br>                    roughness: 0.3<br>                });<br>                <br>                this.mesh = new THREE.Mesh(geometry, material);<br>                this.mesh.position.set(x, 1.5, z);<br>                this.mesh.rotation.y = angle;<br>                this.mesh.castShadow = true;<br>                this.mesh.receiveShadow = true;<br>                <br>                // Store initial rotation for falling animation<br>                this.initialRotation = {<br>                    x: 0,<br>                    y: angle,<br>                    z: 0<br>                };<br>                <br>                // Calculate fall direction (towards next domino)<br>                this.fallDirection = angle + Math.PI / 2;<br>                <br>                scene.add(this.mesh);<br>            }<br>            <br>            startFalling(currentTime) {<br>                if (!this.fallen) {<br>                    this.fallen = true;<br>                    this.fallStartTime = currentTime;<br>                }<br>            }<br>            <br>            update(currentTime) {<br>                if (this.fallen &amp;&amp; this.fallStartTime !== null) {<br>                    const elapsed = currentTime - this.fallStartTime;<br>                    const progress = Math.min(elapsed / this.fallDuration, 1);<br>                    <br>                    // Easing function for realistic fall<br>                    const easeProgress = 1 - Math.cos(progress * Math.PI / 2);<br>                    <br>                    // Rotate domino to fall<br>                    const fallAngle = easeProgress * (Math.PI / 2 - 0.1);<br>                    this.mesh.rotation.x = this.initialRotation.x + <br>                        Math.cos(this.fallDirection) * fallAngle;<br>                    this.mesh.rotation.z = this.initialRotation.z + <br>                        Math.sin(this.fallDirection) * fallAngle;<br>                    <br>                    // Adjust Y position as domino falls<br>                    this.mesh.position.y = 1.5 * Math.cos(fallAngle);<br>                    <br>                    return progress &gt;= 0.3; // Return true when ready to trigger next<br>                }<br>                return false;<br>            }<br>        }<br>        <br>        // Create spiral of dominoes<br>        const dominoes = [];<br>        const numDominoes = 200;<br>        const spiralTurns = 4;<br>        const maxRadius = 40;<br>        const minRadius = 3;<br>        <br>        for (let i = 0; i &lt; numDominoes; i++) {<br>            const t = i / (numDominoes - 1);<br>            const angle = t * spiralTurns * Math.PI * 2;<br>            const radius = maxRadius - (maxRadius - minRadius) * t;<br>            <br>            const x = Math.cos(angle) * radius;<br>            const z = Math.sin(angle) * radius;<br>            <br>            // Calculate tangent angle for domino orientation<br>            const nextT = Math.min(1, (i + 1) / (numDominoes - 1));<br>            const nextAngle = nextT * spiralTurns * Math.PI * 2;<br>            const nextRadius = maxRadius - (maxRadius - minRadius) * nextT;<br>            const nextX = Math.cos(nextAngle) * nextRadius;<br>            const nextZ = Math.sin(nextAngle) * nextRadius;<br>            <br>            const dominoAngle = Math.atan2(nextZ - z, nextX - x);<br>            <br>            dominoes.push(new Domino(x, z, dominoAngle, i));<br>        }<br>        <br>        // Camera positioning<br>        camera.position.set(60, 60, 60);<br>        camera.lookAt(0, 0, 0);<br>        <br>        // Animation variables<br>        let startTime = Date.now();<br>        let chainReactionStarted = false;<br>        let lastTriggeredIndex = -1;<br>        const triggerDelay = 30; // ms between domino triggers<br>        let lastTriggerTime = 0;<br>        <br>        // Start the chain reaction after 1 second<br>        setTimeout(() =&gt; {<br>            chainReactionStarted = true;<br>            dominoes[0].startFalling(Date.now());<br>            lastTriggeredIndex = 0;<br>            lastTriggerTime = Date.now();<br>        }, 1000);<br>        <br>        // Animation loop<br>        function animate() {<br>            requestAnimationFrame(animate);<br>            <br>            const currentTime = Date.now();<br>            <br>            // Update camera position for dynamic view<br>            const elapsed = (currentTime - startTime) * 0.001;<br>            const cameraRadius = 70;<br>            camera.position.x = Math.cos(elapsed * 0.2) * cameraRadius;<br>            camera.position.z = Math.sin(elapsed * 0.2) * cameraRadius;<br>            camera.position.y = 40 + Math.sin(elapsed * 0.3) * 20;<br>            camera.lookAt(0, 0, 0);<br>            <br>            // Update dominoes<br>            dominoes.forEach((domino, index) =&gt; {<br>                const shouldTriggerNext = domino.update(currentTime);<br>                <br>                // Trigger next domino in chain<br>                if (chainReactionStarted &amp;&amp; <br>                    shouldTriggerNext &amp;&amp; <br>                    index === lastTriggeredIndex &amp;&amp; <br>                    index &lt; dominoes.length - 1 &amp;&amp;<br>                    currentTime - lastTriggerTime &gt; triggerDelay) {<br>                    <br>                    dominoes[index + 1].startFalling(currentTime);<br>                    lastTriggeredIndex = index + 1;<br>                    lastTriggerTime = currentTime;<br>                }<br>            });<br>            <br>            renderer.render(scene, camera);<br>        }<br>        <br>        // Handle window resize<br>        window.addEventListener(&#039;resize&#039;, () =&gt; {<br>            camera.aspect = window.innerWidth / window.innerHeight;<br>            camera.updateProjectionMatrix();<br>            renderer.setSize(window.innerWidth, window.innerHeight);<br>        });<br>        <br>        animate();<br>    &lt;/script&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code></pre><br><br>This creates a mesmerizing 3D domino spiral simulation with:<br><br>1. **200 dominoes** arranged in a spiral pattern from outside to center<br>2. **Automatic chain reaction** that starts after 1 second<br>3. **Realistic physics-like falling animation** with proper rotation and easing<br>4. **Dynamic camera** that slowly orbits around the scene<br>5. **Beautiful gradient coloring** that shifts through the spectrum along the spiral<br>6. **Shadows and lighting** for depth and realism<br>7. **No user interaction required** - just watch the satisfying cascade<br><br>The dominoes fall sequentially from the outermost one, creating a hypnotic wave that spirals inward. Each domino is colored based on its position in the spiral, creating a rainbow effect. The camera automatically rotates around the scene to provide the best viewing angles of the chain reaction.</div>
+        </div>
+    </div>
+</body>
+</html>

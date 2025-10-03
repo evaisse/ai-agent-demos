@@ -1,0 +1,65 @@
+{
+  "timestamp": "2025-10-02T14:14:38.381Z",
+  "execution": {
+    "duration_seconds": "21.568",
+    "model_used": "anthropic/claude-sonnet-4.5",
+    "model_requested": "anthropic/claude-sonnet-4.5"
+  },
+  "tokens": {
+    "prompt_tokens": 33,
+    "completion_tokens": 1638,
+    "total_tokens": 1671
+  },
+  "cost": {
+    "currency": "USD",
+    "prompt_cost": 0.000099,
+    "completion_cost": 0.02457,
+    "total_cost": 0.024669
+  },
+  "model_card": {
+    "id": "anthropic/claude-sonnet-4.5",
+    "name": "Anthropic: Claude Sonnet 4.5",
+    "description": "Claude Sonnet 4.5 is Anthropic’s most advanced Sonnet model to date, optimized for real-world agents and coding workflows. It delivers state-of-the-art performance on coding benchmarks such as SWE-bench Verified, with improvements across system design, code security, and specification adherence. The model is designed for extended autonomous operation, maintaining task continuity across sessions and providing fact-based progress tracking.\n\nSonnet 4.5 also introduces stronger agentic capabilities, including improved tool orchestration, speculative parallel execution, and more efficient context and memory management. With enhanced context tracking and awareness of token usage across tool calls, it is particularly well-suited for multi-context and long-running workflows. Use cases span software engineering, cybersecurity, financial analysis, research agents, and other domains requiring sustained reasoning and tool use.",
+    "context_length": 1000000,
+    "architecture": {
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "instruct_type": null,
+      "modality": "text+image->text",
+      "output_modalities": [
+        "text"
+      ],
+      "tokenizer": "Claude"
+    },
+    "pricing": {
+      "completion": "0.000015",
+      "image": "0.0048",
+      "input_cache_read": "0.0000003",
+      "input_cache_write": "0.00000375",
+      "internal_reasoning": "0",
+      "prompt": "0.000003",
+      "request": "0",
+      "web_search": "0"
+    },
+    "top_provider": {
+      "context_length": 1000000,
+      "is_moderated": true,
+      "max_completion_tokens": 64000
+    }
+  },
+  "request": {
+    "prompt": "In a single HTML file named index.html, create a cool raining and thunder animation. No controls no interactiveness.\n",
+    "system_prompt": null,
+    "temperature": 0.7,
+    "max_tokens": 8000
+  },
+  "response_metadata": {
+    "id": "gen-1759414457-d0EkLYKeiejbUe4usiZB",
+    "created": 1759414457,
+    "object": "chat.completion"
+  },
+  "raw_response": "```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Rain and Thunder Animation</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            overflow: hidden;\n        }\n\n        body {\n            background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);\n            width: 100vw;\n            height: 100vh;\n            position: relative;\n        }\n\n        .rain-container {\n            position: absolute;\n            width: 100%;\n            height: 100%;\n            z-index: 1;\n        }\n\n        .rain {\n            position: absolute;\n            width: 2px;\n            height: 60px;\n            background: linear-gradient(to bottom, transparent, rgba(174, 194, 224, 0.6), rgba(174, 194, 224, 0.3));\n            animation: fall linear infinite;\n            opacity: 0.7;\n        }\n\n        @keyframes fall {\n            to {\n                transform: translateY(100vh);\n            }\n        }\n\n        .lightning {\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: rgba(255, 255, 255, 0.9);\n            z-index: 2;\n            opacity: 0;\n            pointer-events: none;\n        }\n\n        .lightning.flash {\n            animation: flash 0.3s ease-in-out;\n        }\n\n        @keyframes flash {\n            0% { opacity: 0; }\n            10% { opacity: 0.8; }\n            20% { opacity: 0; }\n            30% { opacity: 0.9; }\n            40% { opacity: 0; }\n            100% { opacity: 0; }\n        }\n\n        .cloud {\n            position: absolute;\n            background: rgba(50, 50, 70, 0.7);\n            border-radius: 100px;\n            z-index: 0;\n            animation: drift linear infinite;\n        }\n\n        .cloud::before,\n        .cloud::after {\n            content: '';\n            position: absolute;\n            background: rgba(50, 50, 70, 0.7);\n            border-radius: 100px;\n        }\n\n        .cloud1 {\n            width: 200px;\n            height: 60px;\n            top: 10%;\n            left: -200px;\n            animation-duration: 45s;\n        }\n\n        .cloud1::before {\n            width: 100px;\n            height: 60px;\n            top: -30px;\n            left: 40px;\n        }\n\n        .cloud1::after {\n            width: 120px;\n            height: 60px;\n            top: -20px;\n            left: 100px;\n        }\n\n        .cloud2 {\n            width: 250px;\n            height: 70px;\n            top: 20%;\n            left: -250px;\n            animation-duration: 60s;\n            animation-delay: 5s;\n        }\n\n        .cloud2::before {\n            width: 120px;\n            height: 70px;\n            top: -35px;\n            left: 50px;\n        }\n\n        .cloud2::after {\n            width: 140px;\n            height: 70px;\n            top: -25px;\n            left: 120px;\n        }\n\n        .cloud3 {\n            width: 180px;\n            height: 50px;\n            top: 5%;\n            left: -180px;\n            animation-duration: 50s;\n            animation-delay: 15s;\n        }\n\n        .cloud3::before {\n            width: 90px;\n            height: 50px;\n            top: -25px;\n            left: 35px;\n        }\n\n        .cloud3::after {\n            width: 100px;\n            height: 50px;\n            top: -18px;\n            left: 90px;\n        }\n\n        @keyframes drift {\n            from {\n                left: -300px;\n            }\n            to {\n                left: 110%;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"cloud cloud1\"></div>\n    <div class=\"cloud cloud2\"></div>\n    <div class=\"cloud cloud3\"></div>\n    \n    <div class=\"rain-container\" id=\"rainContainer\"></div>\n    <div class=\"lightning\" id=\"lightning\"></div>\n\n    <script>\n        // Create rain drops\n        const rainContainer = document.getElementById('rainContainer');\n        const numberOfDrops = 150;\n\n        for (let i = 0; i < numberOfDrops; i++) {\n            const drop = document.createElement('div');\n            drop.classList.add('rain');\n            drop.style.left = Math.random() * 100 + '%';\n            drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';\n            drop.style.animationDelay = Math.random() * 2 + 's';\n            drop.style.height = (Math.random() * 40 + 40) + 'px';\n            rainContainer.appendChild(drop);\n        }\n\n        // Lightning effect\n        const lightning = document.getElementById('lightning');\n        \n        function triggerLightning() {\n            lightning.classList.add('flash');\n            setTimeout(() => {\n                lightning.classList.remove('flash');\n            }, 300);\n            \n            // Random interval between 2-8 seconds\n            const nextFlash = Math.random() * 6000 + 2000;\n            setTimeout(triggerLightning, nextFlash);\n        }\n\n        // Start lightning after 2 seconds\n        setTimeout(triggerLightning, 2000);\n    </script>\n</body>\n</html>\n```\n\nThis HTML file creates a cool rain and thunder animation with:\n\n- **Rain**: 150 animated raindrops falling at varying speeds and positions\n- **Lightning**: Random flashing effects that occur every 2-8 seconds with a realistic double-flash pattern\n- **Clouds**: Three animated clouds drifting across the sky at different speeds\n- **Dark stormy sky**: A gradient background creating a nighttime storm atmosphere\n\nThe animation runs automatically with no controls or interactivity needed. Just open the file in a browser and enjoy the storm!"
+}

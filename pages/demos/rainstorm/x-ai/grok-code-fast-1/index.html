@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raining Thunder Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            overflow: hidden;
+            height: 100vh;
+        }
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.8);
+            animation: fall linear infinite;
+        }
+        .thunder {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            animation: flash 0.1s ease-in-out;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        @keyframes flash {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="rain-container"></div>
+    <script>
+        const rainContainer = document.getElementById('rain-container');
+        const numDrops = 100; // Number of raindrops
+
+        // Create raindrops
+        for (let i = 0; i < numDrops; i++) {
+            const drop = document.createElement('div');
+            drop.className = 'rain';
+            drop.style.left = Math.random() * 100 + '%';
+            drop.style.animationDelay = Math.random() * 2 + 's';
+            drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+            rainContainer.appendChild(drop);
+        }
+
+        // Thunder effect: occasional flashes
+        setInterval(() => {
+            if (Math.random() < 0.1) { // 10% chance every second
+                const thunder = document.createElement('div');
+                thunder.className = 'thunder';
+                document.body.appendChild(thunder);
+                setTimeout(() => {
+                    thunder.remove();
+                }, 100);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
