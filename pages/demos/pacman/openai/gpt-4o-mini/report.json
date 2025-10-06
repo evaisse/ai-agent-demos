@@ -1,20 +1,20 @@
 {
-  "timestamp": "2025-10-02T13:04:13.278Z",
+  "timestamp": "2025-10-06T11:41:30.886Z",
   "execution": {
-    "duration_seconds": "26.991",
+    "duration_seconds": "6.282",
     "model_used": "openai/gpt-4o-mini",
     "model_requested": "openai/gpt-4o-mini"
   },
   "tokens": {
     "prompt_tokens": 34,
-    "completion_tokens": 1002,
-    "total_tokens": 1036
+    "completion_tokens": 1420,
+    "total_tokens": 1454
   },
   "cost": {
     "currency": "USD",
     "prompt_cost": 0.000005,
-    "completion_cost": 0.000601,
-    "total_cost": 0.000606
+    "completion_cost": 0.000852,
+    "total_cost": 0.000857
   },
   "model_card": {
     "id": "openai/gpt-4o-mini",
@@ -22,31 +22,31 @@
     "description": "GPT-4o mini is OpenAI's newest model after [GPT-4 Omni](/models/openai/gpt-4o), supporting both text and image inputs with text outputs.\n\nAs their most advanced small model, it is many multiples more affordable than other recent frontier models, and more than 60% cheaper than [GPT-3.5 Turbo](/models/openai/gpt-3.5-turbo). It maintains SOTA intelligence, while being significantly more cost-effective.\n\nGPT-4o mini achieves an 82% score on MMLU and presently ranks higher than GPT-4 on chat preferences [common leaderboards](https://arena.lmsys.org/).\n\nCheck out the [launch announcement](https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/) to learn more.\n\n#multimodal",
     "context_length": 128000,
     "architecture": {
+      "modality": "text+image->text",
       "input_modalities": [
         "text",
         "image",
         "file"
       ],
-      "instruct_type": null,
-      "modality": "text+image->text",
       "output_modalities": [
         "text"
       ],
-      "tokenizer": "GPT"
+      "tokenizer": "GPT",
+      "instruct_type": null
     },
     "pricing": {
-      "completion": "0.0000006",
-      "image": "0.000217",
-      "input_cache_read": "0.000000075",
-      "internal_reasoning": "0",
       "prompt": "0.00000015",
+      "completion": "0.0000006",
       "request": "0",
-      "web_search": "0"
+      "image": "0.000217",
+      "web_search": "0",
+      "internal_reasoning": "0",
+      "input_cache_read": "0.000000075"
     },
     "top_provider": {
       "context_length": 128000,
-      "is_moderated": true,
-      "max_completion_tokens": 16384
+      "max_completion_tokens": 16384,
+      "is_moderated": true
     }
   },
   "request": {
@@ -56,9 +56,9 @@
     "max_tokens": 8000
   },
   "response_metadata": {
-    "id": "gen-1759410226-MsTmBTfBgSzQU6CKO0T6",
-    "created": 1759410226,
+    "id": "gen-1759750865-HnN7ZEHE457WryJTg81x",
+    "created": 1759750865,
     "object": "chat.completion"
   },
-  "raw_response": "Creating a full-fledged PAC-MAN game in a single HTML file is quite complex, but I can provide you with a simplified version that captures the essence of the game. Below is a basic implementation of a PAC-MAN-like game, using HTML, CSS, and JavaScript, all contained within one HTML file. This example won't include all the features of the original game, but it will give you a starting point.\n\nHere's the code for `index.html`:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>PAC-MAN Game</title>\n    <style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: black;\n            margin: 0;\n        }\n\n        #game {\n            position: relative;\n            width: 300px;\n            height: 300px;\n            background-color: blue;\n            overflow: hidden;\n        }\n\n        .pacman {\n            position: absolute;\n            width: 30px;\n            height: 30px;\n            background-color: yellow;\n            border-radius: 50%;\n            transition: transform 0.1s;\n        }\n\n        .dot {\n            position: absolute;\n            width: 5px;\n            height: 5px;\n            background-color: white;\n            border-radius: 50%;\n        }\n    </style>\n</head>\n<body>\n    <div id=\"game\">\n        <div class=\"pacman\" id=\"pacman\" style=\"top: 135px; left: 135px;\"></div>\n    </div>\n\n    <script>\n        const game = document.getElementById('game');\n        const pacman = document.getElementById('pacman');\n        const dots = [];\n        const dotCount = 50;\n        const pacmanSpeed = 5;\n\n        // Create dots\n        for (let i = 0; i < dotCount; i++) {\n            const dot = document.createElement('div');\n            dot.classList.add('dot');\n            dot.style.top = Math.random() * (game.clientHeight - 5) + 'px';\n            dot.style.left = Math.random() * (game.clientWidth - 5) + 'px';\n            game.appendChild(dot);\n            dots.push(dot);\n        }\n\n        // Move PAC-MAN\n        let pacmanX = 135;\n        let pacmanY = 135;\n\n        document.addEventListener('keydown', (event) => {\n            switch (event.key) {\n                case 'ArrowUp':\n                    pacmanY = Math.max(0, pacmanY - pacmanSpeed);\n                    break;\n                case 'ArrowDown':\n                    pacmanY = Math.min(game.clientHeight - 30, pacmanY + pacmanSpeed);\n                    break;\n                case 'ArrowLeft':\n                    pacmanX = Math.max(0, pacmanX - pacmanSpeed);\n                    break;\n                case 'ArrowRight':\n                    pacmanX = Math.min(game.clientWidth - 30, pacmanX + pacmanSpeed);\n                    break;\n            }\n            pacman.style.top = pacmanY + 'px';\n            pacman.style.left = pacmanX + 'px';\n            checkCollision();\n        });\n\n        // Check collision with dots\n        function checkCollision() {\n            dots.forEach((dot, index) => {\n                const dotRect = dot.getBoundingClientRect();\n                const pacmanRect = pacman.getBoundingClientRect();\n\n                if (\n                    pacmanRect.x < dotRect.x + dotRect.width &&\n                    pacmanRect.x + pacmanRect.width > dotRect.x &&\n                    pacmanRect.y < dotRect.y + dotRect.height &&\n                    pacmanRect.y + pacmanRect.height > dotRect.y\n                ) {\n                    game.removeChild(dot);\n                    dots.splice(index, 1);\n                }\n            });\n        }\n    </script>\n</body>\n</html>\n```\n\n### How to Use the Code:\n\n1. Create a new file named `index.html`.\n2. Copy and paste the above code into the `index.html` file.\n3. Open the file in a web browser.\n\n### Features of the Game:\n- Move PAC-MAN using the arrow keys.\n- Collect small white dots scattered around the blue game area.\n- The game area is a simple 300x300 pixel square.\n\n### Limitations:\n- This is a very basic version of PAC-MAN and lacks features such as ghosts, scoring, levels, and actual maze walls.\n- You can further enhance this game by adding more features, animations, and improving the graphics.\n\nFeel free to modify and expand upon this code to create a more complete game!"
+  "raw_response": "Creating a complete replica of the PAC-MAN game in a single HTML file involves quite a bit of code. Below is a simplified version of the game. This version will provide basic functionality, including movement and collision detection. However, due to the complexity of the original game, it will not have all the features, such as multiple ghosts, levels, or the full map design.\n\nHere is a simple implementation:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>PAC-MAN Game</title>\n    <style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: black;\n            margin: 0;\n        }\n        #game {\n            position: relative;\n            width: 280px;\n            height: 300px;\n            background-color: black;\n            border: 2px solid white;\n            overflow: hidden;\n        }\n        .pacman {\n            position: absolute;\n            width: 20px;\n            height: 20px;\n            background-color: yellow;\n            border-radius: 50%;\n        }\n        .dot {\n            position: absolute;\n            width: 6px;\n            height: 6px;\n            background-color: white;\n            border-radius: 50%;\n        }\n    </style>\n</head>\n<body>\n    <div id=\"game\">\n        <div class=\"pacman\" id=\"pacman\"></div>\n        <!-- Dots -->\n        <div class=\"dot\" style=\"top: 20px; left: 20px;\"></div>\n        <div class=\"dot\" style=\"top: 20px; left: 60px;\"></div>\n        <div class=\"dot\" style=\"top: 20px; left: 100px;\"></div>\n        <div class=\"dot\" style=\"top: 20px; left: 140px;\"></div>\n        <div class=\"dot\" style=\"top: 20px; left: 180px;\"></div>\n        <div class=\"dot\" style=\"top: 20px; left: 220px;\"></div>\n        <div class=\"dot\" style=\"top: 60px; left: 20px;\"></div>\n        <div class=\"dot\" style=\"top: 60px; left: 60px;\"></div>\n        <div class=\"dot\" style=\"top: 60px; left: 100px;\"></div>\n        <div class=\"dot\" style=\"top: 60px; left: 140px;\"></div>\n        <div class=\"dot\" style=\"top: 60px; left: 180px;\"></div>\n        <div class=\"dot\" style=\"top: 60px; left: 220px;\"></div>\n        <div class=\"dot\" style=\"top: 100px; left: 20px;\"></div>\n        <div class=\"dot\" style=\"top: 100px; left: 60px;\"></div>\n        <div class=\"dot\" style=\"top: 100px; left: 100px;\"></div>\n        <div class=\"dot\" style=\"top: 100px; left: 140px;\"></div>\n        <div class=\"dot\" style=\"top: 100px; left: 180px;\"></div>\n        <div class=\"dot\" style=\"top: 100px; left: 220px;\"></div>\n        <div class=\"dot\" style=\"top: 140px; left: 20px;\"></div>\n        <div class=\"dot\" style=\"top: 140px; left: 60px;\"></div>\n        <div class=\"dot\" style=\"top: 140px; left: 100px;\"></div>\n        <div class=\"dot\" style=\"top: 140px; left: 140px;\"></div>\n        <div class=\"dot\" style=\"top: 140px; left: 180px;\"></div>\n        <div class=\"dot\" style=\"top: 140px; left: 220px;\"></div>\n    </div>\n    <script>\n        const pacman = document.getElementById('pacman');\n        const game = document.getElementById('game');\n        const dots = document.querySelectorAll('.dot');\n        let score = 0;\n\n        let posX = 0;\n        let posY = 0;\n\n        document.addEventListener('keydown', (e) => {\n            if (e.key === 'ArrowUp') posY -= 20;\n            if (e.key === 'ArrowDown') posY += 20;\n            if (e.key === 'ArrowLeft') posX -= 20;\n            if (e.key === 'ArrowRight') posX += 20;\n\n            if (posX < 0) posX = 0;\n            if (posY < 0) posY = 0;\n            if (posX > game.clientWidth - 20) posX = game.clientWidth - 20;\n            if (posY > game.clientHeight - 20) posY = game.clientHeight - 20;\n\n            pacman.style.left = posX + 'px';\n            pacman.style.top = posY + 'px';\n\n            // Check for collision with dots\n            dots.forEach(dot => {\n                const dotRect = dot.getBoundingClientRect();\n                const pacmanRect = pacman.getBoundingClientRect();\n\n                // Check for collision\n                if (\n                    pacmanRect.x < dotRect.x + dotRect.width &&\n                    pacmanRect.x + pacmanRect.width > dotRect.x &&\n                    pacmanRect.y < dotRect.y + dotRect.height &&\n                    pacmanRect.y + pacmanRect.height > dotRect.y\n                ) {\n                    dot.parentNode.removeChild(dot);\n                    score++;\n                    console.log('Score:', score);\n                }\n            });\n        });\n    </script>\n</body>\n</html>\n```\n\n### How to Run the Game:\n1. Copy the code above.\n2. Create a new file named `index.html`.\n3. Paste the copied code into the `index.html` file.\n4. Open the `index.html` file in a web browser.\n\n### Controls:\n- Use the arrow keys (Up, Down, Left, Right) to move PAC-MAN.\n- Collect the white dots to increase your score.\n\n### Note:\nThis is a very basic version of the PAC-MAN game. It does not include ghosts or complex maze structures. For a full-fledged game, you would need to implement more sophisticated collision detection, game logic, multiple levels, and graphical assets."
 }

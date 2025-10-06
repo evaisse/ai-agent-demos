@@ -3,15 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generated Demo</title>
-</head>
-<body>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simplified Pac-Man</title>
+    <title>Simple Pac-Man</title>
     <style>
         body {
             display: flex;
@@ -20,87 +12,591 @@
             min-height: 100vh;
             background-color: #000;
             margin: 0;
-            font-family: 'Press Start 2P', cursive; /* You can link a pixel font if you want */
+            font-family: 'Press Start 2P', cursive; /* For a retro feel, you'd need to link this font */
             color: white;
-            flex-direction: column;
+            overflow: hidden; /* Prevent scrollbars */
         }
 
         #game-container {
+            border: 2px solid #fff;
             position: relative;
-            border: 2px solid white;
             background-color: #000;
-            overflow: hidden; /* Important to keep elements within bounds */
+            overflow: hidden; /* Crucial for canvas clipping */
         }
 
-        #game-board {
-            display: grid;
-            background-color: #000;
+        canvas {
+            display: block;
         }
 
-        .cell {
-            width: 30px; /* Adjust size for desired resolution */
-            height: 30px;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .wall {
-            background-color: #0000ff; /* Blue for walls */
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            background-color: #fff;
-            border-radius: 50%;
-        }
-
-        .pacman {
-            width: 26px; /* Slightly smaller than cell for visibility */
-            height: 26px;
-            background-color: #ffff00; /* Yellow for Pac-Man */
-            border-radius: 50%;
+        #score-display {
             position: absolute;
-            transition: transform 0.1s linear; /* Smooth movement */
+            top: 10px;
+            left: 10px;
+            font-size: 16px;
+            z-index: 10;
         }
 
-        .ghost {
-            width: 26px;
-            height: 26px;
-            background-color: red; /* Default ghost color */
-            border-radius: 50%;
+        #game-over-overlay {
             position: absolute;
-            transition: transform 0.2s linear; /* Smooth movement */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: red;
+            text-align: center;
+            z-index: 100;
+            display: none; /* Initially hidden */
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
         }
 
-        .ghost-red { background-color: red; }
-        .ghost-pink { background-color: #ffb6c1; } /* LightPink */
-        .ghost-cyan { background-color: #00ffff; } /* Cyan */
-        .ghost-orange { background-color: orange; }
-
-        #score {
-            margin-top: 20px;
-            font-size: 1.5em;
-        }
-
-        #message {
-            margin-top: 10px;
-            font-size: 1.2em;
+        #ready-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
             color: yellow;
-            visibility: hidden; /* Hidden until game over */
+            text-align: center;
+            z-index: 100;
+            display: none; /* Initially hidden */
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Simplified Pac-Man</h1>
     <div id="game-container">
-        <div id="game-board"></div>
-        <div id="pacman"></div>
-        <!-- Ghosts will be added dynamically -->
+        <div id="score-display">Score: 0</div>
+        <div id="ready-overlay">Press Space to Start</div>
+        <div id="game-over-overlay">Game Over! <br> Press R to Restart</div>
+        <canvas id="gameCanvas"></canvas>
     </div>
-    <div id="score">Score: 0</div>
-    <div id="message">Game Over!</div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score-display');
+        const gameOverOverlay = document.getElementById('game-over-overlay');
+        const readyOverlay = document.getElementById('ready-overlay');
+
+        // Game Settings
+        const TILE_SIZE = 20; // Size of each grid cell
+        const MAZE_WIDTH = 20; // Number of tiles horizontally
+        const MAZE_HEIGHT = 20; // Number of tiles vertically
+        canvas.width = MAZE_WIDTH * TILE_SIZE;
+        canvas.height = MAZE_HEIGHT * TILE_SIZE;
+
+        const PACMAN_SPEED = 2;
+        const GHOST_SPEED = 1.5;
+
+        // Game State
+        let score = 0;
+        let lives = 3; // Not implemented in this simple version, but good to have
+        let gameRunning = false;
+        let pacmanDirection = { x: 0, y: 0 }; // Current direction
+        let nextPacmanDirection = { x: 0, y: 0 }; // Direction to change to on next tile
+
+        // Maze Layout (0: empty, 1: wall, 2: pellet, 3: power pellet)
+        // This is a very simplified maze. A real Pac-Man maze is much more complex.
+        const maze = [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+            [1, 2, 1, 0, 1, 2, 1, 0, 0, 0, 0, 0, 1, 2, 1, 0, 1, 2, 2, 1],
+            [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
+            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
+            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ];
+        // Adjust maze height if it's not filled to MAZE_HEIGHT
+        while(maze.length < MAZE_HEIGHT) {
+            maze.push(Array(MAZE_WIDTH).fill(1)); // Fill with walls if short
+        }
+        maze.forEach(row => {
+            while(row.length < MAZE_WIDTH) {
+                row.push(1); // Fill with walls if short
+            }
+        });
+
+
+        // Game Objects
+        let pacman = {
+            x: 10 * TILE_SIZE + TILE_SIZE / 2, // Start in the middle of tile 10, 10
+            y: 10 * TILE_SIZE + TILE_SIZE / 2,
+            radius: TILE_SIZE / 2 - 2,
+            color: 'yellow',
+            mouthOpen: true,
+            mouthAngle: 0.2 // Angle for Pac-Man's mouth
+        };
+
+        let ghosts = [
+            {
+                id: 'blinky',
+                x: 9 * TILE_SIZE + TILE_SIZE / 2,
+                y: 9 * TILE_SIZE + TILE_SIZE / 2,
+                radius: TILE_SIZE / 2 - 2,
+                color: 'red',
+                direction: { x: 0, y: 0 },
+                speed: GHOST_SPEED,
+                AI: 'chase' // Simple AI state
+            },
+            {
+                id: 'pinky',
+                x: 11 * TILE_SIZE + TILE_SIZE / 2,
+                y: 9 * TILE_SIZE + TILE_SIZE / 2,
+                radius: TILE_SIZE / 2 - 2,
+                color: 'pink',
+                direction: { x: 0, y: 0 },
+                speed: GHOST_SPEED,
+                AI: 'scatter'
+            }
+            // Add more ghosts here if desired
+        ];
+
+        // --- Game Logic ---
+
+        function getTile(x, y) {
+            const tileX = Math.floor(x / TILE_SIZE);
+            const tileY = Math.floor(y / TILE_SIZE);
+            if (tileY >= 0 && tileY < MAZE_HEIGHT && tileX >= 0 && tileX < MAZE_WIDTH) {
+                return maze[tileY][tileX];
+            }
+            return 1; // Treat out of bounds as wall
+        }
+
+        function isWall(x, y) {
+            return getTile(x, y) === 1;
+        }
+
+        function isPellet(x, y) {
+            return getTile(x, y) === 2;
+        }
+
+        function isPowerPellet(x, y) {
+            return getTile(x, y) === 3;
+        }
+
+        function getGridCoords(x, y) {
+            return {
+                gridX: Math.floor(x / TILE_SIZE),
+                gridY: Math.floor(y / TILE_SIZE)
+            };
+        }
+
+        function canMove(x, y, direction) {
+            const nextX = x + direction.x * TILE_SIZE;
+            const nextY = y + direction.y * TILE_SIZE;
+
+            // Check collision with walls in the direction of movement
+            // This is a simplified check, a more robust one would check corners
+            const checkX = x + direction.x * (TILE_SIZE / 2); // Check halfway into the next tile
+            const checkY = y + direction.y * (TILE_SIZE / 2);
+
+            if (isWall(checkX, checkY)) {
+                return false;
+            }
+
+            // Check if the next tile is a wall
+            const gridX = Math.floor((x + direction.x * TILE_SIZE) / TILE_SIZE);
+            const gridY = Math.floor((y + direction.y * TILE_SIZE) / TILE_SIZE);
+
+            if (gridY >= 0 && gridY < MAZE_HEIGHT && gridX >= 0 && gridX < MAZE_WIDTH) {
+                if (maze[gridY][gridX] === 1) {
+                    return false;
+                }
+            } else {
+                return false; // Out of bounds is a wall
+            }
+
+            return true;
+        }
+
+
+        function movePacman() {
+            // Try to change direction if a new direction is queued and it's valid
+            if (nextPacmanDirection.x !== 0 || nextPacmanDirection.y !== 0) {
+                if (canMove(pacman.x, pacman.y, nextPacmanDirection)) {
+                    pacmanDirection = { ...nextPacmanDirection };
+                    nextPacmanDirection = { x: 0, y: 0 }; // Clear the queued direction
+                }
+            }
+
+            // Move in the current direction
+            if (pacmanDirection.x !== 0 || pacmanDirection.y !== 0) {
+                if (canMove(pacman.x, pacman.y, pacmanDirection)) {
+                    pacman.x += pacmanDirection.x * PACMAN_SPEED;
+                    pacman.y += pacmanDirection.y * PACMAN_SPEED;
+                } else {
+                    // If we hit a wall, we might be able to stop or switch direction
+                    // For simplicity, we just stop if we can't move
+                    // A better implementation would align to grid and check other directions
+                    pacmanDirection = { x: 0, y: 0 };
+                }
+            }
+
+            // Wrap around screen (simplified tunnel effect)
+            if (pacman.x < 0) pacman.x = canvas.width;
+            if (pacman.x > canvas.width) pacman.x = 0;
+            if (pacman.y < 0) pacman.y = canvas.height;
+            if (pacman.y > canvas.height) pacman.y = 0;
+
+            // Eat pellets
+            const currentGridX = Math.floor(pacman.x / TILE_SIZE);
+            const currentGridY = Math.floor(pacman.y / TILE_SIZE);
+
+            if (currentGridY >= 0 && currentGridY < MAZE_HEIGHT && currentGridX >= 0 && currentGridX < MAZE_WIDTH) {
+                if (maze[currentGridY][currentGridX] === 2) {
+                    maze[currentGridY][currentGridX] = 0; // Remove pellet
+                    score += 10;
+                    scoreDisplay.textContent = `Score: ${score}`;
+                } else if (maze[currentGridY][currentGridX] === 3) {
+                    maze[currentGridY][currentGridX] = 0; // Remove power pellet
+                    score += 50;
+                    scoreDisplay.textContent = `Score: ${score}`;
+                    // Implement power pellet effect (e.g., make ghosts vulnerable)
+                    // For this simple version, it just gives points.
+                }
+            }
+        }
+
+        function moveGhost(ghost) {
+            // Rudimentary Ghost AI: Try to move in a random valid direction
+            // A real Pac-Man ghost AI is much more complex (chase, scatter, frightened, etc.)
+
+            const possibleDirections = [];
+            const directions = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+
+            // Check which directions are not walls
+            directions.forEach(dir => {
+                // Calculate a point slightly ahead in the direction to check for walls
+                const checkX = ghost.x + dir.x * (TILE_SIZE / 2);
+                const checkY = ghost.y + dir.y * (TILE_SIZE / 2);
+
+                // Also check the next tile for walls for more robust collision
+                const nextGridX = Math.floor((ghost.x + dir.x * TILE_SIZE) / TILE_SIZE);
+                const nextGridY = Math.floor((ghost.y + dir.y * TILE_SIZE) / TILE_SIZE);
+
+
+                if (!isWall(checkX, checkY) && (nextGridY < 0 || nextGridY >= MAZE_HEIGHT || nextGridX < 0 || nextGridX >= MAZE_WIDTH || maze[nextGridY][nextGridX] !== 1)) {
+                    // Prevent reversing direction unless it's the only option (to avoid getting stuck)
+                    if (!(dir.x === -ghost.direction.x && dir.y === -ghost.direction.y) || (directions.length === 1)) {
+                        possibleDirections.push(dir);
+                    }
+                }
+            });
+
+            // If there are valid moves, pick one.
+            if (possibleDirections.length > 0) {
+                // Simple random move, or implement more complex AI here
+                let chosenDirection = null;
+
+                if (ghost.AI === 'chase') {
+                    // Basic chase: try to move towards Pac-Man
+                    const dx = pacman.x - ghost.x;
+                    const dy = pacman.y - ghost.y;
+
+                    let bestDir = null;
+                    let minDistSq = Infinity;
+
+                    possibleDirections.forEach(dir => {
+                        const newX = ghost.x + dir.x * GHOST_SPEED;
+                        const newY = ghost.y + dir.y * GHOST_SPEED;
+                        const distSq = (newX - pacman.x)**2 + (newY - pacman.y)**2;
+                        if (distSq < minDistSq) {
+                            minDistSq = distSq;
+                            bestDir = dir;
+                        }
+                    });
+                    chosenDirection = bestDir;
+                } else if (ghost.AI === 'scatter') {
+                    // Basic scatter: move towards a corner (e.g., top-left)
+                    const scatterTargetX = 1 * TILE_SIZE;
+                    const scatterTargetY = 1 * TILE_SIZE;
+                    const dx = scatterTargetX - ghost.x;
+                    const dy = scatterTargetY - ghost.y;
+
+                    let bestDir = null;
+                    let minDistSq = Infinity;
+
+                    possibleDirections.forEach(dir => {
+                        const newX = ghost.x + dir.x * GHOST_SPEED;
+                        const newY = ghost.y + dir.y * GHOST_SPEED;
+                        const distSq = (newX - scatterTargetX)**2 + (newY - scatterTargetY)**2;
+                        if (distSq < minDistSq) {
+                            minDistSq = distSq;
+                            bestDir = dir;
+                        }
+                    });
+                    chosenDirection = bestDir;
+                } else { // Random move if AI is unknown or not implemented
+                    chosenDirection = possibleDirections[Math.floor(Math.random() * possibleDirections.length)];
+                }
+
+                // If a chosen direction is found, update ghost's direction
+                if (chosenDirection) {
+                    ghost.direction = chosenDirection;
+                } else {
+                    // Fallback to random if no specific AI direction is found
+                    ghost.direction = possibleDirections[Math.floor(Math.random() * possibleDirections.length)];
+                }
+            } else {
+                // If no possible directions, the ghost is stuck (shouldn't happen in a well-designed maze)
+                ghost.direction = { x: 0, y: 0 };
+            }
+
+            // Move the ghost
+            if (ghost.direction.x !== 0 || ghost.direction.y !== 0) {
+                ghost.x += ghost.direction.x * ghost.speed;
+                ghost.y += ghost.direction.y * ghost.speed;
+            }
+
+            // Wrap around screen (simplified tunnel effect)
+            if (ghost.x < 0) ghost.x = canvas.width;
+            if (ghost.x > canvas.width) ghost.x = 0;
+            if (ghost.y < 0) ghost.y = canvas.height;
+            if (ghost.y > canvas.height) ghost.y = 0;
+        }
+
+        function checkGhostCollision() {
+            for (const ghost of ghosts) {
+                const dx = pacman.x - ghost.x;
+                const dy = pacman.y - ghost.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < pacman.radius + ghost.radius) {
+                    // Collision detected!
+                    gameOver();
+                    return;
+                }
+            }
+        }
+
+        function drawMaze() {
+            for (let y = 0; y < MAZE_HEIGHT; y++) {
+                for (let x = 0; x < MAZE_WIDTH; x++) {
+                    const tileType = maze[y][x];
+                    const tileX = x * TILE_SIZE;
+                    const tileY = y * TILE_SIZE;
+
+                    ctx.fillStyle = '#000'; // Background
+                    ctx.fillRect(tileX, tileY, TILE_SIZE, TILE_SIZE);
+
+                    if (tileType === 1) { // Wall
+                        ctx.fillStyle = '#0000ff'; // Blue for walls
+                        ctx.fillRect(tileX, tileY, TILE_SIZE, TILE_SIZE);
+                    } else if (tileType === 2) { // Pellet
+                        ctx.fillStyle = 'white';
+                        ctx.beginPath();
+                        ctx.arc(tileX + TILE_SIZE / 2, tileY + TILE_SIZE / 2, TILE_SIZE / 8, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else if (tileType === 3) { // Power Pellet
+                        ctx.fillStyle = 'white';
+                        ctx.beginPath();
+                        ctx.arc(tileX + TILE_SIZE / 2, tileY + TILE_SIZE / 2, TILE_SIZE / 4, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+
+        function drawPacman() {
+            ctx.fillStyle = pacman.color;
+            ctx.save(); // Save the current drawing state
+
+            ctx.translate(pacman.x, pacman.y); // Move origin to Pac-Man's center
+
+            // Rotate Pac-Man to face the direction he's moving
+            let angle = 0;
+            if (pacmanDirection.y < 0) angle = -Math.PI / 2; // Up
+            else if (pacmanDirection.y > 0) angle = Math.PI / 2; // Down
+            else if (pacmanDirection.x < 0) angle = Math.PI; // Left
+            else if (pacmanDirection.x > 0) angle = 0; // Right
+
+            ctx.rotate(angle);
+
+            ctx.beginPath();
+            ctx.arc(0, 0, pacman.radius, pacman.mouthOpen ? pacman.mouthAngle : 0, Math.PI * 2 - (pacman.mouthOpen ? pacman.mouthAngle : 0));
+            ctx.lineTo(0, 0); // Close the shape by drawing to the center
+            ctx.fill();
+
+            ctx.restore(); // Restore the original drawing state
+        }
+
+        function drawGhost(ghost) {
+            ctx.fillStyle = ghost.color;
+            ctx.beginPath();
+            ctx.arc(ghost.x, ghost.y, ghost.radius, 0, Math.PI * 2);
+            ctx.fill();
+            // A more advanced ghost would have eyes and a body shape.
+        }
+
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = `Score: ${score}`;
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            gameOverOverlay.style.display = 'block';
+            readyOverlay.style.display = 'none';
+        }
+
+        function resetGame() {
+            score = 0;
+            lives = 3; // Reset lives if implemented
+            gameRunning = false;
+            pacmanDirection = { x: 0, y: 0 };
+            nextPacmanDirection = { x: 0, y: 0 };
+
+            // Reset Pac-Man position
+            pacman.x = 10 * TILE_SIZE + TILE_SIZE / 2;
+            pacman.y = 10 * TILE_SIZE + TILE_SIZE / 2;
+
+            // Reset ghosts' positions and directions
+            ghosts[0].x = 9 * TILE_SIZE + TILE_SIZE / 2;
+            ghosts[0].y = 9 * TILE_SIZE + TILE_SIZE / 2;
+            ghosts[0].direction = { x: 0, y: 0 };
+            ghosts[0].AI = 'chase';
+
+            ghosts[1].x = 11 * TILE_SIZE + TILE_SIZE / 2;
+            ghosts[1].y = 9 * TILE_SIZE + TILE_SIZE / 2;
+            ghosts[1].direction = { x: 0, y: 0 };
+            ghosts[1].AI = 'scatter';
+
+
+            // Re-initialize maze (or a copy of the original)
+            // For simplicity, we'll just reload the original maze structure
+            // In a real game, you might have multiple levels.
+            const originalMaze = [
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+                [1, 2, 1, 0, 1, 2, 1, 0, 0, 0, 0, 0, 1, 2, 1, 0, 1, 2, 2, 1],
+                [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+                [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+                [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
+                [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+                [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
+                [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1],
+                [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            ];
+            // Ensure the maze has the correct dimensions, padding with walls if necessary
+            for (let i = 0; i < MAZE_HEIGHT; i++) {
+                if (!originalMaze[i]) originalMaze[i] = [];
+                while (originalMaze[i].length < MAZE_WIDTH) {
+                    originalMaze[i].push(1);
+                }
+            }
+             for (let i = 0; i < MAZE_HEIGHT; i++) {
+                originalMaze[i] = originalMaze[i].slice(0, MAZE_WIDTH);
+            }
+            // Ensure maze has enough rows
+            while(originalMaze.length < MAZE_HEIGHT) {
+                originalMaze.push(Array(MAZE_WIDTH).fill(1));
+            }
+            // Ensure maze has enough columns in each row
+            originalMaze.forEach(row => {
+                while(row.length < MAZE_WIDTH) {
+                    row.push(1);
+                }
+            });
+
+            // Deep copy the original maze to avoid modifying it directly on reset
+            for (let y = 0; y < MAZE_HEIGHT; y++) {
+                for (let x = 0; x < MAZE_WIDTH; x++) {
+                    maze[y][x] = originalMaze[y][x];
+                }
+            }
+
+            updateScoreDisplay();
+            gameOverOverlay.style.display = 'none';
+            readyOverlay.style.display = 'block';
+        }
+
+        function startGame() {
+            if (!gameRunning) {
+                gameRunning = true;
+                readyOverlay.style.display = 'none';
+                gameOverOverlay.style.display = 'none';
+                gameLoop();
+            }
+        }
+
+        function gameLoop() {
+            if (!gameRunning) return;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update game state
+            movePacman();
+            ghosts.forEach(moveGhost);
+            checkGhostCollision();
+
+            // Draw elements
+            drawMaze();
+            drawPacman();
+            ghosts.forEach(drawGhost);
+
+            // Animation for Pac-Man's mouth
+            pacman.mouthOpen = !pacman.mouthOpen;
+
+            requestAnimationFrame(gameLoop); // Continue the loop
+        }
+
+        // --- Event Listeners ---
+
+        document.addEventListener('keydown', (event) => {
+            if (!gameRunning) {
+                if (event.code === 'Space') {
+                    startGame();
+                } else if (event.code === 'KeyR') {
+                    resetGame(); // Allow restarting from game over screen
+                }
+                return;
+            }
+
+            // Handle
+movement controls when the game is running
+            switch (event.code) {
+                case 'ArrowUp':
+                case 'KeyW':
+                    nextPacmanDirection = { x: 0, y: -1 };
+                    break;
+                case 'ArrowDown':
+                case 'KeyS':
+                    nextPacmanDirection = { x: 0, y: 1 };
+                    break;
+                case 'ArrowLeft':
+                case 'KeyA':
+                    nextPacmanDirection = { x: -1, y: 0 };
+                    break;
+                case 'ArrowRight':
+                case 'KeyD':
+                    nextPacmanDirection = { x: 1, y: 0 };
+                    break;
+            }
+        });
+
+        // Initial setup
+        resetGame(); // Set up the initial game state and display
+    </script>
 </body>
 </html>

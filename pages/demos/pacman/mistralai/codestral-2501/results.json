@@ -1,20 +1,20 @@
 {
-  "timestamp": "2025-10-02T12:44:01.927Z",
+  "timestamp": "2025-10-06T11:41:09.433Z",
   "execution": {
-    "duration_seconds": "4.335",
+    "duration_seconds": "4.791",
     "model_used": "mistralai/codestral-2501",
     "model_requested": "mistralai/codestral-2501"
   },
   "tokens": {
     "prompt_tokens": 30,
-    "completion_tokens": 853,
-    "total_tokens": 883
+    "completion_tokens": 1248,
+    "total_tokens": 1278
   },
   "cost": {
     "currency": "USD",
     "prompt_cost": 0.000009,
-    "completion_cost": 0.000768,
-    "total_cost": 0.000777
+    "completion_cost": 0.001123,
+    "total_cost": 0.001132
   },
   "model_card": {
     "id": "mistralai/codestral-2501",
@@ -22,40 +22,40 @@
     "description": "[Mistral](/mistralai)'s cutting-edge language model for coding. Codestral specializes in low-latency, high-frequency tasks such as fill-in-the-middle (FIM), code correction and test generation. \n\nLearn more on their blog post: https://mistral.ai/news/codestral-2501/",
     "context_length": 262144,
     "architecture": {
+      "modality": "text->text",
       "input_modalities": [
         "text"
       ],
-      "instruct_type": null,
-      "modality": "text->text",
       "output_modalities": [
         "text"
       ],
-      "tokenizer": "Mistral"
+      "tokenizer": "Mistral",
+      "instruct_type": null
     },
     "pricing": {
-      "completion": "0.0000009",
-      "image": "0",
-      "internal_reasoning": "0",
       "prompt": "0.0000003",
+      "completion": "0.0000009",
       "request": "0",
-      "web_search": "0"
+      "image": "0",
+      "web_search": "0",
+      "internal_reasoning": "0"
     },
     "top_provider": {
       "context_length": 262144,
-      "is_moderated": false,
-      "max_completion_tokens": null
+      "max_completion_tokens": null,
+      "is_moderated": false
     }
   },
   "request": {
     "prompt": "In a single HTML file named index.html, create exact copy of the PAC-MAN game in one html file using css and js.\n",
     "system_prompt": null,
     "temperature": 0.7,
-    "max_tokens": 2000
+    "max_tokens": 8000
   },
   "response_metadata": {
-    "id": "gen-1759409038-RNIBBIIlVaCyvNtXaRR7",
-    "created": 1759409038,
+    "id": "gen-1759750865-QKxbfDHx2Vl99AWKZk9Y",
+    "created": 1759750865,
     "object": "chat.completion"
   },
-  "raw_response": "Creating a full-fledged PAC-MAN game in a single HTML file using CSS and JavaScript is quite an ambitious task, but I can provide you with a simplified version that captures the essence of the game. This version will include basic elements like the PAC-MAN character, walls, and simple movement using arrow keys.\n\nHere's a basic implementation:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>PAC-MAN Game</title>\n    <style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n            background-color: black;\n        }\n        #gameArea {\n            position: relative;\n            width: 400px;\n            height: 400px;\n            border: 2px solid yellow;\n        }\n        .wall {\n            position: absolute;\n            background-color: blue;\n        }\n        #pacman {\n            position: absolute;\n            width: 20px;\n            height: 20px;\n            background-color: yellow;\n            border-radius: 50%;\n        }\n    </style>\n</head>\n<body>\n    <div id=\"gameArea\">\n        <div id=\"pacman\"></div>\n        <!-- Walls -->\n        <div class=\"wall\" style=\"top: 0; left: 0; width: 100%; height: 20px;\"></div>\n        <div class=\"wall\" style=\"top: 0; left: 0; width: 20px; height: 100%;\"></div>\n        <div class=\"wall\" style=\"top: 0; right: 0; width: 20px; height: 100%;\"></div>\n        <div class=\"wall\" style=\"bottom: 0; left: 0; width: 100%; height: 20px;\"></div>\n    </div>\n    <script>\n        const gameArea = document.getElementById('gameArea');\n        const pacman = document.getElementById('pacman');\n        let pacmanX = 50;\n        let pacmanY = 50;\n        const speed = 5;\n\n        function movePacman(event) {\n            switch (event.key) {\n                case 'ArrowUp':\n                    pacmanY -= speed;\n                    break;\n                case 'ArrowDown':\n                    pacmanY += speed;\n                    break;\n                case 'ArrowLeft':\n                    pacmanX -= speed;\n                    break;\n                case 'ArrowRight':\n                    pacmanX += speed;\n                    break;\n            }\n            pacman.style.left = pacmanX + 'px';\n            pacman.style.top = pacmanY + 'px';\n        }\n\n        document.addEventListener('keydown', movePacman);\n    </script>\n</body>\n</html>\n```\n\n### Explanation:\n1. **HTML Structure**:\n   - A `div` with the id `gameArea` acts as the game container.\n   - Inside `gameArea`, there is a `div` with the id `pacman` representing PAC-MAN.\n   - Several `div` elements with the class `wall` represent the boundaries of the game area.\n\n2. **CSS**:\n   - Basic styling to center the game area and style PAC-MAN and walls.\n\n3. **JavaScript**:\n   - Event listener for keydown events to move PAC-MAN using the arrow keys.\n   - The `movePacman` function updates PAC-MAN's position based on the arrow key pressed.\n\nThis is a very basic implementation. A full PAC-MAN game would require more features such as:\n- Ghosts with AI.\n- Pellets and power pellets.\n- Scoring system.\n- Levels and mazes.\n- Collision detection with walls and ghosts.\n\nFor a complete game, you would need to expand this foundation significantly."
+  "raw_response": "Creating a full-fledged PAC-MAN game in a single HTML file is a complex task, but I can provide you with a simplified version that captures the essence of the game. This version will include basic movement, a simple maze, and some basic collision detection. Note that this is a very basic implementation and lacks many features of the full game.\n\nHere's a simple example:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Simple PAC-MAN Game</title>\n    <style>\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n            background-color: black;\n        }\n        #game {\n            position: relative;\n            width: 400px;\n            height: 400px;\n            border: 2px solid yellow;\n        }\n        .pacman {\n            position: absolute;\n            width: 20px;\n            height: 20px;\n            background-color: yellow;\n            border-radius: 50%;\n        }\n        .wall {\n            position: absolute;\n            background-color: blue;\n        }\n        .dot {\n            position: absolute;\n            width: 10px;\n            height: 10px;\n            background-color: white;\n            border-radius: 50%;\n        }\n    </style>\n</head>\n<body>\n    <div id=\"game\">\n        <div class=\"pacman\" id=\"pacman\"></div>\n        <div class=\"wall\" style=\"width: 400px; height: 20px; top: 0; left: 0;\"></div>\n        <div class=\"wall\" style=\"width: 400px; height: 20px; bottom: 0; left: 0;\"></div>\n        <div class=\"wall\" style=\"width: 20px; height: 400px; top: 0; left: 0;\"></div>\n        <div class=\"wall\" style=\"width: 20px; height: 400px; top: 0; right: 0;\"></div>\n        <div class=\"dot\" style=\"top: 50px; left: 50px;\"></div>\n        <div class=\"dot\" style=\"top: 100px; left: 100px;\"></div>\n        <div class=\"dot\" style=\"top: 150px; left: 150px;\"></div>\n        <div class=\"dot\" style=\"top: 200px; left: 200px;\"></div>\n        <div class=\"dot\" style=\"top: 250px; left: 250px;\"></div>\n    </div>\n    <script>\n        const pacman = document.getElementById('pacman');\n        const game = document.getElementById('game');\n        const dots = document.querySelectorAll('.dot');\n        const walls = document.querySelectorAll('.wall');\n\n        let pacmanX = 200;\n        let pacmanY = 200;\n        const speed = 20;\n\n        function updatePacmanPosition() {\n            pacman.style.left = pacmanX + 'px';\n            pacman.style.top = pacmanY + 'px';\n        }\n\n        function checkCollision() {\n            walls.forEach(wall => {\n                const wallRect = wall.getBoundingClientRect();\n                const pacmanRect = pacman.getBoundingClientRect();\n\n                if (\n                    pacmanRect.left < wallRect.right &&\n                    pacmanRect.right > wallRect.left &&\n                    pacmanRect.top < wallRect.bottom &&\n                    pacmanRect.bottom > wallRect.top\n                ) {\n                    // Collision detected, revert position\n                    pacmanX -= speed;\n                    pacmanY -= speed;\n                }\n            });\n        }\n\n        function checkDotCollision() {\n            dots.forEach(dot => {\n                const dotRect = dot.getBoundingClientRect();\n                const pacmanRect = pacman.getBoundingClientRect();\n\n                if (\n                    pacmanRect.left < dotRect.right &&\n                    pacmanRect.right > dotRect.left &&\n                    pacmanRect.top < dotRect.bottom &&\n                    pacmanRect.bottom > dotRect.top\n                ) {\n                    dot.remove();\n                }\n            });\n        }\n\n        document.addEventListener('keydown', (event) => {\n            switch (event.key) {\n                case 'ArrowUp':\n                    pacmanY -= speed;\n                    break;\n                case 'ArrowDown':\n                    pacmanY += speed;\n                    break;\n                case 'ArrowLeft':\n                    pacmanX -= speed;\n                    break;\n                case 'ArrowRight':\n                    pacmanX += speed;\n                    break;\n            }\n            updatePacmanPosition();\n            checkCollision();\n            checkDotCollision();\n        });\n\n        updatePacmanPosition();\n    </script>\n</body>\n</html>\n```\n\n### Explanation:\n1. **HTML Structure**:\n   - The game area is a `div` with an ID of `game`.\n   - PAC-MAN is represented by another `div` with the class `pacman`.\n   - Walls and dots are also `div` elements with respective classes.\n\n2. **CSS**:\n   - Basic styling for the game area, PAC-MAN, walls, and dots.\n\n3. **JavaScript**:\n   - Handles movement using arrow keys.\n   - Checks for collisions with walls and dots.\n   - Updates PAC-MAN's position and checks for collisions after each move.\n\nThis is a very basic implementation and lacks many features of the full PAC-MAN game, such as ghost movement, scoring, levels, and more complex maze structures. However, it provides a starting point for further development."
 }

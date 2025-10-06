@@ -2,13 +2,13 @@
 
 ## Metadata
 - **Model**: openai/gpt-4o-mini
-- **Timestamp**: 2025-10-02T13:04:13.283Z
-- **Duration**: 26.991 seconds
+- **Timestamp**: 2025-10-06T11:41:30.887Z
+- **Duration**: 6.282 seconds
 
 ## Token Usage
 - **Prompt Tokens**: 34
-- **Completion Tokens**: 1002
-- **Total Tokens**: 1036
+- **Completion Tokens**: 1420
+- **Total Tokens**: 1454
 
 ## Prompt
 ```
@@ -17,9 +17,9 @@ In a single HTML file named index.html, create exact copy of the PAC-MAN game in
 ```
 
 ## Response
-Creating a full-fledged PAC-MAN game in a single HTML file is quite complex, but I can provide you with a simplified version that captures the essence of the game. Below is a basic implementation of a PAC-MAN-like game, using HTML, CSS, and JavaScript, all contained within one HTML file. This example won't include all the features of the original game, but it will give you a starting point.
+Creating a complete replica of the PAC-MAN game in a single HTML file involves quite a bit of code. Below is a simplified version of the game. This version will provide basic functionality, including movement and collision detection. However, due to the complexity of the original game, it will not have all the features, such as multiple ghosts, levels, or the full map design.
 
-Here's the code for `index.html`:
+Here is a simple implementation:
 
 ```html
 <!DOCTYPE html>
@@ -37,28 +37,25 @@ Here's the code for `index.html`:
             background-color: black;
             margin: 0;
         }
-
         #game {
             position: relative;
-            width: 300px;
+            width: 280px;
             height: 300px;
-            background-color: blue;
+            background-color: black;
+            border: 2px solid white;
             overflow: hidden;
         }
-
         .pacman {
             position: absolute;
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
             background-color: yellow;
             border-radius: 50%;
-            transition: transform 0.1s;
         }
-
         .dot {
             position: absolute;
-            width: 5px;
-            height: 5px;
+            width: 6px;
+            height: 6px;
             background-color: white;
             border-radius: 50%;
         }
@@ -66,88 +63,91 @@ Here's the code for `index.html`:
 </head>
 <body>
     <div id="game">
-        <div class="pacman" id="pacman" style="top: 135px; left: 135px;"></div>
+        <div class="pacman" id="pacman"></div>
+        <!-- Dots -->
+        <div class="dot" style="top: 20px; left: 20px;"></div>
+        <div class="dot" style="top: 20px; left: 60px;"></div>
+        <div class="dot" style="top: 20px; left: 100px;"></div>
+        <div class="dot" style="top: 20px; left: 140px;"></div>
+        <div class="dot" style="top: 20px; left: 180px;"></div>
+        <div class="dot" style="top: 20px; left: 220px;"></div>
+        <div class="dot" style="top: 60px; left: 20px;"></div>
+        <div class="dot" style="top: 60px; left: 60px;"></div>
+        <div class="dot" style="top: 60px; left: 100px;"></div>
+        <div class="dot" style="top: 60px; left: 140px;"></div>
+        <div class="dot" style="top: 60px; left: 180px;"></div>
+        <div class="dot" style="top: 60px; left: 220px;"></div>
+        <div class="dot" style="top: 100px; left: 20px;"></div>
+        <div class="dot" style="top: 100px; left: 60px;"></div>
+        <div class="dot" style="top: 100px; left: 100px;"></div>
+        <div class="dot" style="top: 100px; left: 140px;"></div>
+        <div class="dot" style="top: 100px; left: 180px;"></div>
+        <div class="dot" style="top: 100px; left: 220px;"></div>
+        <div class="dot" style="top: 140px; left: 20px;"></div>
+        <div class="dot" style="top: 140px; left: 60px;"></div>
+        <div class="dot" style="top: 140px; left: 100px;"></div>
+        <div class="dot" style="top: 140px; left: 140px;"></div>
+        <div class="dot" style="top: 140px; left: 180px;"></div>
+        <div class="dot" style="top: 140px; left: 220px;"></div>
     </div>
-
     <script>
-        const game = document.getElementById('game');
         const pacman = document.getElementById('pacman');
-        const dots = [];
-        const dotCount = 50;
-        const pacmanSpeed = 5;
+        const game = document.getElementById('game');
+        const dots = document.querySelectorAll('.dot');
+        let score = 0;
 
-        // Create dots
-        for (let i = 0; i < dotCount; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            dot.style.top = Math.random() * (game.clientHeight - 5) + 'px';
-            dot.style.left = Math.random() * (game.clientWidth - 5) + 'px';
-            game.appendChild(dot);
-            dots.push(dot);
-        }
+        let posX = 0;
+        let posY = 0;
 
-        // Move PAC-MAN
-        let pacmanX = 135;
-        let pacmanY = 135;
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') posY -= 20;
+            if (e.key === 'ArrowDown') posY += 20;
+            if (e.key === 'ArrowLeft') posX -= 20;
+            if (e.key === 'ArrowRight') posX += 20;
 
-        document.addEventListener('keydown', (event) => {
-            switch (event.key) {
-                case 'ArrowUp':
-                    pacmanY = Math.max(0, pacmanY - pacmanSpeed);
-                    break;
-                case 'ArrowDown':
-                    pacmanY = Math.min(game.clientHeight - 30, pacmanY + pacmanSpeed);
-                    break;
-                case 'ArrowLeft':
-                    pacmanX = Math.max(0, pacmanX - pacmanSpeed);
-                    break;
-                case 'ArrowRight':
-                    pacmanX = Math.min(game.clientWidth - 30, pacmanX + pacmanSpeed);
-                    break;
-            }
-            pacman.style.top = pacmanY + 'px';
-            pacman.style.left = pacmanX + 'px';
-            checkCollision();
-        });
+            if (posX < 0) posX = 0;
+            if (posY < 0) posY = 0;
+            if (posX > game.clientWidth - 20) posX = game.clientWidth - 20;
+            if (posY > game.clientHeight - 20) posY = game.clientHeight - 20;
 
-        // Check collision with dots
-        function checkCollision() {
-            dots.forEach((dot, index) => {
+            pacman.style.left = posX + 'px';
+            pacman.style.top = posY + 'px';
+
+            // Check for collision with dots
+            dots.forEach(dot => {
                 const dotRect = dot.getBoundingClientRect();
                 const pacmanRect = pacman.getBoundingClientRect();
 
+                // Check for collision
                 if (
                     pacmanRect.x < dotRect.x + dotRect.width &&
                     pacmanRect.x + pacmanRect.width > dotRect.x &&
                     pacmanRect.y < dotRect.y + dotRect.height &&
                     pacmanRect.y + pacmanRect.height > dotRect.y
                 ) {
-                    game.removeChild(dot);
-                    dots.splice(index, 1);
+                    dot.parentNode.removeChild(dot);
+                    score++;
+                    console.log('Score:', score);
                 }
             });
-        }
+        });
     </script>
 </body>
 </html>
 ```
 
-### How to Use the Code:
+### How to Run the Game:
+1. Copy the code above.
+2. Create a new file named `index.html`.
+3. Paste the copied code into the `index.html` file.
+4. Open the `index.html` file in a web browser.
 
-1. Create a new file named `index.html`.
-2. Copy and paste the above code into the `index.html` file.
-3. Open the file in a web browser.
+### Controls:
+- Use the arrow keys (Up, Down, Left, Right) to move PAC-MAN.
+- Collect the white dots to increase your score.
 
-### Features of the Game:
-- Move PAC-MAN using the arrow keys.
-- Collect small white dots scattered around the blue game area.
-- The game area is a simple 300x300 pixel square.
-
-### Limitations:
-- This is a very basic version of PAC-MAN and lacks features such as ghosts, scoring, levels, and actual maze walls.
-- You can further enhance this game by adding more features, animations, and improving the graphics.
-
-Feel free to modify and expand upon this code to create a more complete game!
+### Note:
+This is a very basic version of the PAC-MAN game. It does not include ghosts or complex maze structures. For a full-fledged game, you would need to implement more sophisticated collision detection, game logic, multiple levels, and graphical assets.
 
 ---
 *Generated by OpenRouter CLI*
