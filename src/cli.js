@@ -846,20 +846,16 @@ async function processModelInteractively(prompt, model, demoDir, maxTokens, forc
         console.log(chalk.yellow(`\n⚠️  Model '${model}' already exists for this demo`));
         console.log(chalk.gray(`   Location: ${outputPath}`));
         
-        const { action } = await inquirer.prompt([
+        const { shouldOverwrite } = await inquirer.prompt([
           {
-            type: 'list',
-            name: 'action',
-            message: 'What would you like to do?',
-            choices: [
-              'Overwrite this model',
-              'Skip this model',
-              'Cancel generation'
-            ]
+            type: 'confirm',
+            name: 'shouldOverwrite',
+            message: 'Overwrite existing model?',
+            default: true // Yes is default
           }
         ]);
         
-        if (action === 'Skip this model') {
+        if (!shouldOverwrite) {
           console.log(chalk.yellow(`⏭️  Skipping ${model}`));
           return {
             model,
@@ -867,11 +863,8 @@ async function processModelInteractively(prompt, model, demoDir, maxTokens, forc
             skipped: true,
             reason: 'User skipped'
           };
-        } else if (action === 'Cancel generation') {
-          console.log(chalk.red(`❌ Generation cancelled by user`));
-          process.exit(0);
         }
-        // If "Overwrite this model" is chosen, continue with generation
+        // If shouldOverwrite is true, continue with generation
         console.log(chalk.green(`✅ Will overwrite ${model}`));
         
       } catch {
@@ -916,6 +909,49 @@ async function processModelsWithProgress(prompt, models, demoDir, maxTokens, for
   let completedCount = 0;
   let failedCount = 0;
   const results = [];
+  
+  // Check for existing models and prompt for confirmation if not forced
+  if (!force) {
+    const existingModels = [];
+    for (const model of models) {
+      const modelSlug = model.replace(/\//g, '/');
+      const modelDir = path.join(demoDir, modelSlug);
+      const outputPath = path.join(modelDir, 'index.html');
+      
+      try {
+        if (await directoryExists(modelDir)) {
+          await fs.access(outputPath);
+          existingModels.push(model);
+        }
+      } catch {
+        // File doesn't exist, continue
+      }
+    }
+    
+    if (existingModels.length > 0) {
+      console.log(chalk.yellow(`\n⚠️  Found ${existingModels.length} existing model${existingModels.length > 1 ? 's' : ''}:`));
+      existingModels.forEach(model => {
+        console.log(chalk.gray(`   • ${model}`));
+      });
+      
+      const { shouldOverwrite } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'shouldOverwrite',
+          message: 'Overwrite existing models?',
+          default: true // Yes is default
+        }
+      ]);
+      
+      if (!shouldOverwrite) {
+        console.log(chalk.yellow('❌ Generation cancelled by user'));
+        return results;
+      }
+      
+      // Set force to true for the rest of the processing
+      force = true;
+    }
+  }
   
   // Create main spinner
   const mainSpinner = ora({
