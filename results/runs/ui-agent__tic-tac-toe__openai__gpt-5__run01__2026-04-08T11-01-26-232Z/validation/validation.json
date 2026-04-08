@@ -1,0 +1,30 @@
+{
+  "mode": "ui-smoke",
+  "passed": true,
+  "checks": [
+    {
+      "id": "required-index-html",
+      "passed": true
+    },
+    {
+      "id": "html-structure",
+      "passed": true
+    },
+    {
+      "id": "screenshot",
+      "passed": false,
+      "skipped": true,
+      "details": {
+        "reason": "Screenshot capture is not implemented in the MVP scaffold yet."
+      }
+    },
+    {
+      "id": "console-errors",
+      "passed": true,
+      "skipped": true,
+      "details": {
+        "reason": "Console collection is not implemented in the MVP scaffold yet."
+      }
+    }
+  ]
+}

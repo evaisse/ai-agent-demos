@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "run_id": "ui-agent__tic-tac-toe__openai__gpt-5__run01__2026-04-08T11-01-26-232Z",
+  "plan_id": "mixed__2026-04-08T11-01-26-232Z",
+  "harness_version": "1.0",
+  "case_version": "1.0",
+  "suite": "ui-agent",
+  "case": {
+    "id": "tic-tac-toe",
+    "title": "Single-file tic tac toe with finish animation",
+    "path": "benchmarks/ui-agent/tic-tac-toe"
+  },
+  "model": {
+    "id": "openai/gpt-5",
+    "provider": "openai",
+    "name": "gpt-5"
+  },
+  "runner": {
+    "type": "modal",
+    "mock": true
+  },
+  "input": {
+    "timeout_seconds": 900,
+    "max_turns": 12,
+    "budget_usd": null,
+    "parameter_sources": {
+      "suite": "wizard",
+      "casePath": "default",
+      "casePaths": "default",
+      "modelIds": "default",
+      "openrouterKey": "wizard",
+      "openrouterKeyEnv": "default",
+      "timeoutSeconds": "default",
+      "maxTurns": "default",
+      "budgetUsd": "wizard",
+      "runs": "cli",
+      "parallel": "default",
+      "concurrency": "cli",
+      "globalBudgetUsd": "wizard",
+      "failFast": "default",
+      "dryRun": "default",
+      "commit": "default",
+      "commitMode": "cli",
+      "json": "default",
+      "yes": "cli",
+      "mockModal": "cli"
+    }
+  },
+  "status": "success",
+  "timing": {
+    "started_at": "2026-04-08T11:00:26.238Z",
+    "ended_at": "2026-04-08T11:01:26.238Z",
+    "duration_ms": 60000
+  },
+  "usage": {
+    "tokens": {
+      "input": 1200,
+      "output": 3400,
+      "total": 4600
+    },
+    "cost_usd": 0.1842,
+    "api_calls": 4,
+    "tool_calls": 6,
+    "raw": {
+      "provider": "mock-modal"
+    }
+  },
+  "agent": {
+    "system": "opencode",
+    "loop_style": "ralph-bounded",
+    "turns_completed": 6,
+    "final_message_path": "final-message.md"
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/index.html",
+      "type": "html",
+      "required": true,
+      "exists": true
+    }
+  ],
+  "validation": {
+    "mode": "ui-smoke",
+    "passed": true,
+    "checks": [
+      {
+        "id": "required-index-html",
+        "passed": true
+      },
+      {
+        "id": "html-structure",
+        "passed": true
+      },
+      {
+        "id": "screenshot",
+        "passed": false,
+        "skipped": true,
+        "details": {
+          "reason": "Screenshot capture is not implemented in the MVP scaffold yet."
+        }
+      },
+      {
+        "id": "console-errors",
+        "passed": true,
+        "skipped": true,
+        "details": {
+          "reason": "Console collection is not implemented in the MVP scaffold yet."
+        }
+      }
+    ]
+  },
+  "git": {
+    "recommended_commit_message": "chore(runs): add ui-agent tic-tac-toe results for openai/gpt-5"
+  },
+  "errors": [],
+  "runDir": "/Users/evaisse/Sites/projects/ai-agent-demos/results/runs/ui-agent__tic-tac-toe__openai__gpt-5__run01__2026-04-08T11-01-26-232Z"
+}

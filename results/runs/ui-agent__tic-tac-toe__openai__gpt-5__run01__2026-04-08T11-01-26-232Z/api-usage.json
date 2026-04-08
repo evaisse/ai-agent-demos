@@ -1,0 +1,13 @@
+{
+  "tokens": {
+    "input": 1200,
+    "output": 3400,
+    "total": 4600
+  },
+  "cost_usd": 0.1842,
+  "api_calls": 4,
+  "tool_calls": 6,
+  "raw": {
+    "provider": "mock-modal"
+  }
+}

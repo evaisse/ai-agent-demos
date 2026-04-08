@@ -1,0 +1,19 @@
+{
+  "planId": "mixed__2026-04-08T11-01-26-232Z",
+  "parallel": false,
+  "concurrency": 1,
+  "jobs": [
+    {
+      "jobId": "ui-agent__tic-tac-toe__openai__gpt-5__run01__2026-04-08T11-01-26-232Z",
+      "runId": "ui-agent__tic-tac-toe__openai__gpt-5__run01__2026-04-08T11-01-26-232Z",
+      "casePath": "benchmarks/ui-agent/tic-tac-toe",
+      "caseId": "tic-tac-toe",
+      "suite": "ui-agent",
+      "modelId": "openai/gpt-5",
+      "runIndex": 1,
+      "timeoutSeconds": 900,
+      "maxTurns": 12,
+      "budgetUsd": null
+    }
+  ]
+}
