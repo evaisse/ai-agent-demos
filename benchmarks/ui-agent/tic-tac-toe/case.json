@@ -1,0 +1,20 @@
+{
+  "id": "tic-tac-toe",
+  "suite": "ui-agent",
+  "title": "Single-file tic tac toe with finish animation",
+  "prompt_file": "PROMPT.md",
+  "timeout_seconds": 900,
+  "max_turns": 12,
+  "expected_artifacts": [
+    "index.html"
+  ],
+  "validation": {
+    "mode": "ui-smoke",
+    "screenshot": true,
+    "console_errors_fail": true
+  },
+  "commit": {
+    "type": "chore",
+    "scope": "runs"
+  }
+}

@@ -11,3 +11,4 @@ var/
 .gemini
 node_modules/
 .env
+results/
